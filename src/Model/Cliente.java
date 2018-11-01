@@ -31,6 +31,7 @@ public class Cliente extends Model.ObjectBase{
     }
 
     public String getNome() {
+        System.out.println("Apenas um teste");
         return Nome;
     }
 
