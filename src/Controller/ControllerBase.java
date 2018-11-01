@@ -31,7 +31,7 @@ public abstract class ControllerBase {
     };
     
     public String[] Get(String codigo){
-        Object.setCodigo( Integer.parseInt(codigo) );
+        Object.setCodigo( codigo );
         return DAO.Get(Object.getCodigo()).toVector();
     };
     
@@ -41,7 +41,7 @@ public abstract class ControllerBase {
     };
     
     public void Delete(String codigo){
-        Object.setCodigo( Integer.parseInt(codigo) );
+        Object.setCodigo( codigo );
         DAO.Remove(Object.getCodigo());
     };
 }

@@ -22,18 +22,18 @@ public class Persistencia<T extends ObjectBase> {
     }
 
     public void Save(T obj) {
-        if (obj.getCodigo() > 0) {
+        if (!obj.getCodigo().isEmpty()) {
             //MetodosJPA.fundir(obj);
         } else {
             //MetodosJPA.persistir(obj);
         }
     }
 
-    public void Remove(int i) {
+    public void Remove(String i) {
         //MetodosJPA.excluir(i, classePersistente);
     }
 
-    public T Get(int id) {
+    public T Get(String id) {
         //Object obj = MetodosJPA.recuperar(id, classePersistente);
         //return (T) obj;
         return null;
