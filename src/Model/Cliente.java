@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Professor
  */
 public class Cliente extends Model.ObjectBase{
-
+    private String Codigo = super.getCodigo();
     private String Nome;
     private String Endereco;
     private Map<String,String> MidiaSociais;

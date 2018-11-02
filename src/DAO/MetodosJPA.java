@@ -18,20 +18,25 @@ import java.util.logging.Logger;
  * @author Aluno
  */
 public class MetodosJPA {
-    public static Connection abrirTransacao(){
+
+    public static Connection abrirTransacao() {
         return FabricaConexao.GeraTransaction();
     }
-    public static void FecharTransacao(Connection gerente, boolean bCommit) throws SQLException{
-        if(bCommit)
+
+    public static void FecharTransacao(Connection gerente, boolean bCommit) throws SQLException {
+        if (bCommit) {
             gerente.commit();
-        else
+        } else {
             gerente.rollback();
+        }
     }
-    public static void Query(String query) throws SQLException{
+
+    public static void Query(String query) throws SQLException {
         Connection conn = abrirTransacao();
-        PreparedStatement ps = conn.prepareStatement( query );
-        FecharTransacao(conn, ps.execute());       
+        PreparedStatement ps = conn.prepareStatement(query);
+        FecharTransacao(conn, ps.execute());
     }
+
     /*
     public static void fundir(Object obj) {
         Connection transacao = abrirTransacao();
@@ -54,29 +59,36 @@ public class MetodosJPA {
         Query minhaQuery = transacao.createQuery(sJPQL);
         return minhaQuery.getResultList();        
     }
-*/
-    public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException{
+     */
+    public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException {
         Connection conn = FabricaConexao.GeraConexaoSINGLETON();
-        String sJPQL = "select u from "+classe.getName()+ " u "+whereJPQL;
+        String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
         PreparedStatement ps = conn.prepareStatement(sJPQL);
         ResultSet rs = ps.executeQuery();
-        //Concertar isto!
-        List<?> minhaQuery = null;
-        return minhaQuery;        
+
+        int colunas = rs.getMetaData().getColumnCount();
+        while (rs.next()) {
+            for (int i = 0; i < colunas; i++) {
+                System.out.println(rs.getString(classe.getDeclaredFields()[i].getName()));
+            }
+        }
+        
+        return null;
     }
 
-    public List<?> selecionar(Class classe, String[][] parametros){
+    public List<?> selecionar(Class classe, String[][] parametros) {
         String where = "";
-        if(parametros.length >0){
-            for(int i = 0; i< parametros.length; i++){
-                if(i == 0)
+        if (parametros.length > 0) {
+            for (int i = 0; i < parametros.length; i++) {
+                if (i == 0) {
                     where = where + " where ";
-                else
-                    where = where+ " and ";
-                
+                } else {
+                    where = where + " and ";
+                }
+
                 String campo = parametros[i][0];
                 String valor = parametros[i][1];
-                where =  where+ campo + " = '" + valor + "'";
+                where = where + campo + " = '" + valor + "'";
             }
         }
         try {
@@ -86,8 +98,8 @@ public class MetodosJPA {
             return null;
         }
     }
-    
-    public static List<?> selecionar(Class classe){
+
+    public static List<?> selecionar(Class classe) {
         try {
             return selecionar(classe, "");
         } catch (SQLException ex) {
