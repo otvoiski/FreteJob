@@ -16,6 +16,8 @@ public class FreteJob {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        (new Controller.ClienteController()).GetAll();
+        
     }
     
 }
