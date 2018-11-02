@@ -10,10 +10,10 @@ package Model;
  * @author Aluno
  */
 public abstract class ObjectBase {
-    private int Codigo;    
+    private String Codigo;    
     
     public abstract String[] toVector();
     public abstract ObjectBase toObjectBase(String[] vector);
-    public int getCodigo() { return Codigo; }
-    public void setCodigo(int Codigo) { this.Codigo = Codigo; }    
+    public String getCodigo() { return Codigo; }
+    public void setCodigo(String Codigo) { this.Codigo = Codigo; }    
 }
