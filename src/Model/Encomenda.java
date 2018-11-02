@@ -19,6 +19,8 @@ public class Encomenda extends ObjectBase {
     private String EndDestino;
     private ArrayList<String> Objetos;
     private String Estado;
+    private ArrayList<Distribuidora> Distribuidora;
+    private Cliente Responsavel;
     
     @Override
     public String[] toVector() {
