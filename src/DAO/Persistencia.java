@@ -13,14 +13,25 @@ import java.util.List;
  * @author Aluno
  * @param <T>
  */
-public class Persistencia<T extends ObjectBase> {
-
+public abstract class Persistencia<T extends ObjectBase> {
+    protected String Tabela;
+    protected String[] Campos;
+    protected String Chave;
+    
+   /* private String SQLInsert; 
+    private String SQLSelect; 
+    private String SQLUpdate; 
+    private String SQLDelete;*/
+     
     private final Class<T> classePersistente;
 
     public Persistencia(Class<T> persistedClass) {
         this.classePersistente = persistedClass;
+        inicializarPersistencia();
     }
-
+    protected abstract void inicializarPersistencia();//ainda nao implementado nas classes filhas
+    
+    
     public void Save(T obj) {
         if (!obj.getCodigo().isEmpty()) {
             //MetodosJPA.fundir(obj);

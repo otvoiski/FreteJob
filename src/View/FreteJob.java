@@ -6,6 +6,7 @@
 package View;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
  *
@@ -18,10 +19,10 @@ public class FreteJob {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ArrayList<String[]> a = (new Controller.ClienteController()).GetAll();
-        for (int i = 0; i < a.size(); i++) {
+        ArrayList<JSONObject> a = (new Controller.ClienteController()).GetAll();
+        /*for (int i = 0; i < a.size(); i++) {
             System.out.println(a.get(i)[0]);
-        }
+        }*/
     }
     
 }

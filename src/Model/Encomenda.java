@@ -6,6 +6,7 @@
 package Model;
 
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 /**
  *
@@ -13,38 +14,38 @@ import java.util.ArrayList;
  */
 public class Encomenda extends ObjectBase {
 
-    private Cliente Emitente;
-    private Cliente Destinatario;
+    private ClienteFisico Emitente;
+    private ClienteFisico Destinatario;
     private String EndOrigem;
     private String EndDestino;
     private ArrayList<String> Objetos;
     private String Estado;
     private ArrayList<Distribuidora> Distribuidora;
-    private Cliente Responsavel;
+    private ClienteFisico Responsavel;
     
     @Override
-    public String[] toVector() {
+    public JSONObject toJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjectBase toObjectBase(String[] vector) {
+    public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public Cliente getEmitente() {
+    public ClienteFisico getEmitente() {
         return Emitente;
     }
 
-    public void setEmitente(Cliente Emitente) {
+    public void setEmitente(ClienteFisico Emitente) {
         this.Emitente = Emitente;
     }
 
-    public Cliente getDestinatario() {
+    public ClienteFisico getDestinatario() {
         return Destinatario;
     }
 
-    public void setDestinatario(Cliente Destinatario) {
+    public void setDestinatario(ClienteFisico Destinatario) {
         this.Destinatario = Destinatario;
     }
 
