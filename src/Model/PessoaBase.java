@@ -6,7 +6,6 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,14 +14,12 @@ import java.util.Map;
  */
 public abstract class PessoaBase extends ObjectBase {
     private String tipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
-    private Map<String,String> MidiaSociais;
     private ArrayList<String> Telefones;
     private ArrayList<Endereco> Enderecos;
 
     public PessoaBase() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
-        MidiaSociais = new HashMap<String, String>();
     }
 
     public ArrayList<Endereco> getEnderecos() {
@@ -38,13 +35,6 @@ public abstract class PessoaBase extends ObjectBase {
     }
     public void setTipoPessoa(String tipoPessoa) {
         this.tipoPessoa = tipoPessoa;
-    }
-     public Map<String, String> getMidiaSociais() {
-        return MidiaSociais;
-    }
-
-    public void setMidiaSociais(Map<String, String> MidiaSociais) {
-        this.MidiaSociais = MidiaSociais;
     }
     public ArrayList<String> getTelefones() {
         return Telefones;

@@ -6,6 +6,8 @@
 package Model;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.json.JSONObject;
 
 /**
@@ -19,6 +21,21 @@ public class ClienteFisico extends Model.PessoaBase{
     private String Rg;
     private Date data_Nascimento;
     private char Sexo;
+    private Map<String,String> MidiaSociais;
+
+        
+    public ClienteFisico(){
+        super();
+        MidiaSociais = new HashMap<>();
+    }
+    
+    public Map<String, String> getMidiaSociais() {
+        return MidiaSociais;
+    }
+
+    public void setMidiaSociais(Map<String, String> MidiaSociais) {
+        this.MidiaSociais = MidiaSociais;
+    }
 
     public String getCpf() {
         return Cpf;
@@ -50,10 +67,6 @@ public class ClienteFisico extends Model.PessoaBase{
 
     public void setSexo(char Sexo) {
         this.Sexo = Sexo;
-    }
-    
-    public ClienteFisico(){
-        super();
     }
     public String getNome() {
         return Nome;
