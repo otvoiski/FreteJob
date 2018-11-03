@@ -5,16 +5,14 @@
  */
 package Model;
 
-<<<<<<< HEAD
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-=======
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
->>>>>>> Ta dando erro essa porcaria
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -47,7 +45,7 @@ public class PessoaFisica extends Model.Pessoa{
             Rg = rs.getString("Rg");
             DataNascimento = (new SimpleDateFormat("dd-MM-yyyy")).parse(rs.getString("DataNascimento"));
             Sexo = rs.getString("Sexo").toCharArray()[0];
-            MidiaSociais = new HashMap<>();
+            MidiaSociais = new ArrayList<>();
         } catch (SQLException | ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -107,27 +105,14 @@ public class PessoaFisica extends Model.Pessoa{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-<<<<<<< HEAD
          json.put("Codigo", getCodigo());
          json.put("Nome", Nome);
          json.put("Cpf", Cpf);
          json.put("Rg", Rg);
          json.put("DataNascimento", DataNascimento);
          json.put("Sexo", Sexo);
-         return json;
-=======
-        json.put("Codigo", getCodigo());
-        json.put("Tipo_Pessoa", getTipoPessoa());
-        json.put("Enderecos", getEnderecos());
-        json.put("Telefones", getTelefones());
-        json.put("Nome", Nome);
-        json.put("CPF", Cpf);
-        json.put("RG", Rg);
-        //json.put("Data_Nascimento", data_Nascimento.toString());
-        json.put("Sexo", String.valueOf(Sexo));
         json.put("Midias_Sociais", MidiaSociais);
         return json;
->>>>>>> Ta dando erro essa porcaria
     }
 
     @Override
