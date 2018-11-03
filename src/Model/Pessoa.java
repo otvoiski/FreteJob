@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public abstract class Pessoa extends ObjectBase {
     private String tipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
-    private ArrayList<String> Telefones;
+    private ArrayList<Telefone> Telefones;
     private ArrayList<Endereco> Enderecos;
 
     public Pessoa() {
@@ -35,11 +35,11 @@ public abstract class Pessoa extends ObjectBase {
     public void setTipoPessoa(String tipoPessoa) {
         this.tipoPessoa = tipoPessoa;
     }
-    public ArrayList<String> getTelefones() {
+    public ArrayList<Telefone> getTelefones() {
         return Telefones;
     }
 
-    public void setTelefones(ArrayList<String> Telefones) {
+    public void setTelefones(ArrayList<Telefone> Telefones) {
         this.Telefones = Telefones;
     }
     

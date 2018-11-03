@@ -14,14 +14,14 @@ import org.json.JSONObject;
  */
 public class Encomenda extends ObjectBase {
 
-    private ClienteFisico Emitente;
-    private ClienteFisico Destinatario;
+    private PessoaFisica Emitente;
+    private PessoaFisica Destinatario;
     private String EndOrigem;
     private String EndDestino;
     private ArrayList<String> Objetos;
     private String Estado;
     private ArrayList<Distribuidora> Distribuidora;
-    private ClienteFisico Responsavel;
+    private PessoaFisica Responsavel;
     
     @Override
     public JSONObject toJson() {
@@ -33,19 +33,19 @@ public class Encomenda extends ObjectBase {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public ClienteFisico getEmitente() {
+    public PessoaFisica getEmitente() {
         return Emitente;
     }
 
-    public void setEmitente(ClienteFisico Emitente) {
+    public void setEmitente(PessoaFisica Emitente) {
         this.Emitente = Emitente;
     }
 
-    public ClienteFisico getDestinatario() {
+    public PessoaFisica getDestinatario() {
         return Destinatario;
     }
 
-    public void setDestinatario(ClienteFisico Destinatario) {
+    public void setDestinatario(PessoaFisica Destinatario) {
         this.Destinatario = Destinatario;
     }
 

@@ -15,7 +15,7 @@ public class ClienteController extends ControllerBase{
 
     @Override
     protected void START_CONTROLLER() {
-        DAO = new DAO.ClienteDAO(Model.ClienteFisico.class);
-        Object = new Model.ClienteFisico();
+        DAO = new DAO.ClienteDAO(Model.PessoaFisica.class);
+        Object = new Model.PessoaFisica();
     }
 }

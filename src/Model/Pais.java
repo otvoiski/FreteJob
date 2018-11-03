@@ -19,6 +19,7 @@ public class Pais extends ObjectBase{
         this.Nome = Nome;
         this.sigla = sigla;
     }
+    public Pais(){}
     public String getNome() {
         return Nome;
     }
@@ -37,12 +38,20 @@ public class Pais extends ObjectBase{
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject json = new JSONObject();
+        json.put("Codigo", getCodigo());
+        json.put("Nome", Nome);
+        json.put("Sigla", sigla);
+        return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Pais objPais = new Pais();
+        objPais.setCodigo(jsonRetorno.getString("Codigo"));
+        objPais.setNome(jsonRetorno.getString("Nome"));
+        objPais.setSigla(jsonRetorno.getString("Sigla"));
+        return objPais;  
     }
     
 }

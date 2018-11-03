@@ -14,7 +14,11 @@ import org.json.JSONObject;
  *
  * @author Professor
  */
+<<<<<<< HEAD:src/Model/ClienteFisico.java
 public class ClienteFisico extends Model.Pessoa{
+=======
+public class PessoaFisica extends Model.PessoaBase{
+>>>>>>> Implementações dos métodos de mapeamente de JSON para objeto e vice e versa em algumas classes.:src/Model/PessoaFisica.java
 
     private String Nome;
     private String Cpf;
@@ -24,7 +28,7 @@ public class ClienteFisico extends Model.Pessoa{
     private Map<String,String> MidiaSociais;
 
         
-    public ClienteFisico(){
+    public PessoaFisica(){
         super();
         MidiaSociais = new HashMap<>();
     }

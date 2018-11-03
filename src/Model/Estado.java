@@ -22,6 +22,7 @@ public class Estado extends ObjectBase{
         this.Sigla = Sigla;
         this.pais = pais;
     }
+    public Estado(){}
     public Pais getPais() {
         return pais;
     }
@@ -47,12 +48,23 @@ public class Estado extends ObjectBase{
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       JSONObject json = new JSONObject();
+       json.put("Codigo", getCodigo());
+       json.put("Nome",Nome);
+       json.put("Sigla",Sigla);
+       json.put("Pais",pais.toJson());
+       return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Estado objEstado = new Estado();
+        Pais objPais = new Pais();
+        objEstado.setCodigo(jsonRetorno.getString("Codigo"));
+        objEstado.setNome(jsonRetorno.getString("Nome"));
+        objEstado.setSigla(jsonRetorno.getString("Sigla"));
+        objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("Pais")));
+        return objEstado;  
     }
 
    

@@ -21,7 +21,7 @@ public class Cidade extends ObjectBase{
         this.Cod_municipio = Cod_municipio;
         this.estado = estado;
     }
-
+    public Cidade(){}
     public Estado getEstado() {
         return estado;
     }
@@ -47,12 +47,24 @@ public class Cidade extends ObjectBase{
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         JSONObject json = new JSONObject();
+         json.put("Codigo", getCodigo());
+         json.put("Nome", Nome);
+         json.put("Codigo_Municipio", Cod_municipio);
+         json.put("Estado", estado.toJson());
+         return json;
+        
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Estado objEstado = new Estado();
+        Cidade objCidade = new Cidade();
+        objCidade.setCodigo(jsonRetorno.getString("Codigo"));
+        objCidade.setNome(jsonRetorno.getString("Nome"));
+        objCidade.setCod_municipio(jsonRetorno.getString("Codigo_Municipio"));
+        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("Estado")));
+        return objCidade;
     }
     
 }
