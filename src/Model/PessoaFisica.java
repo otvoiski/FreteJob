@@ -5,8 +5,13 @@
  */
 package Model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import org.json.JSONObject;
 
@@ -19,10 +24,25 @@ public class PessoaFisica extends Model.Pessoa{
     private String Nome;
     private String Cpf;
     private String Rg;
-    private Date data_Nascimento;
+    private Date DataNascimento;
     private char Sexo;
     private Map<String,String> MidiaSociais;
 
+    
+    public PessoaFisica(ResultSet rs)
+    {
+        try {            
+            super.setCodigo(rs.getString("Codigo"));
+            Nome = rs.getString("Nome");
+            Cpf = rs.getString("Cpf");
+            Rg = rs.getString("Rg");
+            DataNascimento = (new SimpleDateFormat("dd-MM-yyyy")).parse(rs.getString("DataNascimento"));
+            Sexo = rs.getString("Sexo").toCharArray()[0];
+            MidiaSociais = new HashMap<>();
+        } catch (SQLException | ParseException e) {
+            System.out.println(e.getMessage());
+        }
+    }
         
     public PessoaFisica(){
         super();
@@ -54,11 +74,11 @@ public class PessoaFisica extends Model.Pessoa{
     }
 
     public Date getData_Nascimento() {
-        return data_Nascimento;
+        return DataNascimento;
     }
 
     public void setData_Nascimento(Date data_Nascimento) {
-        this.data_Nascimento = data_Nascimento;
+        this.DataNascimento = data_Nascimento;
     }
 
     public char getSexo() {
@@ -77,7 +97,14 @@ public class PessoaFisica extends Model.Pessoa{
     }
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject json = new JSONObject();
+         json.put("Codigo", getCodigo());
+         json.put("Nome", Nome);
+         json.put("Cpf", Cpf);
+         json.put("Rg", Rg);
+         json.put("DataNascimento", DataNascimento);
+         json.put("Sexo", Sexo);
+         return json;
     }
 
     @Override
