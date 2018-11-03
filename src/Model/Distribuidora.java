@@ -11,7 +11,7 @@ import org.json.JSONObject;
  *
  * @author Aluno
  */
-public class Distribuidora extends PessoaBase{
+public class Distribuidora extends Pessoa{
     
     
     

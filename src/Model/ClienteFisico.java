@@ -14,7 +14,7 @@ import org.json.JSONObject;
  *
  * @author Professor
  */
-public class ClienteFisico extends Model.PessoaBase{
+public class ClienteFisico extends Model.Pessoa{
 
     private String Nome;
     private String Cpf;
@@ -81,7 +81,7 @@ public class ClienteFisico extends Model.PessoaBase{
     }
 
     @Override
-    public PessoaBase toObjectBase(org.json.JSONObject jsonRetorno) {
+    public Pessoa toObjectBase(org.json.JSONObject jsonRetorno) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
