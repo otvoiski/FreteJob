@@ -6,6 +6,9 @@
 package DAO;
 
 import Model.ObjectBase;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,31 +17,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONObject;
 
 /**
  *
  * @author Aluno
  */
-public class MetodosJPA {
+public class MetodosPersistencia {
 
     public static Connection abrirTransacao() {
         return FabricaConexao.GeraTransaction();
     }
 
-    public static void FecharTransacao(Connection gerente, boolean bCommit) throws SQLException {
+    public static boolean FecharTransacao(Connection gerente, boolean bCommit) throws SQLException {
         if (bCommit) {
             gerente.commit();
         } else {
             gerente.rollback();
-        }
+        }        
+        return bCommit;
     }
 
-    public static void Query(String query) throws SQLException {
+    public static boolean Query(String query) throws SQLException {
         Connection conn = abrirTransacao();
         PreparedStatement ps = conn.prepareStatement(query);
-        FecharTransacao(conn, ps.execute());
+        return FecharTransacao(conn, ps.execute());
     }
-
+    private static ObjectBase SetObject(Class classe, ResultSet rs){
+        try {             
+            Constructor ctor = classe.getDeclaredConstructor(ResultSet.class);
+            ctor.setAccessible(true);
+            ObjectBase obj = (ObjectBase) ctor.newInstance(rs);
+            return obj;            
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
     /*
     public static void fundir(Object obj) {
         Connection transacao = abrirTransacao();
@@ -50,18 +66,29 @@ public class MetodosJPA {
         Object obj = transacao.find(classe, chave);
         transacao.remove(obj);
         FecharTransacao(transacao, true);
+    }*/
+    
+    
+    public static ObjectBase recuperar(String chave, Class classe) throws SQLException{
+        Connection conexao = FabricaConexao.GeraConexaoSINGLETON();
+        String query = "select * from " + classe.getSimpleName() + " where Codigo = " + chave;        
+        PreparedStatement ps = conexao.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        
+        try 
+        {            
+            if(rs.next())
+            {
+                return SetObject(classe, rs);
+            } else
+                return null;
+        } catch (SQLException e){
+            return null;
+        } finally {
+            conexao.close();
+        }
     }
-    public static Object recuperar(int chave, Class classe){
-        Connection transacao = FabricaConexao.getManager();
-        return transacao.find(classe,chave);
-    }
-    public static List<?> selecionar(Class classe, String whereJPQL){
-        Connection transacao = FabricaConexao.getManager();
-        String sJPQL = "select u from "+classe.getName()+ " u "+whereJPQL;
-        Query minhaQuery = transacao.createQuery(sJPQL);
-        return minhaQuery.getResultList();        
-    }
-     */
+    
     public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException {
         Connection conn = FabricaConexao.GeraConexaoSINGLETON();
         String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
@@ -81,9 +108,11 @@ public class MetodosJPA {
             }
             return list;
         } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(MetodosJPA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println( "Falha ao adicionar os items na lista" );
             return null;
+        } finally {
+            conn.close();
         }
     }
 
@@ -105,7 +134,7 @@ public class MetodosJPA {
         try {
             return selecionar(classe, where);
         } catch (SQLException ex) {
-            Logger.getLogger(MetodosJPA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -114,7 +143,7 @@ public class MetodosJPA {
         try {
             return selecionar(classe, "");
         } catch (SQLException ex) {
-            Logger.getLogger(MetodosJPA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
