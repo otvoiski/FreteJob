@@ -5,14 +5,18 @@
  */
 package View;
 
+import org.json.JSONObject;
+
+/*
 import Model.Cidade;
 import Model.Endereco;
 import Model.Estado;
 import Model.ObjectBase;
 import Model.Pais;
 import java.util.ArrayList;
+import net.sf.jasperreports.web.servlets.Controller;
 import org.json.JSONObject;
-
+*/
 /**
  *
  * @author Aluno
@@ -28,7 +32,7 @@ public class FreteJob {
         /*for (int i = 0; i < a.size(); i++) {
             System.out.println(a.get(i)[0]);
         }*/
-        
+        /*
         Estado estado = new Estado();
         estado.setCodigo("1");
         estado.setNome("Minas Gerais");
@@ -51,6 +55,10 @@ public class FreteJob {
                 "Cidade: "+ endereco.getCidade().getNome()+"\n"+
                 "Estado: "+endereco.getCidade().getEstado().getNome()+"\n"+
                 "Pais: "+endereco.getCidade().getEstado().getPais().getNome());
+        */
+        
+        JSONObject json = (new Controller.PessoaFisicaController()).Get("0");
+        System.err.println(json);
     }
     
 }

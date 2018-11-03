@@ -14,15 +14,12 @@ public class ClienteDAO extends Persistencia {
     public ClienteDAO(Class persistedClass) {
         super(persistedClass);
     }
-
+/*
     @Override
     protected void inicializarPersistencia() {
         String[] Fields = {
             ""
         };
-        Tabela ="CLIENTE_TBL";
-        
- 
     }
-    
+  */  
 }
