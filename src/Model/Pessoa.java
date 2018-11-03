@@ -6,18 +6,17 @@
 package Model;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  *
  * @author Matheus
  */
-public abstract class PessoaBase extends ObjectBase {
+public abstract class Pessoa extends ObjectBase {
     private String tipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
     private ArrayList<String> Telefones;
     private ArrayList<Endereco> Enderecos;
 
-    public PessoaBase() {
+    public Pessoa() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
     }
