@@ -5,14 +5,23 @@
  */
 package Model;
 
+<<<<<<< HEAD
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+=======
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+>>>>>>> Ta dando erro essa porcaria
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -26,7 +35,7 @@ public class PessoaFisica extends Model.Pessoa{
     private String Rg;
     private Date DataNascimento;
     private char Sexo;
-    private Map<String,String> MidiaSociais;
+    private ArrayList<String> MidiaSociais;
 
     
     public PessoaFisica(ResultSet rs)
@@ -46,14 +55,14 @@ public class PessoaFisica extends Model.Pessoa{
         
     public PessoaFisica(){
         super();
-        MidiaSociais = new HashMap<>();
+        MidiaSociais = new ArrayList<>();
     }
     
-    public Map<String, String> getMidiaSociais() {
+    public  ArrayList<String>getMidiaSociais() {
         return MidiaSociais;
     }
 
-    public void setMidiaSociais(Map<String, String> MidiaSociais) {
+    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
         this.MidiaSociais = MidiaSociais;
     }
 
@@ -98,6 +107,7 @@ public class PessoaFisica extends Model.Pessoa{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+<<<<<<< HEAD
          json.put("Codigo", getCodigo());
          json.put("Nome", Nome);
          json.put("Cpf", Cpf);
@@ -105,10 +115,44 @@ public class PessoaFisica extends Model.Pessoa{
          json.put("DataNascimento", DataNascimento);
          json.put("Sexo", Sexo);
          return json;
+=======
+        json.put("Codigo", getCodigo());
+        json.put("Tipo_Pessoa", getTipoPessoa());
+        json.put("Enderecos", getEnderecos());
+        json.put("Telefones", getTelefones());
+        json.put("Nome", Nome);
+        json.put("CPF", Cpf);
+        json.put("RG", Rg);
+        //json.put("Data_Nascimento", data_Nascimento.toString());
+        json.put("Sexo", String.valueOf(Sexo));
+        json.put("Midias_Sociais", MidiaSociais);
+        return json;
+>>>>>>> Ta dando erro essa porcaria
     }
 
     @Override
-    public Pessoa toObjectBase(org.json.JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno){
+        PessoaFisica objPessoa = new PessoaFisica();
+      /*String pattern = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        java.util.Date d;
+       try {
+            d = sdf.parse(jsonRetorno.getString("Data_Nascimento"));
+            objPessoa.setData_Nascimento(d);
+        } catch (ParseException ex) {
+            objPessoa.setData_Nascimento(null);
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        objPessoa.setCodigo(jsonRetorno.getString("Codigo"));
+        objPessoa.setTipoPessoa(jsonRetorno.getString("Tipo_Pessoa"));
+        objPessoa.setTelefones((ArrayList)jsonRetorno.getJSONArray("Telefones").toList());
+        objPessoa.setEnderecos((ArrayList)jsonRetorno.getJSONArray("Enderecos").toList());
+        objPessoa.setNome(jsonRetorno.getString("Nome"));
+        objPessoa.setCpf(jsonRetorno.getString("CPF"));
+        objPessoa.setRg(jsonRetorno.getString("RG"));
+        objPessoa.setSexo(jsonRetorno.getString("Sexo").charAt(0));
+        objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("Midias_Sociais").toList());
+        return objPessoa;
+        
     }
 }
