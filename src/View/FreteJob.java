@@ -5,6 +5,8 @@
  */
 package View;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Aluno
@@ -16,8 +18,10 @@ public class FreteJob {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        (new Controller.ClienteController()).GetAll();
-        
+        ArrayList<String[]> a = (new Controller.ClienteController()).GetAll();
+        for (int i = 0; i < a.size(); i++) {
+            System.out.println(a.get(i)[0]);
+        }
     }
     
 }

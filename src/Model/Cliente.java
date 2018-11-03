@@ -21,12 +21,24 @@ public class Cliente extends Model.ObjectBase{
     private ArrayList<String> Telefones;
     
     @Override
-    public String[] toVector() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String[] toVector() {        
+        String vector[] = {
+            this.getCodigo() + "",
+            this.getNome(),
+            this.getEndereco() + ""
+                //FALTA COISA AINDA
+        };
+        return vector;
     }
 
     @Override
     public ObjectBase toObjectBase(String[] vector) {
+        /* PEGUEI COMO REFENCIA DE PRENCHIMENTO DOS CAMPOS.
+        Categoria categoria = new Categoria();
+            categoria.setCodigo(Integer.parseInt(vector[0]));
+            categoria.setNome(vector[1]);
+        return categoria;
+        */
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

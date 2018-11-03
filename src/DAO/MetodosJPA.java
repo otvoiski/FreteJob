@@ -5,10 +5,12 @@
  */
 package DAO;
 
+import Model.ObjectBase;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -65,15 +67,24 @@ public class MetodosJPA {
         String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
         PreparedStatement ps = conn.prepareStatement(sJPQL);
         ResultSet rs = ps.executeQuery();
-
-        int colunas = rs.getMetaData().getColumnCount();
-        while (rs.next()) {
-            for (int i = 0; i < colunas; i++) {
-                System.out.println(rs.getString(classe.getDeclaredFields()[i].getName()));
-            }
-        }
         
-        return null;
+        try {
+            ArrayList<Object> list = new ArrayList<>();
+            int colunas = rs.getMetaData().getColumnCount();
+            while (rs.next()) {                
+                Object obj = classe.newInstance();
+                for (int i = 0; i < colunas; i++) {
+                    String nomeColuna = classe.getDeclaredFields()[i].getName();
+                    System.out.println(rs.getString(nomeColuna));                    
+                }
+                list.add(obj);
+            }
+            return list;
+        } catch (InstantiationException | IllegalAccessException ex) {
+            Logger.getLogger(MetodosJPA.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println( "Falha ao adicionar os items na lista" );
+            return null;
+        }
     }
 
     public List<?> selecionar(Class classe, String[][] parametros) {
