@@ -7,8 +7,8 @@ package DAO;
 
 import Model.ObjectBase;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONObject;
 
 /**
  *
@@ -25,23 +24,17 @@ import org.json.JSONObject;
  */
 public class MetodosPersistencia {
 
-    public static Connection abrirTransacao() {
-        return FabricaConexao.GeraTransaction();
-    }
-
-    public static boolean FecharTransacao(Connection gerente, boolean bCommit) throws SQLException {
-        if (bCommit) {
-            gerente.commit();
-        } else {
-            gerente.rollback();
-        }        
-        return bCommit;
-    }
-
-    public static boolean Query(String query) throws SQLException {
-        Connection conn = abrirTransacao();
-        PreparedStatement ps = conn.prepareStatement(query);
-        return FecharTransacao(conn, ps.execute());
+    public static boolean Query(String query) {
+        Connection conn = FabricaConexao.GetTransaction();
+        try {            
+            PreparedStatement ps = conn.prepareStatement(query);
+            return FabricaConexao.CommitTransaction(conn, (ps.executeUpdate() > 0));
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        } finally {
+            FabricaConexao.CloseConnection(conn);
+        }
     }
     private static ObjectBase SetObject(Class classe, ResultSet rs){
         try {             
@@ -55,22 +48,70 @@ public class MetodosPersistencia {
         return null;
     }
     
-    /*
-    public static void fundir(Object obj) {
-        Connection transacao = abrirTransacao();
-        transacao.merge(obj);
-        FecharTransacao(transacao, true);    
+   public static String getValue(Field field, Object obj) {
+       field.setAccessible(true);
+        try {
+            return (String) field.get(obj);
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);    
+            return null;
+        }
+   }
+    
+    
+    /**
+     * Inserir
+     * @param obj 
+     * @return  
+     */
+    public static boolean persistir(Object obj) {
+        /*
+        String query = "Insert into " + obj.getClass().getSimpleName() + " ( ";
+        for (int i = 0; i < obj.getClass().getDeclaredFields().length; i++) {
+            query += obj.getClass().getDeclaredFields()[i].getName();
+            if(i < obj.getClass().getDeclaredFields().length-1)
+                query += ", ";
+        }
+        query += " ) values ( ";
+        for (int i = 0; i < obj.getClass().getDeclaredFields().length; i++) {
+            try {
+                query += "'" + getValue(obj.getClass().getDeclaredFields()[i], obj.getClass()) + "'";
+            } catch (SecurityException ex) {
+                Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if(i < obj.getClass().getDeclaredFields().length-1)
+                query += ", ";
+        }
+        
+        query += " )";
+        */
+        String query = "Insert into " + obj.getClass().getSimpleName() + " ( ";
+        for (int i = 0; i < obj.getClass().getDeclaredFields().length; i++) {
+            query += obj.getClass().getDeclaredFields()[i].getName();
+            if(i < obj.getClass().getDeclaredFields().length-1)
+                query += ", ";
+        }
+        query += " ) values ( ?, ? )";      
+        
+        return Query(query);
     }
-    public static void excluir(int chave, Class classe){
-        Connection transacao = abrirTransacao();
-        Object obj = transacao.find(classe, chave);
-        transacao.remove(obj);
-        FecharTransacao(transacao, true);
-    }*/
+    
+    /**
+     * Update
+     * @param obj 
+     */
+    public static void fundir(Object obj) {
+        
+    }
+    
+    public static boolean excluir(String chave, Class classe) throws SQLException{
+        String query = "delete from " + classe.getSimpleName() + " where Codigo = " + chave;        
+        return Query(query);        
+    }
     
     
     public static ObjectBase recuperar(String chave, Class classe) throws SQLException{
-        Connection conexao = FabricaConexao.GeraConexaoSINGLETON();
+        Connection conexao = FabricaConexao.NewSingleton();
         String query = "select * from " + classe.getSimpleName() + " where Codigo = " + chave;        
         PreparedStatement ps = conexao.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
@@ -90,7 +131,7 @@ public class MetodosPersistencia {
     }
     
     public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException {
-        Connection conn = FabricaConexao.GeraConexaoSINGLETON();
+        Connection conn = FabricaConexao.NewSingleton();
         String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
         PreparedStatement ps = conn.prepareStatement(sJPQL);
         ResultSet rs = ps.executeQuery();
