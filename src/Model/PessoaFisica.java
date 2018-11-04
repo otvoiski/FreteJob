@@ -32,7 +32,7 @@ public class PessoaFisica extends Model.Pessoa{
     private String Cpf;
     private String Rg;
     private Date DataNascimento;
-    private char Sexo;
+    private String Sexo;
     private ArrayList<String> MidiaSociais;
 
     
@@ -44,7 +44,7 @@ public class PessoaFisica extends Model.Pessoa{
             Cpf = rs.getString("Cpf");
             Rg = rs.getString("Rg");
             DataNascimento = (new SimpleDateFormat("dd-MM-yyyy")).parse(rs.getString("DataNascimento"));
-            Sexo = rs.getString("Sexo").toCharArray()[0];
+            Sexo = rs.getString("Sexo");
             MidiaSociais = new ArrayList<>();
         } catch (SQLException | ParseException e) {
             System.out.println(e.getMessage());
@@ -88,11 +88,11 @@ public class PessoaFisica extends Model.Pessoa{
         this.DataNascimento = data_Nascimento;
     }
 
-    public char getSexo() {
+    public String getSexo() {
         return Sexo;
     }
 
-    public void setSexo(char Sexo) {
+    public void setSexo(String Sexo) {
         this.Sexo = Sexo;
     }
     public String getNome() {
@@ -107,11 +107,14 @@ public class PessoaFisica extends Model.Pessoa{
         JSONObject json = new JSONObject();
          json.put("Codigo", getCodigo());
          json.put("Nome", Nome);
-         json.put("Cpf", Cpf);
-         json.put("Rg", Rg);
+         json.put("CPF", Cpf);
+         json.put("Tipo_Pessoa",getTipoPessoa());
+         json.put("RG", Rg);
          json.put("DataNascimento", DataNascimento);
          json.put("Sexo", Sexo);
         json.put("Midias_Sociais", MidiaSociais);
+        json.put("Enderecos", getEnderecos());
+        json.put("Telefones", getTelefones());
         return json;
     }
 
@@ -135,7 +138,7 @@ public class PessoaFisica extends Model.Pessoa{
         objPessoa.setNome(jsonRetorno.getString("Nome"));
         objPessoa.setCpf(jsonRetorno.getString("CPF"));
         objPessoa.setRg(jsonRetorno.getString("RG"));
-        objPessoa.setSexo(jsonRetorno.getString("Sexo").charAt(0));
+        objPessoa.setSexo(jsonRetorno.getString("Sexo"));
         objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("Midias_Sociais").toList());
         return objPessoa;
         
