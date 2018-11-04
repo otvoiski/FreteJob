@@ -2,54 +2,10 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-<<<<<<< HEAD
-        <group/>
-=======
         <group>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/Cookie.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/HTTP.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONException.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/DAO/ClienteDAO.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Controller/ClienteController.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Util/FabricaConexaoRelatorios.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONPointer.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/CDL.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/XML.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/README.md</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Endereco.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Pais.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Estado.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONArray.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Cidade.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/LICENSE</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONStringer.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/FreteJob.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/PessoaBase.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONPropertyIgnore.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/Property.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Util/MD5.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/CookieList.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/HTTPTokener.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Util/Relatorios.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/DAO/MetodosJPA.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/DAO/FabricaConexao.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/.gitignore</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/XMLTokener.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONWriter.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Controller/ControllerBase.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Distribuidora.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Encomenda.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/.git/config</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONPointerException.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONML.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONTokener.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/DAO/Persistencia.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONString.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/ObjectBase.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/ClienteFisico.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONObject.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/org/json/JSONPropertyName.java</file>
+            <file>file:/G:/TRABALHOS/FreteJob/src/Model/Pessoa.java</file>
+            <file>file:/G:/TRABALHOS/FreteJob/src/View/FreteJob.java</file>
+            <file>file:/G:/TRABALHOS/FreteJob/src/Model/PessoaFisica.java</file>
         </group>
->>>>>>> Implementações dos métodos de mapeamente de JSON para objeto e vice e versa em algumas classes.
     </open-files>
 </project-private>
