@@ -6,7 +6,10 @@
 package DAO;
 
 /**
- *
+ * Está classes é um modelo simples que não estara inclusa no projeto
+ * foi criada para ajuda no processo de persistencia ao banco.
+ * 
+ * @deprecated Esta classe sera removida em breve.
  * @author Otavio
  */
 public class ClienteDAO extends Persistencia {
@@ -14,12 +17,5 @@ public class ClienteDAO extends Persistencia {
     public ClienteDAO(Class persistedClass) {
         super(persistedClass);
     }
-/*
-    @Override
-    protected void inicializarPersistencia() {
-        String[] Fields = {
-            ""
-        };
-    }
-  */  
+    
 }
