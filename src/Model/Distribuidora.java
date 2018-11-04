@@ -5,21 +5,23 @@
  */
 package Model;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author Aluno
  */
-class Distribuidora extends ObjectBase{
+public class Distribuidora extends Pessoa{
     
     
     
     @Override
-    public String[] toVector() {
+    public JSONObject toJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ObjectBase toObjectBase(String[] vector) {
+    public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

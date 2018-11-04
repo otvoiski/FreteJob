@@ -20,6 +20,8 @@ public class FabricaConexao {
         try{
             Class.forName(STR_DRIVER);
             objConexao = DriverManager.getConnection(STR_CON, USER, PASSWORD);
+            if(objConexao == null)
+                System.out.println("O servidor de banco de dados não está online!");
         }catch (ClassNotFoundException e) {   
             String errorMsg = "Driver nao encontrado: "+e.getMessage();    
             System.out.println(errorMsg);

@@ -9,17 +9,10 @@ package DAO;
  *
  * @author Otavio
  */
-public class ClienteDAO extends Persistencia {
-    
-    public ClienteDAO(Class persistedClass) {
+public class PessoaFisicaDAO extends Persistencia {
+     
+    public PessoaFisicaDAO(Class persistedClass) {
         super(persistedClass);
     }
-/*
-    @Override
-    protected void inicializarPersistencia() {
-        String[] Fields = {
-            ""
-        };
-    }
-  */  
+     
 }

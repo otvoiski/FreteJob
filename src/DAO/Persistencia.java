@@ -6,21 +6,36 @@
 package DAO;
 
 import Model.ObjectBase;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Aluno
  * @param <T>
  */
-public class Persistencia<T extends ObjectBase> {
-
+public abstract class Persistencia<T extends ObjectBase> {
+    /*
+    protected String Tabela;
+    protected String[] Campos;
+    protected String Chave;
+    */
+   /* private String SQLInsert; 
+    private String SQLSelect; 
+    private String SQLUpdate; 
+    private String SQLDelete;*/
+     
     private final Class<T> classePersistente;
 
-    public Persistencia(Class<T> persistedClass) {
+    public Persistencia(Class persistedClass) {
         this.classePersistente = persistedClass;
+        //inicializarPersistencia();
     }
-
+    //protected abstract void inicializarPersistencia();//ainda nao implementado nas classes filhas
+    
+    
     public void Save(T obj) {
         if (!obj.getCodigo().isEmpty()) {
             //MetodosJPA.fundir(obj);
@@ -34,20 +49,25 @@ public class Persistencia<T extends ObjectBase> {
     }
 
     public T Get(String id) {
-        //Object obj = MetodosJPA.recuperar(id, classePersistente);
-        //return (T) obj;
-        return null;
+        Object obj = null;
+        try {
+            obj = MetodosPersistencia.recuperar(id, classePersistente);
+        } catch (SQLException ex) {
+            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return (T) obj;
+        //return null;
     }
 
     public List<T> GetAll() {
-        return (List<T>) MetodosJPA.selecionar(classePersistente);
+        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
     }
     public List<T> GetAll(String[] rangeId) {
         String[][] data = {
             {"Codigo", rangeId[0]},
             {"Codigo", rangeId[1]}
         };
-        return (List<T>) MetodosJPA.selecionar(classePersistente);
+        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
     }
 
     public List<T> Login(String login, String pass) {
@@ -55,6 +75,6 @@ public class Persistencia<T extends ObjectBase> {
             {"Login", login},
             {"Senha", Util.MD5.Get(pass)}
         };
-        return (List<T>) (new MetodosJPA()).selecionar(classePersistente, data);
+        return (List<T>) (new MetodosPersistencia()).selecionar(classePersistente, data);
     }
 }

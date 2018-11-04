@@ -5,16 +5,18 @@
  */
 package Controller;
 
+import Model.PessoaFisica;
 
 /**
  *
  * @author Otavio
  */
-public class ClienteController extends ControllerBase{
+public class PessoaFisicaController extends ControllerBase{
 
     @Override
     protected void START_CONTROLLER() {
-        DAO = new DAO.ClienteDAO(Model.PessoaFisica.class);
-        Object = new Model.PessoaFisica();
+        DAO = new DAO.PessoaFisicaDAO(Model.PessoaFisica.class);
+        Object = new PessoaFisica();
     }
+    
 }

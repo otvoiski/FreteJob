@@ -5,15 +5,17 @@
  */
 package Model;
 
+import org.json.JSONObject;
+
 /**
  *
  * @author Aluno
  */
 public abstract class ObjectBase {
-    private String Codigo;    
+    private String Codigo;
     
-    public abstract String[] toVector();
-    public abstract ObjectBase toObjectBase(String[] vector);
+    public abstract JSONObject toJson();
+    public abstract ObjectBase toObjectBase(org.json.JSONObject jsonRetorno);
     public String getCodigo() { return Codigo; }
     public void setCodigo(String Codigo) { this.Codigo = Codigo; }    
 }

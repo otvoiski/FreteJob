@@ -8,6 +8,7 @@ package Controller;
 import DAO.Persistencia;
 import Model.ObjectBase;
 import java.util.ArrayList;
+import org.json.JSONObject;
 
 public abstract class ControllerBase {
     protected Persistencia DAO;
@@ -19,24 +20,24 @@ public abstract class ControllerBase {
         START_CONTROLLER();
     }    
     
-    public ArrayList<String[]> GetAll(){
+    public ArrayList<JSONObject> GetAll(){
         ArrayList<ObjectBase> list = (ArrayList<ObjectBase>) DAO.GetAll();
-        ArrayList<String[]> data = new ArrayList<>();
+        ArrayList<JSONObject> data = new ArrayList<>();
         if(list != null){
             for (int i = 0; i < list.size(); i++) {
-                data.add(list.get(i).toVector());
+                data.add(list.get(i).toJson());
             }
         }
         
         return data;
     };
     
-    public String[] Get(String codigo){
+    public JSONObject Get(String codigo){
         Object.setCodigo( codigo );
-        return DAO.Get(Object.getCodigo()).toVector();
+        return DAO.Get(Object.getCodigo()).toJson();
     };
     
-    public void Save(String[] dados){        
+    public void Save(JSONObject dados){        
         Object = Object.toObjectBase(dados);
         DAO.Save(Object);
     };
