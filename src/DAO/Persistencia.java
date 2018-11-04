@@ -38,11 +38,10 @@ public abstract class Persistencia<T extends ObjectBase> {
     
     public boolean Save(T obj) {
         if (!obj.getCodigo().isEmpty()) {
-            MetodosPersistencia.fundir(obj);
+            return MetodosPersistencia.fundir(obj);
         } else {
-            MetodosPersistencia.persistir(obj);
+            return MetodosPersistencia.persistir(obj);
         }
-        return false;
     }
 
     public boolean Remove(String i) {
