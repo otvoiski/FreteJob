@@ -36,16 +36,22 @@ public abstract class Persistencia<T extends ObjectBase> {
     //protected abstract void inicializarPersistencia();//ainda nao implementado nas classes filhas
     
     
-    public void Save(T obj) {
+    public boolean Save(T obj) {
         if (!obj.getCodigo().isEmpty()) {
-            //MetodosJPA.fundir(obj);
+            MetodosPersistencia.fundir(obj);
         } else {
-            //MetodosJPA.persistir(obj);
+            MetodosPersistencia.persistir(obj);
         }
+        return false;
     }
 
-    public void Remove(String i) {
-        //MetodosJPA.excluir(i, classePersistente);
+    public boolean Remove(String i) {
+        try {
+            return MetodosPersistencia.excluir(i, classePersistente);
+        } catch (SQLException ex) {
+            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public T Get(String id) {

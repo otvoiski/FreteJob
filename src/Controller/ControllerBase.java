@@ -31,19 +31,19 @@ public abstract class ControllerBase {
         
         return data;
     };
-    
+    //Deve ser feito uma verificação caso não encontrar um determinado Cogigo
     public JSONObject Get(String codigo){
         Object.setCodigo( codigo );
         return DAO.Get(Object.getCodigo()).toJson();
     };
     
-    public void Save(JSONObject dados){        
+    public boolean Save(JSONObject dados){        
         Object = Object.toObjectBase(dados);
-        DAO.Save(Object);
+        return DAO.Save(Object);
     };
     
-    public void Delete(String codigo){
+    public boolean Delete(String codigo){
         Object.setCodigo( codigo );
-        DAO.Remove(Object.getCodigo());
+        return DAO.Remove(Object.getCodigo());
     };
 }

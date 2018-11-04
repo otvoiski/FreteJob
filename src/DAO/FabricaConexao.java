@@ -31,13 +31,13 @@ public class FabricaConexao {
         }   
     }
  
-    public static Connection GeraConexaoSINGLETON() {
+    public static Connection NewSingleton() {
         if (objConexao == null) {
             FabricaConexao MANTERCONEXAO = new FabricaConexao();
         }
         return objConexao;
     }
-    public static Connection GeraTransaction(){
+    public static Connection GetTransaction(){
         Connection cnx = null;
         try {
             cnx = DriverManager.getConnection(STR_CON, USER, PASSWORD);
@@ -48,6 +48,23 @@ public class FabricaConexao {
         }
         
         return cnx;
+    }
+
+    public static boolean CommitTransaction(Connection conn, boolean bCommit) throws SQLException {
+        if (bCommit) {
+            conn.commit();
+        } else {
+            conn.rollback();
+        }
+        return bCommit;
+    }
+
+    public static void CloseConnection(Connection conn){
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FabricaConexao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
      
 }
