@@ -17,23 +17,11 @@ import java.util.logging.Logger;
  * @param <T>
  */
 public abstract class Persistencia<T extends ObjectBase> {
-    /*
-    protected String Tabela;
-    protected String[] Campos;
-    protected String Chave;
-    */
-   /* private String SQLInsert; 
-    private String SQLSelect; 
-    private String SQLUpdate; 
-    private String SQLDelete;*/
-     
     private final Class<T> classePersistente;
 
     public Persistencia(Class persistedClass) {
         this.classePersistente = persistedClass;
-        //inicializarPersistencia();
     }
-    //protected abstract void inicializarPersistencia();//ainda nao implementado nas classes filhas
     
     
     public boolean Save(T obj) {
@@ -61,7 +49,6 @@ public abstract class Persistencia<T extends ObjectBase> {
             Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (T) obj;
-        //return null;
     }
 
     public List<T> GetAll() {
