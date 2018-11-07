@@ -98,9 +98,15 @@ public class FreteJob {
         /*JSONObject json = (new Controller.PessoaFisicaController()).Get("0");
         System.err.println(json);*/
         
-        //JSONObject cliente = (new Controller.ClienteController()).Get("2");
-        //System.out.println(cliente);
+        JSONObject cliente = (new Controller.ClienteController()).Get("2");
+        System.out.println(cliente);
+        
+        /*
         ArrayList<JSONObject> clientes = (new Controller.ClienteController()).GetAll();
+        for (JSONObject c : clientes) {
+            System.out.println(c);
+        }
+        */
     }
     
 }
