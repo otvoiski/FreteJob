@@ -174,7 +174,7 @@ public class MetodosPersistencia {
                 Object obj = classe.newInstance();
                 for (int i = 0; i < colunas; i++) {
                     String nomeColuna = classe.getDeclaredFields()[i].getName();
-                    System.out.println(rs.getString(nomeColuna));                    
+                    //System.out.println(rs.getString(nomeColuna));                    
                 }
                 list.add(obj);
             }
