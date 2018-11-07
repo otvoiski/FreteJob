@@ -101,12 +101,12 @@ public class FreteJob {
         JSONObject cliente = (new Controller.ClienteController()).Get("2");
         System.out.println(cliente);
         
-        /*
+        
         ArrayList<JSONObject> clientes = (new Controller.ClienteController()).GetAll();
         for (JSONObject c : clientes) {
             System.out.println(c);
         }
-        */
+        
     }
     
 }

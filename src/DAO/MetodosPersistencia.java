@@ -156,35 +156,32 @@ public class MetodosPersistencia {
                 return null;
         } catch (SQLException e){
             return null;
-        } finally {
-            conexao.close();
         }
     }
     
     public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException {
         Connection conn = FabricaConexao.NewSingleton();
         String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
-        PreparedStatement ps = conn.prepareStatement(sJPQL);
-        ResultSet rs = ps.executeQuery();
         
         try {
+            PreparedStatement ps = conn.prepareStatement(sJPQL);
+            ResultSet rs = ps.executeQuery();
+
             ArrayList<Object> list = new ArrayList<>();
             int colunas = rs.getMetaData().getColumnCount();
-            while (rs.next()) {                
-                Object obj = classe.newInstance();
-                for (int i = 0; i < colunas; i++) {
-                    String nomeColuna = classe.getDeclaredFields()[i].getName();
-                    //System.out.println(rs.getString(nomeColuna));                    
-                }
-                list.add(obj);
+        
+            while (rs.next()) {
+                //Object obj = classe.newInstance();
+                //for (int i = 0; i < colunas; i++) {
+                //String nomeColuna = classe.getDeclaredFields()[i].getName();
+                //System.out.println(rs.getString(nomeColuna));
+                //}
+                list.add(SetObject(classe, rs));
             }
             return list;
-        } catch (InstantiationException | IllegalAccessException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println( "Falha ao adicionar os items na lista" );
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
             return null;
-        } finally {
-            conn.close();
         }
     }
 

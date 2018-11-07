@@ -34,7 +34,10 @@ public abstract class ControllerBase {
     //Deve ser feito uma verificação caso não encontrar um determinado Cogigo
     public JSONObject Get(String codigo){
         Object.setCodigo( codigo );
-        return DAO.Get(Object.getCodigo()).toJson();
+        ObjectBase jObj = DAO.Get(Object.getCodigo());
+        if(jObj != null)
+            return jObj.toJson();
+        else return null;
     };
     
     public boolean Save(JSONObject dados){        
