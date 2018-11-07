@@ -5,6 +5,11 @@
  */
 package Model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import org.json.JSONObject;
 
 /**
@@ -21,6 +26,16 @@ public class Cliente extends ObjectBase{
     public Cliente() {
         Codigo = "";
         Nome = "";
+    }
+    
+    public Cliente(ResultSet rs)
+    {
+        try {            
+            super.setCodigo(rs.getString("Codigo"));
+            Nome = rs.getString("Nome");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public String getCodigo() {
