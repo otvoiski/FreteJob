@@ -39,7 +39,7 @@ public class FreteJob {
         /*for (int i = 0; i < a.size(); i++) {
             System.out.println(a.get(i)[0]);
         }*/
-        
+        /*
         Estado estado = new Estado();
         estado.setCodigo("1");
         estado.setNome("Minas Gerais");
@@ -93,10 +93,13 @@ public class FreteJob {
                 "Cidade: "+ pessoa.getEnderecos().get(0).getCidade().getNome()+"\n"+
                 "Estado: "+pessoa.getEnderecos().get(0).getCidade().getEstado().getNome()+"\n"+
                 "Pais: "+pessoa.getEnderecos().get(0).getCidade().getEstado().getPais().getNome());
-       
+       */
         
         /*JSONObject json = (new Controller.PessoaFisicaController()).Get("0");
         System.err.println(json);*/
+        
+        JSONObject cliente = (new Controller.ClienteController()).Get("2");
+        System.out.println(cliente);
     }
     
 }
