@@ -54,13 +54,6 @@ public abstract class Persistencia<T extends ObjectBase> {
     public List<T> GetAll() {
         return (List<T>) MetodosPersistencia.selecionar(classePersistente);
     }
-    public List<T> GetAll(String[] rangeId) {
-        String[][] data = {
-            {"Codigo", rangeId[0]},
-            {"Codigo", rangeId[1]}
-        };
-        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
-    }
 
     public List<T> Login(String login, String pass) {
         String[][] data = {
