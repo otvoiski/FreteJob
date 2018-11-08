@@ -13,11 +13,11 @@ import org.json.JSONObject;
  */
 public class Pais extends ObjectBase{
     private String Nome;
-    private String sigla;
+    private String Sigla;
 
     public Pais(String Nome, String sigla) {
         this.Nome = Nome;
-        this.sigla = sigla;
+        this.Sigla = sigla;
     }
     public Pais(){}
     public String getNome() {
@@ -29,11 +29,11 @@ public class Pais extends ObjectBase{
     }
 
     public String getSigla() {
-        return sigla;
+        return Sigla;
     }
 
     public void setSigla(String sigla) {
-        this.sigla = sigla;
+        this.Sigla = sigla;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Pais extends ObjectBase{
         JSONObject json = new JSONObject();
         json.put("Codigo", getCodigo());
         json.put("Nome", Nome);
-        json.put("Sigla", sigla);
+        json.put("Sigla", Sigla);
         return json;
     }
 

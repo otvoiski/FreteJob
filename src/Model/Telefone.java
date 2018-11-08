@@ -13,19 +13,19 @@ import org.json.JSONObject;
  */
 public class Telefone extends ObjectBase{
     
-    private String ddd;
+    private String DDD;
     private String Numero;
 
     public Telefone(String ddd, String numero) {
-        this.ddd = ddd;
+        this.DDD = ddd;
         this.Numero = numero;
     }
     public Telefone() {}
     public String getDdd() {
-        return ddd;
+        return DDD;
     }
     public void setDdd(String ddd) {
-        this.ddd = ddd;
+        this.DDD = ddd;
     }
 
     public String getNumero() {
@@ -40,7 +40,7 @@ public class Telefone extends ObjectBase{
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("Codigo", getCodigo());
-        json.put("DDD", ddd);
+        json.put("DDD", DDD);
         json.put("Numero", Numero);
         return json;
     }

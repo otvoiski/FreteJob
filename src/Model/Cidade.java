@@ -13,21 +13,21 @@ import org.json.JSONObject;
  */
 public class Cidade extends ObjectBase{
     private String Nome;
-    private String Cod_municipio;
-    private Estado estado;
+    private String CodMunicipio;
+    private Estado Estado;
 
     public Cidade(String Nome, String Cod_municipio, Estado estado) {
         this.Nome = Nome;
-        this.Cod_municipio = Cod_municipio;
-        this.estado = estado;
+        this.CodMunicipio = Cod_municipio;
+        this.Estado = estado;
     }
     public Cidade(){}
     public Estado getEstado() {
-        return estado;
+        return Estado;
     }
 
     public void setEstado(Estado estado) {
-        this.estado = estado;
+        this.Estado = estado;
     }
 
     public String getNome() {
@@ -38,11 +38,11 @@ public class Cidade extends ObjectBase{
         this.Nome = Nome;
     }
     public String getCod_municipio() {
-        return Cod_municipio;
+        return CodMunicipio;
     }
 
     public void setCod_municipio(String Cod_municipio) {
-        this.Cod_municipio = Cod_municipio;
+        this.CodMunicipio = Cod_municipio;
     }
 
     @Override
@@ -50,8 +50,8 @@ public class Cidade extends ObjectBase{
          JSONObject json = new JSONObject();
          json.put("Codigo", getCodigo());
          json.put("Nome", Nome);
-         json.put("Codigo_Municipio", Cod_municipio);
-         json.put("Estado", estado.toJson());
+         json.put("CodigoMunicipio", CodMunicipio);
+         json.put("Estado", Estado.toJson());
          return json;
         
     }
@@ -62,7 +62,7 @@ public class Cidade extends ObjectBase{
         Cidade objCidade = new Cidade();
         objCidade.setCodigo(jsonRetorno.getString("Codigo"));
         objCidade.setNome(jsonRetorno.getString("Nome"));
-        objCidade.setCod_municipio(jsonRetorno.getString("Codigo_Municipio"));
+        objCidade.setCod_municipio(jsonRetorno.getString("CodigoMunicipio"));
         objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("Estado")));
         return objCidade;
     }

@@ -14,21 +14,21 @@ import org.json.JSONObject;
 public class Estado extends ObjectBase{
     private String Nome;
     private String Sigla;
-    private Pais pais;
+    private Pais Pais;
 
     public Estado(String Nome, String Sigla, Pais pais) {
 
         this.Nome = Nome;
         this.Sigla = Sigla;
-        this.pais = pais;
+        this.Pais = pais;
     }
     public Estado(){}
     public Pais getPais() {
-        return pais;
+        return Pais;
     }
 
     public void setPais(Pais pais) {
-        this.pais = pais;
+        this.Pais = pais;
     }
     public String getNome() {
         return Nome;
@@ -52,7 +52,7 @@ public class Estado extends ObjectBase{
        json.put("Codigo", getCodigo());
        json.put("Nome",Nome);
        json.put("Sigla",Sigla);
-       json.put("Pais",pais.toJson());
+       json.put("Pais",Pais.toJson());
        return json;
     }
 

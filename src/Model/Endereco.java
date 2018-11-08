@@ -19,7 +19,7 @@ public class Endereco extends ObjectBase {
     private String Numero;
     private String Complemento;
     private String Tipo;//indica o tipo do endereço(cobrança,entrega, etc)
-    private Cidade cidade;
+    private Cidade Cidade;
 
 
     public Endereco(String Rua, String Bairro, String CEP, String Numero, String Tipo, Cidade cidade) {
@@ -28,7 +28,7 @@ public class Endereco extends ObjectBase {
         this.CEP = CEP;
         this.Numero = Numero;
         this.Tipo = Tipo;
-        this.cidade = cidade;
+        this.Cidade = cidade;
 
     }
     
@@ -83,11 +83,11 @@ public class Endereco extends ObjectBase {
     }
 
     public Cidade getCidade() {
-        return cidade;
+        return Cidade;
     }
 
     public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
+        this.Cidade = cidade;
     }
     @Override
     public JSONObject toJson() {
@@ -100,7 +100,7 @@ public class Endereco extends ObjectBase {
        json.put("Numero",Numero);
        json.put("Complemento",Complemento);
        json.put("Tipo",Tipo);
-       json.put("Cidade",cidade.toJson());
+       json.put("Cidade",Cidade.toJson());
        return json;
     }
 
@@ -108,7 +108,8 @@ public class Endereco extends ObjectBase {
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Cidade objCidade = new Cidade();
         Endereco objEndereco = new Endereco();
-        
+                
+        objEndereco.setCodigo(jsonRetorno.getString("Codigo"));
         objEndereco.setRua(jsonRetorno.getString("Rua"));
         objEndereco.setBairro(jsonRetorno.getString("Bairro"));
         objEndereco.setCEP(jsonRetorno.getString("CEP"));
