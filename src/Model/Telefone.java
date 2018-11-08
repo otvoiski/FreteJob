@@ -39,18 +39,18 @@ public class Telefone extends ObjectBase{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("DDD", DDD);
-        json.put("Numero", Numero);
+        json.put("codigo", getCodigo());
+        json.put("ddd", DDD);
+        json.put("numero", Numero);
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
-        objTelefone.setCodigo(jsonRetorno.getString("Codigo"));
-        objTelefone.setDdd(jsonRetorno.getString("DDD"));
-        objTelefone.setNumero(jsonRetorno.getString("Numero"));
+        objTelefone.setCodigo(jsonRetorno.getString("codigo"));
+        objTelefone.setDdd(jsonRetorno.getString("ddd"));
+        objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
     }
     

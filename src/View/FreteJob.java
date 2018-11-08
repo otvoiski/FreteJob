@@ -11,7 +11,12 @@ import Model.Estado;
 import Model.Pais;
 import Model.PessoaFisica;
 import Model.Telefone;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONObject;
 
 /*
@@ -54,16 +59,16 @@ public class FreteJob {
         
         Endereco endereco2 = new Endereco("Rua teste", "teste", "36502166", "150", "E", cidade);
         endereco2.setCodigo("4");
-        endereco2.setComplemento("Fundos");
+        endereco2.setComplemento("");
         
         Telefone telefone1 = new Telefone();
         telefone1.setCodigo("1");
         telefone1.setDdd("32");
         telefone1.setNumero("988985982");
         Telefone telefone2 = new Telefone();
-        telefone1.setCodigo("1");
-        telefone1.setDdd("32");
-        telefone1.setNumero("35319369");
+        telefone2.setCodigo("1");
+        telefone2.setDdd("32");
+        telefone2.setNumero("35319369");
         
         ArrayList<Endereco> enderecos = new ArrayList<>();
         enderecos.add(endereco);
@@ -80,20 +85,29 @@ public class FreteJob {
         pessoa.setRg("123254567890");
         pessoa.setSexo("M");
         pessoa.setNome("Matheus Ribeiro");
+        pessoa.setDataNascimento((new Date()));
         pessoa.setEnderecos(enderecos);
         pessoa.setTelefones(telefones);
+        pessoa.getMidiaSociais().add("www.facebook.com.br");
+        pessoa.getMidiaSociais().add("www.tweeter.com.br");
         JSONObject json = pessoa.toJson();
+        System.out.println(json);
         
-        pessoa = (PessoaFisica)pessoa.toObjectBase(json);
-        
-        System.out.println("Rua: "+ pessoa.getEnderecos().get(0).getRua()+
-                "\n"+"Bairro: "+pessoa.getEnderecos().get(0).getBairro()+"\n"+
-                "Numero: "+ pessoa.getEnderecos().get(0).getNumero()+"\n"+
-                "Complemento: "+ pessoa.getEnderecos().get(0).getComplemento()+ "\n"+
-                "Cidade: "+ pessoa.getEnderecos().get(0).getCidade().getNome()+"\n"+
-                "Estado: "+pessoa.getEnderecos().get(0).getCidade().getEstado().getNome()+"\n"+
-                "Pais: "+pessoa.getEnderecos().get(0).getCidade().getEstado().getPais().getNome());
-       */
+       pessoa = (PessoaFisica)pessoa.toObjectBase(json);
+       for(int i = 0; i<pessoa.getEnderecos().size(); i++){
+            System.out.println("Rua: "+ pessoa.getEnderecos().get(i).getRua()+
+                    "\n"+"Bairro: "+pessoa.getEnderecos().get(i).getBairro()+"\n"+
+                    "Numero: "+ pessoa.getEnderecos().get(i).getNumero()+"\n"+
+                    "Complemento: "+ pessoa.getEnderecos().get(i).getComplemento()+ "\n"+
+                    "Cidade: "+ pessoa.getEnderecos().get(i).getCidade().getNome()+"\n"+
+                    "Estado: "+pessoa.getEnderecos().get(i).getCidade().getEstado().getNome()+"\n"+
+                    "Pais: "+pessoa.getEnderecos().get(i).getCidade().getEstado().getPais().getNome());
+            System.out.println("------------------");
+       }
+       System.out.println("Midias Sociais");
+       for(int i = 0; i<pessoa.getEnderecos().size(); i++){
+            System.out.println(pessoa.getMidiaSociais().get(i));
+       }
         
         /*JSONObject json = (new Controller.PessoaFisicaController()).Get("0");
         System.err.println(json);*/
@@ -108,15 +122,14 @@ public class FreteJob {
         }
         */
         
-        JSONObject pf = (new Controller.PessoaFisicaController()).Get("1");
+       /* JSONObject pf = (new Controller.PessoaFisicaController()).Get("1");
         System.out.println(pf);
         
         
         ArrayList<JSONObject> pfs = (new Controller.PessoaFisicaController()).GetAll();
         for (JSONObject c : pfs) {
             System.out.println(c);
-        }
-        
+        }*/
     }
     
 }

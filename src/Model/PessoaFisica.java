@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -37,7 +38,7 @@ public class PessoaFisica extends Model.Pessoa{
             Nome = rs.getString("Nome");
             Cpf = rs.getString("Cpf");
             Rg = rs.getString("Rg");
-            DataNascimento = (new SimpleDateFormat("yyyy-MM-dd")).parse(rs.getString("DataNascimento"));
+            DataNascimento = (new SimpleDateFormat("yyyy/MM/dd")).parse(rs.getString("DataNascimento"));
             Sexo = rs.getString("Sexo");
             MidiaSociais = new ArrayList<>();
         } catch (SQLException e) {
@@ -101,50 +102,71 @@ public class PessoaFisica extends Model.Pessoa{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-         json.put("Codigo", getCodigo());
-         json.put("Nome", Nome);
-         json.put("CPF", Cpf);
-         json.put("TipoPessoa",getTipoPessoa());
-         json.put("RG", Rg);
+        json.put("codigo", getCodigo());
+        json.put("nome", Nome);
+        json.put("cpf", Cpf);
+        json.put("tipopessoa",getTipoPessoa());
+        json.put("rg", Rg);
          
-          SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-          String dataAtual = sdf.format(DataNascimento);         
-          json.put("DataNascimento", dataAtual);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String dataAtual = sdf.format(DataNascimento);         
+        json.put("datanascimento", dataAtual);
          
-         json.put("Sexo", Sexo);
-        json.put("MidiasSociais", MidiaSociais);
-        json.put("Enderecos", getEnderecos());
-        json.put("Telefones", getTelefones());
+        json.put("sexo", Sexo);
+        json.put("midiassociais", MidiaSociais);
+        json.put("enderecos", getEnderecos());
+        json.put("telefones", getTelefones());
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno){
         PessoaFisica objPessoa = new PessoaFisica();
-      /*String pattern = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        java.util.Date d;
-       try {
-            d = sdf.parse(jsonRetorno.getString("Data_Nascimento"));
-            objPessoa.setData_Nascimento(d);
-        } catch (ParseException ex) {
-            objPessoa.setData_Nascimento(null);
-            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        objPessoa.setCodigo(jsonRetorno.getString("Codigo"));
-        objPessoa.setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
-        objPessoa.setTelefones((ArrayList)jsonRetorno.getJSONArray("Telefones").toList());
-        objPessoa.setEnderecos((ArrayList)jsonRetorno.getJSONArray("Enderecos").toList());
-        objPessoa.setNome(jsonRetorno.getString("Nome"));
-        objPessoa.setCpf(jsonRetorno.getString("CPF"));
-        objPessoa.setRg(jsonRetorno.getString("RG"));
-        try {            
-            objPessoa.setDataNascimento((new SimpleDateFormat()).parse(jsonRetorno.getString("DataNascimento")));
+        Telefone telAux;
+        Endereco endAux;
+        Cidade cidAux = new Cidade();
+        JSONArray aux;
+        
+        objPessoa.setCodigo(jsonRetorno.getString("codigo"));
+        objPessoa.setTipoPessoa(jsonRetorno.getString("tipopessoa"));
+        aux = jsonRetorno.getJSONArray("telefones");
+        for(int i = 0; i<aux.length(); i++){
+            telAux = new Telefone(aux.getJSONObject(i).getString("ddd"),aux.getJSONObject(i).getString("numero"));
+            telAux.setCodigo(aux.getJSONObject(i).getString("codigo"));
+            objPessoa.getTelefones().add(telAux);
+        }
+        
+        aux = jsonRetorno.getJSONArray("enderecos");
+        for(int i = 0; i<aux.length(); i++){
+            cidAux = (Cidade) cidAux.toObjectBase(aux.getJSONObject(i).getJSONObject("cidade"));
+            endAux = new Endereco(
+                aux.getJSONObject(i).getString("rua"),
+                    aux.getJSONObject(i).getString("bairro"),
+                    aux.getJSONObject(i).getString("CEP"),
+                    aux.getJSONObject(i).getString("numero"),
+                    aux.getJSONObject(i).getString("tipo"),
+                    cidAux
+                    
+            );
+            endAux.setCodigo(aux.getJSONObject(i).getString("codigo"));
+            endAux.setComplemento(aux.getJSONObject(i).getString("complemento"));
+            objPessoa.getEnderecos().add(endAux);
+        }
+        objPessoa.setNome(jsonRetorno.getString("nome"));
+        objPessoa.setCpf(jsonRetorno.getString("cpf"));
+        objPessoa.setRg(jsonRetorno.getString("rg"));
+        objPessoa.setSexo(jsonRetorno.getString("sexo"));
+        aux = jsonRetorno.getJSONArray("midiassociais");
+        for(int i = 0; i<aux.length(); i++){
+            objPessoa.getMidiaSociais().add((String)aux.get(i));
+        }
+        objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("midiassociais").toList());
+        try {
+            objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
         } catch (ParseException ex) {
             Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
         }
-        objPessoa.setSexo(jsonRetorno.getString("Sexo"));
-        objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("MidiasSociais").toList());
+    
         return objPessoa;
         
     }

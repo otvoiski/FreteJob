@@ -39,18 +39,19 @@ public class Pais extends ObjectBase{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("Nome", Nome);
-        json.put("Sigla", Sigla);
+        json.put("codigo", getCodigo());
+        json.put("nome", Nome);
+        json.put("sigla", Sigla);
+
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Pais objPais = new Pais();
-        objPais.setCodigo(jsonRetorno.getString("Codigo"));
-        objPais.setNome(jsonRetorno.getString("Nome"));
-        objPais.setSigla(jsonRetorno.getString("Sigla"));
+        objPais.setCodigo(jsonRetorno.getString("codigo"));
+        objPais.setNome(jsonRetorno.getString("nome"));
+        objPais.setSigla(jsonRetorno.getString("sigla"));
         return objPais;  
     }
     

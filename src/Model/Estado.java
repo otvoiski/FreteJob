@@ -49,10 +49,10 @@ public class Estado extends ObjectBase{
     @Override
     public JSONObject toJson() {
        JSONObject json = new JSONObject();
-       json.put("Codigo", getCodigo());
-       json.put("Nome",Nome);
-       json.put("Sigla",Sigla);
-       json.put("Pais",Pais.toJson());
+       json.put("codigo", getCodigo());
+       json.put("nome",Nome);
+       json.put("sigla",Sigla);
+       json.put("pais",Pais.toJson());
        return json;
     }
 
@@ -60,10 +60,10 @@ public class Estado extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Pais objPais = new Pais();
-        objEstado.setCodigo(jsonRetorno.getString("Codigo"));
-        objEstado.setNome(jsonRetorno.getString("Nome"));
-        objEstado.setSigla(jsonRetorno.getString("Sigla"));
-        objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("Pais")));
+        objEstado.setCodigo(jsonRetorno.getString("codigo"));
+        objEstado.setNome(jsonRetorno.getString("nome"));
+        objEstado.setSigla(jsonRetorno.getString("sigla"));
+        objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
         return objEstado;  
     }
 

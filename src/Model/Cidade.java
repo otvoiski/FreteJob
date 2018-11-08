@@ -48,10 +48,10 @@ public class Cidade extends ObjectBase{
     @Override
     public JSONObject toJson() {
          JSONObject json = new JSONObject();
-         json.put("Codigo", getCodigo());
-         json.put("Nome", Nome);
-         json.put("CodigoMunicipio", CodMunicipio);
-         json.put("Estado", Estado.toJson());
+         json.put("codigo", getCodigo());
+         json.put("nome", Nome);
+         json.put("cod_municipio", CodMunicipio);
+         json.put("estado", Estado.toJson());
          return json;
         
     }
@@ -60,10 +60,10 @@ public class Cidade extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Cidade objCidade = new Cidade();
-        objCidade.setCodigo(jsonRetorno.getString("Codigo"));
-        objCidade.setNome(jsonRetorno.getString("Nome"));
-        objCidade.setCod_municipio(jsonRetorno.getString("CodigoMunicipio"));
-        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("Estado")));
+        objCidade.setCodigo(jsonRetorno.getString("codigo"));
+        objCidade.setNome(jsonRetorno.getString("nome"));
+        objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
+        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         return objCidade;
     }
     

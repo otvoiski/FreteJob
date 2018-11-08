@@ -93,14 +93,14 @@ public class Endereco extends ObjectBase {
     public JSONObject toJson() {
        JSONObject json = new JSONObject();
        
-       json.put("Codigo", getCodigo());
-       json.put("Rua",Rua);
-       json.put("Bairro",Bairro);
-       json.put("CEP",CEP);
-       json.put("Numero",Numero);
-       json.put("Complemento",Complemento);
-       json.put("Tipo",Tipo);
-       json.put("Cidade",Cidade.toJson());
+       json.put("codigo", getCodigo());
+       json.put("rua",Rua);
+       json.put("bairro",Bairro);
+       json.put("cep",CEP);
+       json.put("numero",Numero);
+       json.put("complemento",Complemento);
+       json.put("tipo",Tipo);
+       json.put("cidade",Cidade.toJson());
        return json;
     }
 
@@ -109,14 +109,14 @@ public class Endereco extends ObjectBase {
         Cidade objCidade = new Cidade();
         Endereco objEndereco = new Endereco();
                 
-        objEndereco.setCodigo(jsonRetorno.getString("Codigo"));
-        objEndereco.setRua(jsonRetorno.getString("Rua"));
-        objEndereco.setBairro(jsonRetorno.getString("Bairro"));
-        objEndereco.setCEP(jsonRetorno.getString("CEP"));
-        objEndereco.setCidade((Cidade) objCidade.toObjectBase(jsonRetorno.getJSONObject("Cidade")));
-        objEndereco.setComplemento(jsonRetorno.getString("Complemento"));
-        objEndereco.setNumero(jsonRetorno.getString("Numero"));
-        objEndereco.setTipo(jsonRetorno.getString("Tipo"));
+        objEndereco.setCodigo(jsonRetorno.getString("codigo"));
+        objEndereco.setRua(jsonRetorno.getString("rua"));
+        objEndereco.setBairro(jsonRetorno.getString("bairro"));
+        objEndereco.setCEP(jsonRetorno.getString("cep"));
+        objEndereco.setCidade((Cidade) objCidade.toObjectBase(jsonRetorno.getJSONObject("cidade")));
+        objEndereco.setComplemento(jsonRetorno.getString("complemento"));
+        objEndereco.setNumero(jsonRetorno.getString("numero"));
+        objEndereco.setTipo(jsonRetorno.getString("tipo"));
         
         return objEndereco;
     }
