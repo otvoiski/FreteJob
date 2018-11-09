@@ -12,9 +12,11 @@ import org.json.JSONObject;
  * @author Aluno
  */
 public class Distribuidora extends Pessoa{
-    
-    
-    
+
+    public Distribuidora() {
+        super();
+    }
+
     @Override
     public JSONObject toJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

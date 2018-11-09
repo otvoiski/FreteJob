@@ -101,64 +101,30 @@ public class PessoaFisica extends Model.Pessoa{
     }
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("codigo", getCodigo());
+        JSONObject json = super.preencheJson();
         json.put("nome", Nome);
         json.put("cpf", Cpf);
-        json.put("tipopessoa",getTipoPessoa());
         json.put("rg", Rg);
-         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         String dataAtual = sdf.format(DataNascimento);         
         json.put("datanascimento", dataAtual);
-         
         json.put("sexo", Sexo);
         json.put("midiassociais", MidiaSociais);
-        json.put("enderecos", getEnderecos());
-        json.put("telefones", getTelefones());
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno){
         PessoaFisica objPessoa = new PessoaFisica();
-        Telefone telAux;
-        Endereco endAux;
-        Cidade cidAux = new Cidade();
-        JSONArray aux;
-        
-        objPessoa.setCodigo(jsonRetorno.getString("codigo"));
-        objPessoa.setTipoPessoa(jsonRetorno.getString("tipopessoa"));
-        aux = jsonRetorno.getJSONArray("telefones");
-        for(int i = 0; i<aux.length(); i++){
-            telAux = new Telefone(aux.getJSONObject(i).getString("ddd"),aux.getJSONObject(i).getString("numero"));
-            telAux.setCodigo(aux.getJSONObject(i).getString("codigo"));
-            objPessoa.getTelefones().add(telAux);
-        }
-        
-        aux = jsonRetorno.getJSONArray("enderecos");
-        for(int i = 0; i<aux.length(); i++){
-            cidAux = (Cidade) cidAux.toObjectBase(aux.getJSONObject(i).getJSONObject("cidade"));
-            endAux = new Endereco(
-                aux.getJSONObject(i).getString("rua"),
-                    aux.getJSONObject(i).getString("bairro"),
-                    aux.getJSONObject(i).getString("CEP"),
-                    aux.getJSONObject(i).getString("numero"),
-                    aux.getJSONObject(i).getString("tipo"),
-                    cidAux
-                    
-            );
-            endAux.setCodigo(aux.getJSONObject(i).getString("codigo"));
-            endAux.setComplemento(aux.getJSONObject(i).getString("complemento"));
-            objPessoa.getEnderecos().add(endAux);
-        }
+        objPessoa.preencheAtributos(jsonRetorno);
+        JSONArray auxMidias;
         objPessoa.setNome(jsonRetorno.getString("nome"));
         objPessoa.setCpf(jsonRetorno.getString("cpf"));
         objPessoa.setRg(jsonRetorno.getString("rg"));
         objPessoa.setSexo(jsonRetorno.getString("sexo"));
-        aux = jsonRetorno.getJSONArray("midiassociais");
-        for(int i = 0; i<aux.length(); i++){
-            objPessoa.getMidiaSociais().add((String)aux.get(i));
+        auxMidias = jsonRetorno.getJSONArray("midiassociais");
+        for(int i = 0; i<auxMidias.length(); i++){
+            objPessoa.getMidiaSociais().add((String)auxMidias.get(i));
         }
         objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("midiassociais").toList());
         try {
