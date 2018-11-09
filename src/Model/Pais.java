@@ -51,7 +51,9 @@ public class Pais extends ObjectBase{
         Pais objPais = new Pais();
         objPais.setCodigo(jsonRetorno.getString("codigo"));
         objPais.setNome(jsonRetorno.getString("nome"));
-        objPais.setSigla(jsonRetorno.getString("sigla"));
+        if(jsonRetorno.has("sigla"))
+            objPais.setSigla(jsonRetorno.getString("sigla"));
+        
         return objPais;  
     }
     

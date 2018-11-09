@@ -62,8 +62,11 @@ public class Estado extends ObjectBase{
         Pais objPais = new Pais();
         objEstado.setCodigo(jsonRetorno.getString("codigo"));
         objEstado.setNome(jsonRetorno.getString("nome"));
-        objEstado.setSigla(jsonRetorno.getString("sigla"));
-        objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
+        if(jsonRetorno.has("sigla"))
+            objEstado.setSigla(jsonRetorno.getString("sigla"));
+        
+        if(jsonRetorno.has("pais"))
+            objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
         return objEstado;  
     }
 

@@ -62,7 +62,9 @@ public class Cidade extends ObjectBase{
         Cidade objCidade = new Cidade();
         objCidade.setCodigo(jsonRetorno.getString("codigo"));
         objCidade.setNome(jsonRetorno.getString("nome"));
-        objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
+        if(jsonRetorno.has("cod_municipio"))
+            objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
+        
         objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         return objCidade;
     }

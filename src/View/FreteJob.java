@@ -44,7 +44,7 @@ public class FreteJob {
         /*for (int i = 0; i < a.size(); i++) {
             System.out.println(a.get(i)[0]);
         }*/
-        /*
+        
         Estado estado = new Estado();
         estado.setCodigo("1");
         estado.setNome("Minas Gerais");
@@ -52,12 +52,15 @@ public class FreteJob {
         estado.setPais(new Pais("Brasil", "BR"));
         estado.getPais().setCodigo("2");
         Cidade cidade = new Cidade("Ubá", "q1231", estado);
+        cidade.setCod_municipio(null);
         cidade.setCodigo("3");
+        Cidade cidade2 = new Cidade("Tocantins", "q1231", estado);
+        cidade2.setCodigo("3");
         Endereco endereco = new Endereco("Rua gustavo Goria", "Santa bernadete", "36502166", "150", "E", cidade);
         endereco.setCodigo("4");
         endereco.setComplemento("Fundos");
         
-        Endereco endereco2 = new Endereco("Rua teste", "teste", "36502166", "150", "E", cidade);
+        Endereco endereco2 = new Endereco("Rua teste", "teste", "36502166", "150", "E", cidade2);
         endereco2.setCodigo("4");
         endereco2.setComplemento("");
         
