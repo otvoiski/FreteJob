@@ -5,10 +5,7 @@
  */
 package Model;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,11 +17,12 @@ public abstract class Pessoa extends ObjectBase{
     private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
     private ArrayList<Telefone> Telefones;
     private ArrayList<Endereco> Enderecos;
-
-
+    private ArrayList<String> MidiaSociais;
+    
     public Pessoa() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
+        MidiaSociais = new ArrayList<>();
     }
 
     public ArrayList<Endereco> getEnderecos() {
@@ -48,44 +46,43 @@ public abstract class Pessoa extends ObjectBase{
     public void setTelefones(ArrayList<Telefone> Telefones) {
         this.Telefones = Telefones;
     }
+    
+     
+    public  ArrayList<String>getMidiaSociais() {
+        return MidiaSociais;
+    }
+
+    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
+        this.MidiaSociais = MidiaSociais;
+    }
+    
     protected JSONObject preencheJson(){
         JSONObject json = new JSONObject();
         json.put("codigo", getCodigo());
         json.put("tipopessoa",getTipoPessoa());
         json.put("enderecos", getEnderecos());
         json.put("telefones", getTelefones());
+        json.put("midiassociais", getMidiaSociais());
+        
         return json;
     }
-    protected void preencheAtributos(JSONObject jsonRetorno){
-        Telefone telAux;
+    protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
-        Cidade cidAux = new Cidade();
-        Endereco endAux;
         setCodigo(jsonRetorno.getString("codigo"));
-        TipoPessoa = jsonRetorno.getString("tipopessoa");
-        
-        jsonArrayAux = jsonRetorno.getJSONArray("telefones");
-        for(int i = 0; i<jsonArrayAux.length(); i++){
-            telAux = new Telefone(jsonArrayAux.getJSONObject(i).getString("ddd"),jsonArrayAux.getJSONObject(i).getString("numero"));
-            telAux.setCodigo(jsonArrayAux.getJSONObject(i).getString("codigo"));
-            Telefones.add(telAux);
+        if(jsonRetorno.has("tipopessoa"))
+            setTipoPessoa(jsonRetorno.getString("tipopessoa"));
+        if(jsonRetorno.has("midiassociais")){
+            JSONArray auxMidias = jsonRetorno.getJSONArray("midiassociais");
+            for(int i = 0; i<auxMidias.length(); i++){
+                getMidiaSociais().add((String)auxMidias.get(i));
+            }
         }
+        jsonArrayAux = jsonRetorno.getJSONArray("telefones");
+        for(int i = 0; i<jsonArrayAux.length(); i++)
+            Telefones.add((Telefone) new Telefone().toObjectBase(jsonArrayAux.getJSONObject(i)));
         
          jsonArrayAux = jsonRetorno.getJSONArray("enderecos");
-        for(int i = 0; i<jsonArrayAux.length(); i++){
-            cidAux = (Cidade) cidAux.toObjectBase(jsonArrayAux.getJSONObject(i).getJSONObject("cidade"));
-            endAux = new Endereco(
-                jsonArrayAux.getJSONObject(i).getString("rua"),
-                    jsonArrayAux.getJSONObject(i).getString("bairro"),
-                    jsonArrayAux.getJSONObject(i).getString("CEP"),
-                    jsonArrayAux.getJSONObject(i).getString("numero"),
-                    jsonArrayAux.getJSONObject(i).getString("tipo"),
-                    cidAux
-                    
-            );
-            endAux.setCodigo(jsonArrayAux.getJSONObject(i).getString("codigo"));
-            endAux.setComplemento(jsonArrayAux.getJSONObject(i).getString("complemento"));
-            Enderecos.add(endAux);
-        }
+        for(int i = 0; i<jsonArrayAux.length(); i++)
+            Enderecos.add((Endereco) new Endereco().toObjectBase(jsonArrayAux.getJSONObject(i)));
     }
 }

@@ -28,7 +28,6 @@ public class PessoaFisica extends Model.Pessoa{
     private String Rg;
     private Date DataNascimento;
     private String Sexo;
-    private ArrayList<String> MidiaSociais;
 
     
     public PessoaFisica(ResultSet rs)
@@ -40,7 +39,6 @@ public class PessoaFisica extends Model.Pessoa{
             Rg = rs.getString("Rg");
             DataNascimento = (new SimpleDateFormat("yyyy/MM/dd")).parse(rs.getString("DataNascimento"));
             Sexo = rs.getString("Sexo");
-            MidiaSociais = new ArrayList<>();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } catch (ParseException ex) {
@@ -50,17 +48,7 @@ public class PessoaFisica extends Model.Pessoa{
         
     public PessoaFisica(){
         super();
-        MidiaSociais = new ArrayList<>();
     }
-    
-    public  ArrayList<String>getMidiaSociais() {
-        return MidiaSociais;
-    }
-
-    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
-        this.MidiaSociais = MidiaSociais;
-    }
-
     public String getCpf() {
         return Cpf;
     }
@@ -102,37 +90,29 @@ public class PessoaFisica extends Model.Pessoa{
     @Override
     public JSONObject toJson() {
         JSONObject json = super.preencheJson();
-        json.put("nome", Nome);
-        json.put("cpf", Cpf);
-        json.put("rg", Rg);
+        json.put("nome", getNome());
+        json.put("cpf", getCpf());
+        json.put("rg", getRg());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-        String dataAtual = sdf.format(DataNascimento);         
-        json.put("datanascimento", dataAtual);
-        json.put("sexo", Sexo);
-        json.put("midiassociais", MidiaSociais);
+        String data = sdf.format(DataNascimento);         
+        json.put("datanascimento", data);
+        json.put("sexo", getSexo());
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno){
         PessoaFisica objPessoa = new PessoaFisica();
-        objPessoa.preencheAtributos(jsonRetorno);
-        JSONArray auxMidias;
+        objPessoa.preencheAtributosRetorno(jsonRetorno);
         objPessoa.setNome(jsonRetorno.getString("nome"));
         objPessoa.setCpf(jsonRetorno.getString("cpf"));
         objPessoa.setRg(jsonRetorno.getString("rg"));
         objPessoa.setSexo(jsonRetorno.getString("sexo"));
-        auxMidias = jsonRetorno.getJSONArray("midiassociais");
-        for(int i = 0; i<auxMidias.length(); i++){
-            objPessoa.getMidiaSociais().add((String)auxMidias.get(i));
-        }
-        objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("midiassociais").toList());
         try {
             objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
         } catch (ParseException ex) {
             Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
         return objPessoa;
         
     }

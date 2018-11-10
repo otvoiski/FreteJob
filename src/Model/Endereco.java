@@ -15,17 +15,17 @@ public class Endereco extends ObjectBase {
     
     private String Rua;
     private String Bairro;
-    private String CEP;
+    private String cep;
     private String Numero;
     private String Complemento;
     private String Tipo;//indica o tipo do endereço(cobrança,entrega, etc)
     private Cidade Cidade;
 
 
-    public Endereco(String Rua, String Bairro, String CEP, String Numero, String Tipo, Cidade cidade) {
+    public Endereco(String Rua, String Bairro, String cep, String Numero, String Tipo, Cidade cidade) {
         this.Rua = Rua;
         this.Bairro = Bairro;
-        this.CEP = CEP;
+        this.cep = cep;
         this.Numero = Numero;
         this.Tipo = Tipo;
         this.Cidade = cidade;
@@ -51,11 +51,11 @@ public class Endereco extends ObjectBase {
     }
 
     public String getCEP() {
-        return CEP;
+        return cep;
     }
 
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
+    public void setCEP(String cep) {
+        this.cep = cep;
     }
 
     public String getNumero() {
@@ -94,12 +94,12 @@ public class Endereco extends ObjectBase {
        JSONObject json = new JSONObject();
        
        json.put("codigo", getCodigo());
-       json.put("rua",Rua);
-       json.put("bairro",Bairro);
-       json.put("cep",CEP);
-       json.put("numero",Numero);
-       json.put("complemento",Complemento);
-       json.put("tipo",Tipo);
+       json.put("rua",getRua());
+       json.put("bairro",getBairro());
+       json.put("cep",getCEP());
+       json.put("numero",getNumero());
+       json.put("complemento",getComplemento());
+       json.put("tipo",getTipo());
        json.put("cidade",Cidade.toJson());
        return json;
     }
@@ -107,14 +107,15 @@ public class Endereco extends ObjectBase {
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Cidade objCidade = new Cidade();
-        Endereco objEndereco = new Endereco();
-                
+        Endereco objEndereco = new Endereco();    
         objEndereco.setCodigo(jsonRetorno.getString("codigo"));
         objEndereco.setRua(jsonRetorno.getString("rua"));
         objEndereco.setBairro(jsonRetorno.getString("bairro"));
-        objEndereco.setCEP(jsonRetorno.getString("cep"));
+        objEndereco.setCEP(jsonRetorno.getString("CEP"));
         objEndereco.setCidade((Cidade) objCidade.toObjectBase(jsonRetorno.getJSONObject("cidade")));
-        objEndereco.setComplemento(jsonRetorno.getString("complemento"));
+        if(jsonRetorno.has("complemento"))
+            objEndereco.setComplemento(jsonRetorno.getString("complemento"));
+        
         objEndereco.setNumero(jsonRetorno.getString("numero"));
         objEndereco.setTipo(jsonRetorno.getString("tipo"));
         

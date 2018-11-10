@@ -6,8 +6,10 @@
 package View;
 
 import Model.Cidade;
+import Model.Distribuidora;
 import Model.Endereco;
 import Model.Estado;
+import Model.Funcionario;
 import Model.Pais;
 import Model.PessoaFisica;
 import Model.Telefone;
@@ -44,7 +46,7 @@ public class FreteJob {
         /*for (int i = 0; i < a.size(); i++) {
             System.out.println(a.get(i)[0]);
         }*/
-        
+        /*
         Estado estado = new Estado();
         estado.setCodigo("1");
         estado.setNome("Minas Gerais");
@@ -132,7 +134,25 @@ public class FreteJob {
         ArrayList<JSONObject> pfs = (new Controller.PessoaFisicaController()).GetAll();
         for (JSONObject c : pfs) {
             System.out.println(c);
+        Funcionario func  = new Funcionario();
+        func.setCodigo("1");
+        func.setNome("Maheus");
+        func.setCpf("11652076646");
+        func.setIdentFuncional("3464575dsfdsgd");
+        func.setRg("12342546789");
+        Distribuidora dist = new Distribuidora();
+        dist.setCnpj("2143567890");
+        dist.setCodigo("2");
+        dist.setTipoPessoa("Distribuidora");
+        dist.setNomeFantasia("Distribuidora");
+        dist.setRazaoSocial("Distribuidora S.A");
+        func.setLocalTrabalho(dist);
+        func.setTipoPessoa("Funcionario");
+        System.out.println(func.toJson());
+        func =(Funcionario) func.toObjectBase(func.toJson());
         }*/
+       
+
     }
     
 }
