@@ -1,4 +1,4 @@
-package DAO;
+package Base;
  
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class FabricaConexao {
  
     private static final String STR_DRIVER = "org.gjt.mm.mysql.Driver";  // definição de qual banco será utilizado
-    private static final String DATABASE = "fretejobdb"; // Nome do banco de dados         
+    private static final String DATABASE = "dadosfretejob"; // Nome do banco de dados         
     private static final String IP = "127.0.0.1";  // ip de conexao
     private static final String STR_CON = "jdbc:mysql://" + IP + ":3306/" + DATABASE; // string de conexao com o banco de dados
     private static final String USER = "root"; // Nome do usuário
