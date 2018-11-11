@@ -6,15 +6,14 @@
 package Model;
 
 
+import Base.ObjectBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -29,23 +28,6 @@ public class PessoaFisica extends Model.Pessoa{
     private Date DataNascimento;
     private String Sexo;
 
-    
-    public PessoaFisica(ResultSet rs)
-    {
-        try {            
-            super.setCodigo(rs.getString("Codigo"));
-            Nome = rs.getString("Nome");
-            Cpf = rs.getString("Cpf");
-            Rg = rs.getString("Rg");
-            DataNascimento = (new SimpleDateFormat("yyyy/MM/dd")).parse(rs.getString("DataNascimento"));
-            Sexo = rs.getString("Sexo");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } catch (ParseException ex) {
-            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-        
     public PessoaFisica(){
         super();
     }
@@ -115,5 +97,22 @@ public class PessoaFisica extends Model.Pessoa{
         }
         return objPessoa;
         
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        try {            
+            super.setCodigo(rs.getString("Codigo"));
+            Nome = rs.getString("Nome");
+            Cpf = rs.getString("Cpf");
+            Rg = rs.getString("Rg");
+            DataNascimento = (new SimpleDateFormat("yyyy/MM/dd")).parse(rs.getString("DataNascimento"));
+            Sexo = rs.getString("Sexo");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (ParseException ex) {
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this;
     }
 }

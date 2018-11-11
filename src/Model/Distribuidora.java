@@ -5,7 +5,14 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,8 +22,8 @@ import org.json.JSONObject;
  */
 public class Distribuidora extends Pessoa{
     private String Cnpj;
-    private String razaoSocial;
-    private String nomeFantasia;
+    private String RazaoSocial;
+    private String NomeFantasia;
     private ArrayList<Funcionario> Funcionarios;
 
     public String getCnpj() {
@@ -28,19 +35,19 @@ public class Distribuidora extends Pessoa{
     }
 
     public String getRazaoSocial() {
-        return razaoSocial;
+        return RazaoSocial;
     }
 
     public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
+        this.RazaoSocial = razaoSocial;
     }
 
     public String getNomeFantasia() {
-        return nomeFantasia;
+        return NomeFantasia;
     }
 
     public void setNomeFantasia(String nomeFantasia) {
-        this.nomeFantasia = nomeFantasia;
+        this.NomeFantasia = nomeFantasia;
     }
 
     public ArrayList<Funcionario> getFuncionarios() {
@@ -59,10 +66,10 @@ public class Distribuidora extends Pessoa{
     @Override
     public JSONObject toJson() {
        JSONObject json = super.preencheJson();
-       json.put("nomefantasia", getNomeFantasia());
-       json.put("razaosocial", getRazaoSocial());
-       json.put("cnpj", getCnpj());
-       json.put("funcionarios", getFuncionarios());
+       json.put("NomeFantasia", getNomeFantasia());
+       json.put("RazaoSocial", getRazaoSocial());
+       json.put("Cnpj", getCnpj());
+       json.put("Funcionarios", getFuncionarios());
        return json;
     }
 
@@ -71,15 +78,29 @@ public class Distribuidora extends Pessoa{
        Distribuidora objDistribuidora = new Distribuidora();
        JSONArray arrayFuncs;
        objDistribuidora.preencheAtributosRetorno(jsonRetorno);
-       objDistribuidora.setCnpj(jsonRetorno.getString("cnpj"));
-       objDistribuidora.setRazaoSocial(jsonRetorno.getString("razaosocial"));
-       objDistribuidora.setNomeFantasia(jsonRetorno.getString("nomefantasia"));
-       if(jsonRetorno.has("funcionarios")){
-            arrayFuncs = jsonRetorno.getJSONArray("funcionarios");
+       objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
+       objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
+       objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
+       if(jsonRetorno.has("Funcionarios")){
+            arrayFuncs = jsonRetorno.getJSONArray("Funcionarios");
             for(int i = 0; i< arrayFuncs.length(); i++)
                 objDistribuidora.getFuncionarios().add((Funcionario)new Funcionario().toObjectBase(arrayFuncs.getJSONObject(i)));
        }
        return objDistribuidora;
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        try {            
+            super.setCodigo(rs.getString("Codigo"));
+            Cnpj = rs.getString("Cnpj");
+            NomeFantasia = rs.getString("Rg");
+            RazaoSocial = rs.getString(RazaoSocial);
+            Funcionarios = new ArrayList<>();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return this;
     }
     
 }

@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -68,6 +70,11 @@ public class Estado extends ObjectBase{
         if(jsonRetorno.has("pais"))
             objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
         return objEstado;  
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

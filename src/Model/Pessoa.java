@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Base.ObjectBase;
 import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,30 +59,30 @@ public abstract class Pessoa extends ObjectBase{
     
     protected JSONObject preencheJson(){
         JSONObject json = new JSONObject();
-        json.put("codigo", getCodigo());
-        json.put("tipopessoa",getTipoPessoa());
-        json.put("enderecos", getEnderecos());
-        json.put("telefones", getTelefones());
-        json.put("midiassociais", getMidiaSociais());
+        json.put("Codigo", getCodigo());
+        json.put("TipoPessoa",getTipoPessoa());
+        json.put("Enderecos", getEnderecos());
+        json.put("Telefones", getTelefones());
+        json.put("MidiasSociais", getMidiaSociais());
         
         return json;
     }
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
-        setCodigo(jsonRetorno.getString("codigo"));
-        if(jsonRetorno.has("tipopessoa"))
-            setTipoPessoa(jsonRetorno.getString("tipopessoa"));
-        if(jsonRetorno.has("midiassociais")){
-            JSONArray auxMidias = jsonRetorno.getJSONArray("midiassociais");
+        setCodigo(jsonRetorno.getString("Codigo"));
+        if(jsonRetorno.has("TipoPessoa"))
+            setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
+        if(jsonRetorno.has("MidiasSociais")){
+            JSONArray auxMidias = jsonRetorno.getJSONArray("MidiasSociais");
             for(int i = 0; i<auxMidias.length(); i++){
                 getMidiaSociais().add((String)auxMidias.get(i));
             }
         }
-        jsonArrayAux = jsonRetorno.getJSONArray("telefones");
+        jsonArrayAux = jsonRetorno.getJSONArray("Telefones");
         for(int i = 0; i<jsonArrayAux.length(); i++)
             Telefones.add((Telefone) new Telefone().toObjectBase(jsonArrayAux.getJSONObject(i)));
         
-         jsonArrayAux = jsonRetorno.getJSONArray("enderecos");
+         jsonArrayAux = jsonRetorno.getJSONArray("Enderecos");
         for(int i = 0; i<jsonArrayAux.length(); i++)
             Enderecos.add((Endereco) new Endereco().toObjectBase(jsonArrayAux.getJSONObject(i)));
     }
