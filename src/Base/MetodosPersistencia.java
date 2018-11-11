@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
+package Base;
 
-import Model.ObjectBase;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -45,27 +45,25 @@ public class MetodosPersistencia {
     
     private static ObjectBase SetObject(Class classe, ResultSet rs){
         try {             
-            Constructor ctor = classe.getDeclaredConstructor(ResultSet.class);
-            ctor.setAccessible(true);
-            ObjectBase obj = (ObjectBase) ctor.newInstance(rs);
+            Method method = classe.getMethod("toObjectBase",ResultSet.class);
+            method.setAccessible(true);
+            ObjectBase obj = (ObjectBase) method.invoke(rs);
             return obj;            
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
+        } catch (IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
             Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public static String getValue(Field field, Object obj) {
+    private static String getValue(Field field, Object obj) {
        try { 
             field.setAccessible(true);
-            return (String) field.get(obj);
+            return (String) field.get(obj).toString();
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);    
             return null;
         }
    }
-    
-    
     /**
      * Inserir
      * @param obj 
@@ -88,9 +86,13 @@ public class MetodosPersistencia {
             for (int i = 0; i < datas.length; i++) {
                 Field field = obj.getClass().getDeclaredField(   obj.getClass().getDeclaredFields()[i+1].getName()   );
                 query += "?";
-                datas[i] = getValue(field, obj);                
-                if(i < datas.length-1)
-                    query += ", ";          
+                if(!field.getType().toString().equals("java.util.ArrayList")) {                    
+                    datas[i] = getValue(field, obj);
+                    if(i < datas.length-1)
+                        query += ", ";
+                } else {
+                    System.out.println(field.getType());
+                }
             }         
         } catch (NoSuchFieldException ex) {
             Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
