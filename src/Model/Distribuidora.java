@@ -21,7 +21,7 @@ import org.json.JSONObject;
  * @author Aluno
  */
 public class Distribuidora extends Pessoa{
-    private String Cnpj;
+    private String Cnpj;    
     private String RazaoSocial;
     private String NomeFantasia;
     private ArrayList<Funcionario> Funcionarios;
@@ -94,9 +94,8 @@ public class Distribuidora extends Pessoa{
         try {            
             super.setCodigo(rs.getString("Codigo"));
             Cnpj = rs.getString("Cnpj");
-            NomeFantasia = rs.getString("Rg");
-            RazaoSocial = rs.getString(RazaoSocial);
-            Funcionarios = new ArrayList<>();
+            NomeFantasia = rs.getString("NomeFantasia");
+            RazaoSocial = rs.getString("RazaoSocial");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

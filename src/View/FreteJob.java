@@ -17,13 +17,16 @@ import org.json.JSONObject;
 public class FreteJob {
     public static void main(String[] args) {             
         DistribuidoraController distribuidoraController = new DistribuidoraController();
-        
+        /*
         Model.Distribuidora distribuidora = new Distribuidora();
-        distribuidora.setCnpj("18.558.935/0001-53");
+        distribuidora.setCnpj("79314120000113");
         distribuidora.setNomeFantasia("M Republic Relations");
         distribuidora.setRazaoSocial("M Republic Relations S.A");
-        System.out.println(distribuidora.toJson());
         boolean json = distribuidoraController.Save(distribuidora.toJson());
         System.out.println(json);
+        */
+        
+        JSONObject distribuidora = distribuidoraController.Get("1");
+        System.out.println(distribuidora);
     }    
 }
