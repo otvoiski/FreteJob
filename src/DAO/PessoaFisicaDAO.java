@@ -5,6 +5,8 @@
  */
 package DAO;
 
+import Base.Persistencia;
+
 /**
  *
  * @author Otavio
