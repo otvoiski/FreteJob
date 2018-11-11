@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Base;
 
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -14,8 +15,11 @@ import org.json.JSONObject;
 public abstract class ObjectBase {
     private String Codigo;
     
+    public ObjectBase(){ Codigo = ""; }
+    
     public abstract JSONObject toJson();
     public abstract ObjectBase toObjectBase(org.json.JSONObject jsonRetorno);
+    public abstract ObjectBase toObjectBase(ResultSet rs);
     public String getCodigo() { return Codigo; }
     public void setCodigo(String Codigo) { this.Codigo = Codigo; }    
 }
