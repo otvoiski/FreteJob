@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * @author Professor
  */
 public class Encomenda extends ObjectBase {
-
+    public static enum Estados {COLETA, TRANSITO, ENTREGE} 
     private PessoaFisica Emitente;
     private PessoaFisica Destinatario;
     private String EndOrigem;

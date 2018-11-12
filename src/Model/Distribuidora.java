@@ -20,7 +20,8 @@ import org.json.JSONObject;
  *
  * @author Aluno
  */
-public class Distribuidora extends Pessoa{
+public class Distribuidora extends Pessoa{    
+    public static enum TipoTransporte {TERRESTRES, AQUATICOS, AEROVIARIOS;}
     private String Cnpj;    
     private String RazaoSocial;
     private String NomeFantasia;
