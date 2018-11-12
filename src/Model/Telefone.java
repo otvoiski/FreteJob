@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -13,19 +15,19 @@ import org.json.JSONObject;
  */
 public class Telefone extends ObjectBase{
     
-    private String ddd;
+    private String DDD;
     private String Numero;
 
     public Telefone(String ddd, String numero) {
-        this.ddd = ddd;
+        this.DDD = ddd;
         this.Numero = numero;
     }
     public Telefone() {}
     public String getDdd() {
-        return ddd;
+        return DDD;
     }
     public void setDdd(String ddd) {
-        this.ddd = ddd;
+        this.DDD = ddd;
     }
 
     public String getNumero() {
@@ -39,19 +41,24 @@ public class Telefone extends ObjectBase{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("DDD", ddd);
-        json.put("Numero", Numero);
+        json.put("codigo", getCodigo());
+        json.put("ddd", DDD);
+        json.put("numero", Numero);
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
-        objTelefone.setCodigo(jsonRetorno.getString("Codigo"));
-        objTelefone.setDdd(jsonRetorno.getString("DDD"));
-        objTelefone.setNumero(jsonRetorno.getString("Numero"));
+        objTelefone.setCodigo(jsonRetorno.getString("codigo"));
+        objTelefone.setDdd(jsonRetorno.getString("ddd"));
+        objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -6,15 +6,14 @@
 package DAO;
 
 import Base.Persistencia;
+import Base.ObjectBase;
 
 /**
  *
  * @author Otavio
  */
-public class PessoaFisicaDAO extends Persistencia {
-     
-    public PessoaFisicaDAO(Class persistedClass) {
-        super(persistedClass);
-    }
-     
+public class DistribuidoraDAO extends Persistencia<ObjectBase>{    
+    public DistribuidoraDAO(Class classeModelo) {
+        super(classeModelo);
+    }    
 }

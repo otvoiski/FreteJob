@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
+package Base;
 
-import Model.ObjectBase;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -17,35 +16,28 @@ import java.util.logging.Logger;
  * @param <T>
  */
 public abstract class Persistencia<T extends ObjectBase> {
-    /*
-    protected String Tabela;
-    protected String[] Campos;
-    protected String Chave;
-    */
-   /* private String SQLInsert; 
-    private String SQLSelect; 
-    private String SQLUpdate; 
-    private String SQLDelete;*/
-     
     private final Class<T> classePersistente;
 
     public Persistencia(Class persistedClass) {
         this.classePersistente = persistedClass;
-        //inicializarPersistencia();
     }
-    //protected abstract void inicializarPersistencia();//ainda nao implementado nas classes filhas
     
     
-    public void Save(T obj) {
+    public boolean Save(T obj) {
         if (!obj.getCodigo().isEmpty()) {
-            //MetodosJPA.fundir(obj);
+            return MetodosPersistencia.fundir(obj);
         } else {
-            //MetodosJPA.persistir(obj);
+            return MetodosPersistencia.persistir(obj);
         }
     }
 
-    public void Remove(String i) {
-        //MetodosJPA.excluir(i, classePersistente);
+    public boolean Remove(String i) {
+        try {
+            return MetodosPersistencia.excluir(i, classePersistente);
+        } catch (SQLException ex) {
+            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     public T Get(String id) {
@@ -56,17 +48,9 @@ public abstract class Persistencia<T extends ObjectBase> {
             Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (T) obj;
-        //return null;
     }
 
     public List<T> GetAll() {
-        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
-    }
-    public List<T> GetAll(String[] rangeId) {
-        String[][] data = {
-            {"Codigo", rangeId[0]},
-            {"Codigo", rangeId[1]}
-        };
         return (List<T>) MetodosPersistencia.selecionar(classePersistente);
     }
 

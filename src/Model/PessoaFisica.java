@@ -6,20 +6,14 @@
 package Model;
 
 
+import Base.ObjectBase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -33,37 +27,10 @@ public class PessoaFisica extends Model.Pessoa{
     private String Rg;
     private Date DataNascimento;
     private String Sexo;
-    private ArrayList<String> MidiaSociais;
 
-    
-    public PessoaFisica(ResultSet rs)
-    {
-        try {            
-            super.setCodigo(rs.getString("Codigo"));
-            Nome = rs.getString("Nome");
-            Cpf = rs.getString("Cpf");
-            Rg = rs.getString("Rg");
-            DataNascimento = (new SimpleDateFormat("dd-MM-yyyy")).parse(rs.getString("DataNascimento"));
-            Sexo = rs.getString("Sexo");
-            MidiaSociais = new ArrayList<>();
-        } catch (SQLException | ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-        
     public PessoaFisica(){
         super();
-        MidiaSociais = new ArrayList<>();
     }
-    
-    public  ArrayList<String>getMidiaSociais() {
-        return MidiaSociais;
-    }
-
-    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
-        this.MidiaSociais = MidiaSociais;
-    }
-
     public String getCpf() {
         return Cpf;
     }
@@ -80,11 +47,11 @@ public class PessoaFisica extends Model.Pessoa{
         this.Rg = Rg;
     }
 
-    public Date getData_Nascimento() {
+    public Date getDataNascimento() {
         return DataNascimento;
     }
 
-    public void setData_Nascimento(Date data_Nascimento) {
+    public void setDataNascimento(Date data_Nascimento) {
         this.DataNascimento = data_Nascimento;
     }
 
@@ -104,43 +71,48 @@ public class PessoaFisica extends Model.Pessoa{
     }
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-         json.put("Codigo", getCodigo());
-         json.put("Nome", Nome);
-         json.put("CPF", Cpf);
-         json.put("Tipo_Pessoa",getTipoPessoa());
-         json.put("RG", Rg);
-         json.put("DataNascimento", DataNascimento);
-         json.put("Sexo", Sexo);
-        json.put("Midias_Sociais", MidiaSociais);
-        json.put("Enderecos", getEnderecos());
-        json.put("Telefones", getTelefones());
+        JSONObject json = super.preencheJson();
+        json.put("nome", getNome());
+        json.put("cpf", getCpf());
+        json.put("rg", getRg());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        String data = sdf.format(DataNascimento);         
+        json.put("datanascimento", data);
+        json.put("sexo", getSexo());
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno){
         PessoaFisica objPessoa = new PessoaFisica();
-      /*String pattern = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        java.util.Date d;
-       try {
-            d = sdf.parse(jsonRetorno.getString("Data_Nascimento"));
-            objPessoa.setData_Nascimento(d);
+        objPessoa.preencheAtributosRetorno(jsonRetorno);
+        objPessoa.setNome(jsonRetorno.getString("nome"));
+        objPessoa.setCpf(jsonRetorno.getString("cpf"));
+        objPessoa.setRg(jsonRetorno.getString("rg"));
+        objPessoa.setSexo(jsonRetorno.getString("sexo"));
+        try {
+            objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
         } catch (ParseException ex) {
-            objPessoa.setData_Nascimento(null);
             Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
-        objPessoa.setCodigo(jsonRetorno.getString("Codigo"));
-        objPessoa.setTipoPessoa(jsonRetorno.getString("Tipo_Pessoa"));
-        objPessoa.setTelefones((ArrayList)jsonRetorno.getJSONArray("Telefones").toList());
-        objPessoa.setEnderecos((ArrayList)jsonRetorno.getJSONArray("Enderecos").toList());
-        objPessoa.setNome(jsonRetorno.getString("Nome"));
-        objPessoa.setCpf(jsonRetorno.getString("CPF"));
-        objPessoa.setRg(jsonRetorno.getString("RG"));
-        objPessoa.setSexo(jsonRetorno.getString("Sexo"));
-        objPessoa.setMidiaSociais((ArrayList)jsonRetorno.getJSONArray("Midias_Sociais").toList());
+        }
         return objPessoa;
         
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        try {            
+            super.setCodigo(rs.getString("Codigo"));
+            Nome = rs.getString("Nome");
+            Cpf = rs.getString("Cpf");
+            Rg = rs.getString("Rg");
+            DataNascimento = (new SimpleDateFormat("yyyy/MM/dd")).parse(rs.getString("DataNascimento"));
+            Sexo = rs.getString("Sexo");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (ParseException ex) {
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this;
     }
 }

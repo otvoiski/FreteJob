@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import Base.ControllerBase;
 import Model.PessoaFisica;
 
 /**

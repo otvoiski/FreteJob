@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -14,21 +16,21 @@ import org.json.JSONObject;
 public class Estado extends ObjectBase{
     private String Nome;
     private String Sigla;
-    private Pais pais;
+    private Pais Pais;
 
     public Estado(String Nome, String Sigla, Pais pais) {
 
         this.Nome = Nome;
         this.Sigla = Sigla;
-        this.pais = pais;
+        this.Pais = pais;
     }
     public Estado(){}
     public Pais getPais() {
-        return pais;
+        return Pais;
     }
 
     public void setPais(Pais pais) {
-        this.pais = pais;
+        this.Pais = pais;
     }
     public String getNome() {
         return Nome;
@@ -49,10 +51,10 @@ public class Estado extends ObjectBase{
     @Override
     public JSONObject toJson() {
        JSONObject json = new JSONObject();
-       json.put("Codigo", getCodigo());
-       json.put("Nome",Nome);
-       json.put("Sigla",Sigla);
-       json.put("Pais",pais.toJson());
+       json.put("codigo", getCodigo());
+       json.put("nome",Nome);
+       json.put("sigla",Sigla);
+       json.put("pais",Pais.toJson());
        return json;
     }
 
@@ -60,11 +62,19 @@ public class Estado extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Pais objPais = new Pais();
-        objEstado.setCodigo(jsonRetorno.getString("Codigo"));
-        objEstado.setNome(jsonRetorno.getString("Nome"));
-        objEstado.setSigla(jsonRetorno.getString("Sigla"));
-        objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("Pais")));
+        objEstado.setCodigo(jsonRetorno.getString("codigo"));
+        objEstado.setNome(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("sigla"))
+            objEstado.setSigla(jsonRetorno.getString("sigla"));
+        
+        if(jsonRetorno.has("pais"))
+            objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
         return objEstado;  
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
    

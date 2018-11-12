@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Base;
 
-import DAO.Persistencia;
-import Model.ObjectBase;
 import java.util.ArrayList;
 import org.json.JSONObject;
 
@@ -31,19 +29,22 @@ public abstract class ControllerBase {
         
         return data;
     };
-    
+    //Deve ser feito uma verificação caso não encontrar um determinado Cogigo
     public JSONObject Get(String codigo){
         Object.setCodigo( codigo );
-        return DAO.Get(Object.getCodigo()).toJson();
+        ObjectBase jObj = DAO.Get(Object.getCodigo());
+        if(jObj != null)
+            return jObj.toJson();
+        else return null;
     };
     
-    public void Save(JSONObject dados){        
+    public boolean Save(JSONObject dados){        
         Object = Object.toObjectBase(dados);
-        DAO.Save(Object);
+        return DAO.Save(Object);
     };
     
-    public void Delete(String codigo){
+    public boolean Delete(String codigo){
         Object.setCodigo( codigo );
-        DAO.Remove(Object.getCodigo());
+        return DAO.Remove(Object.getCodigo());
     };
 }

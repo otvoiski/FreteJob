@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -13,21 +15,21 @@ import org.json.JSONObject;
  */
 public class Cidade extends ObjectBase{
     private String Nome;
-    private String Cod_municipio;
-    private Estado estado;
+    private String CodMunicipio;
+    private Estado Estado;
 
     public Cidade(String Nome, String Cod_municipio, Estado estado) {
         this.Nome = Nome;
-        this.Cod_municipio = Cod_municipio;
-        this.estado = estado;
+        this.CodMunicipio = Cod_municipio;
+        this.Estado = estado;
     }
     public Cidade(){}
     public Estado getEstado() {
-        return estado;
+        return Estado;
     }
 
     public void setEstado(Estado estado) {
-        this.estado = estado;
+        this.Estado = estado;
     }
 
     public String getNome() {
@@ -38,20 +40,20 @@ public class Cidade extends ObjectBase{
         this.Nome = Nome;
     }
     public String getCod_municipio() {
-        return Cod_municipio;
+        return CodMunicipio;
     }
 
     public void setCod_municipio(String Cod_municipio) {
-        this.Cod_municipio = Cod_municipio;
+        this.CodMunicipio = Cod_municipio;
     }
 
     @Override
     public JSONObject toJson() {
          JSONObject json = new JSONObject();
-         json.put("Codigo", getCodigo());
-         json.put("Nome", Nome);
-         json.put("Codigo_Municipio", Cod_municipio);
-         json.put("Estado", estado.toJson());
+         json.put("codigo", getCodigo());
+         json.put("nome", Nome);
+         json.put("cod_municipio", CodMunicipio);
+         json.put("estado", Estado.toJson());
          return json;
         
     }
@@ -60,11 +62,18 @@ public class Cidade extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Cidade objCidade = new Cidade();
-        objCidade.setCodigo(jsonRetorno.getString("Codigo"));
-        objCidade.setNome(jsonRetorno.getString("Nome"));
-        objCidade.setCod_municipio(jsonRetorno.getString("Codigo_Municipio"));
-        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("Estado")));
+        objCidade.setCodigo(jsonRetorno.getString("codigo"));
+        objCidade.setNome(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("cod_municipio"))
+            objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
+        
+        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         return objCidade;
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

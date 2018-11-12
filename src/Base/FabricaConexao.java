@@ -1,4 +1,4 @@
-package DAO;
+package Base;
  
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 public class FabricaConexao {
  
     private static final String STR_DRIVER = "org.gjt.mm.mysql.Driver";  // definição de qual banco será utilizado
-    private static final String DATABASE = "fretejobdb"; // Nome do banco de dados         
+    private static final String DATABASE = "dadosfretejob"; // Nome do banco de dados         
     private static final String IP = "127.0.0.1";  // ip de conexao
     private static final String STR_CON = "jdbc:mysql://" + IP + ":3306/" + DATABASE; // string de conexao com o banco de dados
     private static final String USER = "root"; // Nome do usuário
@@ -31,13 +31,13 @@ public class FabricaConexao {
         }   
     }
  
-    public static Connection GeraConexaoSINGLETON() {
+    public static Connection NewSingleton() {
         if (objConexao == null) {
             FabricaConexao MANTERCONEXAO = new FabricaConexao();
         }
         return objConexao;
     }
-    public static Connection GeraTransaction(){
+    public static Connection GetTransaction(){
         Connection cnx = null;
         try {
             cnx = DriverManager.getConnection(STR_CON, USER, PASSWORD);
@@ -48,6 +48,23 @@ public class FabricaConexao {
         }
         
         return cnx;
+    }
+
+    public static boolean CommitTransaction(Connection conn, boolean bCommit) throws SQLException {
+        if (bCommit) {
+            conn.commit();
+        } else {
+            conn.rollback();
+        }
+        return bCommit;
+    }
+
+    public static void CloseConnection(Connection conn){
+        try {
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(FabricaConexao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
      
 }

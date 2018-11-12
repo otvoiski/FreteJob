@@ -5,6 +5,8 @@
  */
 package Model;
 
+import Base.ObjectBase;
+import java.sql.ResultSet;
 import org.json.JSONObject;
 
 /**
@@ -13,11 +15,11 @@ import org.json.JSONObject;
  */
 public class Pais extends ObjectBase{
     private String Nome;
-    private String sigla;
+    private String Sigla;
 
     public Pais(String Nome, String sigla) {
         this.Nome = Nome;
-        this.sigla = sigla;
+        this.Sigla = sigla;
     }
     public Pais(){}
     public String getNome() {
@@ -29,29 +31,37 @@ public class Pais extends ObjectBase{
     }
 
     public String getSigla() {
-        return sigla;
+        return Sigla;
     }
 
     public void setSigla(String sigla) {
-        this.sigla = sigla;
+        this.Sigla = sigla;
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("Nome", Nome);
-        json.put("Sigla", sigla);
+        json.put("codigo", getCodigo());
+        json.put("nome", Nome);
+        json.put("sigla", Sigla);
+
         return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Pais objPais = new Pais();
-        objPais.setCodigo(jsonRetorno.getString("Codigo"));
-        objPais.setNome(jsonRetorno.getString("Nome"));
-        objPais.setSigla(jsonRetorno.getString("Sigla"));
+        objPais.setCodigo(jsonRetorno.getString("codigo"));
+        objPais.setNome(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("sigla"))
+            objPais.setSigla(jsonRetorno.getString("sigla"));
+        
         return objPais;  
+    }
+
+    @Override
+    public ObjectBase toObjectBase(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
