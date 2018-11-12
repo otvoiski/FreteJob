@@ -228,13 +228,17 @@ public class MetodosPersistencia {
                 //String nomeColuna = classe.getDeclaredFields()[i].getName();
                 //System.out.println(rs.getString(nomeColuna));
                 //}
-                list.add(SetObject(classe, rs));
+                list.add(SetObject(classe.newInstance(), rs));
             }
             return list;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-            return null;
+        } catch (InstantiationException ex) {
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
+            return null;
     }
 
     public List<?> selecionar(Class classe, String[][] parametros) {
