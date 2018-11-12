@@ -7,6 +7,7 @@ package View;
 
 import Controller.DistribuidoraController;
 import Model.Distribuidora;
+import java.util.ArrayList;
 import org.json.JSONObject;
 
 
@@ -26,7 +27,8 @@ public class FreteJob {
         System.out.println(json);
         */
         
-        JSONObject distribuidora = distribuidoraController.Get("1");
+        ArrayList<JSONObject> distribuidoras = distribuidoraController.GetAll();
+        for (JSONObject distribuidora : distribuidoras)
         System.out.println(distribuidora);
     }    
 }
