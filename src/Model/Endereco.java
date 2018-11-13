@@ -110,7 +110,7 @@ public class Endereco extends ObjectBase {
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Cidade objCidade = new Cidade();
         Endereco objEndereco = new Endereco();    
-        objEndereco.setCodigo(jsonRetorno.getString("codigo"));
+        objEndereco.setCodigo(jsonRetorno.getInt("codigo"));
         objEndereco.setRua(jsonRetorno.getString("rua"));
         objEndereco.setBairro(jsonRetorno.getString("bairro"));
         objEndereco.setCEP(jsonRetorno.getString("CEP"));
@@ -123,11 +123,5 @@ public class Endereco extends ObjectBase {
         
         return objEndereco;
     }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     
 }

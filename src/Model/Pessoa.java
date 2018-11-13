@@ -69,7 +69,7 @@ public abstract class Pessoa extends ObjectBase{
     }
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
-        setCodigo(jsonRetorno.getString("Codigo"));
+        setCodigo(jsonRetorno.getInt("Codigo"));
         if(jsonRetorno.has("TipoPessoa"))
             setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
         if(jsonRetorno.has("MidiasSociais")){

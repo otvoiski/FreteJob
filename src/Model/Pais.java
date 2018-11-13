@@ -51,17 +51,11 @@ public class Pais extends ObjectBase{
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Pais objPais = new Pais();
-        objPais.setCodigo(jsonRetorno.getString("codigo"));
+        objPais.setCodigo(jsonRetorno.getInt("codigo"));
         objPais.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("sigla"))
             objPais.setSigla(jsonRetorno.getString("sigla"));
         
         return objPais;  
     }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

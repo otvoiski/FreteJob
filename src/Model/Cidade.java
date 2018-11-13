@@ -62,18 +62,12 @@ public class Cidade extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Cidade objCidade = new Cidade();
-        objCidade.setCodigo(jsonRetorno.getString("codigo"));
+        objCidade.setCodigo(jsonRetorno.getInt("codigo"));
         objCidade.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("cod_municipio"))
             objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
         
         objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         return objCidade;
-    }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
+    }    
 }

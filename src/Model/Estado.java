@@ -62,7 +62,7 @@ public class Estado extends ObjectBase{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Pais objPais = new Pais();
-        objEstado.setCodigo(jsonRetorno.getString("codigo"));
+        objEstado.setCodigo(jsonRetorno.getInt("codigo"));
         objEstado.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("sigla"))
             objEstado.setSigla(jsonRetorno.getString("sigla"));
@@ -71,12 +71,5 @@ public class Estado extends ObjectBase{
             objEstado.setPais((Pais) objPais.toObjectBase(jsonRetorno.getJSONObject("pais")));
         return objEstado;  
     }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-   
     
 }

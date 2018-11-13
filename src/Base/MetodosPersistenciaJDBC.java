@@ -22,10 +22,10 @@ import java.util.logging.Logger;
  *
  * @author Aluno
  */
-public class MetodosPersistencia {
+public class MetodosPersistenciaJDBC {
 
     public static boolean Query(String query, String[] array) {
-        Connection conn = FabricaConexao.GetTransaction();
+        Connection conn = FabricaConexaoJDBC.GetTransaction();
         try {            
             PreparedStatement ps = conn.prepareStatement(query);
             
@@ -34,12 +34,12 @@ public class MetodosPersistencia {
                 ps.setString(i+1, array[i]);
             }
             
-            return FabricaConexao.CommitTransaction(conn, (ps.executeUpdate() > 0));
+            return FabricaConexaoJDBC.CommitTransaction(conn, (ps.executeUpdate() > 0));
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
             return false;
         } finally {
-            FabricaConexao.CloseConnection(conn);
+            FabricaConexaoJDBC.CloseConnection(conn);
         }
     }
     
@@ -49,7 +49,7 @@ public class MetodosPersistencia {
             method.setAccessible(true);
             return (ObjectBase) method.invoke(obj,rs);                        
         } catch (IllegalAccessException | NoSuchMethodException | SecurityException | IllegalArgumentException | InvocationTargetException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class MetodosPersistencia {
             field.setAccessible(true);
             return (ArrayList<?>) field.get(obj);
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);    
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);    
             return null;
         }
    }
@@ -69,7 +69,7 @@ public class MetodosPersistencia {
             field.setAccessible(true);
             return (String) field.get(obj).toString();
         } catch (IllegalArgumentException | IllegalAccessException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);    
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);    
             return null;
         }
    }
@@ -92,9 +92,9 @@ public class MetodosPersistencia {
                 }
                 
             } catch (NoSuchFieldException ex) {
-                Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
@@ -114,9 +114,9 @@ public class MetodosPersistencia {
                         query += ", ";
                 }
             } catch (NoSuchFieldException ex) {
-                Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SecurityException ex) {
-                Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         query += " ) values ( ";
@@ -140,9 +140,9 @@ public class MetodosPersistencia {
                 }
             }         
         } catch (NoSuchFieldException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
           
         }        
         query += " )";
@@ -175,9 +175,9 @@ public class MetodosPersistencia {
             }  
             datas[length-1] = getValue(obj.getClass().getDeclaredField(   obj.getClass().getDeclaredFields()[0].getName()   ), obj);
         } catch (NoSuchFieldException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SecurityException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } 
         
         return Query(query, datas);
@@ -189,7 +189,7 @@ public class MetodosPersistencia {
     }
   
     public static ObjectBase recuperar(String chave, Class classe) throws SQLException{
-        Connection conexao = FabricaConexao.NewSingleton();
+        Connection conexao = FabricaConexaoJDBC.NewSingleton();
         String query = "select * from " + classe.getSimpleName() + " where Codigo = " + chave;        
         PreparedStatement ps = conexao.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
@@ -202,17 +202,17 @@ public class MetodosPersistencia {
             } else
                 return null;
         } catch (SQLException ex){            
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
     public static List<?> selecionar(Class classe, String whereJPQL) throws SQLException {
-        Connection conn = FabricaConexao.NewSingleton();
+        Connection conn = FabricaConexaoJDBC.NewSingleton();
         String sJPQL = "select * from " + classe.getSimpleName() + " " + whereJPQL;
         
         try {
@@ -234,9 +234,9 @@ public class MetodosPersistencia {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         } catch (InstantiationException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
             return null;
     }
@@ -259,7 +259,7 @@ public class MetodosPersistencia {
         try {
             return selecionar(classe, where);
         } catch (SQLException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
@@ -268,7 +268,7 @@ public class MetodosPersistencia {
         try {
             return selecionar(classe, "");
         } catch (SQLException ex) {
-            Logger.getLogger(MetodosPersistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
