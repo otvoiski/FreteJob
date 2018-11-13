@@ -15,7 +15,7 @@ import org.json.JSONObject;
  * @author Professor
  */
 public class Encomenda extends ObjectBase {
-
+    public static enum Estados {COLETA, TRANSITO, ENTREGE} 
     private PessoaFisica Emitente;
     private PessoaFisica Destinatario;
     private String EndOrigem;
@@ -81,12 +81,5 @@ public class Encomenda extends ObjectBase {
 
     public void setEstado(String Estado) {
         this.Estado = Estado;
-    }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
-    
+    }    
 }

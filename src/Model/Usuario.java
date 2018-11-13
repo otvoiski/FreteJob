@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DAO;
-
-import Base.Persistencia;
+package Model;
 
 /**
  *
  * @author Otavio
  */
-public class DistribuidoraDAO extends Persistencia{    
-    public DistribuidoraDAO(Class persistedClass) {
-        super(persistedClass);
-    }
+public class Usuario {
+    
 }

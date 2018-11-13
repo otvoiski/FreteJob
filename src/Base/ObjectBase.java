@@ -5,21 +5,26 @@
  */
 package Base;
 
-import java.sql.ResultSet;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import org.json.JSONObject;
 
 /**
  *
  * @author Aluno
  */
+@MappedSuperclass
 public abstract class ObjectBase {
-    private String Codigo;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int Codigo;
     
-    public ObjectBase(){ Codigo = ""; }
+    public ObjectBase(){ Codigo = -1; }
     
     public abstract JSONObject toJson();
     public abstract ObjectBase toObjectBase(org.json.JSONObject jsonRetorno);
-    public abstract ObjectBase toObjectBase(ResultSet rs);
-    public String getCodigo() { return Codigo; }
-    public void setCodigo(String Codigo) { this.Codigo = Codigo; }    
+    public int getCodigo() { return Codigo; }
+    public void setCodigo(int Codigo) { this.Codigo = Codigo; }    
 }

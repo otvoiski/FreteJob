@@ -50,15 +50,9 @@ public class Telefone extends ObjectBase{
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
-        objTelefone.setCodigo(jsonRetorno.getString("codigo"));
+        objTelefone.setCodigo(jsonRetorno.getInt("codigo"));
         objTelefone.setDdd(jsonRetorno.getString("ddd"));
         objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
     }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

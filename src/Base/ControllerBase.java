@@ -30,7 +30,7 @@ public abstract class ControllerBase {
         return data;
     };
     //Deve ser feito uma verificação caso não encontrar um determinado Cogigo
-    public JSONObject Get(String codigo){
+    public JSONObject Get(int codigo){
         Object.setCodigo( codigo );
         ObjectBase jObj = DAO.Get(Object.getCodigo());
         if(jObj != null)
@@ -43,7 +43,7 @@ public abstract class ControllerBase {
         return DAO.Save(Object);
     };
     
-    public boolean Delete(String codigo){
+    public boolean Delete(int codigo){
         Object.setCodigo( codigo );
         return DAO.Remove(Object.getCodigo());
     };

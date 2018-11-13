@@ -63,12 +63,6 @@ public class PessoaJuridica extends Pessoa{
         objPessoa.setRazaoSocial(jsonRetorno.getString("razaosocial"));
         return objPessoa;
     }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     
     
 }

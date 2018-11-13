@@ -5,30 +5,15 @@
  */
 package View;
 
-import Controller.DistribuidoraController;
-import Model.Distribuidora;
-import java.util.ArrayList;
-import org.json.JSONObject;
-
 
 /**
  *
  * @author Aluno
  */
 public class FreteJob {
-    public static void main(String[] args) {             
-        DistribuidoraController distribuidoraController = new DistribuidoraController();
-        /*
-        Model.Distribuidora distribuidora = new Distribuidora();
-        distribuidora.setCnpj("79314120000113");
-        distribuidora.setNomeFantasia("M Republic Relations");
-        distribuidora.setRazaoSocial("M Republic Relations S.A");
-        boolean json = distribuidoraController.Save(distribuidora.toJson());
-        System.out.println(json);
-        */
+    public static void main(String[] args) {     
         
-        ArrayList<JSONObject> distribuidoras = distribuidoraController.GetAll();
-        for (JSONObject distribuidora : distribuidoras)
-        System.out.println(distribuidora);
+        //Deve ser usado o controler para obter os resultados.
+        
     }    
 }
