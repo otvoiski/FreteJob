@@ -5,60 +5,46 @@
  */
 package Base;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Aluno
  * @param <T>
  */
-public abstract class Persistencia<T extends ObjectBase> {
+public class Persistencia<T extends ObjectBase> {
+
     private final Class<T> classePersistente;
 
-    public Persistencia(Class persistedClass) {
+    public Persistencia(Class<T> persistedClass) {
         this.classePersistente = persistedClass;
     }
-    
-    
+
     public boolean Save(T obj) {
-        if (!obj.getCodigo().isEmpty()) {
-            return MetodosPersistencia.fundir(obj);
+        if (obj.getCodigo() > 0) {
+            return MetodosJPA.fundir(obj);
         } else {
-            return MetodosPersistencia.persistir(obj);
+            return MetodosJPA.persistir(obj);
         }
     }
 
-    public boolean Remove(String i) {
-        try {
-            return MetodosPersistencia.excluir(i, classePersistente);
-        } catch (SQLException ex) {
-            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+    public boolean Remove(int i) {
+        return MetodosJPA.excluir(i, classePersistente);
     }
 
-    public T Get(String id) {
-        Object obj = null;
-        try {
-            obj = MetodosPersistencia.recuperar(id, classePersistente);
-        } catch (SQLException ex) {
-            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public T Get(int id) {
+        Object obj = MetodosJPA.recuperar(id, classePersistente);
         return (T) obj;
     }
 
     public List<T> GetAll() {
-        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
+        return (List<T>) MetodosJPA.selecionar(classePersistente);
     }
-
-    public List<T> Login(String login, String pass) {
+    public List<T> GetAll(String[] rangeId) {
         String[][] data = {
-            {"Login", login},
-            {"Senha", Util.MD5.Get(pass)}
+            {"Codigo", rangeId[0]},
+            {"Codigo", rangeId[1]}
         };
-        return (List<T>) (new MetodosPersistencia()).selecionar(classePersistente, data);
+        return (List<T>) MetodosJPA.selecionar(classePersistente);
     }
 }
