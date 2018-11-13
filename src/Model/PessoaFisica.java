@@ -14,12 +14,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Entity;
 import org.json.JSONObject;
 
 /**
  *
  * @author Professor
  */
+@Entity
 public class PessoaFisica extends Model.Pessoa{
 
     private String Nome;

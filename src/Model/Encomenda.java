@@ -8,21 +8,24 @@ package Model;
 import Base.ObjectBase;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Entity;
 import org.json.JSONObject;
 
 /**
  *
  * @author Professor
  */
+@Entity
 public class Encomenda extends ObjectBase {
     public static enum Estados {COLETA, TRANSITO, ENTREGE} 
     private PessoaFisica Emitente;
     private PessoaFisica Destinatario;
     private String EndOrigem;
     private String EndDestino;
-    private ArrayList<String> Objetos;
+    private List<String> Objetos;
     private String Estado;
-    private ArrayList<Distribuidora> Distribuidora;
+    private List<Distribuidora> Distribuidora;
     private PessoaFisica Responsavel;
     
     @Override
@@ -67,7 +70,7 @@ public class Encomenda extends ObjectBase {
         this.EndDestino = EndDestino;
     }
 
-    public ArrayList<String> getObjetos() {
+    public List<String> getObjetos() {
         return Objetos;
     }
 

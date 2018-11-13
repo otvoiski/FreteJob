@@ -6,27 +6,18 @@
 package Model;
 
 import Base.ObjectBase;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
 @Entity
-public class Categoria extends ObjectBase{
-    
-    private String descricao;
-    @OneToMany(mappedBy ="Usuario")
-    private List<Usuario> usuarios;
-    
+public class TipoVeiculo extends ObjectBase {
 
-    public Categoria() {
-        usuarios = new ArrayList<>();
-    }
+    private String descricao;
+    private double pesoMaximo;
 
     public String getDescricao() {
         return descricao;
@@ -34,6 +25,19 @@ public class Categoria extends ObjectBase{
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public double getPesoMaximo() {
+        return pesoMaximo;
+    }
+
+    public void setPesoMaximo(double pesoMaximo) {
+        this.pesoMaximo = pesoMaximo;
+    }
+
+    public TipoVeiculo(String descricao, double pesoMaximo) {
+        this.descricao = descricao;
+        this.pesoMaximo = pesoMaximo;
     }
     
     @Override

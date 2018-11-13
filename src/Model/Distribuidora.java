@@ -11,8 +11,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,12 +24,14 @@ import org.json.JSONObject;
  *
  * @author Aluno
  */
+@Entity
 public class Distribuidora extends Pessoa{    
     public static enum TipoTransporte {TERRESTRES, AQUATICOS, AEROVIARIOS;}
     private String Cnpj;    
     private String RazaoSocial;
     private String NomeFantasia;
-    private ArrayList<Funcionario> Funcionarios;
+    @OneToMany
+    private List<Funcionario> Funcionarios;
 
     public String getCnpj() {
         return Cnpj;
@@ -51,7 +57,7 @@ public class Distribuidora extends Pessoa{
         this.NomeFantasia = nomeFantasia;
     }
 
-    public ArrayList<Funcionario> getFuncionarios() {
+    public List<Funcionario> getFuncionarios() {
         return Funcionarios;
     }
 

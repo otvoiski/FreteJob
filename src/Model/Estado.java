@@ -7,16 +7,25 @@ package Model;
 
 import Base.ObjectBase;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
  *
  * @author Matheus
  */
+@Entity
 public class Estado extends ObjectBase{
     private String Nome;
     private String Sigla;
+    @OneToMany(mappedBy = "Pais")
     private Pais Pais;
+    @ManyToOne
+    private List<Cidade> cidades;
 
     public Estado(String Nome, String Sigla, Pais pais) {
 
@@ -24,7 +33,9 @@ public class Estado extends ObjectBase{
         this.Sigla = Sigla;
         this.Pais = pais;
     }
-    public Estado(){}
+    public Estado(){
+        cidades = new ArrayList<>();
+    }
     public Pais getPais() {
         return Pais;
     }

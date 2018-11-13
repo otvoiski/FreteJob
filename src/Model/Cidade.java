@@ -7,15 +7,20 @@ package Model;
 
 import Base.ObjectBase;
 import java.sql.ResultSet;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
  *
  * @author Matheus
  */
+@Entity
 public class Cidade extends ObjectBase{
     private String Nome;
     private String CodMunicipio;
+    @OneToMany(mappedBy = "Estado")
     private Estado Estado;
 
     public Cidade(String Nome, String Cod_municipio, Estado estado) {
