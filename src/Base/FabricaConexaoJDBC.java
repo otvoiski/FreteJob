@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
  
-public class FabricaConexao {
+public class FabricaConexaoJDBC {
  
     private static final String STR_DRIVER = "org.gjt.mm.mysql.Driver";  // definição de qual banco será utilizado
     private static final String DATABASE = "dadosfretejob"; // Nome do banco de dados         
@@ -16,7 +16,7 @@ public class FabricaConexao {
     private static final String PASSWORD = "123456"; // senha
     private static Connection objConexao = null;
  
-    public FabricaConexao() {
+    public FabricaConexaoJDBC() {
         try{
             Class.forName(STR_DRIVER);
             objConexao = DriverManager.getConnection(STR_CON, USER, PASSWORD);
@@ -33,7 +33,7 @@ public class FabricaConexao {
  
     public static Connection NewSingleton() {
         if (objConexao == null) {
-            FabricaConexao MANTERCONEXAO = new FabricaConexao();
+            FabricaConexaoJDBC MANTERCONEXAO = new FabricaConexaoJDBC();
         }
         return objConexao;
     }
@@ -44,7 +44,7 @@ public class FabricaConexao {
             cnx.setAutoCommit(false);
             cnx.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         } catch (SQLException ex) {
-            Logger.getLogger(FabricaConexao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FabricaConexaoJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         return cnx;
@@ -63,7 +63,7 @@ public class FabricaConexao {
         try {
             conn.close();
         } catch (SQLException ex) {
-            Logger.getLogger(FabricaConexao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(FabricaConexaoJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
      

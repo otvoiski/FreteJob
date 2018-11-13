@@ -15,27 +15,30 @@ import java.util.logging.Logger;
  * @author Aluno
  * @param <T>
  */
-public abstract class Persistencia<T extends ObjectBase> {
+public abstract class PersistenciaJDBC<T extends ObjectBase> {
     private final Class<T> classePersistente;
 
-    public Persistencia(Class persistedClass) {
+    public PersistenciaJDBC(Class persistedClass) {
         this.classePersistente = persistedClass;
     }
     
     
     public boolean Save(T obj) {
+        /*
         if (!obj.getCodigo().isEmpty()) {
-            return MetodosPersistencia.fundir(obj);
+            return MetodosPersistenciaJDBC.fundir(obj);
         } else {
-            return MetodosPersistencia.persistir(obj);
+            return MetodosPersistenciaJDBC.persistir(obj);
         }
+        */
+        return false;
     }
 
     public boolean Remove(String i) {
         try {
-            return MetodosPersistencia.excluir(i, classePersistente);
+            return MetodosPersistenciaJDBC.excluir(i, classePersistente);
         } catch (SQLException ex) {
-            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
             return false;
         }
     }
@@ -43,15 +46,15 @@ public abstract class Persistencia<T extends ObjectBase> {
     public T Get(String id) {
         Object obj = null;
         try {
-            obj = MetodosPersistencia.recuperar(id, classePersistente);
+            obj = MetodosPersistenciaJDBC.recuperar(id, classePersistente);
         } catch (SQLException ex) {
-            Logger.getLogger(Persistencia.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(PersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);
         }
         return (T) obj;
     }
 
     public List<T> GetAll() {
-        return (List<T>) MetodosPersistencia.selecionar(classePersistente);
+        return (List<T>) MetodosPersistenciaJDBC.selecionar(classePersistente);
     }
 
     public List<T> Login(String login, String pass) {
@@ -59,6 +62,6 @@ public abstract class Persistencia<T extends ObjectBase> {
             {"Login", login},
             {"Senha", Util.MD5.Get(pass)}
         };
-        return (List<T>) (new MetodosPersistencia()).selecionar(classePersistente, data);
+        return (List<T>) (new MetodosPersistenciaJDBC()).selecionar(classePersistente, data);
     }
 }
