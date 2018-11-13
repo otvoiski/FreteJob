@@ -88,19 +88,5 @@ public class Distribuidora extends Pessoa{
                 objDistribuidora.getFuncionarios().add((Funcionario)new Funcionario().toObjectBase(arrayFuncs.getJSONObject(i)));
        }
        return objDistribuidora;
-    }
-
-    @Override
-    public ObjectBase toObjectBase(ResultSet rs) {
-        try {            
-            super.setCodigo(rs.getString("Codigo"));
-            Cnpj = rs.getString("Cnpj");
-            NomeFantasia = rs.getString("NomeFantasia");
-            RazaoSocial = rs.getString("RazaoSocial");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return this;
-    }
-    
+    }    
 }
