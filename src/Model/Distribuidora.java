@@ -30,7 +30,7 @@ public class Distribuidora extends Pessoa{
     private String Cnpj;    
     private String RazaoSocial;
     private String NomeFantasia;
-    @OneToMany
+    @ManyToOne
     private List<Funcionario> Funcionarios;
 
     public String getCnpj() {
