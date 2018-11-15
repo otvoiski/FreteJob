@@ -6,10 +6,9 @@ import javax.persistence.Persistence;
  
 public class FabricaConexao {
     private static EntityManagerFactory Fabrica = null;
-    private static String nomeUndPersistencia = "FRETEJOB";
     
     private FabricaConexao(){
-        Fabrica = Persistence.createEntityManagerFactory(nomeUndPersistencia);
+        Fabrica = Persistence.createEntityManagerFactory(Global.PS_NAME);
     }
     
     public static EntityManager getManager(){
