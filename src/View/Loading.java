@@ -7,7 +7,7 @@ package View;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -50,6 +50,7 @@ public class Loading extends javax.swing.JFrame {
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel2.setText("Carregando...");
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -62,10 +63,10 @@ public class Loading extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel1)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addComponent(jLabel2))
-            .addComponent(jLabel1)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -73,19 +74,31 @@ public class Loading extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-            // TODO add your handling code here:
-            //Deve ser feita a verificação para criação do banco de dados
-            //Caso contrario deve ser criado junto com o usuario padrão
-            
-        try {
-            
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Loading.class.getName()).log(Level.SEVERE, null, ex);
-        }
+         // TODO add your handling code here:            
+         String msg = "<html>";
+            if(!(new Util.Install(jLabel2)).Start())
+                msg += "O Sistema não foi <b>instalado</b> corretamente.";
         
-        this.dispose();
-        (new Login()).setVisible(true);
+        //Deve ser feita a verificação para criação do banco de dados
+        //Caso contrario deve ser criado junto com o usuario padrão
+        if(Util.Install.isIsInstalled()){
+            try {
+
+                Thread.sleep(500);            
+
+                this.dispose();
+                (new Login()).setVisible(true);
+                
+                msg += "Sucesso!";
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Loading.class.getName()).log(Level.SEVERE, null, ex);
+            }    
+        } else {
+            msg += "<br><br>Houve um problema ao carregar os dados.";
+            
+        }
+        msg += "</html>";
+        jLabel2.setText(msg);
     }//GEN-LAST:event_formWindowOpened
 
     /**
