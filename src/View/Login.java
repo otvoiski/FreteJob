@@ -55,6 +55,11 @@ public class Login extends javax.swing.JFrame {
         jTextField2.setToolTipText("Senha");
 
         jButton1.setText("Logar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 8)); // NOI18N
         jLabel4.setText("FreteJob - Sistema para gerencia de fretes e transportes de carga");
@@ -107,8 +112,7 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(11, 11, 11)
-                        .addComponent(jLabel1)
-                        .addGap(8, 8, 8)))
+                        .addComponent(jLabel1)))
                 .addGap(13, 13, 13)
                 .addComponent(jLabel4)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -128,6 +132,12 @@ public class Login extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        (new Main()).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
