@@ -7,12 +7,14 @@ package Model;
 
 import Base.ObjectBase;
 import java.sql.ResultSet;
+import javax.persistence.Entity;
 import org.json.JSONObject;
 
 /**
  *
  * @author Matheus
  */
+@Entity
 public class Telefone extends ObjectBase{
     
     private String DDD;

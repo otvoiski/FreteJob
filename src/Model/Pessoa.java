@@ -7,6 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import java.util.ArrayList;
+import javax.persistence.MappedSuperclass;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,6 +15,7 @@ import org.json.JSONObject;
  *
  * @author Matheus
  */
+@MappedSuperclass
 public abstract class Pessoa extends ObjectBase{
     private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
     private ArrayList<Telefone> Telefones;

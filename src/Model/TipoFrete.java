@@ -11,16 +11,17 @@ import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
 @Entity
-public class MidiasSociais extends ObjectBase {
+public class TipoFrete extends ObjectBase {
     
     private String descricao;
-    private Pessoa pessoaMidia;
-    
-    public MidiasSociais(){
-        
+    private double percentualAcrescimo;
+
+    public TipoFrete(String descricao, double percentualAcrescimo) {
+        this.descricao = descricao;
+        this.percentualAcrescimo = percentualAcrescimo;
     }
 
     public String getDescricao() {
@@ -31,14 +32,14 @@ public class MidiasSociais extends ObjectBase {
         this.descricao = descricao;
     }
 
-    public Pessoa getPessoaMidia() {
-        return pessoaMidia;
+    public double getPercentualAcrescimo() {
+        return percentualAcrescimo;
     }
 
-    public void setPessoaMidia(Pessoa pessoaMidia) {
-        this.pessoaMidia = pessoaMidia;
+    public void setPercentualAcrescimo(double percentualAcrescimo) {
+        this.percentualAcrescimo = percentualAcrescimo;
     }
-    
+
     @Override
     public JSONObject toJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

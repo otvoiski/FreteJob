@@ -6,32 +6,43 @@
 package Model;
 
 import Base.ObjectBase;
-import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
 @Entity
-public class Categoria extends ObjectBase implements Serializable{
-    
-    private static final long serialVersionUID = 1L;
-    
-    private String Descricao;
+public class TipoVeiculo extends ObjectBase {
+
+    private String descricao;
+    private double pesoMaximo;
 
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.Descricao = descricao;
+        this.descricao = descricao;
+    }
+
+    public double getPesoMaximo() {
+        return pesoMaximo;
+    }
+
+    public void setPesoMaximo(double pesoMaximo) {
+        this.pesoMaximo = pesoMaximo;
+    }
+
+    public TipoVeiculo(String descricao, double pesoMaximo) {
+        this.descricao = descricao;
+        this.pesoMaximo = pesoMaximo;
     }
     
     @Override
     public JSONObject toJson() {
-        return new JSONObject(this);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

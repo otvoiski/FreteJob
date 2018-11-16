@@ -21,7 +21,7 @@ public abstract class ObjectBase {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int Codigo;
     
-    public ObjectBase(){ Codigo = -1; }
+    public ObjectBase(){ Codigo = 0; }
     
     public abstract JSONObject toJson();
     public abstract ObjectBase toObjectBase(org.json.JSONObject jsonRetorno);

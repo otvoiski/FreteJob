@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
-
+package DAO;
 
 /**
  *
- * @author Aluno
+ * @author Otavio
  */
-public class FreteJob {
-    public static void main(String[] args) {     
-        
-        //Deve ser usado o controler para obter os resultados.
-        
-    }    
+public class UsuarioDAO extends Base.Persistencia{
+    
+    public UsuarioDAO(Class persistedClass) {
+        super(persistedClass);
+    }
+    
 }

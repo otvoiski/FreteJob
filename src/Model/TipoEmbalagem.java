@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6,32 +7,35 @@
 package Model;
 
 import Base.ObjectBase;
-import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
 @Entity
-public class Categoria extends ObjectBase implements Serializable{
+public class TipoEmbalagem extends ObjectBase {
     
-    private static final long serialVersionUID = 1L;
-    
-    private String Descricao;
+    private String descricao;
 
     public String getDescricao() {
-        return Descricao;
+        return descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.Descricao = descricao;
+        this.descricao = descricao;
+    }
+
+    public TipoEmbalagem(String descricao) {
+        this.descricao = descricao;
     }
     
+    
+
     @Override
     public JSONObject toJson() {
-        return new JSONObject(this);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

@@ -7,22 +7,24 @@ package Model;
 
 import Base.ObjectBase;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
 @Entity
-public class MidiasSociais extends ObjectBase {
+public class ObjetoEncomenda extends ObjectBase {
+
     
     private String descricao;
-    private Pessoa pessoaMidia;
+    private double peso;
+    private Encomenda encomendaPertence;
+    @ManyToOne
+    private TipoEmbalagem tipoEmbalagem;
     
-    public MidiasSociais(){
-        
-    }
-
+    
     public String getDescricao() {
         return descricao;
     }
@@ -31,14 +33,29 @@ public class MidiasSociais extends ObjectBase {
         this.descricao = descricao;
     }
 
-    public Pessoa getPessoaMidia() {
-        return pessoaMidia;
+    public double getPeso() {
+        return peso;
     }
 
-    public void setPessoaMidia(Pessoa pessoaMidia) {
-        this.pessoaMidia = pessoaMidia;
+    public void setPeso(double peso) {
+        this.peso = peso;
     }
-    
+
+    public Encomenda getEncomendaPertence() {
+        return encomendaPertence;
+    }
+
+    public void setEncomendaPertence(Encomenda encomendaPertence) {
+        this.encomendaPertence = encomendaPertence;
+    }
+
+    public TipoEmbalagem getTipoEmbalagem() {
+        return tipoEmbalagem;
+    }
+
+    public void setTipoEmbalagem(TipoEmbalagem tipoEmbalagem) {
+        this.tipoEmbalagem = tipoEmbalagem;
+    }
     @Override
     public JSONObject toJson() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -8,18 +8,22 @@ package Base;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 /**
  *
  * @author Aluno
  */
 public class MetodosJPA {
-    public static EntityManager abrirTransacao(){
-        EntityManager gerente = FabricaConexao.getManager();
-        gerente.getTransaction().begin();
-        return gerente;
+    public static Session abrirTransacao(){
+//        EntityManager gerente = FabricaConexao.getManager();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.getTransaction().begin();
+        return session;
     }
-    public static boolean FecharTransacao(EntityManager gerente, boolean bCommit){
+    public static boolean FecharTransacao(Session gerente, boolean bCommit){
         if(bCommit){
             gerente.getTransaction().commit();
             return true;
@@ -29,31 +33,30 @@ public class MetodosJPA {
         }
     }
     public static boolean persistir(Object obj){
-        EntityManager transacao = abrirTransacao();
+        Session transacao = abrirTransacao();
         transacao.persist(obj);
         return FecharTransacao(transacao, true);        
     }
     public static boolean fundir(Object obj) {
-        EntityManager transacao = abrirTransacao();
+        Session transacao = abrirTransacao();
         transacao.merge(obj);
         return FecharTransacao(transacao, true);    
     }
     public static boolean excluir(int chave, Class classe){
-        EntityManager transacao = abrirTransacao();
-        Object obj = transacao.find(classe, chave);
-        transacao.remove(obj);
+        Session transacao = abrirTransacao();
+        Object obj = transacao.get(classe, chave);
+        transacao.delete(obj);
         return FecharTransacao(transacao, true);
     }
     public static Object recuperar(int chave, Class classe){
-        EntityManager transacao = FabricaConexao.getManager();
-        return transacao.find(classe,chave);
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        return session.get(classe,chave);
     }
     public static List<?> selecionar(Class classe, String whereJPQL){
-        EntityManager transacao = FabricaConexao.getManager();
-        String sJPQL = "select u from "+classe.getName()+ " u "+whereJPQL;
-        Query minhaQuery = transacao.createQuery(sJPQL);
-        return minhaQuery.getResultList();
-        
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        return session.createQuery("from " + classe.getName()).list();
     }
     public List<?> selecionar(Class classe, String[][] parametros){
         String where = "";
