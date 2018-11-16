@@ -26,11 +26,11 @@ import org.json.JSONObject;
 public class Install {
     private static boolean isInstalled = false;
     private JLabel msg;
-
+    
     public Install(JLabel msg) {
         this.msg = msg;
         try {
-            isInstalled = _Update();
+            isInstalled = _Read("isInstall");
         } catch (Exception e) {
             _Update(isInstalled);
         }
@@ -44,12 +44,11 @@ public class Install {
     public static boolean isIsInstalled() {
         return isInstalled;
     }        
-    private boolean _Update(){
-        Util.Files files = new Util.Files("/data.txt");
+    private boolean _Read(String read){
+        Util.Files files = new Util.Files("/config.dat");
         try {
             JSONObject json = files.Read();
-            System.out.println(json.getBoolean("Install"));
-            return false;
+            return json.getBoolean(read);
         } catch (IOException ex) {
             Logger.getLogger(Install.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -58,7 +57,7 @@ public class Install {
     private void _Update(boolean value){
         Util.Files files = new Util.Files("/config.dat");
         try {
-            files.Write(new JSONObject().put("Install", value));
+            files.Write(new JSONObject().put("isInstall", value));
         } catch (IOException ex) {
             Logger.getLogger(Install.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -75,10 +74,15 @@ public class Install {
                     Usuario usuario = new Usuario();
                     usuario.setLogin("admin");
                     usuario.setSenha("admin");
+                    
                     Model.Categoria categoria = new Categoria();
-                    categoria.setDescricao("Administrador");            
-                    usuario.setUserCategoria(categoria);
-                    return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);                
+                    categoria.setDescricao("Administrador");
+                    
+                    if((new DAO.CategoriaDAO(Model.Categoria.class)).Save(categoria)){
+                        usuario.setUserCategoria(categoria);   
+                        return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);
+                    } else 
+                        return false;
                 } else 
                     return false;        
             } catch (SQLException e) {
