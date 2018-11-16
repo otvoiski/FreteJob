@@ -8,6 +8,7 @@ package Util;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,19 +27,22 @@ public class Files {
     }
     
     public JSONObject Read() throws IOException{
+        File file = new File(Path);
+        FileReader arq = new FileReader(file);
         BufferedReader reader = null;
         JSONObject json = null;
-        try (FileReader fileReader = new FileReader(new File(Path))) {
-            reader = new BufferedReader(fileReader);
-            json = new JSONObject();
-            if(reader.ready()){
-                json.getJSONObject(reader.readLine());
-                System.out.println(json);
-            }
-        } catch (IOException e){
+        try {
+            
+            reader = new BufferedReader(arq);
+            String linha = null;
+            while(reader.ready()){
+                linha = reader.readLine();
+            };
+            json = new JSONObject(linha);
+        } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
-        reader.close();
+        arq.close();
         return json;
     }
     public void Write(JSONObject json) throws IOException {
