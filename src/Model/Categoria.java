@@ -6,10 +6,8 @@
 package Model;
 
 import Base.ObjectBase;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
@@ -17,28 +15,25 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class Categoria extends ObjectBase{
+public class Categoria extends ObjectBase implements Serializable{
     
-    private String descricao;
-    @OneToMany(mappedBy ="Usuario")
-    private List<Usuario> usuarios;
+    private static final long serialVersionUID = 1L;
     
-
-    public Categoria() {
-        usuarios = new ArrayList<>();
-    }
+    private String Descricao;
 
     public String getDescricao() {
-        return descricao;
+        return Descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.Descricao = descricao;
     }
     
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject json = new JSONObject(this);
+        System.out.println("json");
+        return json;
     }
 
     @Override

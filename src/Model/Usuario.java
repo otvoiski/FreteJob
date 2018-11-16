@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
@@ -15,40 +16,47 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class Usuario extends ObjectBase{
+public class Usuario extends ObjectBase implements Serializable{
 
-    private String login;
-    private String senha;
+    private static final long serialVersionUID = 1L;
+    
+    private String Login;
+    private String Senha;
     @ManyToOne
-    private Categoria userCategoria;
+    private Categoria Categoria;
 
     public String getLogin() {
-        return login;
+        return Login;
     }
 
     public void setLogin(String login) {
-        this.login = login;
+        this.Login = login;
     }
 
     public String getSenha() {
-        return senha;
+        return Senha;
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        senha = Util.MD5.Get(senha);
+        this.Senha = senha;
     }
 
     public Categoria getUserCategoria() {
-        return userCategoria;
+        return Categoria;
     }
 
     public void setUserCategoria(Categoria userCategoria) {
-        this.userCategoria = userCategoria;
+        this.Categoria = userCategoria;
     }
     
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject json = new JSONObject();
+        json.put("Error", false);
+        json.put("Login", getLogin());
+        json.put("Categoria", getUserCategoria());
+        return json;
     }
 
     @Override
