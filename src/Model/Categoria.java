@@ -31,9 +31,7 @@ public class Categoria extends ObjectBase implements Serializable{
     
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject(this);
-        System.out.println("json");
-        return json;
+        return new JSONObject(this);
     }
 
     @Override
