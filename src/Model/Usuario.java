@@ -53,7 +53,6 @@ public class Usuario extends ObjectBase implements Serializable{
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Error", false);
         json.put("Login", getLogin());
         json.put("Categoria", getUserCategoria());
         return json;

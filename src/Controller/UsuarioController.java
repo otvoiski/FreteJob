@@ -7,6 +7,7 @@ package Controller;
 
 import DAO.UsuarioDAO;
 import Model.Usuario;
+import Util.Error;
 import java.util.List;
 import org.json.JSONObject;
 
@@ -22,7 +23,7 @@ public class UsuarioController extends Base.ControllerBase{
         Object = new Usuario();
     }
 
-    public JSONObject Login(JSONObject json) {        
+    public JSONObject Login(JSONObject json) throws Error {        
         List<Usuario> usuarios = DAO.GetAll();       
         
         for(Usuario usuario : usuarios) {
@@ -32,7 +33,7 @@ public class UsuarioController extends Base.ControllerBase{
             if(login && senha){                
                 return usuario.toJson();
             } else 
-                return (new JSONObject().put("Error", true)).put("Mensagem", "Usuário ou Senha Inválidos.");
+                throw new Util.Error("Usuário ou Senha Inválidos.");
         }
         return null;
     }
