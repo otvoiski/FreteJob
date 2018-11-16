@@ -8,6 +8,7 @@ package Model;
 import Base.ObjectBase;
 import java.sql.ResultSet;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -23,6 +24,7 @@ public class Endereco extends ObjectBase {
     private String Numero;
     private String Complemento;
     private String Tipo;//indica o tipo do endereço(cobrança,entrega, etc)
+    @ManyToOne
     private Cidade Cidade;
 
 

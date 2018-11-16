@@ -6,10 +6,9 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
 import org.json.JSONObject;
 
 /**
@@ -20,7 +19,7 @@ import org.json.JSONObject;
 public class Cidade extends ObjectBase{
     private String Nome;
     private String CodMunicipio;
-    @OneToMany(mappedBy = "Estado")
+    @ManyToOne
     private Estado Estado;
 
     public Cidade(String Nome, String Cod_municipio, Estado estado) {
@@ -54,13 +53,7 @@ public class Cidade extends ObjectBase{
 
     @Override
     public JSONObject toJson() {
-         JSONObject json = new JSONObject();
-         json.put("codigo", getCodigo());
-         json.put("nome", Nome);
-         json.put("cod_municipio", CodMunicipio);
-         json.put("estado", Estado.toJson());
-         return json;
-        
+         return new JSONObject(this);
     }
 
     @Override

@@ -6,8 +6,11 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.MappedSuperclass;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,12 +18,25 @@ import org.json.JSONObject;
  *
  * @author Matheus
  */
-@MappedSuperclass
-public abstract class Pessoa extends ObjectBase{
-    private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
-    private ArrayList<Telefone> Telefones;
-    private ArrayList<Endereco> Enderecos;
-    private ArrayList<String> MidiaSociais;
+
+@Entity
+public abstract class Pessoa extends ObjectBase implements Serializable{
+    private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
+    @OneToMany(mappedBy = "Telefone")
+    private List<Telefone> Telefones;
+    @OneToMany(mappedBy = "Endereco")
+    private List<Endereco> Enderecos;
+    @OneToMany(mappedBy = "MidiaSocial")
+    private List<MidiaSocial> MidiaSociais;
+    private List<Email> Emails;
+
+    public ArrayList<Email> getEmails() {
+        return (ArrayList<Email>)Emails;
+    }
+
+    public void setEmails(ArrayList<Email> Emails) {
+        this.Emails = Emails;
+    }
     
     public Pessoa() {
         Telefones = new ArrayList<>();
@@ -29,7 +45,7 @@ public abstract class Pessoa extends ObjectBase{
     }
 
     public ArrayList<Endereco> getEnderecos() {
-        return Enderecos;
+        return (ArrayList<Endereco>)Enderecos;
     }
 
     public void setEnderecos(ArrayList<Endereco> Enderecos) {
@@ -43,7 +59,7 @@ public abstract class Pessoa extends ObjectBase{
         this.TipoPessoa = tipoPessoa;
     }
     public ArrayList<Telefone> getTelefones() {
-        return Telefones;
+        return (ArrayList<Telefone>)Telefones;
     }
 
     public void setTelefones(ArrayList<Telefone> Telefones) {
@@ -51,11 +67,11 @@ public abstract class Pessoa extends ObjectBase{
     }
     
      
-    public  ArrayList<String>getMidiaSociais() {
-        return MidiaSociais;
+    public  ArrayList<MidiaSocial>getMidiaSociais() {
+        return(ArrayList<MidiaSocial>)MidiaSociais;
     }
 
-    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
+    public void setMidiaSociais(ArrayList<MidiaSocial> MidiaSociais) {
         this.MidiaSociais = MidiaSociais;
     }
     
@@ -66,6 +82,7 @@ public abstract class Pessoa extends ObjectBase{
         json.put("Enderecos", getEnderecos());
         json.put("Telefones", getTelefones());
         json.put("MidiasSociais", getMidiaSociais());
+        json.put("Emails", getEmails());
         
         return json;
     }
@@ -75,10 +92,14 @@ public abstract class Pessoa extends ObjectBase{
         if(jsonRetorno.has("TipoPessoa"))
             setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
         if(jsonRetorno.has("MidiasSociais")){
-            JSONArray auxMidias = jsonRetorno.getJSONArray("MidiasSociais");
-            for(int i = 0; i<auxMidias.length(); i++){
-                getMidiaSociais().add((String)auxMidias.get(i));
-            }
+            jsonArrayAux = jsonRetorno.getJSONArray("MidiasSociais");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                MidiaSociais.add((MidiaSocial) new MidiaSocial().toObjectBase(jsonArrayAux.getJSONObject(i)));
+        }
+        if(jsonRetorno.has("Emails")){
+            jsonArrayAux = jsonRetorno.getJSONArray("Emails");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                Emails.add((Email) new Email().toObjectBase(jsonArrayAux.getJSONObject(i)));
         }
         jsonArrayAux = jsonRetorno.getJSONArray("Telefones");
         for(int i = 0; i<jsonArrayAux.length(); i++)

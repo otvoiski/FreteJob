@@ -8,6 +8,7 @@ package Model;
 import Base.ObjectBase;
 import java.sql.ResultSet;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**

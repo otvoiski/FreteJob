@@ -6,17 +6,11 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +26,16 @@ public class Distribuidora extends Pessoa{
     private String NomeFantasia;
     @ManyToOne
     private List<Funcionario> Funcionarios;
+    @ManyToMany
+    private List<Cidade> CidadesAtuacao;
+
+    public List<Cidade> getCidadesAtuacao() {
+        return CidadesAtuacao;
+    }
+
+    public void setCidadesAtuacao(List<Cidade> CidadesAtuacao) {
+        this.CidadesAtuacao = CidadesAtuacao;
+    }
 
     public String getCnpj() {
         return Cnpj;
@@ -77,21 +81,27 @@ public class Distribuidora extends Pessoa{
        json.put("RazaoSocial", getRazaoSocial());
        json.put("Cnpj", getCnpj());
        json.put("Funcionarios", getFuncionarios());
+       json.put("CidadesAtuacao", getCidadesAtuacao());
        return json;
     }
 
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
        Distribuidora objDistribuidora = new Distribuidora();
-       JSONArray arrayFuncs;
+       JSONArray arrayAux;
        objDistribuidora.preencheAtributosRetorno(jsonRetorno);
        objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
        objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
        objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
        if(jsonRetorno.has("Funcionarios")){
-            arrayFuncs = jsonRetorno.getJSONArray("Funcionarios");
-            for(int i = 0; i< arrayFuncs.length(); i++)
-                objDistribuidora.getFuncionarios().add((Funcionario)new Funcionario().toObjectBase(arrayFuncs.getJSONObject(i)));
+            arrayAux = jsonRetorno.getJSONArray("Funcionarios");
+            for(int i = 0; i< arrayAux.length(); i++)
+                objDistribuidora.getFuncionarios().add((Funcionario)new Funcionario().toObjectBase(arrayAux.getJSONObject(i)));
+       }
+       if(jsonRetorno.has("CidadesAtuacao")){
+            arrayAux = jsonRetorno.getJSONArray("CidadesAtuacao");
+            for(int i = 0; i< arrayAux.length(); i++)
+                objDistribuidora.getCidadesAtuacao().add((Cidade)new Cidade().toObjectBase(arrayAux.getJSONObject(i)));
        }
        return objDistribuidora;
     }    

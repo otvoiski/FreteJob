@@ -16,8 +16,6 @@ import org.json.JSONObject;
  */
 @Entity
 public class ObjetoEncomenda extends ObjectBase {
-
-    
     private String descricao;
     private double peso;
     private Encomenda encomendaPertence;

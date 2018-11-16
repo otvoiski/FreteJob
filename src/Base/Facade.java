@@ -9,13 +9,5 @@ package Base;
  *
  * @author Matheus
  */
-public class Facade <T extends ObjectBase>{
-    private final Class<T> classePersistente;
-
-    public Facade(Class persistedClass) {
-        this.classePersistente = persistedClass;
-    }
-    public boolean persistirEntidade(T obj){
-        return false;
-    }
+public class Facade{
 }

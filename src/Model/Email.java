@@ -7,7 +7,6 @@ package Model;
 
 import Base.ObjectBase;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -19,8 +18,6 @@ public class Email extends ObjectBase {
 
     private String email;
     private String tipo;
-    @ManyToOne
-    private Pessoa pessoaEmail;
     
     public Email(){
         
@@ -41,23 +38,18 @@ public class Email extends ObjectBase {
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
-
-    public Pessoa getPessoaEmail() {
-        return pessoaEmail;
-    }
-
-    public void setPessoaEmail(Pessoa pessoaEmail) {
-        this.pessoaEmail = pessoaEmail;
-    }
-    
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Email objEmail = new Email();
+        objEmail.setCodigo(jsonRetorno.getInt("codigo"));
+        objEmail.setEmail(jsonRetorno.getString("email"));
+        objEmail.setTipo(jsonRetorno.getString("tipo"));
+        return objEmail;
     }
     
 }

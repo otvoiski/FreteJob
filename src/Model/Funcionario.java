@@ -21,7 +21,7 @@ public class Funcionario extends Pessoa {
     private String Rg;
     private String Nome;
     private String identFuncional;
-    @OneToMany(mappedBy = "Dstribuidora")
+    @OneToMany(mappedBy = "Distribuidora")
     private Distribuidora localTrabalho;
 
     

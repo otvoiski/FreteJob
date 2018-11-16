@@ -7,6 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -14,12 +15,12 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class MidiasSociais extends ObjectBase {
-    
+public class MidiaSocial extends ObjectBase {
     private String descricao;
+    @ManyToOne
     private Pessoa pessoaMidia;
     
-    public MidiasSociais(){
+    public MidiaSocial(){
         
     }
 

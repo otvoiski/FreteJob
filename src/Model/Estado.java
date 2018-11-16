@@ -22,10 +22,9 @@ import org.json.JSONObject;
 public class Estado extends ObjectBase{
     private String Nome;
     private String Sigla;
-    @OneToMany(mappedBy = "Pais")
-    private Pais Pais;
     @ManyToOne
-    private List<Cidade> cidades;
+    private Pais Pais;
+
 
     public Estado(String Nome, String Sigla, Pais pais) {
 
@@ -34,7 +33,7 @@ public class Estado extends ObjectBase{
         this.Pais = pais;
     }
     public Estado(){
-        cidades = new ArrayList<>();
+       
     }
     public Pais getPais() {
         return Pais;

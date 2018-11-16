@@ -30,17 +30,22 @@ public class TipoEmbalagem extends ObjectBase {
     public TipoEmbalagem(String descricao) {
         this.descricao = descricao;
     }
-    
-    
+    public TipoEmbalagem(){}
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONObject json = new JSONObject();
+        json.put("Codigo", getCodigo());
+        json.put("Descricao", descricao);
+        return json;
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TipoEmbalagem objEmbalagem =  new TipoEmbalagem();
+        objEmbalagem.setDescricao(jsonRetorno.getString("Descricao"));
+        objEmbalagem.setCodigo(jsonRetorno.getInt("Codigo"));
+        return objEmbalagem;
     }
     
 }

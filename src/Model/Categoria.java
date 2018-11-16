@@ -36,7 +36,11 @@ public class Categoria extends ObjectBase implements Serializable{
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Categoria objCtg = new Categoria();
+        objCtg.setCodigo(jsonRetorno.getInt("Codigo"));
+        objCtg.setDescricao(jsonRetorno.getString("Descricao"));
+        return objCtg;
+        
     }
     
 }
