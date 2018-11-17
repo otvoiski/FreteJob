@@ -5,19 +5,13 @@
  */
 package View;
 
-import Model.Cidade;
-import Model.Estado;
-import org.json.JSONObject;
-
 /**
  *
- * @author Matheus
+ * @author Otavio
  */
 public class teste {
     public static void main(String[] args) {
-      Cidade city  =  new Cidade("Uba", "123124", new Estado("Minas Gerais", "Mg", new Model.Pais("BRASIL", "BR")));
-      city.setCodigo(99999999);
-        JSONObject json =  city.toJson();
-        System.out.println(json);
+        if(!Util.Install.Populate())
+            System.out.println("OK");
     }
 }
