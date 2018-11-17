@@ -6,13 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
-import Model.Encomenda.Estados;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**

@@ -20,9 +20,9 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-    private String identFuncional;
+    private String IdentFuncional;
     @OneToMany(mappedBy = "Distribuidora")
-    private Distribuidora localTrabalho;
+    private Distribuidora LocalTrabalho;
 
     
     public String getCpf() {
@@ -50,19 +50,19 @@ public class Funcionario extends Pessoa {
     }
 
     public String getIdentFuncional() {
-        return identFuncional;
+        return IdentFuncional;
     }
 
     public void setIdentFuncional(String identFuncional) {
-        this.identFuncional = identFuncional;
+        this.IdentFuncional = identFuncional;
     }
 
     public Distribuidora getLocalTrabalho() {
-        return localTrabalho;
+        return LocalTrabalho;
     }
 
     public void setLocalTrabalho(Distribuidora localTrabalho) {
-        this.localTrabalho = localTrabalho;
+        this.LocalTrabalho = localTrabalho;
     }
     
     @Override
@@ -72,7 +72,7 @@ public class Funcionario extends Pessoa {
        json.put("cpf", getCpf());
        json.put("rg", getRg());
        json.put("identidadefuncional", getIdentFuncional());
-       json.put("localtrabalho", localTrabalho.toJson());
+       json.put("localtrabalho", LocalTrabalho.toJson());
        return json;
     }
     @Override
