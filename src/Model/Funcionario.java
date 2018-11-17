@@ -20,11 +20,21 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-    private String IdentFuncional;
     @OneToMany(mappedBy = "Distribuidora")
     private Distribuidora LocalTrabalho;
 
+    public Funcionario() {
+        super();
+    }
     
+    public Funcionario(String Cpf, String Rg, String Nome, Distribuidora LocalTrabalho) {
+        super();
+        this.Cpf = Cpf;
+        this.Rg = Rg;
+        this.Nome = Nome;
+        this.LocalTrabalho = LocalTrabalho;
+    }
+
     public String getCpf() {
         return Cpf;
     }
@@ -49,14 +59,6 @@ public class Funcionario extends Pessoa {
         this.Nome = nome;
     }
 
-    public String getIdentFuncional() {
-        return IdentFuncional;
-    }
-
-    public void setIdentFuncional(String identFuncional) {
-        this.IdentFuncional = identFuncional;
-    }
-
     public Distribuidora getLocalTrabalho() {
         return LocalTrabalho;
     }
@@ -71,7 +73,6 @@ public class Funcionario extends Pessoa {
        json.put("nome", getNome());
        json.put("cpf", getCpf());
        json.put("rg", getRg());
-       json.put("identidadefuncional", getIdentFuncional());
        json.put("localtrabalho", LocalTrabalho.toJson());
        return json;
     }
@@ -82,7 +83,6 @@ public class Funcionario extends Pessoa {
         objFuncionario.setNome(jsonRetorno.getString("nome"));
         objFuncionario.setCpf(jsonRetorno.getString("cpf"));
         objFuncionario.setRg(jsonRetorno.getString("rg"));
-        objFuncionario.setIdentFuncional(jsonRetorno.getString("identidadefuncional"));
         objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
         return objFuncionario;
     }

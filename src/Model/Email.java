@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -14,30 +15,25 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class Email extends ObjectBase {
+public class Email extends ObjectBase implements Serializable {
 
     private String email;
-    private String tipo;
-    
-    public Email(){
-        
-    }
 
+    public Email() {
+    }
+   
     public String getEmail() {
         return email;
     }
 
+    public Email(String email) {
+        this.email = email;
+    }
+    
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
+   
     @Override
     public JSONObject toJson() {
         return new JSONObject(this);
@@ -48,7 +44,6 @@ public class Email extends ObjectBase {
         Email objEmail = new Email();
         objEmail.setCodigo(jsonRetorno.getInt("codigo"));
         objEmail.setEmail(jsonRetorno.getString("email"));
-        objEmail.setTipo(jsonRetorno.getString("tipo"));
         return objEmail;
     }
     

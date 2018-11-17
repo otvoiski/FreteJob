@@ -6,8 +6,8 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -15,39 +15,33 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class MidiaSocial extends ObjectBase {
-    private String descricao;
-    @ManyToOne
-    private Pessoa pessoaMidia;
-    
-    public MidiaSocial(){
-        
+public class MidiaSocial extends ObjectBase implements Serializable{
+    private static final long serialVersionUID = 1L;
+    private String Descricao;
+
+    public MidiaSocial() {
     }
 
+    public MidiaSocial(String descricao) {
+        this.Descricao = descricao;
+    }
+    
     public String getDescricao() {
-        return descricao;
+        return Descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public Pessoa getPessoaMidia() {
-        return pessoaMidia;
-    }
-
-    public void setPessoaMidia(Pessoa pessoaMidia) {
-        this.pessoaMidia = pessoaMidia;
+        this.Descricao = descricao;
     }
     
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new MidiaSocial(jsonRetorno.getString("Descricao"));
     }
     
 }

@@ -6,11 +6,10 @@
 package Model;
 
 import Base.ObjectBase;
-import java.util.ArrayList;
+import Util.Enums;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,15 +19,20 @@ import org.json.JSONObject;
  */
 @Entity
 public class Distribuidora extends Pessoa{    
-    public static enum TipoTransporte {TERRESTRES, AQUATICOS, AEROVIARIOS;}
     private String Cnpj;    
     private String RazaoSocial;
     private String NomeFantasia;
-    @ManyToOne
-    private List<Funcionario> Funcionarios;
     @ManyToMany
     private List<Cidade> CidadesAtuacao;
 
+    public Distribuidora(String cnpj, String razaoSocial, String nomeFantasia, List<Cidade> cidadesAtuacao, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais,List<Email> emails ) {
+        super(Util.Enums.TipoPessoa.Juridica, telefones, endereco, midiaSociais, emails);        
+        this.Cnpj = cnpj;
+        this.RazaoSocial = razaoSocial;
+        this.NomeFantasia = nomeFantasia;
+        this.CidadesAtuacao = cidadesAtuacao;
+    }
+    
     public List<Cidade> getCidadesAtuacao() {
         return CidadesAtuacao;
     }
@@ -60,18 +64,9 @@ public class Distribuidora extends Pessoa{
     public void setNomeFantasia(String nomeFantasia) {
         this.NomeFantasia = nomeFantasia;
     }
-
-    public List<Funcionario> getFuncionarios() {
-        return Funcionarios;
-    }
-
-    public void setFuncionarios(ArrayList<Funcionario> funcionarios) {
-        this.Funcionarios = funcionarios;
-    }
     
     public Distribuidora() {
         super();
-        Funcionarios = new ArrayList<>();
     }
 
     @Override
@@ -80,7 +75,6 @@ public class Distribuidora extends Pessoa{
        json.put("NomeFantasia", getNomeFantasia());
        json.put("RazaoSocial", getRazaoSocial());
        json.put("Cnpj", getCnpj());
-       json.put("Funcionarios", getFuncionarios());
        json.put("CidadesAtuacao", getCidadesAtuacao());
        return json;
     }
@@ -93,11 +87,6 @@ public class Distribuidora extends Pessoa{
        objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
        objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
        objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
-       if(jsonRetorno.has("Funcionarios")){
-            arrayAux = jsonRetorno.getJSONArray("Funcionarios");
-            for(int i = 0; i< arrayAux.length(); i++)
-                objDistribuidora.getFuncionarios().add((Funcionario)new Funcionario().toObjectBase(arrayAux.getJSONObject(i)));
-       }
        if(jsonRetorno.has("CidadesAtuacao")){
             arrayAux = jsonRetorno.getJSONArray("CidadesAtuacao");
             for(int i = 0; i< arrayAux.length(); i++)

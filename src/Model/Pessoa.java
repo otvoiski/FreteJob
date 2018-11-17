@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import org.json.JSONObject;
 
 @Entity
 public abstract class Pessoa extends ObjectBase implements Serializable{
-    private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
+    private Util.Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
     @OneToMany(mappedBy = "Telefone")
     private List<Telefone> Telefones;
     @OneToMany(mappedBy = "Endereco")
@@ -44,6 +45,14 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         MidiaSociais = new ArrayList<>();
     }
 
+    public Pessoa(Enums.TipoPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
+        this.TipoPessoa = tipoPessoa;
+        this.Telefones = telefones;
+        this.Enderecos = endereco;
+        this.MidiaSociais = midiaSociais;
+        this.Emails = emails;
+    }
+
     public ArrayList<Endereco> getEnderecos() {
         return (ArrayList<Endereco>)Enderecos;
     }
@@ -52,10 +61,10 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.Enderecos = Enderecos;
     }
 
-    public String getTipoPessoa() {
+    public Enums.TipoPessoa getTipoPessoa() {
         return TipoPessoa;
     }
-    public void setTipoPessoa(String tipoPessoa) {
+    public void setTipoPessoa(Util.Enums.TipoPessoa tipoPessoa) {
         this.TipoPessoa = tipoPessoa;
     }
     public ArrayList<Telefone> getTelefones() {
@@ -90,7 +99,7 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         JSONArray jsonArrayAux;
         setCodigo(jsonRetorno.getInt("Codigo"));
         if(jsonRetorno.has("TipoPessoa"))
-            setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
+            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class,"TipoPessoa"));
         if(jsonRetorno.has("MidiasSociais")){
             jsonArrayAux = jsonRetorno.getJSONArray("MidiasSociais");
             for(int i = 0; i<jsonArrayAux.length(); i++)

@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Pais extends ObjectBase{
+public class Pais extends ObjectBase implements Serializable{
     private String Nome;
     private String Sigla;
 

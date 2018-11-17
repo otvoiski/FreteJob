@@ -23,7 +23,6 @@ public class Estado extends ObjectBase{
 
 
     public Estado(String Nome, String Sigla, Pais pais) {
-
         this.Nome = Nome;
         this.Sigla = Sigla;
         this.Pais = pais;

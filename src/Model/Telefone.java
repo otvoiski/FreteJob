@@ -6,9 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -18,18 +16,18 @@ import org.json.JSONObject;
 @Entity
 public class Telefone extends ObjectBase{
     
-    private String DDD;
+    private int DDD;
     private String Numero;
 
-    public Telefone(String ddd, String numero) {
+    public Telefone(int ddd, String numero) {
         this.DDD = ddd;
         this.Numero = numero;
     }
     public Telefone() {}
-    public String getDdd() {
+    public int getDdd() {
         return DDD;
     }
-    public void setDdd(String ddd) {
+    public void setDdd(int ddd) {
         this.DDD = ddd;
     }
 
@@ -54,7 +52,7 @@ public class Telefone extends ObjectBase{
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
         objTelefone.setCodigo(jsonRetorno.getInt("codigo"));
-        objTelefone.setDdd(jsonRetorno.getString("ddd"));
+        objTelefone.setDdd(jsonRetorno.getInt("ddd"));
         objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
     }
