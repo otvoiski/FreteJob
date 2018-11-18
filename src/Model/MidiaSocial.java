@@ -15,25 +15,25 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class Email extends ObjectBase implements Serializable {
+public class MidiaSocial extends ObjectBase implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String email;
+    private String Descricao;
 
-    public Email() {
-    }
-   
-    public String getEmail() {
-        return email;
+    public MidiaSocial() {
     }
 
-    public Email(String email) {
-        this.email = email;
+    public MidiaSocial(String descricao) {
+        this.Descricao = descricao;
     }
     
-    public void setEmail(String email) {
-        this.email = email;
+    public String getDescricao() {
+        return Descricao;
     }
-   
+
+    public void setDescricao(String descricao) {
+        this.Descricao = descricao;
+    }
+    
     @Override
     public JSONObject toJson() {
         return new JSONObject(this);
@@ -41,10 +41,7 @@ public class Email extends ObjectBase implements Serializable {
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        Email objEmail = new Email();
-        objEmail.setCodigo(jsonRetorno.getInt("codigo"));
-        objEmail.setEmail(jsonRetorno.getString("email"));
-        return objEmail;
+        return new MidiaSocial(jsonRetorno.getString("Descricao"));
     }
     
 }

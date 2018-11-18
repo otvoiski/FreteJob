@@ -6,12 +6,9 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
@@ -19,22 +16,21 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Estado extends ObjectBase{
+public class Estado extends ObjectBase implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String Nome;
     private String Sigla;
-    @OneToMany(mappedBy = "Pais")
-    private Pais Pais;
     @ManyToOne
-    private List<Cidade> cidades;
+    private Pais Pais;
+
 
     public Estado(String Nome, String Sigla, Pais pais) {
-
         this.Nome = Nome;
         this.Sigla = Sigla;
         this.Pais = pais;
     }
     public Estado(){
-        cidades = new ArrayList<>();
+       
     }
     public Pais getPais() {
         return Pais;

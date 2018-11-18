@@ -6,6 +6,7 @@
 package Util;
 
 import javax.swing.JFrame;
+import javax.swing.JTable;
 
 /**
  *
@@ -20,5 +21,12 @@ public class Helper {
         thisFrame.setVisible(false);
         thisFrame.dispose();
         windowsBack.enable(true);
+    }
+
+    public static Object GetValueJTable(JTable jTable, int column) {
+        if(jTable.getSelectedRow() != -1){
+            int linha = jTable.getSelectedRow();
+            return jTable.getValueAt(linha,column);
+        } else return false;
     }
 }

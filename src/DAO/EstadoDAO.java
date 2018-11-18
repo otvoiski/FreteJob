@@ -3,11 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Base;
+package DAO;
+
+import Base.Persistencia;
 
 /**
  *
- * @author Matheus
+ * @author Otavio
  */
-public class Facade{
+public class EstadoDAO extends Persistencia{
+    
+    public EstadoDAO(Class persistedClass) {
+        super(persistedClass);
+    }
+    
 }

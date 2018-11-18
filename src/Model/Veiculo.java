@@ -6,10 +6,11 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 import org.json.JSONObject;
 
 /**
@@ -17,56 +18,57 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
-public class Veiculo extends ObjectBase {
+public class Veiculo extends ObjectBase implements Serializable {
     
-    private String placaIdentificacao;
-    private Date dataFabricacao;
-    private Double capacidadeCarga;
-    private String classificacao;
-    @ManyToOne
-    private TipoVeiculo tipo;
+    private static final long serialVersionUID = 1L;
+    private String PlacaIdentificacao;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date DataFabricacao;
+    private Double CapacidadeCarga;
+    private String Classificacao;
+    private TipoVeiculo Tipo;
     
     public Veiculo(){
         
     }
     public String getPlacaIdentificacao() {
-        return placaIdentificacao;
+        return PlacaIdentificacao;
     }
 
     public void setPlacaIdentificacao(String placaIdentificacao) {
-        this.placaIdentificacao = placaIdentificacao;
+        this.PlacaIdentificacao = placaIdentificacao;
     }
 
     public Date getDataFabricacao() {
-        return dataFabricacao;
+        return DataFabricacao;
     }
 
     public void setDataFabricacao(Date dataFabricacao) {
-        this.dataFabricacao = dataFabricacao;
+        this.DataFabricacao = dataFabricacao;
     }
 
     public Double getCapacidadeCarga() {
-        return capacidadeCarga;
+        return CapacidadeCarga;
     }
 
     public void setCapacidadeCarga(Double capacidadeCarga) {
-        this.capacidadeCarga = capacidadeCarga;
+        this.CapacidadeCarga = capacidadeCarga;
     }
 
     public String getClassificacao() {
-        return classificacao;
+        return Classificacao;
     }
 
     public void setClassificacao(String classificacao) {
-        this.classificacao = classificacao;
+        this.Classificacao = classificacao;
     }
 
     public TipoVeiculo getTipo() {
-        return tipo;
+        return Tipo;
     }
 
     public void setTipo(TipoVeiculo tipo) {
-        this.tipo = tipo;
+        this.Tipo = tipo;
     }
     
 

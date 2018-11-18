@@ -6,8 +6,13 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
+import Util.Enums.TipoPessoa;
+import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.MappedSuperclass;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,35 +20,57 @@ import org.json.JSONObject;
  *
  * @author Matheus
  */
-@MappedSuperclass
-public abstract class Pessoa extends ObjectBase{
-    private String TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora    
-    private ArrayList<Telefone> Telefones;
-    private ArrayList<Endereco> Enderecos;
-    private ArrayList<String> MidiaSociais;
+
+@Entity
+public abstract class Pessoa extends ObjectBase implements Serializable{
+    private TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
+    @OneToMany
+    private List<Telefone> Telefones;
+    @OneToMany
+    private List<Endereco> Enderecos;
+    @OneToMany
+    private List<MidiaSocial> MidiaSociais;
+    @OneToMany
+    private List<Email> Emails;
     
     public Pessoa() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
         MidiaSociais = new ArrayList<>();
     }
+    
+    public List<Email> getEmails() {
+        return (List<Email>)Emails;
+    }
+
+    public void setEmails(List<Email> Emails) {
+        this.Emails = Emails;
+    }
+    
+    public Pessoa(Enums.TipoPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
+        this.TipoPessoa = tipoPessoa;
+        this.Telefones = telefones;
+        this.Enderecos = endereco;
+        this.MidiaSociais = midiaSociais;
+        this.Emails = emails;
+    }
 
     public ArrayList<Endereco> getEnderecos() {
-        return Enderecos;
+        return (ArrayList<Endereco>)Enderecos;
     }
 
     public void setEnderecos(ArrayList<Endereco> Enderecos) {
         this.Enderecos = Enderecos;
     }
 
-    public String getTipoPessoa() {
+    public Enums.TipoPessoa getTipoPessoa() {
         return TipoPessoa;
     }
-    public void setTipoPessoa(String tipoPessoa) {
+    public void setTipoPessoa(Util.Enums.TipoPessoa tipoPessoa) {
         this.TipoPessoa = tipoPessoa;
     }
     public ArrayList<Telefone> getTelefones() {
-        return Telefones;
+        return (ArrayList<Telefone>)Telefones;
     }
 
     public void setTelefones(ArrayList<Telefone> Telefones) {
@@ -51,11 +78,11 @@ public abstract class Pessoa extends ObjectBase{
     }
     
      
-    public  ArrayList<String>getMidiaSociais() {
-        return MidiaSociais;
+    public  ArrayList<MidiaSocial>getMidiaSociais() {
+        return(ArrayList<MidiaSocial>)MidiaSociais;
     }
 
-    public void setMidiaSociais(ArrayList<String> MidiaSociais) {
+    public void setMidiaSociais(ArrayList<MidiaSocial> MidiaSociais) {
         this.MidiaSociais = MidiaSociais;
     }
     
@@ -66,6 +93,7 @@ public abstract class Pessoa extends ObjectBase{
         json.put("Enderecos", getEnderecos());
         json.put("Telefones", getTelefones());
         json.put("MidiasSociais", getMidiaSociais());
+        json.put("Emails", getEmails());
         
         return json;
     }
@@ -73,12 +101,16 @@ public abstract class Pessoa extends ObjectBase{
         JSONArray jsonArrayAux;
         setCodigo(jsonRetorno.getInt("Codigo"));
         if(jsonRetorno.has("TipoPessoa"))
-            setTipoPessoa(jsonRetorno.getString("TipoPessoa"));
+            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class,"TipoPessoa"));
         if(jsonRetorno.has("MidiasSociais")){
-            JSONArray auxMidias = jsonRetorno.getJSONArray("MidiasSociais");
-            for(int i = 0; i<auxMidias.length(); i++){
-                getMidiaSociais().add((String)auxMidias.get(i));
-            }
+            jsonArrayAux = jsonRetorno.getJSONArray("MidiasSociais");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                MidiaSociais.add((MidiaSocial) new MidiaSocial().toObjectBase(jsonArrayAux.getJSONObject(i)));
+        }
+        if(jsonRetorno.has("Emails")){
+            jsonArrayAux = jsonRetorno.getJSONArray("Emails");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                Emails.add((Email) new Email().toObjectBase(jsonArrayAux.getJSONObject(i)));
         }
         jsonArrayAux = jsonRetorno.getJSONArray("Telefones");
         for(int i = 0; i<jsonArrayAux.length(); i++)

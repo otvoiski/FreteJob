@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Base;
+package DAO;
 
 /**
  *
- * @author Matheus
+ * @author Otavio
  */
-public class Facade{
+public class MidiaSocialDAO extends Base.Persistencia{
+    
+    public MidiaSocialDAO(Class persistedClass) {
+        super(persistedClass);
+    }
+    
 }

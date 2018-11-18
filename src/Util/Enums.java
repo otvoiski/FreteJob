@@ -3,11 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Base;
+package Util;
 
 /**
  *
- * @author Matheus
+ * @author Otavio
  */
-public class Facade{
+public class Enums {    
+    public static enum TipoTransporte {Terrestres, Aquaticos, Aeroviarios}
+    public static enum TipoPessoa {Juridica, Fisica}
 }

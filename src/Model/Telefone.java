@@ -6,7 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -15,20 +15,20 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Telefone extends ObjectBase{
+public class Telefone extends ObjectBase implements Serializable{
     
-    private String DDD;
+    private int DDD;
     private String Numero;
 
-    public Telefone(String ddd, String numero) {
+    public Telefone(int ddd, String numero) {
         this.DDD = ddd;
         this.Numero = numero;
     }
     public Telefone() {}
-    public String getDdd() {
+    public int getDdd() {
         return DDD;
     }
-    public void setDdd(String ddd) {
+    public void setDdd(int ddd) {
         this.DDD = ddd;
     }
 
@@ -53,7 +53,7 @@ public class Telefone extends ObjectBase{
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
         objTelefone.setCodigo(jsonRetorno.getInt("codigo"));
-        objTelefone.setDdd(jsonRetorno.getString("ddd"));
+        objTelefone.setDdd(jsonRetorno.getInt("ddd"));
         objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
     }

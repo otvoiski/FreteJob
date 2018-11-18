@@ -6,8 +6,9 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import org.json.JSONObject;
 
 /**
@@ -20,11 +21,21 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-    private String identFuncional;
-    @OneToMany(mappedBy = "Dstribuidora")
-    private Distribuidora localTrabalho;
+    @OneToOne
+    private Distribuidora LocalTrabalho;
 
+    public Funcionario() {
+        super();
+    }
     
+    public Funcionario(String Cpf, String Rg, String Nome, Distribuidora LocalTrabalho) {
+        super(Enums.TipoPessoa.Fisica, null, null, null, null);
+        this.Cpf = Cpf;
+        this.Rg = Rg;
+        this.Nome = Nome;
+        this.LocalTrabalho = LocalTrabalho;
+    }
+
     public String getCpf() {
         return Cpf;
     }
@@ -49,20 +60,12 @@ public class Funcionario extends Pessoa {
         this.Nome = nome;
     }
 
-    public String getIdentFuncional() {
-        return identFuncional;
-    }
-
-    public void setIdentFuncional(String identFuncional) {
-        this.identFuncional = identFuncional;
-    }
-
     public Distribuidora getLocalTrabalho() {
-        return localTrabalho;
+        return LocalTrabalho;
     }
 
     public void setLocalTrabalho(Distribuidora localTrabalho) {
-        this.localTrabalho = localTrabalho;
+        this.LocalTrabalho = localTrabalho;
     }
     
     @Override
@@ -71,8 +74,7 @@ public class Funcionario extends Pessoa {
        json.put("nome", getNome());
        json.put("cpf", getCpf());
        json.put("rg", getRg());
-       json.put("identidadefuncional", getIdentFuncional());
-       json.put("localtrabalho", localTrabalho.toJson());
+       json.put("localtrabalho", LocalTrabalho.toJson());
        return json;
     }
     @Override
@@ -82,7 +84,6 @@ public class Funcionario extends Pessoa {
         objFuncionario.setNome(jsonRetorno.getString("nome"));
         objFuncionario.setCpf(jsonRetorno.getString("cpf"));
         objFuncionario.setRg(jsonRetorno.getString("rg"));
-        objFuncionario.setIdentFuncional(jsonRetorno.getString("identidadefuncional"));
         objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
         return objFuncionario;
     }

@@ -14,6 +14,7 @@ import javax.swing.JFrame;
  */
 public class Frete extends javax.swing.JFrame {
     private JFrame backWindows;
+    private int funcionarioID;
     /**
      * Creates new form Frete
      */
@@ -126,6 +127,11 @@ public class Frete extends javax.swing.JFrame {
         jLabel4.setText("Funcionario");
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -158,9 +164,9 @@ public class Frete extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(frete_jtextfield_funcionario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(frete_jtextfield_funcionario, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26))
         );
 
@@ -302,7 +308,7 @@ public class Frete extends javax.swing.JFrame {
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setLayout(new java.awt.GridLayout());
+        jPanel6.setLayout(new java.awt.GridLayout(1, 0));
 
         jButton4.setText("Realizar Frete");
         jPanel6.add(jButton4);
@@ -356,6 +362,11 @@ public class Frete extends javax.swing.JFrame {
         // TODO add your handling code here:
         Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        Helper.ShowDialog(this,new FreteBuscarFuncionario(this,frete_jtextfield_funcionario, funcionarioID));
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
