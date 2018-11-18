@@ -25,7 +25,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JLabel;
@@ -58,10 +57,11 @@ public class Install {
      * Popula o sistema com dados base
      * @return <b>False</b> caso o sistema não tiver erros
      */
-    private static boolean Populate(){
+    private boolean Populate(){
         Pais brasil = new Pais("Brasil", "BR");
         
-        if((new DAO.PaisDAO(Model.Pais.class)).Save(brasil)){
+        if((new DAO.PaisDAO(Model.Pais.class)).Save(brasil)){            
+            msg.setText("Criando Cidades...");
             Estado mg = new Estado("Minas Gerais", "MG", brasil);
             Estado rj = new Estado("Rio de Janeiro", "RJ", brasil);
             Estado sp = new Estado("São Paulo", "SP", brasil);
@@ -84,7 +84,8 @@ public class Install {
                 if((new DAO.CidadeDAO(Model.Cidade.class)).Save(riodejaneiro))
                 if((new DAO.CidadeDAO(Model.Cidade.class)).Save(saopaulo))  
                 if((new DAO.CidadeDAO(Model.Cidade.class)).Save(ribeiraopreto)){
-                    
+                       
+                    msg.setText("Calculando Distancias...");
                     Distancia distancia1 = new Distancia(belohorizonte, 281, uba);
                     Distancia distancia2 = new Distancia(belohorizonte, 314, cataguases);
                     Distancia distancia3 = new Distancia(belohorizonte, 274, juizdefora);
@@ -205,7 +206,8 @@ public class Install {
                     if((new DistanciaDAO(Model.Distancia.class)).Save(distancia54))  
                     if((new DistanciaDAO(Model.Distancia.class)).Save(distancia55))  
                     if((new DistanciaDAO(Model.Distancia.class)).Save(distancia56)){
-
+                           
+                        msg.setText("Gerando Dados...");
 
                         Telefone telefone1 = new Telefone(32, "(32) 3574-0548");
                         Telefone telefone2 = new Telefone(32, "(32) 3539-8304");
@@ -468,7 +470,7 @@ public class Install {
                     
                     if((new DAO.CategoriaDAO(Model.Categoria.class)).Save(categoria)){
                         usuario.setUserCategoria(categoria);   
-                        return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);
+                        return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);                        
                     } else 
                         return false;
                 } else 
