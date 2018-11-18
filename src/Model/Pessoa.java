@@ -23,7 +23,11 @@ import org.json.JSONObject;
 
 @Entity
 public abstract class Pessoa extends ObjectBase implements Serializable{
+<<<<<<< HEAD
     private TipoPessoa TipoPessoa; // variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
+=======
+    private Util.Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
+>>>>>>> Olá!
     @OneToMany
     private List<Telefone> Telefones;
     @OneToMany

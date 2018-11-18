@@ -42,12 +42,14 @@ public class TipoVeiculo extends ObjectBase {
     
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       TipoVeiculo objTipoVeiculo = new TipoVeiculo(jsonRetorno.getString("descricao"), jsonRetorno.getDouble("pesoMaximo"));
+       objTipoVeiculo.setCodigo(jsonRetorno.getInt("Codigo"));
+       return objTipoVeiculo;
     }
     
 }

@@ -56,12 +56,18 @@ public class ObjetoEncomenda extends ObjectBase {
     }
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ObjetoEncomenda objEncomenda = new ObjetoEncomenda();
+        objEncomenda.setCodigo(jsonRetorno.getInt("Codigo"));
+        objEncomenda.setDescricao(jsonRetorno.getString("descricao"));
+        objEncomenda.setPeso(jsonRetorno.getDouble("peso"));
+        objEncomenda.setEncomendaPertence((Encomenda) new Encomenda().toObjectBase(jsonRetorno.getJSONObject("encomendapertence")));
+        objEncomenda.setTipoEmbalagem((TipoEmbalagem) new TipoEmbalagem().toObjectBase(jsonRetorno.getJSONObject("tipoembalagem")));
+        return objEncomenda;
     }
     
 }

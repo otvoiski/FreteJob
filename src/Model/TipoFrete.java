@@ -39,15 +39,15 @@ public class TipoFrete extends ObjectBase {
     public void setPercentualAcrescimo(double percentualAcrescimo) {
         this.percentualAcrescimo = percentualAcrescimo;
     }
-
-    @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       TipoFrete objTipoFrete = new TipoFrete(jsonRetorno.getString("descricao"), jsonRetorno.getDouble("percentualAcrescimo"));
+       objTipoFrete.setCodigo(jsonRetorno.getInt("Codigo"));
+       return objTipoFrete;
     }
     
 }

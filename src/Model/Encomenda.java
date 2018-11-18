@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
@@ -19,21 +20,24 @@ import org.json.JSONObject;
  */
 @Entity
 public class Encomenda extends ObjectBase {
+
     public static enum Estados {COLETA, TRANSITO, ENTREGE} 
-    @OneToMany
+    @ManyToOne
     private Pessoa Emitente;
-    @OneToMany
+    @ManyToOne
     private Pessoa Destinatario;
-    @OneToMany
+    @ManyToOne
     private Endereco EndOrigem; //existem estes atributos de endereço pois existe a possibilidade da encomenda sair de um endereço que não é endereço do remetente e vice versa
-    @OneToMany
+    @ManyToOne
     private Endereco EndDestino;
-    @OneToMany
+    @ManyToOne
     private List<ObjetoEncomenda> Objetos;
     @ManyToMany
     private List<Distribuidora> DistribuidoraColeta;
     @ManyToMany
     private List<Funcionario> responsManipulacao;
+    @ManyToMany
+    private List<Frete> fretesTransp;
 
     
     public ArrayList<Distribuidora> getDistribuidoraColeta() {

@@ -6,7 +6,13 @@
 package Model;
 
 import Base.ObjectBase;
+import java.util.List;
 import javax.persistence.Entity;
+<<<<<<< HEAD
+=======
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+>>>>>>> Olá!
 import org.json.JSONObject;
 
 /**
@@ -19,7 +25,13 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
+<<<<<<< HEAD
+=======
+    @ManyToOne
+>>>>>>> Olá!
     private Distribuidora LocalTrabalho;
+    @ManyToMany
+    private List<Frete> responsFrete;
 
     public Funcionario() {
         super();
