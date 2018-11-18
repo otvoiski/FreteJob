@@ -10,6 +10,6 @@ package Util;
  * @author Otavio
  */
 public class Enums {    
-    public static enum TipoTransporte {TERRESTRES, AQUATICOS, AEROVIARIOS}
+    public static enum TipoTransporte {Terrestres, Aquaticos, Aeroviarios}
     public static enum TipoPessoa {Juridica, Fisica}
 }
