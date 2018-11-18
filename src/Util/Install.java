@@ -58,7 +58,7 @@ public class Install {
      * Popula o sistema com dados base
      * @return <b>False</b> caso o sistema não tiver erros
      */
-    public static boolean Populate(){
+    private static boolean Populate(){
         Pais brasil = new Pais("Brasil", "BR");
         
         if((new DAO.PaisDAO(Model.Pais.class)).Save(brasil)){
