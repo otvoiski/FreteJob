@@ -6,12 +6,12 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
@@ -19,9 +19,9 @@ import org.json.JSONObject;
  * @author Professor
  */
 @Entity
-public class Encomenda extends ObjectBase {
+public class Encomenda extends ObjectBase implements Serializable {
 
-    public static enum Estados {COLETA, TRANSITO, ENTREGE} 
+    private static final long serialVersionUID = 1L;
     @ManyToOne
     private Pessoa Emitente;
     @ManyToOne
@@ -29,15 +29,13 @@ public class Encomenda extends ObjectBase {
     @ManyToOne
     private Endereco EndOrigem; //existem estes atributos de endereço pois existe a possibilidade da encomenda sair de um endereço que não é endereço do remetente e vice versa
     @ManyToOne
-    private Endereco EndDestino;
-    @ManyToOne
+    private Endereco EndDestino;    
+    @ManyToMany
     private List<ObjetoEncomenda> Objetos;
     @ManyToMany
     private List<Distribuidora> DistribuidoraColeta;
     @ManyToMany
-    private List<Funcionario> responsManipulacao;
-    @ManyToMany
-    private List<Frete> fretesTransp;
+    private List<Funcionario> ResponsManipulacao;
 
     
     public ArrayList<Distribuidora> getDistribuidoraColeta() {
@@ -49,11 +47,11 @@ public class Encomenda extends ObjectBase {
     }
 
     public ArrayList<Funcionario> getResponsManipulacao() {
-        return (ArrayList<Funcionario>)responsManipulacao;
+        return (ArrayList<Funcionario>)ResponsManipulacao;
     }
 
     public void setResponsManipulacao(ArrayList<Funcionario> responsManipulacao) {
-        this.responsManipulacao = responsManipulacao;
+        this.ResponsManipulacao = responsManipulacao;
     }
 
     public Pessoa getEmitente() {

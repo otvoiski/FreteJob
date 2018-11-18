@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -14,30 +15,34 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class TipoFrete extends ObjectBase {
+public class TipoFrete extends ObjectBase implements Serializable {
     
-    private String descricao;
-    private double percentualAcrescimo;
+    private static final long serialVersionUID = 1L;
+    private String Descricao;
+    private double PercentualAcrescimo;
+
+    public TipoFrete() {
+    }
 
     public TipoFrete(String descricao, double percentualAcrescimo) {
-        this.descricao = descricao;
-        this.percentualAcrescimo = percentualAcrescimo;
+        this.Descricao = descricao;
+        this.PercentualAcrescimo = percentualAcrescimo;
     }
 
     public String getDescricao() {
-        return descricao;
+        return Descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.Descricao = descricao;
     }
 
     public double getPercentualAcrescimo() {
-        return percentualAcrescimo;
+        return PercentualAcrescimo;
     }
 
     public void setPercentualAcrescimo(double percentualAcrescimo) {
-        this.percentualAcrescimo = percentualAcrescimo;
+        this.PercentualAcrescimo = percentualAcrescimo;
     }
     public JSONObject toJson() {
         return new JSONObject(this);

@@ -6,7 +6,10 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
@@ -15,44 +18,36 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class ObjetoEncomenda extends ObjectBase {
-    private String descricao;
-    private double peso;
-    private Encomenda encomendaPertence;
-    @ManyToOne
-    private TipoEmbalagem tipoEmbalagem;
+public class ObjetoEncomenda extends ObjectBase implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private String Descricao;
+    private double Peso;
+    private TipoEmbalagem TipoEmbalagem;
     
     
     public String getDescricao() {
-        return descricao;
+        return Descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.Descricao = descricao;
     }
 
     public double getPeso() {
-        return peso;
+        return Peso;
     }
 
     public void setPeso(double peso) {
-        this.peso = peso;
+        this.Peso = peso;
     }
-
-    public Encomenda getEncomendaPertence() {
-        return encomendaPertence;
-    }
-
-    public void setEncomendaPertence(Encomenda encomendaPertence) {
-        this.encomendaPertence = encomendaPertence;
-    }
-
+    
     public TipoEmbalagem getTipoEmbalagem() {
-        return tipoEmbalagem;
+        return TipoEmbalagem;
     }
 
     public void setTipoEmbalagem(TipoEmbalagem tipoEmbalagem) {
-        this.tipoEmbalagem = tipoEmbalagem;
+        this.TipoEmbalagem = tipoEmbalagem;
     }
     @Override
     public JSONObject toJson() {
@@ -65,7 +60,6 @@ public class ObjetoEncomenda extends ObjectBase {
         objEncomenda.setCodigo(jsonRetorno.getInt("Codigo"));
         objEncomenda.setDescricao(jsonRetorno.getString("descricao"));
         objEncomenda.setPeso(jsonRetorno.getDouble("peso"));
-        objEncomenda.setEncomendaPertence((Encomenda) new Encomenda().toObjectBase(jsonRetorno.getJSONObject("encomendapertence")));
         objEncomenda.setTipoEmbalagem((TipoEmbalagem) new TipoEmbalagem().toObjectBase(jsonRetorno.getJSONObject("tipoembalagem")));
         return objEncomenda;
     }

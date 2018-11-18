@@ -6,6 +6,8 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums.TipoTransporte;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -14,30 +16,34 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class TipoVeiculo extends ObjectBase {
+public class TipoVeiculo extends ObjectBase implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    private TipoTransporte Descricao;
+    private double PesoMaximo;
 
-    private String descricao;
-    private double pesoMaximo;
-
-    public String getDescricao() {
-        return descricao;
+    public TipoVeiculo() {
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public TipoTransporte getDescricao() {
+        return Descricao;
+    }
+
+    public void setDescricao(TipoTransporte descricao) {
+        this.Descricao = descricao;
     }
 
     public double getPesoMaximo() {
-        return pesoMaximo;
+        return PesoMaximo;
     }
 
     public void setPesoMaximo(double pesoMaximo) {
-        this.pesoMaximo = pesoMaximo;
+        this.PesoMaximo = pesoMaximo;
     }
 
-    public TipoVeiculo(String descricao, double pesoMaximo) {
-        this.descricao = descricao;
-        this.pesoMaximo = pesoMaximo;
+    public TipoVeiculo(TipoTransporte descricao, double pesoMaximo) {
+        this.Descricao = descricao;
+        this.PesoMaximo = pesoMaximo;
     }
     
     @Override
@@ -47,7 +53,7 @@ public class TipoVeiculo extends ObjectBase {
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-       TipoVeiculo objTipoVeiculo = new TipoVeiculo(jsonRetorno.getString("descricao"), jsonRetorno.getDouble("pesoMaximo"));
+       TipoVeiculo objTipoVeiculo = new TipoVeiculo(jsonRetorno.getEnum(TipoTransporte.class,"descricao"), jsonRetorno.getDouble("pesoMaximo"));
        objTipoVeiculo.setCodigo(jsonRetorno.getInt("Codigo"));
        return objTipoVeiculo;
     }

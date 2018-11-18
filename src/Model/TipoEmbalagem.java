@@ -7,6 +7,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -15,20 +16,21 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class TipoEmbalagem extends ObjectBase {
-    
-    private String descricao;
+public class TipoEmbalagem extends ObjectBase implements Serializable {
+        
+    private static final long serialVersionUID = 1L;
+    private String Descricao;
 
     public String getDescricao() {
-        return descricao;
+        return Descricao;
     }
 
     public void setDescricao(String descricao) {
-        this.descricao = descricao;
+        this.Descricao = descricao;
     }
 
     public TipoEmbalagem(String descricao) {
-        this.descricao = descricao;
+        this.Descricao = descricao;
     }
     public TipoEmbalagem(){}
 
@@ -36,7 +38,7 @@ public class TipoEmbalagem extends ObjectBase {
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("Codigo", getCodigo());
-        json.put("Descricao", descricao);
+        json.put("Descricao", Descricao);
         return json;
     }
 

@@ -6,13 +6,9 @@
 package Model;
 
 import Base.ObjectBase;
-import java.util.List;
+import Util.Enums;
 import javax.persistence.Entity;
-<<<<<<< HEAD
-=======
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
->>>>>>> Olá!
+import javax.persistence.OneToOne;
 import org.json.JSONObject;
 
 /**
@@ -25,20 +21,15 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-<<<<<<< HEAD
-=======
-    @ManyToOne
->>>>>>> Olá!
+    @OneToOne
     private Distribuidora LocalTrabalho;
-    @ManyToMany
-    private List<Frete> responsFrete;
 
     public Funcionario() {
         super();
     }
     
     public Funcionario(String Cpf, String Rg, String Nome, Distribuidora LocalTrabalho) {
-        super();
+        super(Enums.TipoPessoa.Fisica, null, null, null, null);
         this.Cpf = Cpf;
         this.Rg = Rg;
         this.Nome = Nome;

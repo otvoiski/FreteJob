@@ -9,8 +9,8 @@ import Base.ObjectBase;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
@@ -20,80 +20,91 @@ import org.json.JSONObject;
 @Entity
 public class Frete extends ObjectBase implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     @ManyToOne
-    private Veiculo veiculoTransp;
+    private Veiculo VeiculoTransp;
     @ManyToOne
-    private Cidade cidOrigem;
+    private Cidade CidOrigem;
     @ManyToOne
-    private Cidade cidDestino;
-    @ManyToMany(mappedBy = "responsFrete")
-    private List<Funcionario> responsaveis;
-    @ManyToMany(mappedBy = "fretesTransp")
-    private List<Encomenda> encomendasTransporte;
-    private double valorFrete;
+    private Cidade CidDestino;
+    @OneToMany
+    private List<Funcionario> Responsaveis;
+    @OneToMany
+    private List<Encomenda> EncomendasTransporte;
+    private double ValorFrete;
     @ManyToOne
-    private TipoFrete categFrete;
+    private TipoFrete CategFrete;
 
-    public Veiculo getVeiculoTransp() {
-        return veiculoTransp;
+    public Frete(Veiculo VeiculoTransp, Cidade CidOrigem, Cidade CidDestino, List<Funcionario> Responsaveis, List<Encomenda> EncomendasTransporte, double ValorFrete, TipoFrete CategFrete) {
+        this.VeiculoTransp = VeiculoTransp;
+        this.CidOrigem = CidOrigem;
+        this.CidDestino = CidDestino;
+        this.Responsaveis = Responsaveis;
+        this.EncomendasTransporte = EncomendasTransporte;
+        this.ValorFrete = ValorFrete;
+        this.CategFrete = CategFrete;
     }
 
-    public void setVeiculoTransp(Veiculo veiculoTransp) {
-        this.veiculoTransp = veiculoTransp;
+    public Frete() {
+    }
+
+    public Veiculo getVeiculoTransp() {
+        return VeiculoTransp;
+    }
+
+    public void setVeiculoTransp(Veiculo VeiculoTransp) {
+        this.VeiculoTransp = VeiculoTransp;
     }
 
     public Cidade getCidOrigem() {
-        return cidOrigem;
+        return CidOrigem;
     }
 
-    public void setCidOrigem(Cidade cidOrigem) {
-        this.cidOrigem = cidOrigem;
+    public void setCidOrigem(Cidade CidOrigem) {
+        this.CidOrigem = CidOrigem;
     }
 
     public Cidade getCidDestino() {
-        return cidDestino;
+        return CidDestino;
     }
 
-    public void setCidDestino(Cidade cidDestino) {
-        this.cidDestino = cidDestino;
+    public void setCidDestino(Cidade CidDestino) {
+        this.CidDestino = CidDestino;
     }
 
     public List<Funcionario> getResponsaveis() {
-        return responsaveis;
+        return Responsaveis;
     }
 
-    public void setResponsaveis(List<Funcionario> responsaveis) {
-        this.responsaveis = responsaveis;
+    public void setResponsaveis(List<Funcionario> Responsaveis) {
+        this.Responsaveis = Responsaveis;
     }
 
     public List<Encomenda> getEncomendasTransporte() {
-        return encomendasTransporte;
+        return EncomendasTransporte;
     }
 
-    public void setEncomendasTransporte(List<Encomenda> encomendasTransporte) {
-        this.encomendasTransporte = encomendasTransporte;
+    public void setEncomendasTransporte(List<Encomenda> EncomendasTransporte) {
+        this.EncomendasTransporte = EncomendasTransporte;
     }
 
     public double getValorFrete() {
-        return valorFrete;
+        return ValorFrete;
     }
 
-    public void setValorFrete(double valorFrete) {
-        this.valorFrete = valorFrete;
+    public void setValorFrete(double ValorFrete) {
+        this.ValorFrete = ValorFrete;
     }
 
     public TipoFrete getCategFrete() {
-        return categFrete;
+        return CategFrete;
     }
 
-    public void setCategFrete(TipoFrete categFrete) {
-        this.categFrete = categFrete;
+    public void setCategFrete(TipoFrete CategFrete) {
+        this.CategFrete = CategFrete;
     }
+
     
-    
-    public void calculaValorFrete(){
-        
-    }
     
     @Override
     public JSONObject toJson() {
