@@ -45,13 +45,8 @@ Contributor(s):
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/fretejobdb?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
-<<<<<<< HEAD
     <property name="hibernate.connection.password">123456</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
-=======
-    <property name="hibernate.connection.password"></property>
-    <property name="hibernate.hbm2ddl.auto">update</property>
->>>>>>> Olá!
     <mapping class="Model.Usuario"/>
     <mapping class="Model.Categoria"/>
     <mapping class="Model.Pais"/>
@@ -64,5 +59,12 @@ Contributor(s):
     <mapping class="Model.Endereco"/>
     <mapping class="Model.Telefone"/>
     <mapping class="Model.Distancia"/>
+    <mapping class="Model.Frete"/>
+    <mapping class="Model.TipoFrete"/>
+    <mapping class="Model.Veiculo"/>
+    <mapping class="Model.TipoVeiculo"/>
+    <mapping class="Model.Encomenda"/>
+    <mapping class="Model.ObjetoEncomenda"/>
+    <mapping class="Model.TipoEmbalagem"/>
   </session-factory>
 </hibernate-configuration>
