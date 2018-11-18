@@ -7,7 +7,6 @@ package Model;
 
 import Base.ObjectBase;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import org.json.JSONObject;
 
 /**
@@ -20,7 +19,6 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-    @OneToMany(mappedBy = "Distribuidora")
     private Distribuidora LocalTrabalho;
 
     public Funcionario() {

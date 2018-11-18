@@ -16,7 +16,7 @@ import org.json.JSONObject;
  */
 @Entity
 public class Email extends ObjectBase implements Serializable {
-
+    private static final long serialVersionUID = 1L;
     private String email;
 
     public Email() {

@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Telefone extends ObjectBase{
+public class Telefone extends ObjectBase implements Serializable{
     
     private int DDD;
     private String Numero;

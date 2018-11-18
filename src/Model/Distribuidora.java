@@ -6,7 +6,6 @@
 package Model;
 
 import Base.ObjectBase;
-import Util.Enums;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;

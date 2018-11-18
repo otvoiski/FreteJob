@@ -15,7 +15,8 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Pais extends ObjectBase implements Serializable{
+public class Pais extends ObjectBase implements Serializable{    
+    private static final long serialVersionUID = 1L;    
     private String Nome;
     private String Sigla;
 

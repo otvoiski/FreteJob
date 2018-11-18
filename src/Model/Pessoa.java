@@ -7,6 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
+import Util.Enums.TipoPessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,29 +23,30 @@ import org.json.JSONObject;
 
 @Entity
 public abstract class Pessoa extends ObjectBase implements Serializable{
-    private Util.Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
-    @OneToMany(mappedBy = "Telefone")
+    private TipoPessoa TipoPessoa; // variável para guardar se a pessoa se trata de cliente fisico,juridico, funcionario, ou é uma distribuidora  
+    @OneToMany
     private List<Telefone> Telefones;
-    @OneToMany(mappedBy = "Endereco")
+    @OneToMany
     private List<Endereco> Enderecos;
-    @OneToMany(mappedBy = "MidiaSocial")
+    @OneToMany
     private List<MidiaSocial> MidiaSociais;
+    @OneToMany
     private List<Email> Emails;
-
-    public ArrayList<Email> getEmails() {
-        return (ArrayList<Email>)Emails;
-    }
-
-    public void setEmails(ArrayList<Email> Emails) {
-        this.Emails = Emails;
-    }
     
     public Pessoa() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
         MidiaSociais = new ArrayList<>();
     }
+    
+    public List<Email> getEmails() {
+        return (List<Email>)Emails;
+    }
 
+    public void setEmails(List<Email> Emails) {
+        this.Emails = Emails;
+    }
+    
     public Pessoa(Enums.TipoPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
         this.TipoPessoa = tipoPessoa;
         this.Telefones = telefones;
