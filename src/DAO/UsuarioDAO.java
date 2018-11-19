@@ -5,6 +5,10 @@
  */
 package DAO;
 
+import Model.Usuario;
+import java.util.List;
+import org.json.JSONObject;
+
 /**
  *
  * @author Otavio
@@ -14,5 +18,4 @@ public class UsuarioDAO extends Base.Persistencia{
     public UsuarioDAO(Class persistedClass) {
         super(persistedClass);
     }
-    
 }
