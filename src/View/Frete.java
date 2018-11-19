@@ -5,8 +5,16 @@
  */
 package View;
 
+import Util.Enums;
+import Util.Enums.TipoTransporte;
 import Util.Helper;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import org.json.JSONObject;
 
 /**
  *
@@ -17,12 +25,31 @@ public class Frete extends javax.swing.JFrame {
     private int funcionarioID;
     /**
      * Creates new form Frete
+     * @param backWindows
      */
     public Frete(JFrame backWindows) {
         initComponents();
         this.backWindows = backWindows;
+        
+        Init();
     }
-
+    private void PreencheComboBox(List<JSONObject> list, JComboBox combo, String name){
+        list.forEach((j) -> {
+            combo.addItem(j.get(name));
+        });
+    }
+    private void Init(){
+        List<JSONObject> list = (new Controller.CidadeController()).GetAll();
+        PreencheComboBox(list, frete_jcombobox_origem, "nome");
+        PreencheComboBox(list, frete_jcombobox_destino, "nome");     
+        PreencheComboBox((new Controller.DistribuidoraController()).GetAll(), frete_jcombobox_filial,"RazaoSocial");
+        
+        List<TipoTransporte> listaTipoTransporte = Arrays.asList(TipoTransporte.values());
+        for (TipoTransporte t : listaTipoTransporte) {
+            frete_jcombobox_transporte.addItem(t.name());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,8 +63,8 @@ public class Frete extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        frete_jtextfield_origem = new javax.swing.JTextField();
-        frete_jtextfield_destino = new javax.swing.JTextField();
+        frete_jcombobox_origem = new javax.swing.JComboBox<>();
+        frete_jcombobox_destino = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         frete_jcombobox_filial = new javax.swing.JComboBox<>();
         frete_jtextfield_funcionario = new javax.swing.JTextField();
@@ -58,12 +85,13 @@ public class Frete extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
+        jButton6 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        totalFreteCalculado = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        kilometragem = new javax.swing.JLabel();
+        valorPorPeso = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
 
@@ -86,23 +114,25 @@ public class Frete extends javax.swing.JFrame {
 
         jLabel2.setText("Destino");
 
-        frete_jtextfield_origem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                frete_jtextfield_origemActionPerformed(evt);
-            }
-        });
+        frete_jcombobox_origem.setName("Origem"); // NOI18N
+
+        frete_jcombobox_destino.setName("Destino"); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(frete_jtextfield_origem)
-                    .addComponent(jLabel2)
-                    .addComponent(frete_jtextfield_destino, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(130, 130, 130))
+                    .addComponent(frete_jcombobox_origem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(frete_jcombobox_destino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -111,18 +141,24 @@ public class Frete extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(frete_jtextfield_origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(frete_jcombobox_origem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(frete_jtextfield_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(frete_jcombobox_destino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação"));
 
-        jLabel3.setText("Filial");
+        frete_jcombobox_filial.setName("Distribuidora"); // NOI18N
+
+        frete_jtextfield_funcionario.setText("Busque um funcionário");
+        frete_jtextfield_funcionario.setEnabled(false);
+        frete_jtextfield_funcionario.setName("Funcionario"); // NOI18N
+
+        jLabel3.setText("Distribuidora");
 
         jLabel4.setText("Funcionario");
 
@@ -173,15 +209,22 @@ public class Frete extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Encomenda"));
 
+        frete_jlistfield_funcionario.setName("Encomendas"); // NOI18N
         jScrollPane1.setViewportView(frete_jlistfield_funcionario);
 
         jLabel5.setText("Encomendas a serem transportadas");
+
+        frete_jtextfield_nome_encomenda.setName("Nome da Encomenda"); // NOI18N
 
         jLabel6.setText("Nome da encomenda");
 
         jLabel7.setText("Peso");
 
+        frete_jtextfield_peso.setName("Peso"); // NOI18N
+
         jLabel8.setText("Tipo de transporte");
+
+        frete_jcombobox_transporte.setName("Tipo de Transporte"); // NOI18N
 
         jButton1.setText("Remover");
 
@@ -190,6 +233,8 @@ public class Frete extends javax.swing.JFrame {
         jButton3.setText("Adicionar Embalagem");
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/shipped.png"))); // NOI18N
+
+        jButton6.setText("Calcular Frete");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -216,7 +261,8 @@ public class Frete extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(37, 37, 37))
         );
         jPanel4Layout.setVerticalGroup(
@@ -249,29 +295,31 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jButton1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)))
+                                .addComponent(jButton2)
+                                .addGap(26, 26, 26)
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 20, Short.MAX_VALUE))))
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Valores"));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel10.setText("R$ 65,56");
+        totalFreteCalculado.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        totalFreteCalculado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        totalFreteCalculado.setText("R$ 65,56");
 
         jLabel11.setText("Distancia a ser percorrida");
 
         jLabel12.setText("Valor da embalagem");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel13.setText("235 KM");
+        kilometragem.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        kilometragem.setText("235 KM");
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel14.setText("R$ 35,05");
+        valorPorPeso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        valorPorPeso.setText("R$ 35,05");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -285,10 +333,10 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel13)
-                            .addComponent(jLabel14))))
+                            .addComponent(kilometragem)
+                            .addComponent(valorPorPeso))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(totalFreteCalculado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -296,15 +344,15 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(kilometragem)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addComponent(valorPorPeso)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(totalFreteCalculado, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
@@ -354,10 +402,6 @@ public class Frete extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void frete_jtextfield_origemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_frete_jtextfield_origemActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_frete_jtextfield_origemActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         Helper.CloseDialog(this, backWindows);
@@ -404,25 +448,23 @@ public class Frete extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> frete_jcombobox_destino;
     private javax.swing.JComboBox<String> frete_jcombobox_filial;
+    private javax.swing.JComboBox<String> frete_jcombobox_origem;
     private javax.swing.JComboBox<String> frete_jcombobox_transporte;
     private javax.swing.JList<String> frete_jlistfield_funcionario;
-    private javax.swing.JTextField frete_jtextfield_destino;
     private javax.swing.JTextField frete_jtextfield_funcionario;
     private javax.swing.JTextField frete_jtextfield_nome_encomenda;
-    private javax.swing.JTextField frete_jtextfield_origem;
     private javax.swing.JTextField frete_jtextfield_peso;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -438,5 +480,8 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel kilometragem;
+    private javax.swing.JLabel totalFreteCalculado;
+    private javax.swing.JLabel valorPorPeso;
     // End of variables declaration//GEN-END:variables
 }
