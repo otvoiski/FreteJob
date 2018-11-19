@@ -82,7 +82,7 @@ public class Loading extends javax.swing.JFrame {
         //Caso contrario deve ser criado junto com o usuario padrão
         if(Util.Install.isIsInstalled()){
             try {
-
+                
                 Thread.sleep(500);            
 
                 this.dispose();
