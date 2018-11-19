@@ -55,11 +55,11 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.Emails = emails;
     }
 
-    public ArrayList<Endereco> getEnderecos() {
-        return (ArrayList<Endereco>)Enderecos;
+    public List<Endereco> getEnderecos() {
+        return (List<Endereco>)Enderecos;
     }
 
-    public void setEnderecos(ArrayList<Endereco> Enderecos) {
+    public void setEnderecos(List<Endereco> Enderecos) {
         this.Enderecos = Enderecos;
     }
 
@@ -69,33 +69,25 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     public void setTipoPessoa(Util.Enums.TipoPessoa tipoPessoa) {
         this.TipoPessoa = tipoPessoa;
     }
-    public ArrayList<Telefone> getTelefones() {
-        return (ArrayList<Telefone>)Telefones;
+    public List<Telefone> getTelefones() {
+        return (List<Telefone>)Telefones;
     }
 
-    public void setTelefones(ArrayList<Telefone> Telefones) {
+    public void setTelefones(List<Telefone> Telefones) {
         this.Telefones = Telefones;
     }
     
      
-    public  ArrayList<MidiaSocial>getMidiaSociais() {
-        return(ArrayList<MidiaSocial>)MidiaSociais;
+    public  List<MidiaSocial>getMidiaSociais() {
+        return(List<MidiaSocial>)MidiaSociais;
     }
 
-    public void setMidiaSociais(ArrayList<MidiaSocial> MidiaSociais) {
+    public void setMidiaSociais(List<MidiaSocial> MidiaSociais) {
         this.MidiaSociais = MidiaSociais;
     }
     
     protected JSONObject preencheJson(){
-        JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("TipoPessoa",getTipoPessoa());
-        json.put("Enderecos", getEnderecos());
-        json.put("Telefones", getTelefones());
-        json.put("MidiasSociais", getMidiaSociais());
-        json.put("Emails", getEmails());
-        
-        return json;
+        return new JSONObject(this);
     }
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
