@@ -7,6 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 @Entity
 public class Cidade extends ObjectBase implements Serializable{
     private static final long serialVersionUID = 1L;
+    @Column(unique = true)
     private String Nome;
     private String CodMunicipio;
     @ManyToOne

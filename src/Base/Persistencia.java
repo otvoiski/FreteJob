@@ -36,6 +36,9 @@ public class Persistencia<T extends ObjectBase> {
         Object obj = MetodosJPA.recuperar(id, classePersistente);
         return (T) obj;
     }
+    public List<T> Get(String[][] parametros){
+        return (List<T>) MetodosJPA.selecionar(classePersistente, parametros);
+    }
 
     public List<T> GetAll() {
         return (List<T>) MetodosJPA.selecionar(classePersistente);

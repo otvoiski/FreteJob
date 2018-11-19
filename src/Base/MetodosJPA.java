@@ -6,10 +6,9 @@
 package Base;
 
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.json.JSONObject;
 
 /**
  *
@@ -56,9 +55,9 @@ public class MetodosJPA {
     public static List<?> selecionar(Class classe, String whereJPQL){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
-        return session.createQuery("from " + classe.getName()).list();
+        return session.createQuery("from " + classe.getName() + whereJPQL).list();
     }
-    public List<?> selecionar(Class classe, String[][] parametros){
+   public static List<?> selecionar(Class classe, String[][] parametros){
         String where = "";
         if(parametros.length >0){
             for(int i = 0; i< parametros.length; i++){
@@ -66,10 +65,11 @@ public class MetodosJPA {
                     where = where + " where ";
                 else
                     where = where+ " and ";
-                
-                String campo = parametros[i][0];
-                String valor = parametros[i][1];
-                where =  where+ campo + " = '" + valor + "'";
+                for(int  j = 1; j< parametros[0].length; j++){
+                    String campo = parametros[i][j-1];
+                    String valor = parametros[i][j];
+                    where =  where+ campo + " = " + valor;
+                }
             }
         }
         return selecionar(classe, where);

@@ -12,4 +12,5 @@ package Util;
 public class Enums {    
     public static enum TipoTransporte {Terrestres, Aquaticos, Aeroviarios}
     public static enum TipoPessoa {Juridica, Fisica}
+    public static enum TipoFreteEncomenda{Normal, Rapido, SuperRapido}
 }
