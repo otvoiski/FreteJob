@@ -1,34 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="7"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Veiculo.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Base/HibernateUtil.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/PessoaFisica.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/Main.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Base/FabricaConexaoJDBC.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/teste.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/Loading.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/PessoaJuridica.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Categoria.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Endereco.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Pais.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Cidade.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Pessoa.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/TipoVeiculo.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/TipoEmbalagem.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Base/Global.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Distribuidora.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Encomenda.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/hibernate.cfg.xml</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Usuario.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/Frete.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/Login.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/Email.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Model/ObjetoEncomenda.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/View/Pais.java</file>
-            <file>file:/D:/OneDrive/FACULDADE/Material%20Facul/GIT/src/Base/MetodosPersistenciaJDBC.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
