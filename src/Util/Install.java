@@ -5,6 +5,7 @@
  */
 package Util;
 
+import Base.FabricaConexaoJDBC;
 import Base.Global;
 import DAO.DistanciaDAO;
 import Model.Categoria;
@@ -22,7 +23,6 @@ import Model.Usuario;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -451,10 +451,10 @@ public class Install {
         }
     }
     private boolean _Start(){
-        if(!isInstalled){               
+        if(!isInstalled){ 
             try {
                 msg.setText("Criando Base de Dados...");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=123456"); 
+                Connection conn = FabricaConexaoJDBC.GetConnection();
                 String query = "Create database " + Global.DB_NAME;  
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(query);
                 int exe = ps.executeUpdate();
@@ -469,21 +469,29 @@ public class Install {
                     
                     if((new DAO.CategoriaDAO(Model.Categoria.class)).Save(categoria)){
                         usuario.setUserCategoria(categoria);   
-                        if(new DAO.UsuarioDAO(Model.Usuario.class).Save(usuario))
+                        if(new DAO.UsuarioDAO(Model.Usuario.class).Save(usuario)){
+                            conn.close();
                             return !Populate();
-                        else 
+                        }else{
+                            conn.close();
                             return false;
-                    } else 
+                        }
+                    } else{
+                        conn.close();
                         return false;
-                } else 
-                    return false;        
+                    }
+                } else {
+                    conn.close();
+                    return false;     
+                }
+                       
             } catch (SQLException e) {
                 if(e.getMessage().contains("database exists")){
                     try {
                         msg.setText("Deletando Base de Dados com defeito...");
                         Connection conn; 
 
-                        conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=123456");
+                        conn = FabricaConexaoJDBC.GetConnection();
 
                         String query = "drop database " + Global.DB_NAME;  
                         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(query);
@@ -495,7 +503,10 @@ public class Install {
                         Logger.getLogger(Install.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
-                } else System.out.println(e.getMessage());
+                } else{ 
+                    System.out.println(e.getMessage());
+                    return false;
+                }
             }
         } return true;
     }

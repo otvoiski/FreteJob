@@ -43,7 +43,6 @@ public class Frete extends javax.swing.JFrame {
         PreencheComboBox(list, frete_jcombobox_origem, "nome");
         PreencheComboBox(list, frete_jcombobox_destino, "nome");     
         PreencheComboBox((new Controller.DistribuidoraController()).GetAll(), frete_jcombobox_filial,"RazaoSocial");
-        
         List<TipoTransporte> listaTipoTransporte = Arrays.asList(TipoTransporte.values());
         for (TipoTransporte t : listaTipoTransporte) {
             frete_jcombobox_transporte.addItem(t.name());
