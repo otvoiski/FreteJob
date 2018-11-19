@@ -50,7 +50,6 @@ public class Install {
     public boolean Start(){        
         isInstalled = _Start();
         _Update(isInstalled);
-        if(isInstalled) Populate();
         return isInstalled;
     }
     /**
@@ -470,7 +469,10 @@ public class Install {
                     
                     if((new DAO.CategoriaDAO(Model.Categoria.class)).Save(categoria)){
                         usuario.setUserCategoria(categoria);   
-                        return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);                        
+                        if(new DAO.UsuarioDAO(Model.Usuario.class).Save(usuario))
+                            return !Populate();
+                        else 
+                            return false;
                     } else 
                         return false;
                 } else 
