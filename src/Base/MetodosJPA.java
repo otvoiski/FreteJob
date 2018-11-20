@@ -8,7 +8,6 @@ package Base;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.json.JSONObject;
 
 /**
  *
@@ -16,7 +15,6 @@ import org.json.JSONObject;
  */
 public class MetodosJPA {
     public static Session abrirTransacao(){
-//        EntityManager gerente = FabricaConexao.getManager();
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
         session.getTransaction().begin();
@@ -55,10 +53,9 @@ public class MetodosJPA {
     public static List<?> selecionar(Class classe, String whereJPQL){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
-        System.out.println("Select * from  "+classe.getName() +  whereJPQL);
         return session.createQuery("from " + classe.getName() + whereJPQL).list();
     }
-   public static List<?> selecionar(Class classe, String[][] parametros){
+    public static List<?> selecionar(Class classe, String[][] parametros){
         String where = "";
         if(parametros.length >0){
             for(int i = 0; i< parametros.length; i++){
