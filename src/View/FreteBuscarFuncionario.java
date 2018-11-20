@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import org.json.JSONObject;
 
 /**
@@ -33,6 +34,11 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         this.windowsBack = backWindows; //usado para Dialog
         this.funcionario = funcionario; //Atualiza o funcionario no Frete.
         this.funcionarioID = funcionarioID;
+        
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(1).setPreferredWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(50);
     }
 
     /**
