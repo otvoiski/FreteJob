@@ -150,6 +150,13 @@ public class Encomenda extends ObjectBase implements Serializable {
         this.valorCobrado = multipModalFrete*distanciaPercorrer*multipPeso*0.02;
                 
     }
+    public void gerarCodRastreamento(){
+        if(tipoFreteEscolhido.compareTo(TipoFreteEncomenda.Normal) == 0)
+            codRastreio += "NR";
+        else if(tipoFreteEscolhido.compareTo(TipoFreteEncomenda.Rapido) == 0)
+            codRastreio += "RP";
+        else codRastreio += "SR";
+    }
         
     @Override
     public JSONObject toJson() {

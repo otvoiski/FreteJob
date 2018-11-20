@@ -5,14 +5,16 @@
  */
 package DAO;
 
+import Base.Persistencia;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
-public class UsuarioDAO extends Base.Persistencia{
+public class TipoEmbalagemDAO  extends Persistencia {
     
-    public UsuarioDAO(Class persistedClass) {
+    public TipoEmbalagemDAO(Class persistedClass) {
         super(persistedClass);
     }
+    
 }

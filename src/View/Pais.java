@@ -29,60 +29,69 @@ public class Pais extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jbCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         jlNome = new javax.swing.JLabel();
         jlSigla = new javax.swing.JLabel();
         jtfSigla = new javax.swing.JTextField();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
         jtfNomePais = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro de País");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(594, 322));
+        setMinimumSize(new java.awt.Dimension(600, 230));
         setResizable(false);
+        getContentPane().setLayout(null);
 
         jPanel1.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.selectionForeground"));
         jPanel1.setLayout(null);
 
-        jbCancelar.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbCancelar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/CancelIcon.png"))); // NOI18N
         jbCancelar.setText("Cancelar");
+        jbCancelar.setEnabled(false);
         jbCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCancelarActionPerformed(evt);
             }
         });
         jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(250, 190, 110, 30);
+        jbCancelar.setBounds(0, 80, 120, 40);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/PaisIcon.png"))); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(390, 40, 220, 200);
-
-        jlNome.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jlNome.setText("Nome:");
         jPanel1.add(jlNome);
-        jlNome.setBounds(50, 40, 60, 20);
+        jlNome.setBounds(170, 40, 60, 20);
 
-        jlSigla.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jlSigla.setText("Sigla:");
         jPanel1.add(jlSigla);
-        jlSigla.setBounds(50, 90, 50, 20);
+        jlSigla.setBounds(170, 90, 50, 20);
         jPanel1.add(jtfSigla);
-        jtfSigla.setBounds(50, 110, 60, 20);
+        jtfSigla.setBounds(170, 110, 60, 20);
 
-        jbIncluir.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbIncluir.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
         jbIncluir.setText("Incluir");
         jPanel1.add(jbIncluir);
-        jbIncluir.setBounds(50, 190, 90, 30);
+        jbIncluir.setBounds(0, 0, 120, 40);
 
-        jbGravar.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbGravar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
         jbGravar.setText("Gravar");
+        jbGravar.setEnabled(false);
+        jbGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGravarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbGravar);
-        jbGravar.setBounds(150, 190, 95, 30);
+        jbGravar.setBounds(0, 40, 120, 40);
 
         jtfNomePais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,18 +99,43 @@ public class Pais extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jtfNomePais);
-        jtfNomePais.setBounds(50, 60, 270, 20);
+        jtfNomePais.setBounds(170, 60, 270, 20);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
+        jButton1.setText("Excluir");
+        jButton1.setEnabled(false);
+        jPanel1.add(jButton1);
+        jButton1.setBounds(0, 120, 120, 40);
+
+        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jButton2.setText("Consultar");
+        jPanel1.add(jButton2);
+        jButton2.setBounds(0, 160, 120, 40);
+
+        jButton3.setText("<<");
+        jPanel1.add(jButton3);
+        jButton3.setBounds(390, 0, 50, 23);
+
+        jButton4.setText("<");
+        jPanel1.add(jButton4);
+        jButton4.setBounds(440, 0, 50, 23);
+
+        jButton5.setText(">");
+        jPanel1.add(jButton5);
+        jButton5.setBounds(490, 0, 50, 23);
+
+        jButton6.setText(">>");
+        jPanel1.add(jButton6);
+        jButton6.setBounds(540, 0, 49, 23);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/flag.png"))); // NOI18N
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(520, 30, 60, 170);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 600, 210);
 
         pack();
         setLocationRelativeTo(null);
@@ -114,6 +148,10 @@ public class Pais extends javax.swing.JFrame {
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbGravarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,6 +189,12 @@ public class Pais extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbCancelar;

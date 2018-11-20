@@ -8,8 +8,6 @@ package View;
 import Util.Error;
 import Util.Helper;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -25,19 +23,22 @@ import org.json.JSONObject;
 public class FreteBuscarCidade extends javax.swing.JFrame {
 
     private JTextField cidade;
+    private JTextField cidCodigo;
     private JFrame backWindows;
     private int cidadeID;
+
     
     /**
      * Creates new form FreteBuscarCidade
      * @param backWindows
      * @param cidade
      */
-    public FreteBuscarCidade(JFrame backWindows,JTextField cidade, int cidadeID) {
+    public FreteBuscarCidade(JFrame backWindows,JTextField cidade, JTextField cidadeCodigo, int cidadeID) {
         initComponents();
         this.cidade = cidade;
         this.backWindows = backWindows;
         this.cidadeID = cidadeID;
+        this.cidCodigo = cidadeCodigo;
         
         TableColumnModel columnModel = jTable1.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
@@ -193,9 +194,9 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 json.getInt("codigo") + "",
                 json.getString("nome"),                
                 json.getJSONObject("estado").getString("sigla")
-            });
+                    
+            });      
         });
-        
         if(table.getRowCount() == 0)
             JOptionPane.showMessageDialog(rootPane, "Cidade não encontrada!");
         
@@ -218,6 +219,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
                 String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
                 cidade.setText(cid + ", " + est);
+                cidCodigo.setText(String.valueOf(cidadeID));
 
                 Helper.CloseDialog(this, backWindows);
             }
@@ -256,7 +258,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FreteBuscarCidade(null, null,0).setVisible(true);
+                new FreteBuscarCidade(null, null,null,0).setVisible(true);
             }
         });
     }

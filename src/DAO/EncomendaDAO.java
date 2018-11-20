@@ -5,14 +5,15 @@
  */
 package DAO;
 
-
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
-public class UsuarioDAO extends Base.Persistencia{
+public class EncomendaDAO extends Base.Persistencia{
     
-    public UsuarioDAO(Class persistedClass) {
+    public EncomendaDAO(Class persistedClass) {
         super(persistedClass);
     }
+    
+    
 }
