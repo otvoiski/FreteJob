@@ -48,7 +48,7 @@ public class Encomenda extends ObjectBase implements Serializable {
         return valorCobrado;
     }
 
-    public void setValorCobrado(double valorCobrado) {
+    private void setValorCobrado(double valorCobrado) {
         this.valorCobrado = valorCobrado;
     }
 
@@ -167,33 +167,43 @@ public class Encomenda extends ObjectBase implements Serializable {
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Encomenda objEncomenda =  new Encomenda();
         JSONArray arrayAux;
-        objEncomenda.setCodigo(jsonRetorno.getInt("codigo"));
+        if(jsonRetorno.has("codigo"))
+            objEncomenda.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEncomenda.setCodigo(0);
+        
         if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.TipoPessoa.class,"TipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
             objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("emitente"))); 
         }else
              objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("emitente")));
         
-        if(jsonRetorno.getJSONObject("destinatario").getEnum(Util.Enums.TipoPessoa.class,"TipoPessoa").compareTo(Enums.TipoPessoa.Fisica)==0){
+        if(jsonRetorno.getJSONObject("destinatario").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica)==0){
             objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("destinatario"))); 
         }else
             objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("destinatario")));
         
-        objEncomenda.setEndOrigem((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("end_origem")));
-        objEncomenda.setEndDestino((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("end_destino")));
+        objEncomenda.setEndOrigem((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endOrigem")));
+        objEncomenda.setEndDestino((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endDestino")));
         arrayAux = jsonRetorno.getJSONArray("objetos");
         for(int i = 0; i< arrayAux.length(); i++){
             objEncomenda.getObjetos().add((ObjetoEncomenda) new ObjetoEncomenda().toObjectBase(arrayAux.getJSONObject(i)));
         }
-        arrayAux = jsonRetorno.getJSONArray("distribuidora_coleta");
-        for(int i = 0; i< arrayAux.length(); i++){
-            objEncomenda.getDistribuidoraColeta().add((Distribuidora) new Distribuidora().toObjectBase(arrayAux.getJSONObject(i)));
+        if(jsonRetorno.has("distribuidoraColeta")){
+            arrayAux = jsonRetorno.getJSONArray("distribuidoraColeta");
+            for(int i = 0; i< arrayAux.length(); i++){
+                objEncomenda.getDistribuidoraColeta().add((Distribuidora) new Distribuidora().toObjectBase(arrayAux.getJSONObject(i)));
+            }
         }
-        arrayAux = jsonRetorno.getJSONArray("respons_manipulacao");
-        for(int i = 0; i< arrayAux.length(); i++){
-            objEncomenda.getResponsManipulacao().add((Funcionario) new Funcionario().toObjectBase(arrayAux.getJSONObject(i)));
+        if(jsonRetorno.has("responsManipulacao")){
+            arrayAux = jsonRetorno.getJSONArray("responsManipulacao");
+            for(int i = 0; i< arrayAux.length(); i++){
+                objEncomenda.getResponsManipulacao().add((Funcionario) new Funcionario().toObjectBase(arrayAux.getJSONObject(i)));
+            }
         }
-        objEncomenda.setValorCobrado(jsonRetorno.getDouble("valor_cobrado"));
-        objEncomenda.setCodRastreio(jsonRetorno.getString("cod_rastreio"));
+        if(jsonRetorno.has("valorCobrado"))
+            objEncomenda.setValorCobrado(jsonRetorno.getDouble("valorCobrado"));
+        if(jsonRetorno.has("codRastreio"))
+            objEncomenda.setCodRastreio(jsonRetorno.getString("codRastreio"));
         
         return objEncomenda;
     }

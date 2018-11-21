@@ -112,8 +112,11 @@ public class Endereco extends ObjectBase {
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Cidade objCidade = new Cidade();
-        Endereco objEndereco = new Endereco();    
-        objEndereco.setCodigo(jsonRetorno.getInt("codigo"));
+        Endereco objEndereco = new Endereco();
+        if(jsonRetorno.has("codigo"))
+            objEndereco.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEndereco.setCodigo(0);
         objEndereco.setRua(jsonRetorno.getString("rua"));
         objEndereco.setBairro(jsonRetorno.getString("bairro"));
         objEndereco.setCEP(jsonRetorno.getString("CEP"));

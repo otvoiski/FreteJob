@@ -5,6 +5,7 @@
  */
 package View;
 
+import Util.Enums;
 import Util.Error;
 import Util.Helper;
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ import org.json.JSONObject;
  */
 public class BuscaPessoa extends javax.swing.JFrame {
 
-    private JTextField jtfPessoa;
-    private JTextField pessoaCodigo;
-    private JFrame backWindows;
+    private final JTextField jtfPessoa;
+    private final JTextField pessoaCodigo;
+    private final JFrame backWindows;
     private int pessoaID;
 
     
@@ -66,9 +67,10 @@ public class BuscaPessoa extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jCheckQualqParte = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar Cidade");
+        setTitle("Buscar Pessoa");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -78,7 +80,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Nome da cidade");
+        jLabel1.setText("Nome da Pessoa");
 
         jtfCampoPesquisa.setToolTipText("Cidade");
         jtfCampoPesquisa.setName("jtfCampoPesquisa"); // NOI18N
@@ -106,6 +108,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Selecionar");
@@ -132,6 +135,8 @@ public class BuscaPessoa extends javax.swing.JFrame {
             }
         });
 
+        jCheckQualqParte.setText("Qualquer parte");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -142,7 +147,8 @@ public class BuscaPessoa extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckQualqParte))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jButton2)
@@ -157,8 +163,10 @@ public class BuscaPessoa extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
+                .addGap(12, 12, 12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jCheckQualqParte))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfCampoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,12 +201,19 @@ public class BuscaPessoa extends javax.swing.JFrame {
         table.setNumRows(0);
         
         list.forEach((json) -> {
-            table.addRow(new String[]{
-                json.getInt("codigo") + "",
-                json.getString("nome"),                
-                json.getString("tipoPessoa")
-                    
-            });      
+            if(json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
+                table.addRow(new String[]{
+                    json.getInt("codigo") + "",
+                    json.getString("nome"),                
+                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()    
+                });
+            }else{
+                table.addRow(new String[]{
+                    json.getInt("codigo") + "",
+                    json.getString("nomeFantasia"),                
+                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()    
+                }); 
+            }
         });
         if(table.getRowCount() == 0)
             JOptionPane.showMessageDialog(rootPane, "Pessoa não encontrada!");
@@ -207,29 +222,36 @@ public class BuscaPessoa extends javax.swing.JFrame {
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        List<JSONObject> pessoasFisicas;
+        List<JSONObject> pessoaJuridicas;
         try {
-            List<JSONObject> pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoa(Util.Validacao.InputToString(jtfCampoPesquisa));
-            List<JSONObject> pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoa(Util.Validacao.InputToString(jtfCampoPesquisa));
+            if(jCheckQualqParte.isSelected()){
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%"+Util.Validacao.InputToString(jtfCampoPesquisa, "Pesquisa"));
+                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName("%"+jtfCampoPesquisa.getText());
+            }else{
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName(Util.Validacao.InputToString(jtfCampoPesquisa, "Pesquisa"));
+                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName(jtfCampoPesquisa.getText());
+            }
             List<JSONObject> Clientes = new ArrayList<>(pessoasFisicas);
             Clientes.addAll(pessoaJuridicas);
             PreencheJTable(jTable1, Clientes);
         } catch (Error ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {       
             if(jTable1.getSelectedRow() != -1){
-                pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
-                String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
+                pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0)), "Pessoa Id"));
+                String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)), "Nome");
                 jtfPessoa.setText(nome);
                 pessoaCodigo.setText(String.valueOf(pessoaID));
 
                 Helper.CloseDialog(this, backWindows);
             }
         } catch (Error e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            //JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -287,6 +309,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JCheckBox jCheckQualqParte;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

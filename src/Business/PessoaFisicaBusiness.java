@@ -15,12 +15,10 @@ import org.hibernate.Query;
  */
 public class PessoaFisicaBusiness extends Base.BusinessBase {
     
-    public List<Pessoa> GetPessoa(String nome) {
-        String hql = "from Pessoa p"
-                + "inner join PessoaFisica pf on(p.codigo = pf.codigo)"
-                + "where Nome like :nome";
+    public List<Pessoa> GetPessoaByName(String nome) {
+        String hql = "from PessoaFisica pf where pf.Nome like :nome";
         Query query = session.createQuery(hql);
-        query.setString("nome", nome + "%");
+        query.setString("nome",nome + "%");
         return (List<Pessoa>) query.list();
     }
 }

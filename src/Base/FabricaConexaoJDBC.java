@@ -13,7 +13,7 @@ public class FabricaConexaoJDBC {
     private static final String IP = "localhost";  // ip de conexao
     private static final String STR_CON_DB = "jdbc:mysql://" + IP + ":3306/" + DATABASE; // string de conexao com o banco de dados
     private static final String USER = "root"; // Nome do usuário
-    private static final String PASSWORD = "123456"; // senha
+    private static final String PASSWORD = ""; // senha
     private static Connection objConexao = null;
  
     public FabricaConexaoJDBC() {

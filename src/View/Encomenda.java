@@ -5,6 +5,8 @@
  */
 package View;
 
+import Controller.EncomendaController;
+import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
 import com.sun.webkit.dom.EventImpl;
@@ -12,8 +14,11 @@ import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -27,6 +32,7 @@ public class Encomenda extends javax.swing.JFrame {
     
     private int cidadeOrigemID;
     private int remetenteID;
+    private int destinatarioID;
     private TelaHandler tratarEventos;
     private ArrayList<JTextField> camposAtivar;
     /**
@@ -93,7 +99,7 @@ public class Encomenda extends javax.swing.JFrame {
     private void initComponents() {
 
         jRadioButtonMenuItem1 = new javax.swing.JRadioButtonMenuItem();
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        ModalidadeFrete = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
@@ -209,6 +215,11 @@ public class Encomenda extends javax.swing.JFrame {
         jbBuscaRemetente.setBounds(328, 47, 36, 20);
 
         jtfRemetenteCodigo.setEnabled(false);
+        jtfRemetenteCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfRemetenteCodigoActionPerformed(evt);
+            }
+        });
         jPanel4.add(jtfRemetenteCodigo);
         jtfRemetenteCodigo.setBounds(16, 47, 60, 20);
 
@@ -502,7 +513,7 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder("Modalidade Tranporte"));
 
         jrFreteNormal.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrFreteNormal);
+        ModalidadeFrete.add(jrFreteNormal);
         jrFreteNormal.setText("Normal");
         jrFreteNormal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -511,11 +522,11 @@ public class Encomenda extends javax.swing.JFrame {
         });
 
         jrFreteRapido.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrFreteRapido);
+        ModalidadeFrete.add(jrFreteRapido);
         jrFreteRapido.setText("Rápido");
 
         jrFreteSuperRapido.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jrFreteSuperRapido);
+        ModalidadeFrete.add(jrFreteSuperRapido);
         jrFreteSuperRapido.setText("Super Rápido");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -760,7 +771,7 @@ public class Encomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscaRemetenteActionPerformed
 
     private void jbBuscaRemetente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetente1ActionPerformed
-        // TODO add your handling code here:
+        Helper.ShowDialog(this,new BuscaPessoa(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID));
     }//GEN-LAST:event_jbBuscaRemetente1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -781,12 +792,12 @@ public class Encomenda extends javax.swing.JFrame {
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
         tratarEventos.ativaGravar(true);
-        buttonGroup1.clearSelection();
+        ModalidadeFrete.clearSelection();
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         tratarEventos.ativaGravar(false);
-        buttonGroup1.clearSelection();
+        ModalidadeFrete.clearSelection();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jrFreteNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrFreteNormalActionPerformed
@@ -798,44 +809,72 @@ public class Encomenda extends javax.swing.JFrame {
         JSONObject jsonEnderecoAux;
         JSONObject jsonObjetos;
         
-        jsonPersistencia.put("CodigoRemetente", jtfRemetenteCodigo.getText());
-        jsonPersistencia.put("NomeRemetente", jtfRemetenteNome.getText());
-        jsonPersistencia.put("CodigoDestinatario", jtfDestinatarioCodigo.getText());
-        jsonPersistencia.put("NomeDestinatario", jtfDestinatarioNome.getText());
-        
-        jsonEnderecoAux =  new JSONObject();
-        jsonEnderecoAux.put("Rua", jtfRua.getText());
-        jsonEnderecoAux.put("Bairro", jtfBairro.getText());
-        jsonEnderecoAux.put("Cep", jtfCep.getText());
-        jsonEnderecoAux.put("Numero", jtfNumero.getText());
-        jsonEnderecoAux.put("Complemento", jtfComplemento.getText());
-        jsonEnderecoAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
-        
-        jsonPersistencia.put("EnderecoColeta", jsonEnderecoAux);
-        
-        jsonEnderecoAux = new JSONObject();
-        
-        jsonEnderecoAux.put("Rua", jtfRuaDestino.getText());
-        jsonEnderecoAux.put("Bairro", jtfBairroDestino.getText());
-        jsonEnderecoAux.put("Cep", jtfCepDestino.getText());
-        jsonEnderecoAux.put("Numero", jtfNumeroDestino.getText());
-        jsonEnderecoAux.put("Complemento", jtfComplementoDestino.getText());
-        jsonEnderecoAux.put("CidadeCodigo", jtfCidadeDestinoCodigo.getText());
-        
-        jsonPersistencia.put("EnderecoDestino", jsonEnderecoAux);
-        
-        for(int i = 0 ; i< jtbItensEncomenda.getRowCount(); i++){
-            jsonObjetos = new JSONObject();
-            jsonObjetos.put("Descricao", jtbItensEncomenda.getModel().getValueAt(i, 0));
-            jsonObjetos.put("Peso", jtbItensEncomenda.getModel().getValueAt(i, 1));
+        try {
+           /* Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
+            Util.Validacao.InputToString(jtfRemetenteNome, "nome do remetente");
+            Util.Validacao.InputToString(jtfDestinatarioNome, "nome do destinatário");
+            Util.Validacao.InputToString(jtfRua, "nome da rua de coleta");
+            Util.Validacao.InputToString(jtfBairro, "nome do bairro de coleta");
+            Util.Validacao.InputToString(jtfCep, "cep do remetente de coleta");
+            Util.Validacao.InputToString(jtfNumero,"numero de coleta");
+            Util.Validacao.InputToString(jtfRuaDestino, "rua de destino");
+            Util.Validacao.InputToString(jtfBairroDestino, "bairro de destino");
+            Util.Validacao.InputToString(jtfCepDestino, "cep de destino");
+            Util.Validacao.InputToString(jtfNumeroDestino, "numero de destino");
+            Util.Validacao.InputToString(jtfCidadeOrigemNome, "cidade de origem");
+            */Util.Validacao.InputToString(jtfCidadeDestinoNome, "cidade de destino");
+            Util.Validacao.itensjTable(jtbItensEncomenda);
             
-            Component estadoCombo = jtbItensEncomenda.getCellEditor(i, 2).getTableCellEditorComponent(jtbItensEncomenda, "", true, i, 2);
-            String estado=((JComboBox )estadoCombo).getSelectedItem().toString();
-            jsonObjetos.put("TipoEmbalagem",estado);
-            jsonPersistencia.put("Item "+(i+1), jsonObjetos);
+                    
+            jsonPersistencia.put("CodigoRemetente", jtfRemetenteCodigo.getText());
+            jsonPersistencia.put("NomeRemetente", jtfRemetenteNome.getText());
+            jsonPersistencia.put("CodigoDestinatario", jtfDestinatarioCodigo.getText());
+            jsonPersistencia.put("NomeDestinatario", jtfDestinatarioNome.getText());
+
+            jsonEnderecoAux =  new JSONObject();
+            jsonEnderecoAux.put("Rua", jtfRua.getText());
+            jsonEnderecoAux.put("Bairro", jtfBairro.getText());
+            jsonEnderecoAux.put("Cep", jtfCep.getText());
+            jsonEnderecoAux.put("Numero", jtfNumero.getText());
+            jsonEnderecoAux.put("Complemento", jtfComplemento.getText());
+            jsonEnderecoAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
+
+            jsonPersistencia.put("EnderecoColeta", jsonEnderecoAux);
+
+            jsonEnderecoAux = new JSONObject();
+
+            jsonEnderecoAux.put("Rua", jtfRuaDestino.getText());
+            jsonEnderecoAux.put("Bairro", jtfBairroDestino.getText());
+            jsonEnderecoAux.put("Cep", jtfCepDestino.getText());
+            jsonEnderecoAux.put("Numero", jtfNumeroDestino.getText());
+            jsonEnderecoAux.put("Complemento", jtfComplementoDestino.getText());
+            jsonEnderecoAux.put("CidadeCodigo", jtfCidadeDestinoCodigo.getText());
+
+            jsonPersistencia.put("EnderecoDestino", jsonEnderecoAux);
+
+            for(int i = 0 ; i< jtbItensEncomenda.getRowCount(); i++){
+                jsonObjetos = new JSONObject();
+                jsonObjetos.put("Descricao", jtbItensEncomenda.getModel().getValueAt(i, 0));
+                jsonObjetos.put("Peso", jtbItensEncomenda.getModel().getValueAt(i, 1));
+                /*Component estadoCombo = jtbItensEncomenda.getCellEditor(i, 2).getTableCellEditorComponent(jtbItensEncomenda, "", true, i, 2);*/
+                String estadoCombo = (String) jtbItensEncomenda.getValueAt(i, 2);
+                jsonObjetos.put("TipoEmbalagem",estadoCombo);
+                jsonPersistencia.put("Item "+(i+1), jsonObjetos);
+            }
+            if(jrFreteNormal.isSelected())
+                jsonPersistencia.put("TipoFrete", "Normal");
+            else if(jrFreteRapido.isSelected())
+                jsonPersistencia.put("TipoFrete", "Rapido");
+            else
+                jsonPersistencia.put("TipoFrete", "Super Rapido");
+                
+            System.out.println(jsonPersistencia);
+            
+            /*EncomendaController encomendaCntrl = new EncomendaController();
+            encomendaCntrl.Save(jsonPersistencia);*/
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, "Corrija os campos e grave novamente!", "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
         }
-        jsonPersistencia.put("TipoFrete", buttonGroup1.getSelection().toString());
-        System.out.println(jsonPersistencia);
         
     }//GEN-LAST:event_jbGravarActionPerformed
 
@@ -861,6 +900,10 @@ public class Encomenda extends javax.swing.JFrame {
             modelo.removeRow(jtbItensEncomenda.getRowCount()-1); 
         }
     }//GEN-LAST:event_jtbItensEncomendaKeyPressed
+
+    private void jtfRemetenteCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfRemetenteCodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfRemetenteCodigoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -898,7 +941,7 @@ public class Encomenda extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup ModalidadeFrete;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;

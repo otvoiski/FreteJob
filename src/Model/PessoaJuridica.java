@@ -49,8 +49,8 @@ public class PessoaJuridica extends Pessoa{
     @Override
     public JSONObject toJson() {
        JSONObject json = super.preencheJson();
-       json.put("nomefantasia", getNomeFantasia());
-       json.put("razaosocial", getRazaoSocial());
+       json.put("nomeFantasia", getNomeFantasia());
+       json.put("razaoSocial", getRazaoSocial());
        json.put("cnpj", getCnpj()); 
        return json;
        
@@ -60,8 +60,8 @@ public class PessoaJuridica extends Pessoa{
         PessoaJuridica objPessoa = new PessoaJuridica();
         objPessoa.preencheAtributosRetorno(jsonRetorno);
         objPessoa.setCnpj(jsonRetorno.getString("cnpj"));
-        objPessoa.setNomeFantasia(jsonRetorno.getString("nomefantasia"));
-        objPessoa.setRazaoSocial(jsonRetorno.getString("razaosocial"));
+        objPessoa.setNomeFantasia(jsonRetorno.getString("nomeFantasia"));
+        objPessoa.setRazaoSocial(jsonRetorno.getString("razaoSocial"));
         return objPessoa;
     }
     

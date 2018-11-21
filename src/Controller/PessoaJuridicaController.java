@@ -22,9 +22,9 @@ public class PessoaJuridicaController extends ControllerBase{
         DAO = new DAO.PessoaFisicaDAO(Model.PessoaFisica.class);
         Object = new PessoaJuridica();
     }
-    public List<JSONObject> GetPessoa(String nomePessoa) {
+    public List<JSONObject> GetPessoaByName(String nomePessoa) {
         ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
-        new Business.PessoaJuridicaBusiness().GetPessoa(nomePessoa).forEach((pessoa) -> {
+        new Business.PessoaJuridicaBusiness().GetPessoaByName(nomePessoa).forEach((pessoa) -> {
             jsonRetorno.add(new JSONObject(pessoa));
         });
         return jsonRetorno;

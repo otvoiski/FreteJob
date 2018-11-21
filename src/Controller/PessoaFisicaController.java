@@ -23,9 +23,9 @@ public class PessoaFisicaController extends ControllerBase{
         Object = new PessoaFisica();
     }
     
-    public List<JSONObject> GetPessoa(String nomePessoa) {
+    public List<JSONObject> GetPessoaByName(String nomePessoa) {
         ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
-        new Business.PessoaFisicaBusiness().GetPessoa(nomePessoa).forEach((pessoa) -> {
+        new Business.PessoaFisicaBusiness().GetPessoaByName(nomePessoa).forEach((pessoa) -> {
             jsonRetorno.add(new JSONObject(pessoa));
         });
         return jsonRetorno;

@@ -103,6 +103,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Selecionar");
@@ -205,26 +206,26 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            List<JSONObject> cidades = (new Controller.CidadeController()).GetByName(Util.Validacao.InputToString(txtCidade));
+            List<JSONObject> cidades = (new Controller.CidadeController()).GetByName(Util.Validacao.InputToString(txtCidade,"Pesquisa"));
             PreencheJTable(jTable1, cidades);
         } catch (Error ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {       
             if(jTable1.getSelectedRow() != -1){
-                cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
-                String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
-                String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
+                cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0)), "Cidade ID"));
+                String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)), "Cidade");
+                String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)), "Estado");
                 cidade.setText(cid + ", " + est);
                 cidCodigo.setText(String.valueOf(cidadeID));
 
                 Helper.CloseDialog(this, backWindows);
             }
         } catch (Error e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            //JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
