@@ -6,26 +6,25 @@
 package Controller;
 
 import Base.ControllerBase;
-import Model.PessoaFisica;
+import Model.PessoaJuridica;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 
 /**
  *
- * @author Otavio
+ * @author Matheus
  */
-public class PessoaFisicaController extends ControllerBase{
+public class PessoaJuridicaController extends ControllerBase{
 
     @Override
     protected void START_CONTROLLER() {
         DAO = new DAO.PessoaFisicaDAO(Model.PessoaFisica.class);
-        Object = new PessoaFisica();
+        Object = new PessoaJuridica();
     }
-    
     public List<JSONObject> GetPessoa(String nomePessoa) {
         ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
-        new Business.PessoaFisicaBusiness().GetPessoa(nomePessoa).forEach((pessoa) -> {
+        new Business.PessoaJuridicaBusiness().GetPessoa(nomePessoa).forEach((pessoa) -> {
             jsonRetorno.add(new JSONObject(pessoa));
         });
         return jsonRetorno;

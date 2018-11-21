@@ -7,8 +7,6 @@ package Model;
 
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -93,7 +91,8 @@ public class PessoaFisica extends Model.Pessoa{
         objPessoa.setRg(jsonRetorno.getString("rg"));
         objPessoa.setSexo(jsonRetorno.getString("sexo"));
         try {
-            objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
+            if(jsonRetorno.has("datanascimento"))
+                objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
         } catch (ParseException ex) {
             Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
         }

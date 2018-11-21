@@ -7,6 +7,7 @@ package View;
 
 import Util.Error;
 import Util.Helper;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -20,25 +21,27 @@ import org.json.JSONObject;
  *
  * @author Otavio
  */
-public class FreteBuscarCidade extends javax.swing.JFrame {
+public class BuscaPessoa extends javax.swing.JFrame {
 
-    private JTextField cidade;
-    private JTextField cidCodigo;
+    private JTextField jtfPessoa;
+    private JTextField pessoaCodigo;
     private JFrame backWindows;
-    private int cidadeID;
+    private int pessoaID;
 
     
     /**
-     * Creates new form FreteBuscarCidade
+     * Creates new form BuscarPessoa
      * @param backWindows
-     * @param cidade
+     * @param jtfPessoa
+     * @param jtfPessoaCodigo
+     * @param pessoaID
      */
-    public FreteBuscarCidade(JFrame backWindows,JTextField cidade, JTextField cidadeCodigo, int cidadeID) {
+    public BuscaPessoa(JFrame backWindows,JTextField jtfPessoa, JTextField jtfPessoaCodigo, int pessoaID) {
         initComponents();
-        this.cidade = cidade;
+        this.jtfPessoa = jtfPessoa;
         this.backWindows = backWindows;
-        this.cidadeID = cidadeID;
-        this.cidCodigo = cidadeCodigo;
+        this.pessoaID = pessoaID;
+        this.pessoaCodigo = jtfPessoaCodigo;
         
         TableColumnModel columnModel = jTable1.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
@@ -57,7 +60,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        txtCidade = new javax.swing.JTextField();
+        jtfCampoPesquisa = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
@@ -77,15 +80,15 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
 
         jLabel1.setText("Nome da cidade");
 
-        txtCidade.setToolTipText("Cidade");
-        txtCidade.setName("txtCidade"); // NOI18N
+        jtfCampoPesquisa.setToolTipText("Cidade");
+        jtfCampoPesquisa.setName("jtfCampoPesquisa"); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "#", "Nome", "Estado"
+                "#", "Nome", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
@@ -136,7 +139,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -146,7 +149,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(txtCidade)
+                        .addComponent(jtfCampoPesquisa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)))
                 .addContainerGap())
@@ -158,7 +161,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfCampoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -193,20 +196,23 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
             table.addRow(new String[]{
                 json.getInt("codigo") + "",
                 json.getString("nome"),                
-                json.getJSONObject("estado").getString("sigla")
+                json.getString("tipoPessoa")
                     
             });      
         });
         if(table.getRowCount() == 0)
-            JOptionPane.showMessageDialog(rootPane, "Cidade não encontrada!");
+            JOptionPane.showMessageDialog(rootPane, "Pessoa não encontrada!");
         
         jTable.setModel(table);
     }
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            List<JSONObject> cidades = (new Controller.CidadeController()).GetByName(Util.Validacao.InputToString(txtCidade));
-            PreencheJTable(jTable1, cidades);
+            List<JSONObject> pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoa(Util.Validacao.InputToString(jtfCampoPesquisa));
+            List<JSONObject> pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoa(Util.Validacao.InputToString(jtfCampoPesquisa));
+            List<JSONObject> Clientes = new ArrayList<>(pessoasFisicas);
+            Clientes.addAll(pessoaJuridicas);
+            PreencheJTable(jTable1, Clientes);
         } catch (Error ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
@@ -215,11 +221,10 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {       
             if(jTable1.getSelectedRow() != -1){
-                cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
-                String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
-                String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
-                cidade.setText(cid + ", " + est);
-                cidCodigo.setText(String.valueOf(cidadeID));
+                pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
+                String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
+                jtfPessoa.setText(nome);
+                pessoaCodigo.setText(String.valueOf(pessoaID));
 
                 Helper.CloseDialog(this, backWindows);
             }
@@ -245,20 +250,35 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FreteBuscarCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FreteBuscarCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FreteBuscarCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FreteBuscarCidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FreteBuscarCidade(null, null,null,0).setVisible(true);
+                new BuscaPessoa(null, null,null,0).setVisible(true);
             }
         });
     }
@@ -271,7 +291,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtCidade;
+    private javax.swing.JTextField jtfCampoPesquisa;
     // End of variables declaration//GEN-END:variables
 
     private Object JSONArray(String estado) {

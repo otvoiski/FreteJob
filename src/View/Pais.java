@@ -41,7 +41,6 @@ public class Pais extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de País");
@@ -130,10 +129,6 @@ public class Pais extends javax.swing.JFrame {
         jPanel1.add(jButton6);
         jButton6.setBounds(540, 0, 49, 23);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/flag.png"))); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(520, 30, 60, 170);
-
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 600, 210);
 
@@ -195,7 +190,6 @@ public class Pais extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbGravar;

@@ -666,9 +666,9 @@
                         <Component class="javax.swing.JTable" name="jtbItensEncomenda">
                           <Properties>
                             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                              <Table columnCount="3" rowCount="1">
+                              <Table columnCount="3" rowCount="0">
                                 <Column editable="true" title="Descricao" type="java.lang.String"/>
-                                <Column editable="true" title="Peso(KG)" type="java.lang.Double"/>
+                                <Column editable="true" title="Peso(KG)" type="java.lang.String"/>
                                 <Column editable="true" title="Tipo Embalagem" type="java.lang.Object"/>
                               </Table>
                             </Property>
