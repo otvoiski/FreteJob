@@ -8,7 +8,9 @@ package Util;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -17,6 +19,11 @@ import javax.swing.JTextField;
 public class TelaHandler{
     private JButton jbIncluir, jbGravar, jbCancelar, jbExcluir, jbConsultar;
     private ArrayList<JTextField> campos;
+    private JTable tabela;
+
+    public void setTabela(JTable tabela) {
+        this.tabela = tabela;
+    }
 
 
     public TelaHandler(JButton jbIncluir, JButton jbGravar, JButton jbCancelar, JButton jbExcluir, JButton jbConsultar) {
@@ -33,6 +40,17 @@ public class TelaHandler{
     }
     public void ativaGravar(boolean ativar){
         this.limparTela();
+        if(tabela != null && ativar){
+            DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+            modelo.addRow(new Object[]{});
+            tabela.setModel(modelo);
+            tabela.setEnabled(ativar);
+        }else if(tabela != null){
+            DefaultTableModel modelo = (DefaultTableModel)tabela.getModel();
+            modelo.setRowCount(0);
+            tabela.setModel(modelo);
+            tabela.setEnabled(!ativar); 
+        }
         jbCancelar.setEnabled(ativar);
         jbIncluir.setEnabled(!ativar);
         jbGravar.setEnabled(ativar);

@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Base.Pessoa;
 import Base.ObjectBase;
 import javax.persistence.Entity;
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ public class PessoaJuridica extends Pessoa{
     @Override
     public JSONObject toJson() {
        JSONObject json = super.preencheJson();
-       json.put("nomeFantasia", getNomeFantasia());
+       json.put("nome", getNomeFantasia());
        json.put("razaoSocial", getRazaoSocial());
        json.put("cnpj", getCnpj()); 
        return json;
@@ -59,9 +60,11 @@ public class PessoaJuridica extends Pessoa{
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         PessoaJuridica objPessoa = new PessoaJuridica();
         objPessoa.preencheAtributosRetorno(jsonRetorno);
-        objPessoa.setCnpj(jsonRetorno.getString("cnpj"));
-        objPessoa.setNomeFantasia(jsonRetorno.getString("nomeFantasia"));
-        objPessoa.setRazaoSocial(jsonRetorno.getString("razaoSocial"));
+        if(jsonRetorno.has("cnpj"))
+            objPessoa.setCnpj(jsonRetorno.getString("cnpj"));
+        objPessoa.setNomeFantasia(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("razaoSocial"))
+            objPessoa.setRazaoSocial(jsonRetorno.getString("razaoSocial"));
         return objPessoa;
     }
     

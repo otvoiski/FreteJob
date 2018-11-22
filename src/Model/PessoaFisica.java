@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * @author Professor
  */
 @Entity
-public class PessoaFisica extends Model.Pessoa{
+public class PessoaFisica extends Base.Pessoa{
 
     private String Nome;
     private String Cpf;
@@ -87,9 +87,12 @@ public class PessoaFisica extends Model.Pessoa{
         PessoaFisica objPessoa = new PessoaFisica();
         objPessoa.preencheAtributosRetorno(jsonRetorno);
         objPessoa.setNome(jsonRetorno.getString("nome"));
-        objPessoa.setCpf(jsonRetorno.getString("cpf"));
-        objPessoa.setRg(jsonRetorno.getString("rg"));
-        objPessoa.setSexo(jsonRetorno.getString("sexo"));
+        if(jsonRetorno.has("cpf"))
+            objPessoa.setCpf(jsonRetorno.getString("cpf"));
+        if(jsonRetorno.has("rg"))
+            objPessoa.setRg(jsonRetorno.getString("rg"));
+        if(jsonRetorno.has("sexo"))
+            objPessoa.setSexo(jsonRetorno.getString("sexo"));
         try {
             if(jsonRetorno.has("datanascimento"))
                 objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));

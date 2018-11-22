@@ -5,6 +5,7 @@
  */
 package Model;
 
+import Base.Pessoa;
 import Base.ObjectBase;
 import Controller.DistanciaController;
 import Util.Enums;
@@ -172,7 +173,7 @@ public class Encomenda extends ObjectBase implements Serializable {
         else
             objEncomenda.setCodigo(0);
         
-        if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.TipoPessoa.class,"TipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
+        if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
             objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("emitente"))); 
         }else
              objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("emitente")));

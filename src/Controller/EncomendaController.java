@@ -7,6 +7,7 @@ package Controller;
 
 import Base.ControllerBase;
 import Base.Persistencia;
+import DAO.EncomendaDAO;
 import Model.Encomenda;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,11 @@ public class EncomendaController extends ControllerBase {
         this.Object = new Encomenda();
     }
     @Override
-    public boolean Save(JSONObject dados){        
+    public boolean Save(JSONObject dados){
         Encomenda objEncomenda = (Encomenda) new Encomenda().toObjectBase(dados);
         objEncomenda.calculaValorTransporte();
         Object = objEncomenda;
+        //Facade.Encomenda facade = new Facade.Encomenda((EncomendaDAO)this.DAO);
         return DAO.Save(Object);
     };
     

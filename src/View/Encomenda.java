@@ -5,6 +5,10 @@
  */
 package View;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Estou dando este commit pra não acumular muita coisa, no momento estou tentando fazer a encomenda ser gravada no banco.
 import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
@@ -27,10 +31,13 @@ import org.json.JSONObject;
 public class Encomenda extends javax.swing.JFrame {
     private JFrame windowsBack;
     private int cidadeOrigemID;
-    private int remetenteID;
+    private int PessoaID;
     private int destinatarioID;
     private TelaHandler tratarEventos;
     private ArrayList<JTextField> camposAtivar;
+    private Util.Enums.TipoPessoa tipoRemetente;
+    private Util.Enums.TipoPessoa tipoDestinatario;
+    private JSONObject jsonPersistencia;
     /**
      * Creates new form Encomenda
      * @param windowsBack
@@ -56,10 +63,8 @@ public class Encomenda extends javax.swing.JFrame {
         colunaPeso.setMaxWidth(100);
         colunaTipoEmb.setMaxWidth(500);
         jtbItensEncomenda.setRowHeight(19);
-        DefaultTableModel modelo = (DefaultTableModel)jtbItensEncomenda.getModel();
-        modelo.addRow(new Object[]{});
-        jtbItensEncomenda.setModel(modelo);
         jtbItensEncomenda.setCellSelectionEnabled(true);
+        jsonPersistencia  = new JSONObject();
         
         
         tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
@@ -79,6 +84,7 @@ public class Encomenda extends javax.swing.JFrame {
         camposAtivar.add(jtfComplementoDestino);
         camposAtivar.add(jtfCidadeDestinoCodigo);
         tratarEventos.setCampos(camposAtivar);
+        tratarEventos.setTabela(jtbItensEncomenda);
         
         
         PreencheComboBox((new Controller.TipoEmbalagemController()).GetAll(), tipoEmbalagemCombo,"Descricao");
@@ -483,6 +489,7 @@ public class Encomenda extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jtbItensEncomenda.setEnabled(false);
         jtbItensEncomenda.getTableHeader().setReorderingAllowed(false);
         jtbItensEncomenda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -505,8 +512,8 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 30, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel2);
@@ -770,11 +777,12 @@ public class Encomenda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscaRemetenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetenteActionPerformed
-        Helper.ShowDialog(this,new BuscaPessoa(this,jtfRemetenteNome,jtfRemetenteCodigo,remetenteID));
+        Helper.ShowDialog(this,new BuscaPessoa(this,jtfRemetenteNome,jtfRemetenteCodigo,PessoaID, tipoRemetente));
+     
     }//GEN-LAST:event_jbBuscaRemetenteActionPerformed
 
     private void jbBuscaRemetente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetente1ActionPerformed
-        Helper.ShowDialog(this,new BuscaPessoa(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID));
+        Helper.ShowDialog(this,new BuscaPessoa(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID,tipoDestinatario));
     }//GEN-LAST:event_jbBuscaRemetente1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -801,6 +809,7 @@ public class Encomenda extends javax.swing.JFrame {
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         tratarEventos.ativaGravar(false);
         ModalidadeFrete.clearSelection();
+
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jrFreteNormalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrFreteNormalActionPerformed
@@ -808,12 +817,11 @@ public class Encomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jrFreteNormalActionPerformed
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
-        JSONObject jsonPersistencia = new JSONObject();
-        JSONObject jsonEnderecoAux;
+        JSONObject jsonAux;
         JSONObject jsonObjetos;
         
         try {
-           /* Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
+            /*Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
             Util.Validacao.InputToString(jtfRemetenteNome, "nome do remetente");
             Util.Validacao.InputToString(jtfDestinatarioNome, "nome do destinatário");
             Util.Validacao.InputToString(jtfRua, "nome da rua de coleta");
@@ -825,52 +833,64 @@ public class Encomenda extends javax.swing.JFrame {
             Util.Validacao.InputToString(jtfCepDestino, "cep de destino");
             Util.Validacao.InputToString(jtfNumeroDestino, "numero de destino");
             Util.Validacao.InputToString(jtfCidadeOrigemNome, "cidade de origem");
+<<<<<<< HEAD
             */Util.Validacao.InputToString(jtfCidadeDestinoNome);
+=======
+            Util.Validacao.InputToString(jtfCidadeDestinoNome, "cidade de destino");*/
+>>>>>>> Estou dando este commit pra não acumular muita coisa, no momento estou tentando fazer a encomenda ser gravada no banco.
             Util.Validacao.itensjTable(jtbItensEncomenda);
+
+            jsonAux = new JSONObject();
+            jsonAux.put("Codigo", jtfRemetenteCodigo.getText());
+            jsonAux.put("Nome", jtfRemetenteNome.getText());
+            jsonAux.put("tipoPessoa", tipoRemetente);
+            jsonPersistencia.put("emitente", jsonAux);
             
-                    
-            jsonPersistencia.put("CodigoRemetente", jtfRemetenteCodigo.getText());
-            jsonPersistencia.put("NomeRemetente", jtfRemetenteNome.getText());
-            jsonPersistencia.put("CodigoDestinatario", jtfDestinatarioCodigo.getText());
-            jsonPersistencia.put("NomeDestinatario", jtfDestinatarioNome.getText());
+            jsonAux = new JSONObject();
+            jsonAux.put("Codigo", jtfDestinatarioCodigo.getText());
+            jsonAux.put("Nome", jtfDestinatarioNome.getText());
+            jsonAux.put("tipoPessoa", tipoDestinatario);
+            jsonPersistencia.put("destinatario", jsonAux);
 
-            jsonEnderecoAux =  new JSONObject();
-            jsonEnderecoAux.put("Rua", jtfRua.getText());
-            jsonEnderecoAux.put("Bairro", jtfBairro.getText());
-            jsonEnderecoAux.put("Cep", jtfCep.getText());
-            jsonEnderecoAux.put("Numero", jtfNumero.getText());
-            jsonEnderecoAux.put("Complemento", jtfComplemento.getText());
-            jsonEnderecoAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
+            jsonAux =  new JSONObject();
+            jsonAux.put("Rua", jtfRua.getText());
+            jsonAux.put("Bairro", jtfBairro.getText());
+            jsonAux.put("Cep", jtfCep.getText());
+            jsonAux.put("Numero", jtfNumero.getText());
+            jsonAux.put("Complemento", jtfComplemento.getText());
+            jsonAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
 
-            jsonPersistencia.put("EnderecoColeta", jsonEnderecoAux);
+            jsonPersistencia.put("EnderecoColeta", jsonAux);
 
-            jsonEnderecoAux = new JSONObject();
+            jsonAux = new JSONObject();
 
-            jsonEnderecoAux.put("Rua", jtfRuaDestino.getText());
-            jsonEnderecoAux.put("Bairro", jtfBairroDestino.getText());
-            jsonEnderecoAux.put("Cep", jtfCepDestino.getText());
-            jsonEnderecoAux.put("Numero", jtfNumeroDestino.getText());
-            jsonEnderecoAux.put("Complemento", jtfComplementoDestino.getText());
-            jsonEnderecoAux.put("CidadeCodigo", jtfCidadeDestinoCodigo.getText());
+            jsonAux.put("Rua", jtfRuaDestino.getText());
+            jsonAux.put("Bairro", jtfBairroDestino.getText());
+            jsonAux.put("Cep", jtfCepDestino.getText());
+            jsonAux.put("Numero", jtfNumeroDestino.getText());
+            jsonAux.put("Complemento", jtfComplementoDestino.getText());
+            jsonAux.put("CidadeCodigo", jtfCidadeDestinoCodigo.getText());
 
-            jsonPersistencia.put("EnderecoDestino", jsonEnderecoAux);
-
+            jsonPersistencia.put("EnderecoDestino", jsonAux);
+            /*
             for(int i = 0 ; i< jtbItensEncomenda.getRowCount(); i++){
                 jsonObjetos = new JSONObject();
                 jsonObjetos.put("Descricao", jtbItensEncomenda.getModel().getValueAt(i, 0));
                 jsonObjetos.put("Peso", jtbItensEncomenda.getModel().getValueAt(i, 1));
-                /*Component estadoCombo = jtbItensEncomenda.getCellEditor(i, 2).getTableCellEditorComponent(jtbItensEncomenda, "", true, i, 2);*/
                 String estadoCombo = (String) jtbItensEncomenda.getValueAt(i, 2);
                 jsonObjetos.put("TipoEmbalagem",estadoCombo);
                 jsonPersistencia.put("Item "+(i+1), jsonObjetos);
-            }
+            }*/
             if(jrFreteNormal.isSelected())
                 jsonPersistencia.put("TipoFrete", "Normal");
             else if(jrFreteRapido.isSelected())
                 jsonPersistencia.put("TipoFrete", "Rapido");
             else
                 jsonPersistencia.put("TipoFrete", "Super Rapido");
-                
+            
+            System.out.println("Destinatario "+ tipoDestinatario);
+            System.out.println("Remetente "+ tipoRemetente);
+
             System.out.println(jsonPersistencia);
             
             /*EncomendaController encomendaCntrl = new EncomendaController();
@@ -882,6 +902,9 @@ public class Encomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jbGravarActionPerformed
 
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
+        int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
+        int colunaSelecionada =  jtbItensEncomenda.getSelectedColumn();
+        
         if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
             if(jtbItensEncomenda.getModel().getValueAt(jtbItensEncomenda.getSelectedRow(), 0)!= null
                     && jtbItensEncomenda.getModel().getValueAt(jtbItensEncomenda.getSelectedRow(), 1)!= null
@@ -891,16 +914,17 @@ public class Encomenda extends javax.swing.JFrame {
                 
                 DefaultTableModel modelo = (DefaultTableModel)jtbItensEncomenda.getModel();
                 modelo.addRow(new Object[]{});
+            }
+        }else if(evt.getKeyCode() == KeyEvent.VK_UP && !jtbItensEncomenda.isEditing()){
+            if(jtbItensEncomenda.getRowCount()>1
+                && jtbItensEncomenda.getModel().getValueAt(linhaSelecionada, 0) == null
+                && jtbItensEncomenda.getModel().getValueAt(linhaSelecionada, 1) == null
+                && jtbItensEncomenda.getModel().getValueAt(linhaSelecionada, 2) == null){
+                
+                DefaultTableModel modelo = ((DefaultTableModel)jtbItensEncomenda.getModel());
+                modelo.removeRow(linhaSelecionada); 
                 jtbItensEncomenda.setModel(modelo);
             }
-        }else if(evt.getKeyCode() == KeyEvent.VK_UP
-                &&jtbItensEncomenda.getRowCount()>1
-                && jtbItensEncomenda.getModel().getValueAt(jtbItensEncomenda.getSelectedRow(), 0) == null
-                && jtbItensEncomenda.getModel().getValueAt(jtbItensEncomenda.getSelectedRow(), 1) == null
-                && jtbItensEncomenda.getModel().getValueAt(jtbItensEncomenda.getSelectedRow(), 2) == null){
-            
-            DefaultTableModel modelo = (DefaultTableModel)jtbItensEncomenda.getModel();
-            modelo.removeRow(jtbItensEncomenda.getRowCount()-1); 
         }
     }//GEN-LAST:event_jtbItensEncomendaKeyPressed
 
@@ -938,6 +962,9 @@ public class Encomenda extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Encomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

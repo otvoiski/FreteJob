@@ -28,6 +28,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
     private final JTextField pessoaCodigo;
     private final JFrame backWindows;
     private int pessoaID;
+    private Util.Enums.TipoPessoa tipoPessoa;
 
     
     /**
@@ -36,13 +37,15 @@ public class BuscaPessoa extends javax.swing.JFrame {
      * @param jtfPessoa
      * @param jtfPessoaCodigo
      * @param pessoaID
+     * @param tipoPessoa
      */
-    public BuscaPessoa(JFrame backWindows,JTextField jtfPessoa, JTextField jtfPessoaCodigo, int pessoaID) {
+    public BuscaPessoa(JFrame backWindows,JTextField jtfPessoa, JTextField jtfPessoaCodigo, int pessoaID, Util.Enums.TipoPessoa tipoPessoa) {
         initComponents();
         this.jtfPessoa = jtfPessoa;
         this.backWindows = backWindows;
         this.pessoaID = pessoaID;
         this.pessoaCodigo = jtfPessoaCodigo;
+        this.tipoPessoa = tipoPessoa;
         
         TableColumnModel columnModel = jTable1.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
@@ -247,7 +250,11 @@ public class BuscaPessoa extends javax.swing.JFrame {
                 String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
                 jtfPessoa.setText(nome);
                 pessoaCodigo.setText(String.valueOf(pessoaID));
-
+                if(jTable1.getValueAt(jTable1.getSelectedRow(), 2) == Util.Enums.TipoPessoa.Fisica.toString())
+                    tipoPessoa = Util.Enums.TipoPessoa.Fisica;
+                else
+                    tipoPessoa = Util.Enums.TipoPessoa.Juridica;
+                   
                 Helper.CloseDialog(this, backWindows);
             }
         } catch (Error e) {
@@ -300,7 +307,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BuscaPessoa(null, null,null,0).setVisible(true);
+                new BuscaPessoa(null, null,null,0,null).setVisible(true);
             }
         });
     }
