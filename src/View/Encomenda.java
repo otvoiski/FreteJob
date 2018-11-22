@@ -5,19 +5,15 @@
  */
 package View;
 
-import Controller.EncomendaController;
 import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
-import com.sun.webkit.dom.EventImpl;
-import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -29,7 +25,7 @@ import org.json.JSONObject;
  * @author Matheus
  */
 public class Encomenda extends javax.swing.JFrame {
-    
+    private JFrame windowsBack;
     private int cidadeOrigemID;
     private int remetenteID;
     private int destinatarioID;
@@ -37,10 +33,11 @@ public class Encomenda extends javax.swing.JFrame {
     private ArrayList<JTextField> camposAtivar;
     /**
      * Creates new form Encomenda
+     * @param windowsBack
      */
-    public Encomenda() {
+    public Encomenda(JFrame windowsBack) {
         initComponents();
-        Init();
+        Init(windowsBack);
         
     }
     private void PreencheComboBox(List<JSONObject> list, JComboBox combo, String name){
@@ -48,7 +45,8 @@ public class Encomenda extends javax.swing.JFrame {
             combo.addItem(j.get(name));
         });
     }
-    private void Init(){
+    private void Init(JFrame windowsBack){
+        this.windowsBack = windowsBack;
         JComboBox tipoEmbalagemCombo = new JComboBox();
         this.setLocationRelativeTo(null);
         TableColumn colunaDesc = jtbItensEncomenda.getColumnModel().getColumn(0);
@@ -182,6 +180,11 @@ public class Encomenda extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(932, 507));
         setPreferredSize(new java.awt.Dimension(932, 600));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -905,6 +908,11 @@ public class Encomenda extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfRemetenteCodigoActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Helper.CloseDialog(this, windowsBack);
+    }//GEN-LAST:event_formWindowClosing
+
     /**
      * @param args the command line arguments
      */
@@ -935,7 +943,7 @@ public class Encomenda extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Encomenda().setVisible(true);
+                new Encomenda(null).setVisible(true);
             }
         });
     }
