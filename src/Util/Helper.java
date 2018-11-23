@@ -5,8 +5,12 @@
  */
 package Util;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -28,5 +32,22 @@ public class Helper {
             int linha = jTable.getSelectedRow();
             return jTable.getValueAt(linha,column);
         } else return false;
+    }
+    
+    public static String GetValorToReal(double Valor){
+        BigDecimal valor = new BigDecimal (Valor);  
+        NumberFormat nf = NumberFormat.getCurrencyInstance();  
+        String formatado = nf.format (valor);
+        return formatado;
+    }
+
+    public static void RemoveRowJTable(JTable jTable1) {
+        DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
+        if (jTable1.getSelectedRow() >= 0){
+            dtm.removeRow(jTable1.getSelectedRow());
+            jTable1.setModel(dtm);
+        }else{
+            JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
+        }       
     }
 }
