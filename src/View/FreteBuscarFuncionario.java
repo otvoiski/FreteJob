@@ -5,10 +5,11 @@
  */
 package View;
 
-import Controller.UsuarioController;
-import java.util.ArrayList;
+import Util.Error;
+import Util.Helper;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -24,21 +25,26 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
     private JFrame windowsBack;
     private JTextField funcionario;
     private int funcionarioID;    
-    
+    private int distribuidora;
     /**
      * Creates new form Frete_BuscarFuncionario
+     * @param backWindows
      * @param funcionario
+     * @param funcionarioID
+     * @param distribuidora
      */
-    public FreteBuscarFuncionario(JFrame backWindows,JTextField funcionario, int funcionarioID) {
+    public FreteBuscarFuncionario(JFrame backWindows,JTextField funcionario, int funcionarioID, int distribuidora) {
         initComponents();
         this.windowsBack = backWindows; //usado para Dialog
         this.funcionario = funcionario; //Atualiza o funcionario no Frete.
         this.funcionarioID = funcionarioID;
+        this.distribuidora = distribuidora;
         
         TableColumnModel columnModel = jTable1.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(50);
-        columnModel.getColumn(1).setPreferredWidth(150);
-        columnModel.getColumn(2).setPreferredWidth(50);
+        columnModel.getColumn(0).setPreferredWidth(15);
+        columnModel.getColumn(1).setPreferredWidth(300);
+        
+        refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
     }
 
     /**
@@ -56,6 +62,9 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        funcionarioName = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Funcinario");
@@ -74,14 +83,14 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome"
+                "#", "Nome"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -113,17 +122,46 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         });
         jPanel2.add(jButton2);
 
+        jLabel1.setText("Nome do funcionario");
+
+        funcionarioName.setName("Nome do Funcionario"); // NOI18N
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(funcionarioName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(funcionarioName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -134,38 +172,27 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    private void refreshJTable(JTable jTable) {
-        DefaultTableModel table = (DefaultTableModel) jTable.getModel();
+    private void refreshJTable(JTable jTable, List<JSONObject> list) {
+       DefaultTableModel table = (DefaultTableModel) jTable.getModel();
         table.setNumRows(0);
-
-        //Set Controllers
-        Controller.UsuarioController usrControl = new UsuarioController();        
         
-        List<JSONObject> funcionarios = new ArrayList<>();
-        funcionarios.forEach((json) -> {
-            System.out.println(json);
-//            
-//            if (usrData != null) {
-//                if (!usrData.isEmpty()) {
-//                    for (int i = 0; i < usrData.size(); i++) {
-//                        table.addRow(new Object[]{
-//                            usrData.get(i)[0],
-//                            usrData.get(i)[2],
-//                            usrData.get(i)[6]
-//                        });
-//                    }
-//                }
-//            } else {
-//                Controller.Error.show("Não há usuario para mostrar!");
-//            }
+        list.forEach((json) -> {
+            table.addRow(new Object[]{
+                json.getInt("codigo"),
+                json.getString("nome")
+            });      
         });
+        if(table.getRowCount() == 0)
+            JOptionPane.showMessageDialog(rootPane, "Funcionario não encontrado!");
+        
         jTable.setModel(table);
     }
     
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String funcionarioSelecionado = (String) Util.Helper.GetValueJTable(jTable1,1);
-        this.funcionario.setText(funcionarioSelecionado);
+        this.funcionario.setText((String) Util.Helper.GetValueJTable(jTable1,1));
+        this.funcionarioID = ((Integer) Util.Helper.GetValueJTable(jTable1,0));
+        Helper.CloseDialog(this, windowsBack);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -177,6 +204,17 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         // TODO add your handling code here:
         Util.Helper.CloseDialog(this, windowsBack);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        try {
+            if(funcionarioName.getText().isEmpty())                
+                refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
+            else
+                refreshJTable(jTable1, new Controller.FuncionarioController().GetByName(Util.Validacao.InputToString(funcionario), distribuidora));
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -209,14 +247,17 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FreteBuscarFuncionario(null,null,0).setVisible(true);
+                new FreteBuscarFuncionario(null,null,0,0).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField funcionarioName;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

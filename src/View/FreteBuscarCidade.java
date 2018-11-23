@@ -78,7 +78,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
         jLabel1.setText("Nome da cidade");
 
         txtCidade.setToolTipText("Cidade");
-        txtCidade.setName("txtCidade"); // NOI18N
+        txtCidade.setName("Cidade"); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -206,7 +206,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-            List<JSONObject> cidades = (new Controller.CidadeController()).GetByName(Util.Validacao.InputToString(txtCidade,"Pesquisa"));
+            List<JSONObject> cidades = (new Controller.CidadeController()).GetByName(Util.Validacao.InputToString(txtCidade));
             PreencheJTable(jTable1, cidades);
         } catch (Error ex) {
             //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -216,9 +216,9 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {       
             if(jTable1.getSelectedRow() != -1){
-                cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0)), "Cidade ID"));
-                String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)), "Cidade");
-                String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)), "Estado");
+                cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
+                String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
+                String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
                 cidade.setText(cid + ", " + est);
                 cidCodigo.setText(String.valueOf(cidadeID));
 

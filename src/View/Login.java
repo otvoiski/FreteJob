@@ -143,7 +143,7 @@ public class Login extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             // TODO add your handling code here:
-            String login = Util.Validacao.InputToString(loginField, "Login");
+            String login = Util.Validacao.InputToString(loginField);
             String senha = Util.Validacao.InputToString(senhaField, 3);
             
             JSONObject json = new JSONObject();

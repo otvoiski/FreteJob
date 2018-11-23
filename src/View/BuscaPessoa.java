@@ -83,7 +83,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
         jLabel1.setText("Nome da Pessoa");
 
         jtfCampoPesquisa.setToolTipText("Cidade");
-        jtfCampoPesquisa.setName("jtfCampoPesquisa"); // NOI18N
+        jtfCampoPesquisa.setName("Pesquisa"); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -226,10 +226,10 @@ public class BuscaPessoa extends javax.swing.JFrame {
         List<JSONObject> pessoaJuridicas;
         try {
             if(jCheckQualqParte.isSelected()){
-                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%"+Util.Validacao.InputToString(jtfCampoPesquisa, "Pesquisa"));
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%"+Util.Validacao.InputToString(jtfCampoPesquisa));
                 pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName("%"+jtfCampoPesquisa.getText());
             }else{
-                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName(Util.Validacao.InputToString(jtfCampoPesquisa, "Pesquisa"));
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName(Util.Validacao.InputToString(jtfCampoPesquisa));
                 pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName(jtfCampoPesquisa.getText());
             }
             List<JSONObject> Clientes = new ArrayList<>(pessoasFisicas);
@@ -243,8 +243,8 @@ public class BuscaPessoa extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {       
             if(jTable1.getSelectedRow() != -1){
-                pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0)), "Pessoa Id"));
-                String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)), "Nome");
+                pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
+                String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
                 jtfPessoa.setText(nome);
                 pessoaCodigo.setText(String.valueOf(pessoaID));
 
