@@ -19,12 +19,12 @@ import javax.swing.JTextField;
  */
 public class Validacao
 {
-    //ADICIONEI UM PARAMETRO A MAIS PRA SER PASSADO O NOME DO CAMPO QUE ESTÁ SENDO TRATATO SÓ PRA ELE SER IMPRESSO NA MESAGEM DE ERRO!
-    public static String InputToString (JTextField field, String nomeCampo) throws Error
+    
+    public static String InputToString (JTextField field) throws Error
     {
         if(field.getText().isEmpty())
         {
-            String msg = "O Campo " + nomeCampo + " não pode estar vazio!";
+            String msg = "O Campo " + field.getName() + " não pode estar vazio!";
             JOptionPane.showMessageDialog(null, msg);
             throw new Error(msg,new Throwable(field.getName() + " está vazio"));
         } else 
@@ -34,7 +34,7 @@ public class Validacao
     public static String InputToString(JPasswordField field, int tamanho) {
         String senha = String.valueOf(field.getPassword());
         try {
-            if(InputToString(field, field.getName()).length() < tamanho)
+            if(InputToString(field).length() < tamanho)
             {
                 String msg = "O Campo " + field.getName() + " não pode ser menor que " + tamanho;
                 JOptionPane.showMessageDialog(null, msg);
