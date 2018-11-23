@@ -7,6 +7,7 @@ package Controller;
 
 import DAO.FuncionarioDAO;
 import Model.Funcionario;
+import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 
@@ -21,15 +22,22 @@ public class FuncionarioController extends Base.ControllerBase{
         DAO = new FuncionarioDAO(Model.Funcionario.class);
         Object = new Model.Funcionario();
     }
+
+    public List<JSONObject> GetAll(int distribuidora) {
+        List<Funcionario> list =  new Business.FuncionarioBusiness().GetAll(distribuidora);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((funcionario) -> {
+            listRetorno.add(new JSONObject(funcionario));
+        });
+        return listRetorno;
+    }
     
-    public JSONObject GetByName(JSONObject json) {
-        List<Funcionario> funcionarios = DAO.GetAll();
-        JSONObject jsonRetorno = null;
-        int i = 0;
-        for(Funcionario f : funcionarios){
-            if(f.getNome().contains(json.getString("Nome")))
-                jsonRetorno.put(i+++"", f.toJson());
-        }
-        return jsonRetorno;        
+    public List<JSONObject> GetByName(String name, int distribuidora) {
+        List<Funcionario> list =  new Business.FuncionarioBusiness().GetByName(name, distribuidora);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((funcionario) -> {
+            listRetorno.add(new JSONObject(funcionario));
+        });
+        return listRetorno;
     }
 }
