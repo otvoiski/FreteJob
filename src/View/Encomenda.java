@@ -825,7 +825,7 @@ public class Encomenda extends javax.swing.JFrame {
             Util.Validacao.InputToString(jtfCepDestino, "cep de destino");
             Util.Validacao.InputToString(jtfNumeroDestino, "numero de destino");
             Util.Validacao.InputToString(jtfCidadeOrigemNome, "cidade de origem");
-            */Util.Validacao.InputToString(jtfCidadeDestinoNome, "cidade de destino");
+            */Util.Validacao.InputToString(jtfCidadeDestinoNome);
             Util.Validacao.itensjTable(jtbItensEncomenda);
             
                     

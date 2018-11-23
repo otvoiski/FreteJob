@@ -8,6 +8,8 @@ package Controller;
 import Base.ControllerBase;
 import Base.Persistencia;
 import Model.Encomenda;
+import java.util.ArrayList;
+import java.util.List;
 import org.json.JSONObject;
 
 /**
@@ -29,4 +31,13 @@ public class EncomendaController extends ControllerBase {
         return DAO.Save(Object);
     };
     
+    public List<JSONObject> GetByName(String nome)
+    {
+        List<Encomenda> list = new Business.EncomendaBusiness().GetByName(nome);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((funcionario) -> {
+            listRetorno.add(new JSONObject(funcionario));
+        });
+        return listRetorno;
+    }
 }
