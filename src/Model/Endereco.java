@@ -6,6 +6,8 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
@@ -15,19 +17,35 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Endereco extends ObjectBase {
+public class Endereco extends ObjectBase implements Serializable {
     
     private String Rua;
     private String Bairro;
     private String cep;
     private String Numero;
     private String Complemento;
-    private String Tipo;//indica o tipo do endereço(cobrança,entrega, etc)
+    private Util.Enums.TipoEndereco Tipo;//indica o tipo do endereço(cobrança,entrega, etc)// IMPORTANTE
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public Enums.TipoEndereco getTipo() {
+        return Tipo;
+    }
+
+    public void setTipo(Enums.TipoEndereco Tipo) {
+        this.Tipo = Tipo;
+    }
     @ManyToOne
     private Cidade Cidade;
 
 
-    public Endereco(String Rua, String Bairro, String cep, String Numero, String Tipo, Cidade cidade) {
+    public Endereco(String Rua, String Bairro, String cep, String Numero, Util.Enums.TipoEndereco Tipo, Cidade cidade) {
         this.Rua = Rua;
         this.Bairro = Bairro;
         this.cep = cep;
@@ -79,14 +97,6 @@ public class Endereco extends ObjectBase {
         this.Complemento = Complemento;
     }
 
-    public String getTipo() {
-        return Tipo;
-    }
-
-    public void setTipo(String Tipo) {
-        this.Tipo = Tipo;
-    }
-
     public Cidade getCidade() {
         return Cidade;
     }
@@ -125,7 +135,7 @@ public class Endereco extends ObjectBase {
             objEndereco.setComplemento(jsonRetorno.getString("complemento"));
         
         objEndereco.setNumero(jsonRetorno.getString("numero"));
-        objEndereco.setTipo(jsonRetorno.getString("tipo"));
+        objEndereco.setTipo(jsonRetorno.getEnum(Util.Enums.TipoEndereco.class,"tipo"));
         
         return objEndereco;
     }

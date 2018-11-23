@@ -36,17 +36,14 @@ public class TipoEmbalagem extends ObjectBase implements Serializable {
 
     @Override
     public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("Codigo", getCodigo());
-        json.put("Descricao", Descricao);
-        return json;
+        return (new JSONObject(this));
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         TipoEmbalagem objEmbalagem =  new TipoEmbalagem();
-        objEmbalagem.setDescricao(jsonRetorno.getString("Descricao"));
-        objEmbalagem.setCodigo(jsonRetorno.getInt("Codigo"));
+        objEmbalagem.setDescricao(jsonRetorno.getString("descricao"));
+        objEmbalagem.setCodigo(jsonRetorno.getInt("codigo"));
         return objEmbalagem;
     }
     

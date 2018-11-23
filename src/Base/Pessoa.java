@@ -15,6 +15,7 @@ import Util.Enums.TipoPessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import org.json.JSONArray;
@@ -29,13 +30,13 @@ import org.json.JSONObject;
 public abstract class Pessoa extends ObjectBase implements Serializable{
 
     private TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Telefone> Telefones;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Endereco> Enderecos;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<MidiaSocial> MidiaSociais;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Email> Emails;
     
     public Pessoa() {

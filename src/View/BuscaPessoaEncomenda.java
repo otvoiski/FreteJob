@@ -16,30 +16,22 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
  *
  * @author Otavio
  */
-public class BuscaPessoa extends javax.swing.JFrame {
+public class BuscaPessoaEncomenda extends javax.swing.JFrame {
 
-    private final JTextField jtfPessoa;
-    private final JTextField pessoaCodigo;
     private final JFrame backWindows;
     private int pessoaID;
     private Util.Enums.TipoPessoa tipoPessoa;
+    private View.Encomenda viewEncomenda;
+    private List<JSONObject> Clientes;
 
-    
-    /**
-     * Creates new form BuscarPessoa
-     * @param backWindows
-     * @param jtfPessoa
-     * @param jtfPessoaCodigo
-     * @param pessoaID
-     * @param tipoPessoa
-     */
-    public BuscaPessoa(JFrame backWindows,JTextField jtfPessoa, JTextField jtfPessoaCodigo, int pessoaID, Util.Enums.TipoPessoa tipoPessoa) {
+    /*public BuscaPessoaEncomenda(JFrame backWindows,JTextField jtfPessoa, JTextField jtfPessoaCodigo, int pessoaID, Util.Enums.TipoPessoa tipoPessoa) {
         initComponents();
         this.jtfPessoa = jtfPessoa;
         this.backWindows = backWindows;
@@ -47,6 +39,15 @@ public class BuscaPessoa extends javax.swing.JFrame {
         this.pessoaCodigo = jtfPessoaCodigo;
         this.tipoPessoa = tipoPessoa;
         
+        TableColumnModel columnModel = jTable1.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(50);
+        columnModel.getColumn(1).setPreferredWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(50);
+    }*/
+    public BuscaPessoaEncomenda(View.Encomenda encomenda) {
+        initComponents();
+        this.viewEncomenda = encomenda;
+        this.backWindows = encomenda;
         TableColumnModel columnModel = jTable1.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
         columnModel.getColumn(1).setPreferredWidth(150);
@@ -191,51 +192,52 @@ public class BuscaPessoa extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here: 
-        Helper.CloseDialog(this, backWindows);    
+        Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_formWindowClosing
-    
-    private void PreencheJTable(JTable jTable, List<JSONObject> list){
+
+    private void PreencheJTable(JTable jTable, List<JSONObject> list) {
         DefaultTableModel table = (DefaultTableModel) jTable.getModel();
         table.setNumRows(0);
-        
+
         list.forEach((json) -> {
-            if(json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
+            if (json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0) {
                 table.addRow(new String[]{
                     json.getInt("codigo") + "",
-                    json.getString("nome"),                
-                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()    
+                    json.getString("nome"),
+                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()
                 });
-            }else{
+            } else {
                 table.addRow(new String[]{
                     json.getInt("codigo") + "",
-                    json.getString("nomeFantasia"),                
-                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()    
-                }); 
+                    json.getString("nomeFantasia"),
+                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()
+                });
             }
         });
-        if(table.getRowCount() == 0)
+        if (table.getRowCount() == 0) {
             JOptionPane.showMessageDialog(rootPane, "Pessoa não encontrada!");
-        
+        }
+
         jTable.setModel(table);
     }
-    
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         List<JSONObject> pessoasFisicas;
         List<JSONObject> pessoaJuridicas;
         try {
-            if(jCheckQualqParte.isSelected()){
-                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%"+Util.Validacao.InputToString(jtfCampoPesquisa));
-                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName("%"+jtfCampoPesquisa.getText());
-            }else{
+            if (jCheckQualqParte.isSelected()) {
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%" + Util.Validacao.InputToString(jtfCampoPesquisa));
+                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName("%" + jtfCampoPesquisa.getText());
+            } else {
                 pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName(Util.Validacao.InputToString(jtfCampoPesquisa));
                 pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName(jtfCampoPesquisa.getText());
             }
-            List<JSONObject> Clientes = new ArrayList<>(pessoasFisicas);
+            Clientes = new ArrayList<>(pessoasFisicas);
             Clientes.addAll(pessoaJuridicas);
             PreencheJTable(jTable1, Clientes);
         } catch (Error ex) {
@@ -244,17 +246,69 @@ public class BuscaPessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {       
-            if(jTable1.getSelectedRow() != -1){
+        try {
+            if (jTable1.getSelectedRow() != -1) {
+                JSONObject clienteSelecionado = Clientes.get(jTable1.getSelectedRow());
+                JSONArray jsonAux;
+                System.out.println(clienteSelecionado);
                 pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
                 String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
-                jtfPessoa.setText(nome);
-                pessoaCodigo.setText(String.valueOf(pessoaID));
+
+                if(viewEncomenda.getBusca().equals("Remetente")) {
+                    viewEncomenda.getJtfRemetenteNome().setText(nome);
+                    viewEncomenda.getJtfRemetenteCodigo().setText(String.valueOf(pessoaID));
+                    if (clienteSelecionado.has("enderecos")) {
+                        jsonAux = clienteSelecionado.getJSONArray("enderecos");
+                        for (int i = 0; i < jsonAux.length(); i++) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.P) == 0) {
+                                viewEncomenda.getJtfRua().setText(jsonAux.getJSONObject(i).getString("rua"));
+                                viewEncomenda.getJtfBairro().setText(jsonAux.getJSONObject(i).getString("bairro"));
+                                viewEncomenda.getJtfCep().setText(jsonAux.getJSONObject(i).getString("cep"));
+                                viewEncomenda.getJtfNumero().setText(jsonAux.getJSONObject(i).getString("numero"));
+                                if (jsonAux.getJSONObject(i).has("complemento")) {
+                                    viewEncomenda.getJtfComplemento().setText(jsonAux.getJSONObject(i).getString("complemento"));
+                                }
+
+                                viewEncomenda.getJtfCidadeOrigemCodigo().setText(String.valueOf(jsonAux.getJSONObject(i).getJSONObject("cidade").getInt("codigo")));
+                                viewEncomenda.getJtfCidadeOrigemNome().setText(String.valueOf(jsonAux.getJSONObject(i).getJSONObject("cidade").getString("nome")));
+                                i = jsonAux.length();
+                            }
+                        }
+                    }
+                } else {
+                    viewEncomenda.getJtfDestinatarioNome().setText(nome);
+                    viewEncomenda.getJtfDestinatarioCodigo().setText(String.valueOf(pessoaID));
+                    if (clienteSelecionado.has("enderecos")) {
+                        jsonAux = clienteSelecionado.getJSONArray("enderecos");
+                        for (int i = 0; i < jsonAux.length(); i++) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.P) == 0) {
+                                viewEncomenda.getJtfRuaDestino().setText(jsonAux.getJSONObject(i).getString("rua"));
+                                viewEncomenda.getJtfBairroDestino().setText(jsonAux.getJSONObject(i).getString("bairro"));
+                                viewEncomenda.getJtfCepDestino().setText(jsonAux.getJSONObject(i).getString("cep"));
+                                viewEncomenda.getJtfNumeroDestino().setText(jsonAux.getJSONObject(i).getString("numero"));
+                                if (jsonAux.getJSONObject(i).has("complemento")) {
+                                    viewEncomenda.getJtfComplementoDestino().setText(jsonAux.getJSONObject(i).getString("complemento"));
+                                }
+
+                                viewEncomenda.getJtfCidadeDestinoCodigo().setText(String.valueOf(jsonAux.getJSONObject(i).getJSONObject("cidade").getInt("codigo")));
+                                viewEncomenda.getJtfCidadeDestinoNome().setText(String.valueOf(jsonAux.getJSONObject(i).getJSONObject("cidade").getString("nome")));
+                                i = jsonAux.length();
+                            }
+                        }
+                    }
+                }
+                
                 if(jTable1.getValueAt(jTable1.getSelectedRow(), 2) == Util.Enums.TipoPessoa.Fisica.toString())
-                    tipoPessoa = Util.Enums.TipoPessoa.Fisica;
+                    if(viewEncomenda.getBusca().equals("Destinatario"))
+                        viewEncomenda.setTipoDestinatario(Util.Enums.TipoPessoa.Fisica);
+                    else
+                        viewEncomenda.setTipoRemetente(Util.Enums.TipoPessoa.Fisica);
                 else
-                    tipoPessoa = Util.Enums.TipoPessoa.Juridica;
-                   
+                    if(viewEncomenda.getBusca().equals("Destinatario"))
+                        viewEncomenda.setTipoDestinatario(Util.Enums.TipoPessoa.Juridica);
+                    else
+                        viewEncomenda.setTipoRemetente(Util.Enums.TipoPessoa.Juridica);
+                
                 Helper.CloseDialog(this, backWindows);
             }
         } catch (Error e) {
@@ -279,14 +333,30 @@ public class BuscaPessoa extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -307,7 +377,7 @@ public class BuscaPessoa extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BuscaPessoa(null, null,null,0,null).setVisible(true);
+                new BuscaPessoaEncomenda(null).setVisible(true);
             }
         });
     }

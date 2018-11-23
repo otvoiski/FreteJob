@@ -5,20 +5,24 @@
  */
 package View;
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Estou dando este commit pra não acumular muita coisa, no momento estou tentando fazer a encomenda ser gravada no banco.
+import Util.Enums;
 import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -38,6 +42,15 @@ public class Encomenda extends javax.swing.JFrame {
     private Util.Enums.TipoPessoa tipoRemetente;
     private Util.Enums.TipoPessoa tipoDestinatario;
     private JSONObject jsonPersistencia;
+    private String busca;
+
+    public String getBusca() {
+        return busca;
+    }
+
+    public void setBusca(String busca) {
+        this.busca = busca;
+    }
     /**
      * Creates new form Encomenda
      * @param windowsBack
@@ -71,11 +84,11 @@ public class Encomenda extends javax.swing.JFrame {
         ArrayList<JTextField> camposAtivar = new ArrayList<>();
         camposAtivar.add(jtfRemetenteCodigo);
         camposAtivar.add(jtfDestinatarioCodigo);
-        camposAtivar.add(jtfRua);
-        camposAtivar.add(jtfBairro);
-        camposAtivar.add(jtfCep);
-        camposAtivar.add(jtfNumero);
-        camposAtivar.add(jtfComplemento);
+        camposAtivar.add(jtfRuaRemetente);
+        camposAtivar.add(jtfBairroRemetente);
+        camposAtivar.add(jtfCepRemetente);
+        camposAtivar.add(jtfNumeroRemetente);
+        camposAtivar.add(jtfComplementoRemetente);
         camposAtivar.add(jtfCidadeOrigemCodigo);
         camposAtivar.add(jtfRuaDestino);
         camposAtivar.add(jtfBairroDestino);
@@ -87,7 +100,7 @@ public class Encomenda extends javax.swing.JFrame {
         tratarEventos.setTabela(jtbItensEncomenda);
         
         
-        PreencheComboBox((new Controller.TipoEmbalagemController()).GetAll(), tipoEmbalagemCombo,"Descricao");
+        PreencheComboBox((new Controller.TipoEmbalagemController()).GetAll(), tipoEmbalagemCombo,"descricao");
         if(tipoEmbalagemCombo.getItemCount() > 0)
             tipoEmbalagemCombo.setSelectedIndex(0);
         
@@ -117,19 +130,19 @@ public class Encomenda extends javax.swing.JFrame {
         jtfDestinatarioCodigo = new javax.swing.JTextField();
         jtfDestinatarioNome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jbBuscaRemetente1 = new javax.swing.JButton();
+        jbBuscaDestinatario = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        jtfRua = new javax.swing.JTextField();
+        jtfRuaRemetente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jtfBairro = new javax.swing.JTextField();
+        jtfBairroRemetente = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jtfCep = new javax.swing.JTextField();
+        jtfCepRemetente = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
-        jtfNumero = new javax.swing.JTextField();
+        jtfNumeroRemetente = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jtfComplemento = new javax.swing.JTextField();
+        jtfComplementoRemetente = new javax.swing.JTextField();
         jtfCidadeOrigemCodigo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jtfCidadeOrigemNome = new javax.swing.JTextField();
@@ -223,6 +236,7 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel4.add(jbBuscaRemetente);
         jbBuscaRemetente.setBounds(328, 47, 36, 20);
 
+        jtfRemetenteCodigo.setEditable(false);
         jtfRemetenteCodigo.setEnabled(false);
         jtfRemetenteCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,6 +254,7 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel4.add(jLabel3);
         jLabel3.setBounds(20, 80, 58, 14);
 
+        jtfDestinatarioCodigo.setEditable(false);
         jtfDestinatarioCodigo.setEnabled(false);
         jPanel4.add(jtfDestinatarioCodigo);
         jtfDestinatarioCodigo.setBounds(18, 100, 60, 20);
@@ -253,14 +268,14 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel4.add(jLabel4);
         jLabel4.setBounds(90, 80, 57, 14);
 
-        jbBuscaRemetente1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jbBuscaRemetente1.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscaDestinatario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaDestinatario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscaRemetente1ActionPerformed(evt);
+                jbBuscaDestinatarioActionPerformed(evt);
             }
         });
-        jPanel4.add(jbBuscaRemetente1);
-        jbBuscaRemetente1.setBounds(330, 100, 36, 20);
+        jPanel4.add(jbBuscaDestinatario);
+        jbBuscaDestinatario.setBounds(330, 100, 36, 20);
 
         jPanel3.add(jPanel4);
         jPanel4.setBounds(0, 0, 420, 150);
@@ -271,26 +286,27 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço De Coleta"));
 
-        jtfRua.setEnabled(false);
+        jtfRuaRemetente.setEnabled(false);
 
         jLabel8.setText("Rua");
 
         jLabel9.setText("Bairro");
 
-        jtfBairro.setEnabled(false);
+        jtfBairroRemetente.setEnabled(false);
 
         jLabel10.setText("Cep");
 
-        jtfCep.setEnabled(false);
+        jtfCepRemetente.setEnabled(false);
 
         jLabel11.setText("Numero");
 
-        jtfNumero.setEnabled(false);
+        jtfNumeroRemetente.setEnabled(false);
 
         jLabel12.setText("Complemento");
 
-        jtfComplemento.setEnabled(false);
+        jtfComplementoRemetente.setEnabled(false);
 
+        jtfCidadeOrigemCodigo.setEditable(false);
         jtfCidadeOrigemCodigo.setEnabled(false);
 
         jLabel13.setText("Cidade");
@@ -312,20 +328,20 @@ public class Encomenda extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfRua)
+                    .addComponent(jtfRuaRemetente)
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel10Layout.createSequentialGroup()
-                                .addComponent(jtfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtfBairroRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jtfCepRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(154, 154, 154)
                                 .addComponent(jLabel10)
                                 .addGap(78, 78, 78)
                                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtfNumeroRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel10Layout.createSequentialGroup()
                                         .addGap(3, 3, 3)
                                         .addComponent(jLabel11)))))
@@ -336,7 +352,7 @@ public class Encomenda extends javax.swing.JFrame {
                                 .addGap(0, 44, Short.MAX_VALUE))
                             .addGroup(jPanel10Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jtfComplemento))))
+                                .addComponent(jtfComplementoRemetente))))
                     .addGroup(jPanel10Layout.createSequentialGroup()
                         .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8)
@@ -355,7 +371,7 @@ public class Encomenda extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtfRua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfRuaRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -364,10 +380,10 @@ public class Encomenda extends javax.swing.JFrame {
                     .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfBairroRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfCepRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfNumeroRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfComplementoRemetente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel13)
                 .addGap(2, 2, 2)
@@ -428,6 +444,7 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel11.add(jtfCidadeDestinoNome);
         jtfCidadeDestinoNome.setBounds(81, 120, 230, 20);
 
+        jtfCidadeDestinoCodigo.setEditable(false);
         jtfCidadeDestinoCodigo.setEnabled(false);
         jPanel11.add(jtfCidadeDestinoCodigo);
         jtfCidadeDestinoCodigo.setBounds(16, 120, 59, 20);
@@ -777,13 +794,18 @@ public class Encomenda extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbBuscaRemetenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetenteActionPerformed
-        Helper.ShowDialog(this,new BuscaPessoa(this,jtfRemetenteNome,jtfRemetenteCodigo,PessoaID, tipoRemetente));
+       // Helper.ShowDialog(this,new BuscaPessoaEncomenda(this,jtfRemetenteNome,jtfRemetenteCodigo,PessoaID, tipoRemetente));
+       this.busca = "Remetente";
+        Helper.ShowDialog(this,new BuscaPessoaEncomenda(this));
+        
      
     }//GEN-LAST:event_jbBuscaRemetenteActionPerformed
 
-    private void jbBuscaRemetente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetente1ActionPerformed
-        Helper.ShowDialog(this,new BuscaPessoa(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID,tipoDestinatario));
-    }//GEN-LAST:event_jbBuscaRemetente1ActionPerformed
+    private void jbBuscaDestinatarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaDestinatarioActionPerformed
+        //Helper.ShowDialog(this,new BuscaPessoaEncomenda(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID,tipoDestinatario));
+        this.busca = "Destinatario";
+        Helper.ShowDialog(this,new BuscaPessoaEncomenda(this));
+    }//GEN-LAST:event_jbBuscaDestinatarioActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
@@ -822,22 +844,20 @@ public class Encomenda extends javax.swing.JFrame {
         
         try {
             /*Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
-            Util.Validacao.InputToString(jtfRemetenteNome, "nome do remetente");
-            Util.Validacao.InputToString(jtfDestinatarioNome, "nome do destinatário");
-            Util.Validacao.InputToString(jtfRua, "nome da rua de coleta");
-            Util.Validacao.InputToString(jtfBairro, "nome do bairro de coleta");
-            Util.Validacao.InputToString(jtfCep, "cep do remetente de coleta");
-            Util.Validacao.InputToString(jtfNumero,"numero de coleta");
-            Util.Validacao.InputToString(jtfRuaDestino, "rua de destino");
-            Util.Validacao.InputToString(jtfBairroDestino, "bairro de destino");
-            Util.Validacao.InputToString(jtfCepDestino, "cep de destino");
-            Util.Validacao.InputToString(jtfNumeroDestino, "numero de destino");
-            Util.Validacao.InputToString(jtfCidadeOrigemNome, "cidade de origem");
-<<<<<<< HEAD
+            Util.Validacao.InputToString(jtfRemetenteNome);
+            Util.Validacao.InputToString(jtfDestinatarioNome);
+            Util.Validacao.InputToString(jtfRua);
+            Util.Validacao.InputToString(jtfBairro);
+            Util.Validacao.InputToString(jtfCep);
+            Util.Validacao.InputToString(jtfNumero);
+            Util.Validacao.InputToString(jtfRuaDestino);
+            Util.Validacao.InputToString(jtfBairroDestino);
+            Util.Validacao.InputToString(jtfCepDestino);
+            Util.Validacao.InputToString(jtfNumeroDestino);
+            Util.Validacao.InputToString(jtfCidadeOrigemNome);
             */Util.Validacao.InputToString(jtfCidadeDestinoNome);
-=======
-            Util.Validacao.InputToString(jtfCidadeDestinoNome, "cidade de destino");*/
->>>>>>> Estou dando este commit pra não acumular muita coisa, no momento estou tentando fazer a encomenda ser gravada no banco.
+
+            Util.Validacao.InputToString(jtfCidadeDestinoNome);
             Util.Validacao.itensjTable(jtbItensEncomenda);
 
             jsonAux = new JSONObject();
@@ -853,11 +873,11 @@ public class Encomenda extends javax.swing.JFrame {
             jsonPersistencia.put("destinatario", jsonAux);
 
             jsonAux =  new JSONObject();
-            jsonAux.put("Rua", jtfRua.getText());
-            jsonAux.put("Bairro", jtfBairro.getText());
-            jsonAux.put("Cep", jtfCep.getText());
-            jsonAux.put("Numero", jtfNumero.getText());
-            jsonAux.put("Complemento", jtfComplemento.getText());
+            jsonAux.put("Rua", jtfRuaRemetente.getText());
+            jsonAux.put("Bairro", jtfBairroRemetente.getText());
+            jsonAux.put("Cep", jtfCepRemetente.getText());
+            jsonAux.put("Numero", jtfNumeroRemetente.getText());
+            jsonAux.put("Complemento", jtfComplementoRemetente.getText());
             jsonAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
 
             jsonPersistencia.put("EnderecoColeta", jsonAux);
@@ -887,6 +907,7 @@ public class Encomenda extends javax.swing.JFrame {
                 jsonPersistencia.put("TipoFrete", "Rapido");
             else
                 jsonPersistencia.put("TipoFrete", "Super Rapido");
+           
             
             System.out.println("Destinatario "+ tipoDestinatario);
             System.out.println("Remetente "+ tipoRemetente);
@@ -900,6 +921,180 @@ public class Encomenda extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jbGravarActionPerformed
+
+    public int getCidadeOrigemID() {
+        return cidadeOrigemID;
+    }
+
+    public int getPessoaID() {
+        return PessoaID;
+    }
+
+    public int getDestinatarioID() {
+        return destinatarioID;
+    }
+
+    public ArrayList<JTextField> getCamposAtivar() {
+        return camposAtivar;
+    }
+
+    public Enums.TipoPessoa getTipoRemetente() {
+        return tipoRemetente;
+    }
+    public void setTipoRemetente(Enums.TipoPessoa tipo){
+        this.tipoRemetente = tipo;
+    }
+    public void setTipoDestinatario(Enums.TipoPessoa tipo){
+        this.tipoDestinatario = tipo;
+    }
+
+    public Enums.TipoPessoa getTipoDestinatario() {
+        return tipoDestinatario;
+    }
+
+    public JSONObject getJsonPersistencia() {
+        return jsonPersistencia;
+    }
+
+    public ButtonGroup getModalidadeFrete() {
+        return ModalidadeFrete;
+    }
+
+    public JRadioButtonMenuItem getjRadioButtonMenuItem1() {
+        return jRadioButtonMenuItem1;
+    }
+
+    public JButton getJbBuscaCidadeOrigem() {
+        return jbBuscaCidadeOrigem;
+    }
+
+    public JButton getJbBuscaRemetente() {
+        return jbBuscaRemetente;
+    }
+
+    public JButton getJbBuscaRemetente1() {
+        return jbBuscaDestinatario;
+    }
+
+    public JButton getJbCalcular() {
+        return jbCalcular;
+    }
+
+    public JButton getJbCancelar() {
+        return jbCancelar;
+    }
+
+    public JButton getJbConsultar() {
+        return jbConsultar;
+    }
+
+    public JButton getJbExluir() {
+        return jbExluir;
+    }
+
+    public JButton getJbGravar() {
+        return jbGravar;
+    }
+
+    public JButton getJbIncluir() {
+        return jbIncluir;
+    }
+
+    public JLabel getJlStatusEncomenda() {
+        return jlStatusEncomenda;
+    }
+
+    public JLabel getJlValorTotal() {
+        return jlValorTotal;
+    }
+
+    public JRadioButton getJrFreteNormal() {
+        return jrFreteNormal;
+    }
+
+    public JRadioButton getJrFreteRapido() {
+        return jrFreteRapido;
+    }
+
+    public JRadioButton getJrFreteSuperRapido() {
+        return jrFreteSuperRapido;
+    }
+
+    public JTable getJtbItensEncomenda() {
+        return jtbItensEncomenda;
+    }
+
+    public JTextField getJtfBairro() {
+        return jtfBairroRemetente;
+    }
+
+    public JTextField getJtfBairroDestino() {
+        return jtfBairroDestino;
+    }
+
+    public JTextField getJtfCep() {
+        return jtfCepRemetente;
+    }
+
+    public JTextField getJtfCepDestino() {
+        return jtfCepDestino;
+    }
+
+    public JTextField getJtfCidadeDestinoCodigo() {
+        return jtfCidadeDestinoCodigo;
+    }
+
+    public JTextField getJtfCidadeDestinoNome() {
+        return jtfCidadeDestinoNome;
+    }
+
+    public JTextField getJtfCidadeOrigemCodigo() {
+        return jtfCidadeOrigemCodigo;
+    }
+
+    public JTextField getJtfCidadeOrigemNome() {
+        return jtfCidadeOrigemNome;
+    }
+
+    public JTextField getJtfComplemento() {
+        return jtfComplementoRemetente;
+    }
+
+    public JTextField getJtfComplementoDestino() {
+        return jtfComplementoDestino;
+    }
+
+    public JTextField getJtfDestinatarioCodigo() {
+        return jtfDestinatarioCodigo;
+    }
+
+    public JTextField getJtfDestinatarioNome() {
+        return jtfDestinatarioNome;
+    }
+
+    public JTextField getJtfNumero() {
+        return jtfNumeroRemetente;
+    }
+
+    public JTextField getJtfNumeroDestino() {
+        return jtfNumeroDestino;
+    }
+
+    public JTextField getJtfRemetenteCodigo() {
+        return jtfRemetenteCodigo;
+    }
+
+    public JTextField getJtfRemetenteNome() {
+        return jtfRemetenteNome;
+    }
+
+    public JTextField getJtfRua() {
+        return jtfRuaRemetente;
+    }
+
+    public JTextField getJtfRuaDestino() {
+        return jtfRuaDestino;
+    }
 
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
         int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
@@ -921,9 +1116,7 @@ public class Encomenda extends javax.swing.JFrame {
                 && jtbItensEncomenda.getModel().getValueAt(linhaSelecionada, 1) == null
                 && jtbItensEncomenda.getModel().getValueAt(linhaSelecionada, 2) == null){
                 
-                DefaultTableModel modelo = ((DefaultTableModel)jtbItensEncomenda.getModel());
-                modelo.removeRow(linhaSelecionada); 
-                jtbItensEncomenda.setModel(modelo);
+                Helper.RemoveRowJTable(jtbItensEncomenda);
             }
         }
     }//GEN-LAST:event_jtbItensEncomendaKeyPressed
@@ -1019,8 +1212,8 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbBuscaCidadeDestino;
     private javax.swing.JButton jbBuscaCidadeOrigem;
+    private javax.swing.JButton jbBuscaDestinatario;
     private javax.swing.JButton jbBuscaRemetente;
-    private javax.swing.JButton jbBuscaRemetente1;
     private javax.swing.JButton jbCalcular;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConsultar;
@@ -1033,23 +1226,23 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrFreteRapido;
     private javax.swing.JRadioButton jrFreteSuperRapido;
     private javax.swing.JTable jtbItensEncomenda;
-    private javax.swing.JTextField jtfBairro;
     private javax.swing.JTextField jtfBairroDestino;
-    private javax.swing.JTextField jtfCep;
+    private javax.swing.JTextField jtfBairroRemetente;
     private javax.swing.JTextField jtfCepDestino;
+    private javax.swing.JTextField jtfCepRemetente;
     private javax.swing.JTextField jtfCidadeDestinoCodigo;
     private javax.swing.JTextField jtfCidadeDestinoNome;
     private javax.swing.JTextField jtfCidadeOrigemCodigo;
     private javax.swing.JTextField jtfCidadeOrigemNome;
-    private javax.swing.JTextField jtfComplemento;
     private javax.swing.JTextField jtfComplementoDestino;
+    private javax.swing.JTextField jtfComplementoRemetente;
     private javax.swing.JTextField jtfDestinatarioCodigo;
     private javax.swing.JTextField jtfDestinatarioNome;
-    private javax.swing.JTextField jtfNumero;
     private javax.swing.JTextField jtfNumeroDestino;
+    private javax.swing.JTextField jtfNumeroRemetente;
     private javax.swing.JTextField jtfRemetenteCodigo;
     private javax.swing.JTextField jtfRemetenteNome;
-    private javax.swing.JTextField jtfRua;
     private javax.swing.JTextField jtfRuaDestino;
+    private javax.swing.JTextField jtfRuaRemetente;
     // End of variables declaration//GEN-END:variables
 }

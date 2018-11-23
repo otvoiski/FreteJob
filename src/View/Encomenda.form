@@ -153,6 +153,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfRemetenteCodigo">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
@@ -186,6 +187,7 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfDestinatarioCodigo">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Constraints>
@@ -215,14 +217,14 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jbBuscaRemetente1">
+                    <Component class="javax.swing.JButton" name="jbBuscaDestinatario">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Resource/search.png"/>
                         </Property>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaRemetente1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaDestinatarioActionPerformed"/>
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -294,13 +296,13 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jtfRua" max="32767" attributes="0"/>
+                                      <Component id="jtfRuaRemetente" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jtfBairro" min="-2" pref="176" max="-2" attributes="0"/>
+                                                  <Component id="jtfBairroRemetente" min="-2" pref="176" max="-2" attributes="0"/>
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jtfCep" min="-2" pref="91" max="-2" attributes="0"/>
+                                                  <Component id="jtfCepRemetente" min="-2" pref="91" max="-2" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
@@ -308,7 +310,7 @@
                                                   <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
-                                                      <Component id="jtfNumero" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                                                      <Component id="jtfNumeroRemetente" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
                                                       <Group type="102" alignment="0" attributes="0">
                                                           <EmptySpace min="3" pref="3" max="-2" attributes="0"/>
                                                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
@@ -324,7 +326,7 @@
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
-                                                  <Component id="jtfComplemento" max="32767" attributes="0"/>
+                                                  <Component id="jtfComplementoRemetente" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -352,7 +354,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jtfRua" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jtfRuaRemetente" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -362,10 +364,10 @@
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="jtfBairro" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jtfCep" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jtfNumero" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jtfComplemento" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jtfBairroRemetente" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jtfCepRemetente" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jtfNumeroRemetente" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jtfComplementoRemetente" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
@@ -383,7 +385,7 @@
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JTextField" name="jtfRua">
+                        <Component class="javax.swing.JTextField" name="jtfRuaRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
@@ -398,7 +400,7 @@
                             <Property name="text" type="java.lang.String" value="Bairro"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jtfBairro">
+                        <Component class="javax.swing.JTextField" name="jtfBairroRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
@@ -408,7 +410,7 @@
                             <Property name="text" type="java.lang.String" value="Cep"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jtfCep">
+                        <Component class="javax.swing.JTextField" name="jtfCepRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
@@ -418,7 +420,7 @@
                             <Property name="text" type="java.lang.String" value="Numero"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jtfNumero">
+                        <Component class="javax.swing.JTextField" name="jtfNumeroRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
@@ -428,13 +430,14 @@
                             <Property name="text" type="java.lang.String" value="Complemento"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JTextField" name="jtfComplemento">
+                        <Component class="javax.swing.JTextField" name="jtfComplementoRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JTextField" name="jtfCidadeOrigemCodigo">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                         </Component>
@@ -590,6 +593,7 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jtfCidadeDestinoCodigo">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Constraints>
