@@ -3,13 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Base;
+package Model;
 
 import Base.ObjectBase;
-import Model.Email;
-import Model.Endereco;
-import Model.MidiaSocial;
-import Model.Telefone;
 import Util.Enums;
 import Util.Enums.TipoPessoa;
 import java.io.Serializable;
