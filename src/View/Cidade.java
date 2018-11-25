@@ -5,6 +5,7 @@
  */
 package View;
 
+import Controller.CidadeController;
 import Controller.EstadoController;
 import Util.Error;
 import Util.Helper;
@@ -19,16 +20,16 @@ import org.json.JSONObject;
  *
  * @author Matheus
  */
-public class Estado extends javax.swing.JFrame {
+public class Cidade extends javax.swing.JFrame {
     private TelaHandler tratarEventos;
     private final JFrame backWindows;
-    private int EstadoID;
+    private int CidadeID;
     JSONObject jsonPersistencia;
     /**
      * Creates new form Pais
      * @param windowsBack
      */
-    public Estado(JFrame windowsBack) {
+    public Cidade(JFrame windowsBack) {
         initComponents();
         this.backWindows =  windowsBack;
         Init();
@@ -36,15 +37,15 @@ public class Estado extends javax.swing.JFrame {
     public void Init(){
         tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExcluir,jbConsultar);
         ArrayList<JTextField> camposAtivar = new ArrayList<>();
-        camposAtivar.add(jtfNomeEstado);
-        camposAtivar.add(jtfSigla);
-        camposAtivar.add(jtfCodigoPais);
-        camposAtivar.add(jtfSiglaPais);
+        camposAtivar.add(jtfNomeCidade);
+        camposAtivar.add(jtfCodMunicipio);
+        camposAtivar.add(jtfCodigoEstado);
+        camposAtivar.add(jtfSiglaEstado);
         tratarEventos.setCampos(camposAtivar);
     }
     private void InitCamposBusca(boolean habilitaBusca){
-        jtfPaisNome.setText("Busque um país");
-        jbBuscaPais.setEnabled(habilitaBusca);
+        jtfEstadoNome.setText("Busque um estado");
+        jbBuscaEstado.setEnabled(habilitaBusca);
     }
 
     /**
@@ -70,21 +71,19 @@ public class Estado extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jtfCodigoPais = new javax.swing.JTextField();
-        jtfPaisNome = new javax.swing.JTextField();
+        jtfCodigoEstado = new javax.swing.JTextField();
+        jtfEstadoNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jtfSiglaPais = new javax.swing.JTextField();
-        jbBuscaPais = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        jtfSiglaEstado = new javax.swing.JTextField();
+        jbBuscaEstado = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jlNome = new javax.swing.JLabel();
-        jtfNomeEstado = new javax.swing.JTextField();
-        jlSigla = new javax.swing.JLabel();
-        jtfSigla = new javax.swing.JTextField();
+        jtfNomeCidade = new javax.swing.JTextField();
+        jlCodMunicipio = new javax.swing.JLabel();
+        jtfCodMunicipio = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de Estado");
+        setTitle("Cadastro de Cidade");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(610, 350));
         setResizable(false);
@@ -183,87 +182,81 @@ public class Estado extends javax.swing.JFrame {
         jPanel2.setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pais"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Estado"));
         jPanel3.setLayout(null);
 
-        jtfCodigoPais.setEditable(false);
-        jtfCodigoPais.setEnabled(false);
-        jtfCodigoPais.addActionListener(new java.awt.event.ActionListener() {
+        jtfCodigoEstado.setEditable(false);
+        jtfCodigoEstado.setEnabled(false);
+        jtfCodigoEstado.setName("Codigo do estado"); // NOI18N
+        jtfCodigoEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfCodigoPaisActionPerformed(evt);
+                jtfCodigoEstadoActionPerformed(evt);
             }
         });
-        jPanel3.add(jtfCodigoPais);
-        jtfCodigoPais.setBounds(30, 40, 60, 20);
+        jPanel3.add(jtfCodigoEstado);
+        jtfCodigoEstado.setBounds(30, 40, 60, 20);
 
-        jtfPaisNome.setText("Busque um país");
-        jtfPaisNome.setEnabled(false);
-        jtfPaisNome.setName("nome do país"); // NOI18N
-        jPanel3.add(jtfPaisNome);
-        jtfPaisNome.setBounds(100, 40, 230, 20);
+        jtfEstadoNome.setText("Busque um estado");
+        jtfEstadoNome.setEnabled(false);
+        jtfEstadoNome.setName("nome do estado"); // NOI18N
+        jPanel3.add(jtfEstadoNome);
+        jtfEstadoNome.setBounds(100, 40, 230, 20);
 
-        jLabel2.setText("Codigo");
+        jLabel2.setText("Estado");
         jPanel3.add(jLabel2);
         jLabel2.setBounds(30, 20, 40, 20);
 
-        jtfSiglaPais.setEditable(false);
-        jtfSiglaPais.setEnabled(false);
-        jPanel3.add(jtfSiglaPais);
-        jtfSiglaPais.setBounds(340, 40, 30, 20);
+        jtfSiglaEstado.setEditable(false);
+        jtfSiglaEstado.setEnabled(false);
+        jtfSiglaEstado.setName("Sigla"); // NOI18N
+        jPanel3.add(jtfSiglaEstado);
+        jtfSiglaEstado.setBounds(340, 40, 30, 20);
 
-        jbBuscaPais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jbBuscaPais.setEnabled(false);
-        jbBuscaPais.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscaEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaEstado.setEnabled(false);
+        jbBuscaEstado.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscaPaisActionPerformed(evt);
+                jbBuscaEstadoActionPerformed(evt);
             }
         });
-        jPanel3.add(jbBuscaPais);
-        jbBuscaPais.setBounds(380, 40, 40, 20);
-
-        jLabel3.setText("Nome");
-        jPanel3.add(jLabel3);
-        jLabel3.setBounds(100, 20, 27, 20);
-
-        jLabel4.setText("Sigla");
-        jPanel3.add(jLabel4);
-        jLabel4.setBounds(340, 20, 34, 20);
+        jPanel3.add(jbBuscaEstado);
+        jbBuscaEstado.setBounds(380, 40, 40, 20);
 
         jPanel2.add(jPanel3);
-        jPanel3.setBounds(10, 120, 570, 90);
+        jPanel3.setBounds(10, 140, 580, 90);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Estado"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Cidade"));
         jPanel4.setLayout(null);
 
         jlNome.setText("Nome:");
         jPanel4.add(jlNome);
         jlNome.setBounds(30, 10, 60, 20);
 
-        jtfNomeEstado.setEnabled(false);
-        jtfNomeEstado.setName("Nome"); // NOI18N
-        jtfNomeEstado.addActionListener(new java.awt.event.ActionListener() {
+        jtfNomeCidade.setEnabled(false);
+        jtfNomeCidade.setName("Nome"); // NOI18N
+        jtfNomeCidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNomeEstadoActionPerformed(evt);
+                jtfNomeCidadeActionPerformed(evt);
             }
         });
-        jPanel4.add(jtfNomeEstado);
-        jtfNomeEstado.setBounds(30, 30, 390, 20);
+        jPanel4.add(jtfNomeCidade);
+        jtfNomeCidade.setBounds(30, 30, 390, 20);
 
-        jlSigla.setText("Sigla:");
-        jPanel4.add(jlSigla);
-        jlSigla.setBounds(30, 50, 50, 20);
+        jlCodMunicipio.setText("Código do Municipio");
+        jPanel4.add(jlCodMunicipio);
+        jlCodMunicipio.setBounds(30, 60, 100, 20);
 
-        jtfSigla.setEnabled(false);
-        jtfSigla.setName("Sigla"); // NOI18N
-        jPanel4.add(jtfSigla);
-        jtfSigla.setBounds(30, 70, 60, 20);
+        jtfCodMunicipio.setEnabled(false);
+        jtfCodMunicipio.setName("Codigo do municipio"); // NOI18N
+        jPanel4.add(jtfCodMunicipio);
+        jtfCodMunicipio.setBounds(30, 80, 130, 20);
 
         jPanel2.add(jPanel4);
-        jPanel4.setBounds(10, 20, 570, 100);
+        jPanel4.setBounds(10, 20, 580, 120);
 
         jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 30, 600, 220);
+        jPanel2.setBounds(0, 20, 600, 240);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 620, 330);
@@ -272,9 +265,9 @@ public class Estado extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jtfNomeEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNomeEstadoActionPerformed
+    private void jtfNomeCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNomeCidadeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfNomeEstadoActionPerformed
+    }//GEN-LAST:event_jtfNomeCidadeActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         jtfCodigo.setEnabled(true);
@@ -287,25 +280,25 @@ public class Estado extends javax.swing.JFrame {
         jsonPersistencia = new JSONObject();
         
         try {
-            Util.Validacao.InputToString(jtfNomeEstado);
-            Util.Validacao.InputToString(jtfSigla);
-            Util.Validacao.InputToString(jtfPaisNome);
-            Util.Validacao.InputToString(jtfCodigoPais);
+            Util.Validacao.InputToString(jtfNomeCidade);
+            Util.Validacao.InputToString(jtfCodMunicipio);
+            Util.Validacao.InputToString(jtfEstadoNome);
+            Util.Validacao.InputToString(jtfCodigoEstado);
             
-            jsonPersistencia.put("nome", jtfNomeEstado.getText());
-            jsonPersistencia.put("sigla", jtfSigla.getText().toUpperCase());
+            jsonPersistencia.put("nome", jtfNomeCidade.getText());
+            jsonPersistencia.put("cod_municipio", jtfCodMunicipio.getText().toUpperCase());
 
-            jsonAux.put("codigo", jtfCodigoPais.getText());
-            jsonAux.put("nome", jtfPaisNome.getText());
+            jsonAux.put("codigo", jtfCodigoEstado.getText());
+            jsonAux.put("nome", jtfEstadoNome.getText());
 
-            jsonPersistencia.put("pais", jsonAux);
+            jsonPersistencia.put("estado", jsonAux);
 
-            EstadoController estadoCntrl = new EstadoController();
-            if(estadoCntrl.Save(jsonPersistencia)){
+            CidadeController cidadeCntrl = new CidadeController();
+            if(cidadeCntrl.Save(jsonPersistencia)){
                 jtfCodigo.setEnabled(true);
                 tratarEventos.ativaGravar(false);
                 InitCamposBusca(false);
-                JOptionPane.showConfirmDialog(null, "Estado gravado com sucesso!");
+                JOptionPane.showConfirmDialog(null, "Cidade gravada com sucesso!");
             }
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);
@@ -319,73 +312,74 @@ public class Estado extends javax.swing.JFrame {
        InitCamposBusca(true);
     }//GEN-LAST:event_jbIncluirActionPerformed
 
-    private void jtfCodigoPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoPaisActionPerformed
+    private void jtfCodigoEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCodigoEstadoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCodigoPaisActionPerformed
+    }//GEN-LAST:event_jtfCodigoEstadoActionPerformed
 
-    private void jbBuscaPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPaisActionPerformed
-        Helper.ShowDialog(this,new BuscarLocalidade(this,"Pais", jtfPaisNome,jtfCodigoPais,jtfSiglaPais));
-    }//GEN-LAST:event_jbBuscaPaisActionPerformed
+    private void jbBuscaEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaEstadoActionPerformed
+        Helper.ShowDialog(this,new BuscarLocalidade(this,"Estado", jtfEstadoNome,jtfCodigoEstado,jtfSiglaEstado));
+    }//GEN-LAST:event_jbBuscaEstadoActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         InitCamposBusca(false);
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
-       Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Estado"));
+       //Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Estado"));
     }//GEN-LAST:event_jbConsultarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_formWindowClosing
 
-    public JTextField getJtfCodigo() {
-        return jtfCodigo;
+    public JTextField getJtfCodMunicipio() {
+        return jtfCodMunicipio;
     }
 
-    public JTextField getJtfCodigoPais() {
-        return jtfCodigoPais;
+    public void setJtfCodMunicipio(JTextField jtfCodMunicipio) {
+        this.jtfCodMunicipio = jtfCodMunicipio;
+    }
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
     }
 
     public void setJtfCodigo(JTextField jtfCodigo) {
         this.jtfCodigo = jtfCodigo;
     }
 
-    public void setJtfCodigoPais(JTextField jtfCodigoPais) {
-        this.jtfCodigoPais = jtfCodigoPais;
+    public JTextField getJtfCodigoEstado() {
+        return jtfCodigoEstado;
     }
 
-    public void setJtfNomeEstado(JTextField jtfNomeEstado) {
-        this.jtfNomeEstado = jtfNomeEstado;
+    public void setJtfCodigoEstado(JTextField jtfCodigoEstado) {
+        this.jtfCodigoEstado = jtfCodigoEstado;
     }
 
-    public void setJtfPaisNome(JTextField jtfPaisNome) {
-        this.jtfPaisNome = jtfPaisNome;
+    public JTextField getJtfEstadoNome() {
+        return jtfEstadoNome;
     }
 
-    public void setJtfSigla(JTextField jtfSigla) {
-        this.jtfSigla = jtfSigla;
+    public void setJtfEstadoNome(JTextField jtfEstadoNome) {
+        this.jtfEstadoNome = jtfEstadoNome;
     }
 
-    public void setJtfSiglaPais(JTextField jtfSiglaPais) {
-        this.jtfSiglaPais = jtfSiglaPais;
+    public JTextField getJtfNomeCidade() {
+        return jtfNomeCidade;
     }
 
-    public JTextField getJtfNomeEstado() {
-        return jtfNomeEstado;
+    public void setJtfNomeCidade(JTextField jtfNomeCidade) {
+        this.jtfNomeCidade = jtfNomeCidade;
     }
 
-    public JTextField getJtfPaisNome() {
-        return jtfPaisNome;
+    public JTextField getJtfSiglaEstado() {
+        return jtfSiglaEstado;
     }
 
-    public JTextField getJtfSigla() {
-        return jtfSigla;
+    public void setJtfSiglaEstado(JTextField jtfSiglaEstado) {
+        this.jtfSiglaEstado = jtfSiglaEstado;
     }
 
-    public JTextField getJtfSiglaPais() {
-        return jtfSiglaPais;
-    }
 
     /**
      * @param args the command line arguments
@@ -404,26 +398,14 @@ public class Estado extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Estado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Estado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Estado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Estado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Cidade.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -432,7 +414,7 @@ public class Estado extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Estado(null).setVisible(true);
+                new Cidade(null).setVisible(true);
             }
         });
     }
@@ -444,25 +426,23 @@ public class Estado extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton jbBuscaPais;
+    private javax.swing.JButton jbBuscaEstado;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConsultar;
     private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
+    private javax.swing.JLabel jlCodMunicipio;
     private javax.swing.JLabel jlNome;
-    private javax.swing.JLabel jlSigla;
+    private javax.swing.JTextField jtfCodMunicipio;
     private javax.swing.JTextField jtfCodigo;
-    private javax.swing.JTextField jtfCodigoPais;
-    private javax.swing.JTextField jtfNomeEstado;
-    private javax.swing.JTextField jtfPaisNome;
-    private javax.swing.JTextField jtfSigla;
-    private javax.swing.JTextField jtfSiglaPais;
+    private javax.swing.JTextField jtfCodigoEstado;
+    private javax.swing.JTextField jtfEstadoNome;
+    private javax.swing.JTextField jtfNomeCidade;
+    private javax.swing.JTextField jtfSiglaEstado;
     // End of variables declaration//GEN-END:variables
 }
