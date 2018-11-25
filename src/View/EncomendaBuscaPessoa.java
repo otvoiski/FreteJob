@@ -23,7 +23,7 @@ import org.json.JSONObject;
  *
  * @author Otavio
  */
-public class BuscaPessoaEncomenda extends javax.swing.JFrame {
+public class EncomendaBuscaPessoa extends javax.swing.JFrame {
 
     private final JFrame backWindows;
     private int pessoaID;
@@ -44,7 +44,7 @@ public class BuscaPessoaEncomenda extends javax.swing.JFrame {
         columnModel.getColumn(1).setPreferredWidth(150);
         columnModel.getColumn(2).setPreferredWidth(50);
     }*/
-    public BuscaPessoaEncomenda(View.Encomenda encomenda) {
+    public EncomendaBuscaPessoa(View.Encomenda encomenda) {
         initComponents();
         this.viewEncomenda = encomenda;
         this.backWindows = encomenda;
@@ -260,7 +260,7 @@ public class BuscaPessoaEncomenda extends javax.swing.JFrame {
                     if (clienteSelecionado.has("enderecos")) {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.P) == 0) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0) {
                                 viewEncomenda.getJtfRua().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairro().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCep().setText(jsonAux.getJSONObject(i).getString("cep"));
@@ -281,7 +281,7 @@ public class BuscaPessoaEncomenda extends javax.swing.JFrame {
                     if (clienteSelecionado.has("enderecos")) {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.P) == 0) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0) {
                                 viewEncomenda.getJtfRuaDestino().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairroDestino().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCepDestino().setText(jsonAux.getJSONObject(i).getString("cep"));
@@ -333,14 +333,46 @@ public class BuscaPessoaEncomenda extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EncomendaBuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EncomendaBuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EncomendaBuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BuscaPessoaEncomenda.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(EncomendaBuscaPessoa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -377,7 +409,7 @@ public class BuscaPessoaEncomenda extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BuscaPessoaEncomenda(null).setVisible(true);
+                new EncomendaBuscaPessoa(null).setVisible(true);
             }
         });
     }
