@@ -5,7 +5,7 @@
  */
 package Business;
 
-import Base.Pessoa;
+import Model.Pessoa;
 import java.util.List;
 import org.hibernate.Query;
 

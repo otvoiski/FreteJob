@@ -5,7 +5,6 @@
  */
 package Model;
 
-import Base.Pessoa;
 import Base.ObjectBase;
 import java.util.List;
 import javax.persistence.Entity;

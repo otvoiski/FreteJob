@@ -5,7 +5,6 @@
  */
 package Model;
 
-import Base.Pessoa;
 import Base.ObjectBase;
 import Controller.DistanciaController;
 import Util.Enums;

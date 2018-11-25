@@ -5,7 +5,6 @@
  */
 package Model;
 
-import Base.Pessoa;
 import Base.ObjectBase;
 import javax.persistence.Entity;
 import org.json.JSONObject;

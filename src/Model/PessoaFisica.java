@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.Entity;
+import javax.persistence.Temporal;
 import org.json.JSONObject;
 
 /**
@@ -20,11 +21,12 @@ import org.json.JSONObject;
  * @author Professor
  */
 @Entity
-public class PessoaFisica extends Base.Pessoa{
+public class PessoaFisica extends Model.Pessoa{
 
     private String Nome;
     private String Cpf;
     private String Rg;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date DataNascimento;
     private String Sexo;
 
