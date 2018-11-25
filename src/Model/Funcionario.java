@@ -8,7 +8,6 @@ package Model;
 import Base.ObjectBase;
 import Util.Enums;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 

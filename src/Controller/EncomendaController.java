@@ -8,7 +8,10 @@ package Controller;
 import Base.ControllerBase;
 import Base.Persistencia;
 import DAO.EncomendaDAO;
+import Model.Cidade;
 import Model.Encomenda;
+import Model.PessoaFisica;
+import Model.PessoaJuridica;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -21,16 +24,13 @@ public class EncomendaController extends ControllerBase {
 
     @Override
     protected void START_CONTROLLER() {
-        this.DAO = new Persistencia<>(Encomenda.class);
+        this.DAO = new Persistencia<>(Model.Encomenda.class);
         this.Object = new Encomenda();
     }
     @Override
     public boolean Save(JSONObject dados){
-        Encomenda objEncomenda = (Encomenda) new Encomenda().toObjectBase(dados);
-        objEncomenda.calculaValorTransporte();
-        Object = objEncomenda;
-        //Facade.Encomenda facade = new Facade.Encomenda((EncomendaDAO)this.DAO);
-        return DAO.Save(Object);
+       Facade.Encomenda facade = new Facade.Encomenda(this.DAO);
+       return facade.persistirEncomenda(dados);
     };
     
     public List<JSONObject> GetByName(String nome)

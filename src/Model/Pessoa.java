@@ -106,12 +106,15 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
             for(int i = 0; i<jsonArrayAux.length(); i++)
                 Emails.add((Email) new Email().toObjectBase(jsonArrayAux.getJSONObject(i)));
         }
-        jsonArrayAux = jsonRetorno.getJSONArray("telefones");
-        for(int i = 0; i<jsonArrayAux.length(); i++)
-            Telefones.add((Telefone) new Telefone().toObjectBase(jsonArrayAux.getJSONObject(i)));
-        
-         jsonArrayAux = jsonRetorno.getJSONArray("enderecos");
-        for(int i = 0; i<jsonArrayAux.length(); i++)
-            Enderecos.add((Endereco) new Endereco().toObjectBase(jsonArrayAux.getJSONObject(i)));
+        if(jsonRetorno.has("telefones")){
+            jsonArrayAux = jsonRetorno.getJSONArray("telefones");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                Telefones.add((Telefone) new Telefone().toObjectBase(jsonArrayAux.getJSONObject(i)));
+        }
+        if(jsonRetorno.has("enderecos")){
+            jsonArrayAux = jsonRetorno.getJSONArray("enderecos");
+            for(int i = 0; i<jsonArrayAux.length(); i++)
+                Enderecos.add((Endereco) new Endereco().toObjectBase(jsonArrayAux.getJSONObject(i)));
+        }
     }
 }

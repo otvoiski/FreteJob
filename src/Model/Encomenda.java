@@ -12,9 +12,11 @@ import Util.Enums.TipoFreteEncomenda;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -31,10 +33,10 @@ public class Encomenda extends ObjectBase implements Serializable {
     @ManyToOne
     private Pessoa Destinatario;
     @ManyToOne
-    private Endereco EndOrigem; //existem estes atributos de endereço pois existe a possibilidade da encomenda sair de um endereço que não é endereço do remetente e vice versa
+    private Endereco EnderecoColeta; //existem estes atributos de endereço pois existe a possibilidade da encomenda sair de um endereço que não é endereço do remetente e vice versa
     @ManyToOne
-    private Endereco EndDestino;    
-    @ManyToMany
+    private Endereco EnderecoDestino;    
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<ObjetoEncomenda> Objetos;
     @ManyToMany
     private List<Distribuidora> DistribuidoraColeta;
@@ -44,6 +46,11 @@ public class Encomenda extends ObjectBase implements Serializable {
     private TipoFreteEncomenda tipoFreteEscolhido;
     private String codRastreio;
 
+    public Encomenda(){
+        this.Objetos = new ArrayList<>();
+        this.DistribuidoraColeta = new ArrayList<>();
+        this.ResponsManipulacao = new ArrayList<>();
+    }
     public double getValorCobrado() {
         return valorCobrado;
     }
@@ -61,11 +68,11 @@ public class Encomenda extends ObjectBase implements Serializable {
         this.codRastreio = codRastreio;
     }
 
-    public TipoFreteEncomenda getTipoFreteEscolhido() {
+    public TipoFreteEncomenda getTipoFrete() {
         return tipoFreteEscolhido;
     }
 
-    public void setTipoFreteEscolhido(TipoFreteEncomenda tipoFreteEscolhido) {
+    public void setTipoFrete(TipoFreteEncomenda tipoFreteEscolhido) {
         this.tipoFreteEscolhido = tipoFreteEscolhido;
     }
     public ArrayList<Distribuidora> getDistribuidoraColeta() {
@@ -100,20 +107,20 @@ public class Encomenda extends ObjectBase implements Serializable {
         this.Destinatario = Destinatario;
     }
 
-    public Endereco getEndOrigem() {
-        return EndOrigem;
+    public Endereco getEndColeta() {
+        return EnderecoColeta;
     }
 
-    public void setEndOrigem(Endereco EndOrigem) {
-        this.EndOrigem = EndOrigem;
+    public void setEndColeta(Endereco EndOrigem) {
+        this.EnderecoColeta = EndOrigem;
     }
 
     public Endereco getEndDestino() {
-        return EndDestino;
+        return EnderecoDestino;
     }
 
     public void setEndDestino(Endereco EndDestino) {
-        this.EndDestino = EndDestino;
+        this.EnderecoDestino = EndDestino;
     }
 
     public ArrayList<ObjetoEncomenda> getObjetos() {
@@ -127,7 +134,7 @@ public class Encomenda extends ObjectBase implements Serializable {
         double pesoTotal = 0.0;
         double multipPeso;
         double multipModalFrete = 0;
-        double distanciaPercorrer =  new DistanciaController().retornaDistanciaEntreCidades(EndOrigem.getCidade(), EndDestino.getCidade());
+        double distanciaPercorrer =  new DistanciaController().retornaDistanciaEntreCidades(EnderecoColeta.getCidade(), EnderecoDestino.getCidade());
         
         for(ObjetoEncomenda obj:Objetos)
             pesoTotal+= obj.getPeso();
@@ -174,20 +181,26 @@ public class Encomenda extends ObjectBase implements Serializable {
         
         if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
             objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("emitente"))); 
-        }else
-             objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("emitente")));
+        }else{
+            objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("emitente")));
+        }
         
         if(jsonRetorno.getJSONObject("destinatario").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica)==0){
-            objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("destinatario"))); 
-        }else
-            objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("destinatario")));
-        
-        objEncomenda.setEndOrigem((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endOrigem")));
-        objEncomenda.setEndDestino((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endDestino")));
-        arrayAux = jsonRetorno.getJSONArray("objetos");
-        for(int i = 0; i< arrayAux.length(); i++){
-            objEncomenda.getObjetos().add((ObjetoEncomenda) new ObjetoEncomenda().toObjectBase(arrayAux.getJSONObject(i)));
+            objEncomenda.setDestinatario((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("destinatario"))); 
+        }else{
+            objEncomenda.setDestinatario((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("destinatario")));
         }
+        
+        objEncomenda.setEndColeta((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endColeta")));
+        objEncomenda.setEndDestino((Endereco) new Endereco().toObjectBase(jsonRetorno.getJSONObject("endDestino")));
+        
+        
+        arrayAux = jsonRetorno.getJSONArray("objetos");
+        for(int i = 0; i< arrayAux.length(); i++)
+            objEncomenda.getObjetos().add((ObjetoEncomenda) new ObjetoEncomenda().toObjectBase(arrayAux.getJSONObject(i)));
+        
+        objEncomenda.setTipoFrete(jsonRetorno.getEnum(Util.Enums.TipoFreteEncomenda.class, "tipoFrete"));
+        
         if(jsonRetorno.has("distribuidoraColeta")){
             arrayAux = jsonRetorno.getJSONArray("distribuidoraColeta");
             for(int i = 0; i< arrayAux.length(); i++){

@@ -27,7 +27,6 @@ public class Persistencia<T extends ObjectBase> {
             return MetodosJPA.persistir(obj);
         }
     }
-
     public boolean Remove(int i) {
         return MetodosJPA.excluir(i, classePersistente);
     }

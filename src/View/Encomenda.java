@@ -6,6 +6,7 @@
 package View;
 
 
+import Controller.EncomendaController;
 import Util.Enums;
 import Util.Error;
 import Util.TelaHandler;
@@ -26,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -851,82 +853,115 @@ public class Encomenda extends javax.swing.JFrame {
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
         JSONObject jsonAux;
-        JSONObject jsonObjetos;
+        JSONObject jsonObjeto;
+        JSONArray jsonArrayObjetos = new JSONArray();
         
         try {
-            /*Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
+            Util.Validacao.freteRadioButtonSelected(ModalidadeFrete);
             Util.Validacao.InputToString(jtfRemetenteNome);
             Util.Validacao.InputToString(jtfDestinatarioNome);
-            Util.Validacao.InputToString(jtfRua);
-            Util.Validacao.InputToString(jtfBairro);
-            Util.Validacao.InputToString(jtfCep);
-            Util.Validacao.InputToString(jtfNumero);
+            Util.Validacao.InputToString(jtfRuaRemetente);
+            Util.Validacao.InputToString(jtfBairroRemetente);
+            Util.Validacao.InputToString(jtfCepRemetente);
+            Util.Validacao.InputToString(jtfNumeroRemetente);
             Util.Validacao.InputToString(jtfRuaDestino);
             Util.Validacao.InputToString(jtfBairroDestino);
             Util.Validacao.InputToString(jtfCepDestino);
             Util.Validacao.InputToString(jtfNumeroDestino);
             Util.Validacao.InputToString(jtfCidadeOrigemNome);
-            */Util.Validacao.InputToString(jtfCidadeDestinoNome);
+            Util.Validacao.InputToString(jtfCidadeDestinoNome);
 
             Util.Validacao.InputToString(jtfCidadeDestinoNome);
             Util.Validacao.itensjTable(jtbItensEncomenda);
-
+            
+            
+            /*GERAÇÃO DO JSON PARA A PERSISTENCIA*/
+            
+            /*REMETENTE*/
             jsonAux = new JSONObject();
-            jsonAux.put("Codigo", jtfRemetenteCodigo.getText());
-            jsonAux.put("Nome", jtfRemetenteNome.getText());
+            jsonAux.put("codigo", jtfRemetenteCodigo.getText());
+            if(tipoRemetente.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+                jsonAux.put("nome", jtfRemetenteNome.getText());
+            else
+                jsonAux.put("nomeFantasia", jtfRemetenteNome.getText());
+            
             jsonAux.put("tipoPessoa", tipoRemetente);
             jsonPersistencia.put("emitente", jsonAux);
             
+             /*FIM REMETENTE*/
+            
+              /*DESTINATARIO*/
             jsonAux = new JSONObject();
-            jsonAux.put("Codigo", jtfDestinatarioCodigo.getText());
-            jsonAux.put("Nome", jtfDestinatarioNome.getText());
+            jsonAux.put("codigo", jtfDestinatarioCodigo.getText());
+             if(tipoDestinatario.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+                jsonAux.put("nome", jtfDestinatarioNome.getText());
+            else
+                 jsonAux.put("nomeFantasia", jtfDestinatarioNome.getText());
+             
             jsonAux.put("tipoPessoa", tipoDestinatario);
             jsonPersistencia.put("destinatario", jsonAux);
-
+            
+             /*FIM DESTINATARIO*/
+             
+             
+            /*ENDERECO REMETENTE*/
+            
             jsonAux =  new JSONObject();
-            jsonAux.put("Rua", jtfRuaRemetente.getText());
-            jsonAux.put("Bairro", jtfBairroRemetente.getText());
-            jsonAux.put("Cep", jtfCepRemetente.getText());
-            jsonAux.put("Numero", jtfNumeroRemetente.getText());
-            jsonAux.put("Complemento", jtfComplementoRemetente.getText());
-            jsonAux.put("CidadeCodigo", jtfCidadeOrigemCodigo.getText());
+            jsonAux.put("rua", jtfRuaRemetente.getText());
+            jsonAux.put("bairro", jtfBairroRemetente.getText());
+            jsonAux.put("cep", jtfCepRemetente.getText());
+            jsonAux.put("numero", jtfNumeroRemetente.getText());
+            jsonAux.put("complemento", jtfComplementoRemetente.getText());
+            jsonAux.put("cidade", jtfCidadeOrigemCodigo.getText());
 
-            jsonPersistencia.put("EnderecoColeta", jsonAux);
+            jsonPersistencia.put("endColeta", jsonAux);
+            
+            /*FIM ENDERECO REMETENTE*/
 
+            
+            /*ENDERECO DESTINATARIO*/
             jsonAux = new JSONObject();
+            jsonAux.put("rua", jtfRuaDestino.getText());
+            jsonAux.put("bairro", jtfBairroDestino.getText());
+            jsonAux.put("cep", jtfCepDestino.getText());
+            jsonAux.put("numero", jtfNumeroDestino.getText());
+            jsonAux.put("complemento", jtfComplementoDestino.getText());
+            jsonAux.put("cidade", jtfCidadeDestinoCodigo.getText());
 
-            jsonAux.put("Rua", jtfRuaDestino.getText());
-            jsonAux.put("Bairro", jtfBairroDestino.getText());
-            jsonAux.put("Cep", jtfCepDestino.getText());
-            jsonAux.put("Numero", jtfNumeroDestino.getText());
-            jsonAux.put("Complemento", jtfComplementoDestino.getText());
-            jsonAux.put("CidadeCodigo", jtfCidadeDestinoCodigo.getText());
-
-            jsonPersistencia.put("EnderecoDestino", jsonAux);
-            /*
+            jsonPersistencia.put("endDestino", jsonAux);
+            
+            /*FIM ENDERECO REMETENTE*/
+            
+            /*ITENS DA ENCOMENDA*/
             for(int i = 0 ; i< jtbItensEncomenda.getRowCount(); i++){
-                jsonObjetos = new JSONObject();
-                jsonObjetos.put("Descricao", jtbItensEncomenda.getModel().getValueAt(i, 0));
-                jsonObjetos.put("Peso", jtbItensEncomenda.getModel().getValueAt(i, 1));
-                String estadoCombo = (String) jtbItensEncomenda.getValueAt(i, 2);
-                jsonObjetos.put("TipoEmbalagem",estadoCombo);
-                jsonPersistencia.put("Item "+(i+1), jsonObjetos);
-            }*/
+                jsonObjeto = new JSONObject();
+                jsonAux = new JSONObject();
+                jsonObjeto.put("descricao", jtbItensEncomenda.getModel().getValueAt(i, 0));
+                jsonObjeto.put("peso", jtbItensEncomenda.getModel().getValueAt(i, 1));
+                String jcTipoEmbalagem = (String) jtbItensEncomenda.getValueAt(i, 2);
+                jsonAux.put("descricao", jcTipoEmbalagem);
+                jsonObjeto.put("tipoEmbalagem",jsonAux);
+                jsonArrayObjetos.put(jsonObjeto);
+                
+            }
+            jsonPersistencia.put("objetos", jsonArrayObjetos);
+            
+            
+            /*FIM ITENS DA ENCOMENDA*/
+            
+            /*TIPO DO FRETE ESCOLHIDO*/
             if(jrFreteNormal.isSelected())
-                jsonPersistencia.put("TipoFrete", "Normal");
+                jsonPersistencia.put("tipoFrete", Util.Enums.TipoFreteEncomenda.Normal);
             else if(jrFreteRapido.isSelected())
-                jsonPersistencia.put("TipoFrete", "Rapido");
+                jsonPersistencia.put("tipoFrete", Util.Enums.TipoFreteEncomenda.Rapido);
             else
-                jsonPersistencia.put("TipoFrete", "Super Rapido");
-           
+                jsonPersistencia.put("tipoFrete", Util.Enums.TipoFreteEncomenda.SuperRapido);
             
-            System.out.println("Destinatario "+ tipoDestinatario);
-            System.out.println("Remetente "+ tipoRemetente);
+            /*FIM TIPO DE FRETE */
 
-            System.out.println(jsonPersistencia);
-            
-            /*EncomendaController encomendaCntrl = new EncomendaController();
-            encomendaCntrl.Save(jsonPersistencia);*/
+            /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
+            EncomendaController encomendaCntrl = new EncomendaController();
+            encomendaCntrl.Save(jsonPersistencia);
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null, "Corrija os campos e grave novamente!", "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
         }

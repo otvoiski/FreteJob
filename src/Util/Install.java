@@ -418,9 +418,9 @@ public class Install {
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f19))
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f20))
                                             {
-                                                TipoEmbalagem te1 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Basica);
-                                                TipoEmbalagem te2 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Convencional);
-                                                TipoEmbalagem te3 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Tematica);
+                                                TipoEmbalagem te1 = new TipoEmbalagem("Caixa");
+                                                TipoEmbalagem te2 = new TipoEmbalagem("Plastico");
+                                                TipoEmbalagem te3 = new TipoEmbalagem("Envelope");
                                                 if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te1))
                                                     return false;
                                             }

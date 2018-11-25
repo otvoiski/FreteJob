@@ -19,17 +19,17 @@ import org.json.JSONObject;
 public class TipoEmbalagem extends ObjectBase implements Serializable {
         
     private static final long serialVersionUID = 1L;
-    private Util.Enums.TipoEmbalagem Descricao;
+    private String Descricao;
 
-    public Util.Enums.TipoEmbalagem getDescricao() {
+    public String getDescricao() {
         return Descricao;
     }
 
-    public void setDescricao(Util.Enums.TipoEmbalagem descricao) {
+    public void setDescricao(String descricao) {
         this.Descricao = descricao;
     }
 
-    public TipoEmbalagem(Util.Enums.TipoEmbalagem descricao) {
+    public TipoEmbalagem(String descricao) {
         this.Descricao = descricao;
     }
     public TipoEmbalagem(){}
@@ -42,8 +42,13 @@ public class TipoEmbalagem extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         TipoEmbalagem objEmbalagem =  new TipoEmbalagem();
-        objEmbalagem.setDescricao(jsonRetorno.getEnum(Util.Enums.TipoEmbalagem.class, "descricao"));
-        objEmbalagem.setCodigo(jsonRetorno.getInt("codigo"));
+        objEmbalagem.setDescricao(jsonRetorno.getString("descricao"));
+        
+        if(jsonRetorno.has("codigo"))
+            objEmbalagem.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEmbalagem.setCodigo(0);
+        
         return objEmbalagem;
     }
     

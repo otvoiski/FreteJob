@@ -24,10 +24,7 @@ public class Enums {
     }
 
     public static enum TipoEndereco {
-        Entrega, Principal, Cobrança
+        Entrega, Principal, Coleta
     }
-
-    public static enum TipoEmbalagem {
-        Basica, Convencional, Tematica
-    }
+    
 }

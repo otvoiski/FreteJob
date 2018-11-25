@@ -52,6 +52,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
         columnModel.getColumn(0).setPreferredWidth(50);
         columnModel.getColumn(1).setPreferredWidth(150);
         columnModel.getColumn(2).setPreferredWidth(50);
+        this.jtfCampoPesquisa.requestFocus();
     }
 
     /**
@@ -250,7 +251,6 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
             if (jTable1.getSelectedRow() != -1) {
                 JSONObject clienteSelecionado = Clientes.get(jTable1.getSelectedRow());
                 JSONArray jsonAux;
-                System.out.println(clienteSelecionado);
                 pessoaID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
                 String nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
 
@@ -260,7 +260,8 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
                     if (clienteSelecionado.has("enderecos")) {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0) {
+
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Coleta) == 0) {
                                 viewEncomenda.getJtfRua().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairro().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCep().setText(jsonAux.getJSONObject(i).getString("cep"));
@@ -281,7 +282,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
                     if (clienteSelecionado.has("enderecos")) {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Entrega) == 0) {
                                 viewEncomenda.getJtfRuaDestino().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairroDestino().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCepDestino().setText(jsonAux.getJSONObject(i).getString("cep"));

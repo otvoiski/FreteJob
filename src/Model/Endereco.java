@@ -24,7 +24,7 @@ public class Endereco extends ObjectBase implements Serializable {
     private String cep;
     private String Numero;
     private String Complemento;
-    private Util.Enums.TipoEndereco Tipo;//indica o tipo do endereço(cobrança,entrega, etc)// IMPORTANTE
+    private Util.Enums.TipoEndereco Tipo;//indica o tipo do endereço(coleta,entrega, principal)// IMPORTANTE
 
     public String getCep() {
         return cep;
@@ -72,15 +72,7 @@ public class Endereco extends ObjectBase implements Serializable {
     public void setBairro(String Bairro) {
         this.Bairro = Bairro;
     }
-
-    public String getCEP() {
-        return cep;
-    }
-
-    public void setCEP(String cep) {
-        this.cep = cep;
-    }
-
+    
     public String getNumero() {
         return Numero;
     }
@@ -111,7 +103,7 @@ public class Endereco extends ObjectBase implements Serializable {
        json.put("codigo", getCodigo());
        json.put("rua",getRua());
        json.put("bairro",getBairro());
-       json.put("cep",getCEP());
+       json.put("cep",getCep());
        json.put("numero",getNumero());
        json.put("complemento",getComplemento());
        json.put("tipo",getTipo());
@@ -129,13 +121,14 @@ public class Endereco extends ObjectBase implements Serializable {
             objEndereco.setCodigo(0);
         objEndereco.setRua(jsonRetorno.getString("rua"));
         objEndereco.setBairro(jsonRetorno.getString("bairro"));
-        objEndereco.setCEP(jsonRetorno.getString("CEP"));
+        objEndereco.setCep(jsonRetorno.getString("cep"));
         objEndereco.setCidade((Cidade) objCidade.toObjectBase(jsonRetorno.getJSONObject("cidade")));
         if(jsonRetorno.has("complemento"))
             objEndereco.setComplemento(jsonRetorno.getString("complemento"));
         
         objEndereco.setNumero(jsonRetorno.getString("numero"));
-        objEndereco.setTipo(jsonRetorno.getEnum(Util.Enums.TipoEndereco.class,"tipo"));
+        if(jsonRetorno.has("tipo"))
+            objEndereco.setTipo(jsonRetorno.getEnum(Util.Enums.TipoEndereco.class,"tipo"));
         
         return objEndereco;
     }

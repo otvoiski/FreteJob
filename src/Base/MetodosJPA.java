@@ -14,6 +14,7 @@ import org.hibernate.SessionFactory;
  * @author Aluno
  */
 public class MetodosJPA {
+    //private static Session transaction =  null;
     public static Session abrirTransacao(){
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
@@ -34,6 +35,15 @@ public class MetodosJPA {
         transacao.persist(obj);
         return FecharTransacao(transacao, true);        
     }
+    /*Metodo criado pelo motivo de que ao persistir uma classe como encomenda por exemplo, será necessário realizar persistencia de outras entidades primeiro
+     ** exemplo, endereço, sendo assim deve ser utilizada uma mesma transação, este método não encerra a transação ao final de sua execução. É necessário comitar
+     ** manualmente quando a persitência de todas as entidades foi concluída!
+    */
+     /*public static void persistirTransacaoAberta(Object obj){
+        if(transaction == null)
+            transaction = abrirTransacao();
+        transaction.persist(obj);        
+    }*/
     public static boolean fundir(Object obj) {
         Session transacao = abrirTransacao();
         transacao.merge(obj);
