@@ -5,7 +5,7 @@
  */
 package Controller;
 
-import DAO.PaisDAO;
+import DAO.EstadoDAO;
 import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
@@ -14,17 +14,17 @@ import org.json.JSONObject;
  *
  * @author Matheus
  */
-public class PaisController extends Base.ControllerBase{
+public class EstadoController extends Base.ControllerBase{
 
     @Override
     protected void START_CONTROLLER() {
-        DAO = new PaisDAO(Model.Pais.class);
-        Object = new Model.Pais();
+        DAO = new EstadoDAO(Model.Estado.class);
+        Object = new Model.Estado();
     }
-    public List<JSONObject> GetByName(String paisNome) {
+    public List<JSONObject> GetByName(String estadoNome) {
         ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
-        new Business.PaisBusiness().GetByName(paisNome).forEach((pais) -> {
-            jsonRetorno.add(new JSONObject(pais));
+        new Business.EstadoBusiness().GetByName(estadoNome).forEach((estado) -> {
+            jsonRetorno.add(new JSONObject(estado));
         });
         return jsonRetorno;
     }

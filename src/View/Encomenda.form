@@ -127,8 +127,10 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfRemetenteNome">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="text" type="java.lang.String" value="Busque um remetente"/>
                         <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="name" type="java.lang.String" value="nome do remetente" noResource="true"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -141,6 +143,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Resource/search.png"/>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaRemetenteActionPerformed"/>
@@ -198,8 +201,10 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="jtfDestinatarioNome">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="text" type="java.lang.String" value="Busque um destinat&#xe1;rio"/>
                         <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="name" type="java.lang.String" value="nome do destinat&#xe1;rio" noResource="true"/>
                       </Properties>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -222,6 +227,7 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Resource/search.png"/>
                         </Property>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaDestinatarioActionPerformed"/>
@@ -237,14 +243,14 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/Resource/plus-button.png"/>
                         </Property>
-                        <Property name="text" type="java.lang.String" value="Adicionar Remetente"/>
+                        <Property name="text" type="java.lang.String" value="Novo Remetente"/>
                       </Properties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
                       </Events>
                       <Constraints>
                         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-                          <AbsoluteConstraints x="230" y="10" width="180" height="30"/>
+                          <AbsoluteConstraints x="270" y="10" width="140" height="30"/>
                         </Constraint>
                       </Constraints>
                     </Component>
@@ -404,6 +410,7 @@
                         <Component class="javax.swing.JTextField" name="jtfRuaRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="rua de coleta" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel8">
@@ -419,6 +426,7 @@
                         <Component class="javax.swing.JTextField" name="jtfBairroRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="bairro de coleta" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel10">
@@ -429,6 +437,7 @@
                         <Component class="javax.swing.JTextField" name="jtfCepRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="cep de coleta" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel11">
@@ -439,6 +448,7 @@
                         <Component class="javax.swing.JTextField" name="jtfNumeroRemetente">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="numero do endere&#xe7;o de coleta" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JLabel" name="jLabel12">
@@ -464,8 +474,10 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jtfCidadeOrigemNome">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="text" type="java.lang.String" value="Busque uma cidade"/>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="nome da cidade de coleta" noResource="true"/>
                           </Properties>
                         </Component>
                         <Component class="javax.swing.JButton" name="jbBuscaCidadeOrigem">
@@ -473,6 +485,7 @@
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Resource/search.png"/>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaCidadeOrigemActionPerformed"/>
@@ -509,6 +522,7 @@
                         <Component class="javax.swing.JTextField" name="jtfRuaDestino">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="rua de destino" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -529,6 +543,7 @@
                         <Component class="javax.swing.JTextField" name="jtfBairroDestino">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="bairro de destino" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -549,6 +564,7 @@
                         <Component class="javax.swing.JTextField" name="jtfCepDestino">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="cep de destino" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -569,6 +585,7 @@
                         <Component class="javax.swing.JTextField" name="jtfNumeroDestino">
                           <Properties>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="n&#xfa;mero do endere&#xe7;o de destino" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -598,8 +615,10 @@
                         </Component>
                         <Component class="javax.swing.JTextField" name="jtfCidadeDestinoNome">
                           <Properties>
+                            <Property name="editable" type="boolean" value="false"/>
                             <Property name="text" type="java.lang.String" value="Busque uma cidade"/>
                             <Property name="enabled" type="boolean" value="false"/>
+                            <Property name="name" type="java.lang.String" value="nome da cidade de destino" noResource="true"/>
                           </Properties>
                           <Constraints>
                             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
@@ -633,6 +652,7 @@
                             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                               <Image iconType="3" name="/Resource/search.png"/>
                             </Property>
+                            <Property name="enabled" type="boolean" value="false"/>
                           </Properties>
                           <Events>
                             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaCidadeDestinoActionPerformed"/>
@@ -1192,6 +1212,9 @@
             <Property name="text" type="java.lang.String" value="Excluir"/>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbExluirActionPerformed"/>
+          </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="520" y="550" width="100" height="30"/>

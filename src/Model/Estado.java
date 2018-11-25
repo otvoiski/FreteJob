@@ -69,7 +69,11 @@ public class Estado extends ObjectBase implements Serializable {
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Pais objPais = new Pais();
-        objEstado.setCodigo(jsonRetorno.getInt("codigo"));
+        if(jsonRetorno.has("codigo"))
+            objEstado.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEstado.setCodigo(0);
+        
         objEstado.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("sigla"))
             objEstado.setSigla(jsonRetorno.getString("sigla"));

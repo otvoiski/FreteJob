@@ -67,6 +67,16 @@ public class Encomenda extends javax.swing.JFrame {
             combo.addItem(j.get(name));
         });
     }
+    private void InitCamposBusca(boolean habilitaBusca){
+        jtfDestinatarioNome.setText("Busque um destinatário");
+        jtfRemetenteNome.setText("Busque um remetente");
+        jtfCidadeDestinoNome.setText("Busque uma cidade");
+        jtfCidadeOrigemNome.setText("Busque uma cidade");
+        jbBuscaRemetente.setEnabled(habilitaBusca);
+        jbBuscaDestinatario.setEnabled(habilitaBusca);
+        jbBuscaCidadeDestino.setEnabled(habilitaBusca);
+        jbBuscaCidadeOrigem.setEnabled(habilitaBusca);
+    }
     private void Init(JFrame windowsBack){
         this.windowsBack = windowsBack;
         JComboBox tipoEmbalagemCombo = new JComboBox();
@@ -227,12 +237,15 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel4.add(jLabel1);
         jLabel1.setBounds(20, 30, 53, 14);
 
+        jtfRemetenteNome.setEditable(false);
         jtfRemetenteNome.setText("Busque um remetente");
         jtfRemetenteNome.setEnabled(false);
+        jtfRemetenteNome.setName("nome do remetente"); // NOI18N
         jPanel4.add(jtfRemetenteNome);
         jtfRemetenteNome.setBounds(78, 47, 240, 20);
 
         jbBuscaRemetente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaRemetente.setEnabled(false);
         jbBuscaRemetente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscaRemetenteActionPerformed(evt);
@@ -264,8 +277,10 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel4.add(jtfDestinatarioCodigo);
         jtfDestinatarioCodigo.setBounds(18, 100, 60, 20);
 
+        jtfDestinatarioNome.setEditable(false);
         jtfDestinatarioNome.setText("Busque um destinatário");
         jtfDestinatarioNome.setEnabled(false);
+        jtfDestinatarioNome.setName("nome do destinatário"); // NOI18N
         jPanel4.add(jtfDestinatarioNome);
         jtfDestinatarioNome.setBounds(80, 100, 240, 20);
 
@@ -274,6 +289,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel4.setBounds(90, 80, 57, 14);
 
         jbBuscaDestinatario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaDestinatario.setEnabled(false);
         jbBuscaDestinatario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscaDestinatarioActionPerformed(evt);
@@ -283,14 +299,14 @@ public class Encomenda extends javax.swing.JFrame {
         jbBuscaDestinatario.setBounds(330, 100, 36, 20);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/plus-button.png"))); // NOI18N
-        jButton1.setText("Adicionar Remetente");
+        jButton1.setText("Novo Remetente");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
         jPanel4.add(jButton1);
-        jButton1.setBounds(230, 10, 180, 30);
+        jButton1.setBounds(270, 10, 140, 30);
 
         jPanel3.add(jPanel4);
         jPanel4.setBounds(0, 0, 420, 150);
@@ -302,20 +318,24 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel10.setBorder(javax.swing.BorderFactory.createTitledBorder("Endereço De Coleta"));
 
         jtfRuaRemetente.setEnabled(false);
+        jtfRuaRemetente.setName("rua de coleta"); // NOI18N
 
         jLabel8.setText("Rua");
 
         jLabel9.setText("Bairro");
 
         jtfBairroRemetente.setEnabled(false);
+        jtfBairroRemetente.setName("bairro de coleta"); // NOI18N
 
         jLabel10.setText("Cep");
 
         jtfCepRemetente.setEnabled(false);
+        jtfCepRemetente.setName("cep de coleta"); // NOI18N
 
         jLabel11.setText("Numero");
 
         jtfNumeroRemetente.setEnabled(false);
+        jtfNumeroRemetente.setName("numero do endereço de coleta"); // NOI18N
 
         jLabel12.setText("Complemento");
 
@@ -326,10 +346,13 @@ public class Encomenda extends javax.swing.JFrame {
 
         jLabel13.setText("Cidade");
 
+        jtfCidadeOrigemNome.setEditable(false);
         jtfCidadeOrigemNome.setText("Busque uma cidade");
         jtfCidadeOrigemNome.setEnabled(false);
+        jtfCidadeOrigemNome.setName("nome da cidade de coleta"); // NOI18N
 
         jbBuscaCidadeOrigem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaCidadeOrigem.setEnabled(false);
         jbBuscaCidadeOrigem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscaCidadeOrigemActionPerformed(evt);
@@ -419,6 +442,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel15.setBounds(16, 16, 19, 14);
 
         jtfRuaDestino.setEnabled(false);
+        jtfRuaDestino.setName("rua de destino"); // NOI18N
         jPanel11.add(jtfRuaDestino);
         jtfRuaDestino.setBounds(16, 36, 446, 20);
 
@@ -427,6 +451,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel16.setBounds(16, 62, 28, 14);
 
         jtfBairroDestino.setEnabled(false);
+        jtfBairroDestino.setName("bairro de destino"); // NOI18N
         jPanel11.add(jtfBairroDestino);
         jtfBairroDestino.setBounds(16, 82, 176, 20);
 
@@ -435,6 +460,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel17.setBounds(198, 62, 19, 14);
 
         jtfCepDestino.setEnabled(false);
+        jtfCepDestino.setName("cep de destino"); // NOI18N
         jPanel11.add(jtfCepDestino);
         jtfCepDestino.setBounds(198, 82, 91, 20);
 
@@ -443,6 +469,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel18.setBounds(298, 62, 37, 14);
 
         jtfNumeroDestino.setEnabled(false);
+        jtfNumeroDestino.setName("número do endereço de destino"); // NOI18N
         jPanel11.add(jtfNumeroDestino);
         jtfNumeroDestino.setBounds(295, 82, 50, 20);
 
@@ -454,8 +481,10 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel11.add(jtfComplementoDestino);
         jtfComplementoDestino.setBounds(351, 82, 111, 20);
 
+        jtfCidadeDestinoNome.setEditable(false);
         jtfCidadeDestinoNome.setText("Busque uma cidade");
         jtfCidadeDestinoNome.setEnabled(false);
+        jtfCidadeDestinoNome.setName("nome da cidade de destino"); // NOI18N
         jPanel11.add(jtfCidadeDestinoNome);
         jtfCidadeDestinoNome.setBounds(81, 120, 230, 20);
 
@@ -469,6 +498,7 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel21.setBounds(16, 104, 33, 14);
 
         jbBuscaCidadeDestino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaCidadeDestino.setEnabled(false);
         jbBuscaCidadeDestino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscaCidadeDestinoActionPerformed(evt);
@@ -799,6 +829,11 @@ public class Encomenda extends javax.swing.JFrame {
         jbExluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
         jbExluir.setText("Excluir");
         jbExluir.setEnabled(false);
+        jbExluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbExluirActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbExluir);
         jbExluir.setBounds(520, 550, 100, 30);
         jPanel1.add(jtfCodigo);
@@ -847,12 +882,14 @@ public class Encomenda extends javax.swing.JFrame {
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
         jtfCodigo.setEnabled(false);
         tratarEventos.ativaGravar(true);
+        InitCamposBusca(true);
         ModalidadeFrete.clearSelection();
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         tratarEventos.ativaGravar(false);
         jtfCodigo.setEnabled(true);
+        InitCamposBusca(false);
         ModalidadeFrete.clearSelection();
 
     }//GEN-LAST:event_jbCancelarActionPerformed
@@ -971,10 +1008,12 @@ public class Encomenda extends javax.swing.JFrame {
 
             /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
             EncomendaController encomendaCntrl = new EncomendaController();
-            if(encomendaCntrl.Save(jsonPersistencia))
+            if(encomendaCntrl.Save(jsonPersistencia)){
                  jtfCodigo.setEnabled(true);
+                 InitCamposBusca(false);
+            }
         } catch (Error ex) {
-            JOptionPane.showMessageDialog(null, "Corrija os campos e grave novamente!", "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
         }
         
     }//GEN-LAST:event_jbGravarActionPerformed
@@ -1191,6 +1230,10 @@ public class Encomenda extends javax.swing.JFrame {
         // TODO add your handling code here:
         Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
+        InitCamposBusca(false);
+    }//GEN-LAST:event_jbExluirActionPerformed
 
     /**
      * @param args the command line arguments
