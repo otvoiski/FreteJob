@@ -9,9 +9,25 @@ package Util;
  *
  * @author Otavio
  */
-public class Enums {    
-    public static enum TipoTransporte {Terrestres, Aquaticos, Aeroviarios}
-    public static enum TipoPessoa {Juridica, Fisica}
-    public static enum TipoFreteEncomenda{Normal, Rapido, SuperRapido}
-    public static enum TipoEndereco{E,P,C}//E: Entrega,P:principal, C:Cobrança
+public class Enums {
+
+    public static enum TipoTransporte {
+        Terrestres, Aquaticos, Aeroviarios
+    }
+
+    public static enum TipoPessoa {
+        Juridica, Fisica
+    }
+
+    public static enum TipoFreteEncomenda {
+        Normal, Rapido, SuperRapido
+    }
+
+    public static enum TipoEndereco {
+        Entrega, Principal, Cobrança
+    }
+
+    public static enum TipoEmbalagem {
+        Basica, Convencional, Tematica
+    }
 }
