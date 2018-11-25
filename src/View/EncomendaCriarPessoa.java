@@ -11,6 +11,7 @@ import Util.Helper;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumnModel;
+import org.json.JSONObject;
 
 /**
  *
@@ -18,6 +19,7 @@ import javax.swing.table.TableColumnModel;
  */
 public class EncomendaCriarPessoa extends javax.swing.JFrame {
     private JFrame windowsBack;
+    private Thread TCheckCadastrarEmitente;
     /**
      * Creates new form EncomendaCriarPessoa
      */
@@ -32,6 +34,32 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         for (TipoEndereco tipo : TipoEndereco.values()) {
             CTipoEndereco.addItem(tipo.name());
         }
+        TCheckCadastrarEmitente = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        if(Fisica.isSelected()){
+                            CadastrarEmitente.setEnabled(
+                                    !Nome.getText().isEmpty() &&
+                                            !CPF.getText().isEmpty() &&
+                                            !RG.getText().isEmpty() &&
+                                            !DataNascimento.getText().isEmpty()
+                            );
+                        } else
+                            CadastrarEmitente.setEnabled(
+                                    !Nome.getText().isEmpty() &&
+                                            !CPF.getText().isEmpty() &&
+                                            !RG.getText().isEmpty()
+                            );
+                        Thread.sleep(2000);
+                    }
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+            } 
+        });
+        TCheckCadastrarEmitente.start();
     }
 
     /**
@@ -97,7 +125,7 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         JTMidia = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        CadastrarEmitente = new javax.swing.JButton();
         Fisica = new javax.swing.JRadioButton();
         Juridica = new javax.swing.JRadioButton();
 
@@ -541,15 +569,15 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("Cadastrar Emitente");
-        jButton1.setEnabled(false);
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        CadastrarEmitente.setText("Cadastrar Emitente");
+        CadastrarEmitente.setEnabled(false);
+        CadastrarEmitente.setPreferredSize(new java.awt.Dimension(150, 40));
+        CadastrarEmitente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                CadastrarEmitenteActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton1);
+        jPanel3.add(CadastrarEmitente);
 
         Fisica.setBackground(new java.awt.Color(255, 255, 255));
         Pessoa.add(Fisica);
@@ -619,7 +647,12 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
-        Helper.CloseDialog(this, windowsBack);
+        try {
+            TCheckCadastrarEmitente.stop();
+            Helper.CloseDialog(this, windowsBack);
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_formWindowClosing
 
     private void FisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FisicaActionPerformed
@@ -629,6 +662,12 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
             LCPF.setText("CPF");
             LRG.setText("RG");
             JFisica.setVisible(true);
+            
+            Nome.setText("");
+            CPF.setText("");
+            RG.setText("");
+            CEP.setText("");    
+            DataNascimento.setText("");
         }
     }//GEN-LAST:event_FisicaActionPerformed
 
@@ -639,7 +678,12 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
             LCPF.setText("Nome Fantasia");
             LRG.setText("CNPJ");
             JFisica.setVisible(false);
-        }
+            
+            Nome.setText("");
+            CPF.setText("");
+            RG.setText("");
+            CEP.setText("");    
+        }       
     }//GEN-LAST:event_JuridicaActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -656,11 +700,25 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void CadastrarEmitenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CadastrarEmitenteActionPerformed
         // TODO add your handling code here:
-       
-        Thread checkButton = new Thread();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        try {
+            // TODO add your handling code here:            
+            JSONObject json = new JSONObject();
+            json.put("Nome", Util.Validacao.InputToString(Nome));
+            json.put("CPF", Util.Validacao.InputToString(CPF));
+            json.put("RG", Util.Validacao.InputToString(RG));
+            json.put("DataNascimento", Util.Validacao.InputToString(DataNascimento));
+            json.put("Sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
+            
+                        
+            json.put("Endereco", Util.Helper.GetArrayToJTable(JTEndereco));
+            
+            
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Verificar os campos", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_CadastrarEmitenteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -702,6 +760,7 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
     private javax.swing.JTextField CEP;
     private javax.swing.JTextField CPF;
     private javax.swing.JComboBox<String> CTipoEndereco;
+    private javax.swing.JButton CadastrarEmitente;
     private javax.swing.JTextField DataNascimento;
     private javax.swing.JRadioButton Feminino;
     private javax.swing.JRadioButton Fisica;
@@ -724,7 +783,6 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
     private javax.swing.ButtonGroup Pessoa;
     private javax.swing.JTextField RG;
     private javax.swing.ButtonGroup Sexo;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
