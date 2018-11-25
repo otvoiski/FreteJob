@@ -421,6 +421,7 @@ public class Install {
                                                 TipoEmbalagem te1 = new TipoEmbalagem("Caixa");
                                                 TipoEmbalagem te2 = new TipoEmbalagem("Plastico");
                                                 TipoEmbalagem te3 = new TipoEmbalagem("Envelope");
+                                                TipoEmbalagem te4 = new TipoEmbalagem("Tubo");
                                                 if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te1))
                                                     return false;
                                             }
