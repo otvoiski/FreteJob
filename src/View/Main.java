@@ -43,8 +43,11 @@ public class Main extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JToolBar.Separator();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jmiPais = new javax.swing.JMenuItem();
+        jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -146,8 +149,7 @@ public class Main extends javax.swing.JFrame {
 
         jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jMenu1.setBackground(new java.awt.Color(255, 255, 255));
-        jMenu1.setText("Gerência");
+        jMenu3.setText("Cadastros");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Pessoas");
@@ -156,7 +158,24 @@ public class Main extends javax.swing.JFrame {
                 jMenuItem3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu3.add(jMenuItem3);
+
+        jMenu4.setText("Localidades");
+
+        jmiPais.setText("Pais");
+        jmiPais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmiPaisActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jmiPais);
+
+        jMenu3.add(jMenu4);
+
+        jMenuBar1.add(jMenu3);
+
+        jMenu1.setBackground(new java.awt.Color(255, 255, 255));
+        jMenu1.setText("Gerência");
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Encomendas");
@@ -218,6 +237,10 @@ public class Main extends javax.swing.JFrame {
         Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jmiPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPaisActionPerformed
+        Helper.ShowDialog(this, new Pais(this));
+    }//GEN-LAST:event_jmiPaisActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -261,6 +284,8 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -272,5 +297,6 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JToolBar.Separator jSeparator3;
     private javax.swing.JToolBar.Separator jSeparator4;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JMenuItem jmiPais;
     // End of variables declaration//GEN-END:variables
 }

@@ -105,7 +105,7 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         Juridica = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Adicionar Remetente");
+        setTitle("Cadastro de pessoa");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -279,7 +279,7 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Lugadouro"
+                "Logradouro"
             }
         ) {
             Class[] types = new Class [] {

@@ -83,7 +83,7 @@ public class Encomenda extends javax.swing.JFrame {
         
         
         tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
-        ArrayList<JTextField> camposAtivar = new ArrayList<>();
+        camposAtivar = new ArrayList<>();
         camposAtivar.add(jtfRemetenteCodigo);
         camposAtivar.add(jtfDestinatarioCodigo);
         camposAtivar.add(jtfRuaRemetente);
@@ -193,6 +193,8 @@ public class Encomenda extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jlStatusEncomenda = new javax.swing.JLabel();
         jbExluir = new javax.swing.JButton();
+        jtfCodigo = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -200,7 +202,7 @@ public class Encomenda extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Encomenda");
         setMinimumSize(new java.awt.Dimension(932, 507));
-        setPreferredSize(new java.awt.Dimension(932, 600));
+        setPreferredSize(new java.awt.Dimension(906, 623));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -714,7 +716,7 @@ public class Encomenda extends javax.swing.JFrame {
         jTabbedPane1.addTab("Informações", jPanel13);
 
         jPanel1.add(jTabbedPane1);
-        jTabbedPane1.setBounds(0, 10, 920, 510);
+        jTabbedPane1.setBounds(0, 30, 920, 510);
 
         jbIncluir.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
@@ -725,7 +727,7 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbIncluir);
-        jbIncluir.setBounds(160, 530, 100, 30);
+        jbIncluir.setBounds(170, 550, 100, 30);
 
         jbGravar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
@@ -737,7 +739,7 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbGravar);
-        jbGravar.setBounds(270, 530, 110, 30);
+        jbGravar.setBounds(280, 550, 110, 30);
 
         jbCancelar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/CancelIcon.png"))); // NOI18N
@@ -749,7 +751,7 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(390, 530, 110, 30);
+        jbCancelar.setBounds(400, 550, 110, 30);
 
         jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
@@ -760,7 +762,7 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbConsultar);
-        jbConsultar.setBounds(620, 530, 120, 30);
+        jbConsultar.setBounds(630, 550, 120, 30);
 
         jButton2.setText("<");
         jPanel1.add(jButton2);
@@ -798,10 +800,16 @@ public class Encomenda extends javax.swing.JFrame {
         jbExluir.setText("Excluir");
         jbExluir.setEnabled(false);
         jPanel1.add(jbExluir);
-        jbExluir.setBounds(510, 530, 100, 30);
+        jbExluir.setBounds(520, 550, 100, 30);
+        jPanel1.add(jtfCodigo);
+        jtfCodigo.setBounds(60, 0, 70, 20);
+
+        jLabel14.setText("Codigo:");
+        jPanel1.add(jLabel14);
+        jLabel14.setBounds(20, 0, 37, 14);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 940, 570);
+        jPanel1.setBounds(0, 0, 940, 600);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -837,12 +845,14 @@ public class Encomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscaCidadeOrigemActionPerformed
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+        jtfCodigo.setEnabled(false);
         tratarEventos.ativaGravar(true);
         ModalidadeFrete.clearSelection();
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         tratarEventos.ativaGravar(false);
+        jtfCodigo.setEnabled(true);
         ModalidadeFrete.clearSelection();
 
     }//GEN-LAST:event_jbCancelarActionPerformed
@@ -961,7 +971,8 @@ public class Encomenda extends javax.swing.JFrame {
 
             /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
             EncomendaController encomendaCntrl = new EncomendaController();
-            encomendaCntrl.Save(jsonPersistencia);
+            if(encomendaCntrl.Save(jsonPersistencia))
+                 jtfCodigo.setEnabled(true);
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null, "Corrija os campos e grave novamente!", "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
         }
@@ -1231,6 +1242,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
@@ -1286,6 +1298,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JTextField jtfCidadeDestinoNome;
     private javax.swing.JTextField jtfCidadeOrigemCodigo;
     private javax.swing.JTextField jtfCidadeOrigemNome;
+    private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfComplementoDestino;
     private javax.swing.JTextField jtfComplementoRemetente;
     private javax.swing.JTextField jtfDestinatarioCodigo;

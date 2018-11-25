@@ -5,17 +5,36 @@
  */
 package View;
 
+import Controller.PaisController;
+import Util.TelaHandler;
+import java.util.ArrayList;
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import org.json.JSONObject;
+
 /**
  *
  * @author Matheus
  */
 public class Pais extends javax.swing.JFrame {
-
+    private TelaHandler tratarEventos;
+    private final JFrame windowsBack;
+    JSONObject jsonPersistencia;
     /**
      * Creates new form Pais
+     * @param windowsBack
      */
-    public Pais() {
+    public Pais(JFrame windowsBack) {
         initComponents();
+        this.windowsBack =  windowsBack;
+        Init();
+    }
+    public void Init(){
+        tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExcluir,jbConsultar);
+        ArrayList<JTextField> camposAtivar = new ArrayList<>();
+        camposAtivar.add(jtfNomePais);
+        camposAtivar.add(jtfSigla);
+        tratarEventos.setCampos(camposAtivar);
     }
 
     /**
@@ -35,17 +54,19 @@ public class Pais extends javax.swing.JFrame {
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
         jtfNomePais = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jbExcluir = new javax.swing.JButton();
+        jbConsultar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jtfCodigo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de País");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(600, 230));
+        setMinimumSize(new java.awt.Dimension(521, 230));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -66,17 +87,24 @@ public class Pais extends javax.swing.JFrame {
 
         jlNome.setText("Nome:");
         jPanel1.add(jlNome);
-        jlNome.setBounds(170, 40, 60, 20);
+        jlNome.setBounds(180, 50, 60, 20);
 
         jlSigla.setText("Sigla:");
         jPanel1.add(jlSigla);
-        jlSigla.setBounds(170, 90, 50, 20);
+        jlSigla.setBounds(180, 100, 50, 20);
+
+        jtfSigla.setEnabled(false);
         jPanel1.add(jtfSigla);
-        jtfSigla.setBounds(170, 110, 60, 20);
+        jtfSigla.setBounds(180, 120, 60, 20);
 
         jbIncluir.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
         jbIncluir.setText("Incluir");
+        jbIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIncluirActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbIncluir);
         jbIncluir.setBounds(0, 0, 120, 40);
 
@@ -92,45 +120,52 @@ public class Pais extends javax.swing.JFrame {
         jPanel1.add(jbGravar);
         jbGravar.setBounds(0, 40, 120, 40);
 
+        jtfNomePais.setEnabled(false);
         jtfNomePais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNomePaisActionPerformed(evt);
             }
         });
         jPanel1.add(jtfNomePais);
-        jtfNomePais.setBounds(170, 60, 270, 20);
+        jtfNomePais.setBounds(180, 70, 270, 20);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
-        jButton1.setText("Excluir");
-        jButton1.setEnabled(false);
-        jPanel1.add(jButton1);
-        jButton1.setBounds(0, 120, 120, 40);
+        jbExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
+        jbExcluir.setText("Excluir");
+        jbExcluir.setEnabled(false);
+        jPanel1.add(jbExcluir);
+        jbExcluir.setBounds(0, 120, 120, 40);
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jButton2.setText("Consultar");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(0, 160, 120, 40);
+        jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbConsultar.setText("Consultar");
+        jPanel1.add(jbConsultar);
+        jbConsultar.setBounds(0, 160, 120, 40);
 
         jButton3.setText("<<");
         jPanel1.add(jButton3);
-        jButton3.setBounds(390, 0, 50, 23);
+        jButton3.setBounds(310, 0, 50, 23);
 
         jButton4.setText("<");
         jPanel1.add(jButton4);
-        jButton4.setBounds(440, 0, 50, 23);
+        jButton4.setBounds(360, 0, 50, 23);
 
         jButton5.setText(">");
         jPanel1.add(jButton5);
-        jButton5.setBounds(490, 0, 50, 23);
+        jButton5.setBounds(410, 0, 50, 23);
 
         jButton6.setText(">>");
         jPanel1.add(jButton6);
-        jButton6.setBounds(540, 0, 49, 23);
+        jButton6.setBounds(460, 0, 49, 23);
+        jPanel1.add(jtfCodigo);
+        jtfCodigo.setBounds(230, 0, 70, 20);
+
+        jLabel1.setText("Codigo:");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(190, 0, 40, 14);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 600, 210);
+        jPanel1.setBounds(0, 0, 520, 210);
 
         pack();
         setLocationRelativeTo(null);
@@ -141,12 +176,26 @@ public class Pais extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfNomePaisActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:
+        jtfCodigo.setEnabled(false);
+        tratarEventos.ativaGravar(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
-        // TODO add your handling code here:
+
+        jsonPersistencia = new JSONObject();
+        jsonPersistencia.put("nome", jtfNomePais.getText());
+        jsonPersistencia.put("sigla", jtfSigla.getText());
+        PaisController paisCntrl = new PaisController();
+        if(paisCntrl.Save(jsonPersistencia)){
+            jtfCodigo.setEnabled(true);
+            tratarEventos.ativaGravar(false);
+        }
     }//GEN-LAST:event_jbGravarActionPerformed
+
+    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+       jtfCodigo.setEnabled(false);
+       tratarEventos.ativaGravar(true);
+    }//GEN-LAST:event_jbIncluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -178,24 +227,26 @@ public class Pais extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Pais().setVisible(true);
+                new Pais(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton jbCancelar;
+    private javax.swing.JButton jbConsultar;
+    private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
     private javax.swing.JLabel jlNome;
     private javax.swing.JLabel jlSigla;
+    private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfNomePais;
     private javax.swing.JTextField jtfSigla;
     // End of variables declaration//GEN-END:variables
