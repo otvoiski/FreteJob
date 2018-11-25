@@ -131,6 +131,7 @@ public class Encomenda extends javax.swing.JFrame {
         jtfDestinatarioNome = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jbBuscaDestinatario = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jtfRuaRemetente = new javax.swing.JTextField();
@@ -276,6 +277,16 @@ public class Encomenda extends javax.swing.JFrame {
         });
         jPanel4.add(jbBuscaDestinatario);
         jbBuscaDestinatario.setBounds(330, 100, 36, 20);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/plus-button.png"))); // NOI18N
+        jButton1.setText("Adicionar Remetente");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jButton1);
+        jButton1.setBounds(230, 10, 180, 30);
 
         jPanel3.add(jPanel4);
         jPanel4.setBounds(0, 0, 420, 150);
@@ -796,7 +807,7 @@ public class Encomenda extends javax.swing.JFrame {
     private void jbBuscaRemetenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaRemetenteActionPerformed
        // Helper.ShowDialog(this,new BuscaPessoaEncomenda(this,jtfRemetenteNome,jtfRemetenteCodigo,PessoaID, tipoRemetente));
        this.busca = "Remetente";
-        Helper.ShowDialog(this,new BuscaPessoaEncomenda(this));
+        Helper.ShowDialog(this,new EncomendaBuscaPessoa(this));
         
      
     }//GEN-LAST:event_jbBuscaRemetenteActionPerformed
@@ -804,7 +815,7 @@ public class Encomenda extends javax.swing.JFrame {
     private void jbBuscaDestinatarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaDestinatarioActionPerformed
         //Helper.ShowDialog(this,new BuscaPessoaEncomenda(this,jtfDestinatarioNome,jtfDestinatarioCodigo,destinatarioID,tipoDestinatario));
         this.busca = "Destinatario";
-        Helper.ShowDialog(this,new BuscaPessoaEncomenda(this));
+        Helper.ShowDialog(this,new EncomendaBuscaPessoa(this));
     }//GEN-LAST:event_jbBuscaDestinatarioActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1130,6 +1141,11 @@ public class Encomenda extends javax.swing.JFrame {
         Helper.CloseDialog(this, windowsBack);
     }//GEN-LAST:event_formWindowClosing
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1170,6 +1186,7 @@ public class Encomenda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup ModalidadeFrete;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
