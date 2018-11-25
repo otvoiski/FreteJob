@@ -5,11 +5,11 @@
  */
 package Util;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Enumeration;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
@@ -39,11 +39,19 @@ public class Validacao
         } else
             return Util.MD5.Get(senha);
     }
-    public static void freteRadioButtonSelected(ButtonGroup group) throws Error{
+    public static String freteRadioButtonSelected(ButtonGroup group) throws Error{
         if(group.getSelection() == null){
             throw new Error("Uma das opçoes de frete deve ser selecionada!" ,
                   new Throwable(group.getElements().toString()+ " está vazio"));
+        } else {
+            Enumeration button = group.getElements();
+            while(button.hasMoreElements()){
+                JRadioButton b = (JRadioButton) button.nextElement();
+                if(b.isSelected())
+                    return b.getText();
+            }
         }
+        return null;
     }
     public static void itensjTable(JTable tabela) throws Error{
         String msg = "";
