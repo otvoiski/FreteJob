@@ -26,31 +26,62 @@ public class BuscarLocalidade extends javax.swing.JFrame {
     private final JTextField jtfCodLocalidade;
     private final JTextField jtfSigla;
     private final JFrame backWindows;
+    private final JFrame estadoView;
+    private final JFrame paisView;
     private int localidadeId;
     private String Local;
+    List<JSONObject> estadosBusca;
+    List<JSONObject> paisesBusca;
 
     
     /**
      * Creates new form FreteBuscarCidade
-     * @param backWindows
-     * @param jtfNome
-     * @param jtfCodigo
-     * @param localidadeID
+     * @param viewBusca
+     * @param backWind
+     * @param localidadeBuscar
      */
-    public BuscarLocalidade(JFrame backWindows,JTextField jtfNome, JTextField jtfCodigo, JTextField sigla, int localidadeID, String localBuscada) {
+    public BuscarLocalidade(JFrame viewBusca, JFrame backWindow,String localidadeBuscar){
         initComponents();
-        this.jtfNomeLocalidade = jtfNome;
-        this.backWindows = backWindows;
-        this.localidadeId = localidadeID;
-        this.jtfCodLocalidade = jtfCodigo;
-        this.Local = localBuscada;
-        this.jtfSigla = sigla;
+        switch (localidadeBuscar) {
+            case "Estado":
+                this.paisView = null;
+                this.estadoView = viewBusca;
+                break;
+            case "Pais":
+                this.paisView = viewBusca;
+                this.estadoView = null;
+                break;
+            default:
+                this.paisView =  null;
+                this.estadoView = null;
+                break;
+        }
+        this.backWindows = backWindow;
+        this.Local = localidadeBuscar;
         
+        this.jtfSigla = null;
+        this.jtfNomeLocalidade = null;
+        this.jtfCodLocalidade = null;
+        
+         initTable();
+    }
+     public BuscarLocalidade(JFrame backWindow, String localidadeBuscar,JTextField jtfNomePreencher, JTextField jtfCodigoPreencher, JTextField siglaPreencher){
+        initComponents();
+        this.jtfSigla = siglaPreencher;
+        this.jtfNomeLocalidade = jtfNomePreencher;
+        this.jtfCodLocalidade = jtfCodigoPreencher;
+        this.estadoView = null;
+        this.paisView = null;
+        this.backWindows = backWindow;
+        this.Local = localidadeBuscar;
+        initTable();
+     }
+     private void initTable(){
         TableColumnModel columnModel = jTable1.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);
         columnModel.getColumn(1).setPreferredWidth(150);
         columnModel.getColumn(2).setPreferredWidth(50);
-    }
+     }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -195,7 +226,6 @@ public class BuscarLocalidade extends javax.swing.JFrame {
     private void PreencheJTable(JTable jTable, List<JSONObject> list){
         DefaultTableModel table = (DefaultTableModel) jTable.getModel();
         table.setNumRows(0);
-        
         list.forEach((json) -> {
             table.addRow(new String[]{
                 json.getInt("codigo") + "",
@@ -213,15 +243,15 @@ public class BuscarLocalidade extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(Local.equals("Estado"))
            try {
-               List<JSONObject> estados = (new Controller.EstadoController()).GetByName(Util.Validacao.InputToString(jtfNome));
-               PreencheJTable(jTable1, estados);
+               estadosBusca = (new Controller.EstadoController()).GetByName(Util.Validacao.InputToString(jtfNome));
+               PreencheJTable(jTable1, estadosBusca);
            } catch (Error ex) {
                //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
            }
         else if(Local.equals("Pais")){
             try {
-               List<JSONObject> paises = (new Controller.PaisController()).GetByName(Util.Validacao.InputToString(jtfNome));
-               PreencheJTable(jTable1, paises);
+               paisesBusca = (new Controller.PaisController()).GetByName(Util.Validacao.InputToString(jtfNome));
+               PreencheJTable(jTable1, paisesBusca);
            } catch (Error ex) {
                //JOptionPane.showMessageDialog(rootPane, ex.getMessage());
            }
@@ -229,19 +259,36 @@ public class BuscarLocalidade extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JSONObject jsonAux;
         try {       
             if(jTable1.getSelectedRow() != -1){
-                localidadeId = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
-                String Nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
-                String Sigla = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
-                jtfNomeLocalidade.setText(Nome);
-                jtfSigla.setText(Sigla);
-                jtfCodLocalidade.setText(String.valueOf(localidadeId));
-
-                Helper.CloseDialog(this, backWindows);
+                if(estadoView == null && paisView == null){
+                    localidadeId = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
+                    String Nome = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
+                    String Sigla = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
+                    jtfNomeLocalidade.setText(Nome);
+                    if(jtfSigla !=  null)
+                        jtfSigla.setText(Sigla);
+                    jtfCodLocalidade.setText(String.valueOf(localidadeId));
+                }else if(estadoView != null && paisView == null){
+                    JSONObject estadoSelecionado = estadosBusca.get(jTable1.getSelectedRow());
+                    jsonAux = estadoSelecionado.getJSONObject("pais");
+                    ((View.Estado)estadoView).getJtfCodigo().setText(String.valueOf(estadoSelecionado.getInt("codigo")));
+                    ((View.Estado)estadoView).getJtfNomeEstado().setText(estadoSelecionado.getString("nome"));
+                    ((View.Estado)estadoView).getJtfSigla().setText(estadoSelecionado.getString("sigla"));
+                    ((View.Estado)estadoView).getJtfCodigoPais().setText(String.valueOf(jsonAux.getInt("codigo")));
+                    ((View.Estado)estadoView).getJtfPaisNome().setText(jsonAux.getString("nome"));
+                    ((View.Estado)estadoView).getJtfSiglaPais().setText(jsonAux.getString("sigla"));
+                }else if(estadoView == null && paisView != null){
+                    JSONObject paisSelecionado = paisesBusca.get(jTable1.getSelectedRow());
+                    ((View.Pais)paisView).getJtfCodigo().setText(String.valueOf(paisSelecionado.getInt("codigo")));
+                    ((View.Pais)paisView).getJtfNomePais().setText(paisSelecionado.getString("nome"));
+                    ((View.Pais)paisView).getJtfSigla().setText(paisSelecionado.getString("sigla"));
+                }
             }
+            Helper.CloseDialog(this, backWindows);
         } catch (Error e) {
-            //JOptionPane.showMessageDialog(rootPane, e.getMessage());
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -276,7 +323,7 @@ public class BuscarLocalidade extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BuscarLocalidade(null,null,null,null,0,"").setVisible(true);
+                new BuscarLocalidade(null,"",null,null,null).setVisible(true);
             }
         });
     }

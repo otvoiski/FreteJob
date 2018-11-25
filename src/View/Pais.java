@@ -7,6 +7,7 @@ package View;
 
 import Controller.PaisController;
 import Util.Error;
+import Util.Helper;
 import Util.TelaHandler;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 public class Pais extends javax.swing.JFrame {
     private TelaHandler tratarEventos;
     private final JFrame windowsBack;
+    private int PaisID;
     JSONObject jsonPersistencia;
     /**
      * Creates new form Pais
@@ -144,6 +146,11 @@ public class Pais extends javax.swing.JFrame {
         jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
         jbConsultar.setText("Consultar");
+        jbConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConsultarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbConsultar);
         jbConsultar.setBounds(0, 160, 120, 40);
 
@@ -210,6 +217,35 @@ public class Pais extends javax.swing.JFrame {
        jtfCodigo.setEnabled(false);
        tratarEventos.ativaGravar(true);
     }//GEN-LAST:event_jbIncluirActionPerformed
+
+    private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
+        Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Pais"));
+        jtfNomePais.requestFocus();
+    }//GEN-LAST:event_jbConsultarActionPerformed
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
+    }
+
+    public void setJtfCodigo(JTextField jtfCodigo) {
+        this.jtfCodigo = jtfCodigo;
+    }
+
+    public JTextField getJtfNomePais() {
+        return jtfNomePais;
+    }
+
+    public void setJtfNomePais(JTextField jtfNomePais) {
+        this.jtfNomePais = jtfNomePais;
+    }
+
+    public JTextField getJtfSigla() {
+        return jtfSigla;
+    }
+
+    public void setJtfSigla(JTextField jtfSigla) {
+        this.jtfSigla = jtfSigla;
+    }
 
     /**
      * @param args the command line arguments

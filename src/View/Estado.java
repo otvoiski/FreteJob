@@ -81,7 +81,7 @@ public class Estado extends javax.swing.JFrame {
         jtfSiglaPais = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Cadastro de País");
+        setTitle("Cadastro de Estado");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(521, 230));
         setResizable(false);
@@ -163,6 +163,11 @@ public class Estado extends javax.swing.JFrame {
         jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
         jbConsultar.setText("Consultar");
+        jbConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConsultarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbConsultar);
         jbConsultar.setBounds(0, 160, 120, 40);
 
@@ -281,12 +286,64 @@ public class Estado extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfCodigoPaisActionPerformed
 
     private void jbBuscaPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaPaisActionPerformed
-        Helper.ShowDialog(this,new BuscarLocalidade(this,jtfPaisNome,jtfCodigoPais,jtfSiglaPais,estadoID,"Pais"));
+        Helper.ShowDialog(this,new BuscarLocalidade(this,"Pais", jtfPaisNome,jtfCodigoPais,jtfSiglaPais));
     }//GEN-LAST:event_jbBuscaPaisActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
         InitCamposBusca(false);
     }//GEN-LAST:event_jbExcluirActionPerformed
+
+    private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
+       Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Estado"));
+    }//GEN-LAST:event_jbConsultarActionPerformed
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
+    }
+
+    public JTextField getJtfCodigoPais() {
+        return jtfCodigoPais;
+    }
+
+    public void setJtfCodigo(JTextField jtfCodigo) {
+        this.jtfCodigo = jtfCodigo;
+    }
+
+    public void setJtfCodigoPais(JTextField jtfCodigoPais) {
+        this.jtfCodigoPais = jtfCodigoPais;
+    }
+
+    public void setJtfNomeEstado(JTextField jtfNomeEstado) {
+        this.jtfNomeEstado = jtfNomeEstado;
+    }
+
+    public void setJtfPaisNome(JTextField jtfPaisNome) {
+        this.jtfPaisNome = jtfPaisNome;
+    }
+
+    public void setJtfSigla(JTextField jtfSigla) {
+        this.jtfSigla = jtfSigla;
+    }
+
+    public void setJtfSiglaPais(JTextField jtfSiglaPais) {
+        this.jtfSiglaPais = jtfSiglaPais;
+    }
+
+    public JTextField getJtfNomeEstado() {
+        return jtfNomeEstado;
+    }
+
+    public JTextField getJtfPaisNome() {
+        return jtfPaisNome;
+    }
+
+    public JTextField getJtfSigla() {
+        return jtfSigla;
+    }
+
+    public JTextField getJtfSiglaPais() {
+        return jtfSiglaPais;
+    }
 
     /**
      * @param args the command line arguments
