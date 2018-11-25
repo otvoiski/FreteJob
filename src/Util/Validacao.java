@@ -24,33 +24,25 @@ public class Validacao
     {
         if(field.getText().isEmpty())
         {
-            String msg = "O Campo " + field.getName() + " não pode estar vazio!";
-            JOptionPane.showMessageDialog(null, msg);
-            throw new Error(msg,new Throwable(field.getName() + " está vazio"));
+            throw new Error("O Campo " + field.getName() + " não pode estar vazio!",
+                  new Throwable(field.getName() + " está vazio"));
         } else 
             return field.getText();
     }
-
-    public static String InputToString(JPasswordField field, int tamanho) {
+    public static String InputToString(JPasswordField field, int tamanho) throws Error 
+    {
         String senha = String.valueOf(field.getPassword());
-        try {
-            if(InputToString(field).length() < tamanho)
-            {
-                String msg = "O Campo " + field.getName() + " não pode ser menor que " + tamanho;
-                JOptionPane.showMessageDialog(null, msg);
-                throw new Error(msg);
-            } else
-                return Util.MD5.Get(senha);
-        } catch (Error ex) {
-            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        
+        if(InputToString(field).length() < tamanho)
+        {
+            throw new Error("O Campo " + field.getName() + " não pode ser menor que " + tamanho);
+        } else
+            return Util.MD5.Get(senha);
     }
     public static void freteRadioButtonSelected(ButtonGroup group) throws Error{
         if(group.getSelection() == null){
-            String msg = "Uma das opçoes de frete deve ser selecionada!";
-            JOptionPane.showMessageDialog(null, msg);
-            throw new Error(msg,new Throwable(group.getElements().toString()+ " está vazio"));
+            throw new Error("Uma das opçoes de frete deve ser selecionada!" ,
+                  new Throwable(group.getElements().toString()+ " está vazio"));
         }
     }
     public static void itensjTable(JTable tabela) throws Error{

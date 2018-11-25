@@ -41,13 +41,23 @@ public class Helper {
         return formatado;
     }
 
-    public static void RemoveRowJTable(JTable jTable1) {
-        DefaultTableModel dtm = (DefaultTableModel)jTable1.getModel();
-        if (jTable1.getSelectedRow() >= 0){
-            dtm.removeRow(jTable1.getSelectedRow());
-            jTable1.setModel(dtm);
+    public static void RemoveRowJTable(JTable jTable) {
+        DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
+        if (jTable.getSelectedRow() >= 0){
+            dtm.removeRow(jTable.getSelectedRow());
+            jTable.setModel(dtm);
         }else{
             JOptionPane.showMessageDialog(null, "Favor selecionar uma linha");
         }       
+    }
+
+    public static void NewRowOnJTable(JTable jTable) {        
+        DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
+        dtm.addRow(new Object[]{});
+    }
+    
+    public static void NewRowOnJTable(JTable jTable, Object[] obj) {        
+        DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
+        dtm.addRow(obj);
     }
 }
