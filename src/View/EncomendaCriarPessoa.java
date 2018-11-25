@@ -234,7 +234,7 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Adicionar Remetente");
+        jLabel1.setText("Pessoa");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Contato"));
