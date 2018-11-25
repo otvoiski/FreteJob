@@ -7,6 +7,7 @@ package Util;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -59,5 +60,20 @@ public class Helper {
     public static void NewRowOnJTable(JTable jTable, Object[] obj) {        
         DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
         dtm.addRow(obj);
+    }
+    
+    public static ArrayList<String[]> GetArrayToJTable(JTable jTable) throws Error {
+        DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
+        if(dtm.getRowCount() != 0){
+            ArrayList<String[]> list = new ArrayList<>();
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+                String[] value = new String[dtm.getColumnCount()];
+                for (int j = 0; j < dtm.getColumnCount(); j++) {
+                    value[j] = (String) dtm.getValueAt(i, j);
+                }
+                list.add(value);
+            }
+            return list;
+        } else throw new Error("A Tabela está vazia!");
     }
 }
