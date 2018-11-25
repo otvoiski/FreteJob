@@ -19,6 +19,7 @@ import Model.Funcionario;
 import Model.MidiaSocial;
 import Model.Pais;
 import Model.Telefone;
+import Model.TipoEmbalagem;
 import Model.Usuario;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
@@ -234,14 +235,13 @@ public class Install {
                         if((new DAO.TelefoneDAO(Model.Telefone.class)).Save(telefone9))
                         if((new DAO.TelefoneDAO(Model.Telefone.class)).Save(telefone10)){      
 
-                            Endereco endereco1 = new Endereco("Rua Moacyr Machado Castanho", "Residencial Sorriso", "38701-650", "569", Util.Enums.TipoEndereco.P, uba);
-                            Endereco endereco2 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "116", Util.Enums.TipoEndereco.P, belohorizonte);
-                            Endereco endereco3 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "3510", Util.Enums.TipoEndereco.P, juizdefora);
-                            Endereco endereco4 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "1511", Util.Enums.TipoEndereco.P, riodejaneiro);
-                            Endereco endereco5 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "2515", Util.Enums.TipoEndereco.P, belohorizonte);
-                            Endereco endereco6 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "1511", Util.Enums.TipoEndereco.P, riodejaneiro);
-                            Endereco endereco7 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "2515", Util.Enums.TipoEndereco.P, belohorizonte);
-
+                            Endereco endereco1 = new Endereco("Rua Moacyr Machado Castanho", "Residencial Sorriso", "38701-650", "569", Util.Enums.TipoEndereco.Principal, uba);
+                            Endereco endereco2 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "116", Util.Enums.TipoEndereco.Principal, belohorizonte);
+                            Endereco endereco3 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "3510", Util.Enums.TipoEndereco.Principal, juizdefora);
+                            Endereco endereco4 = new Endereco("Rua Rua Austral", "Equatorial", "38401-268", "1511", Util.Enums.TipoEndereco.Principal, riodejaneiro);
+                            Endereco endereco5 = new Endereco("Travessa Maria Conceição Barbosa", "Brasil", "38400-730", "589", Util.Enums.TipoEndereco.Principal, belohorizonte);
+                            Endereco endereco6 = new Endereco("Rua Dezoito", "Nova Conquista", "33146-020", "651", Util.Enums.TipoEndereco.Principal, riodejaneiro);
+                            Endereco endereco7 = new Endereco("Rua Bitula Lanza", "Dante Lanza", "35701-480", "867", Util.Enums.TipoEndereco.Principal , belohorizonte);
 
                             if((new DAO.EnderecoDAO(Model.Endereco.class)).Save(endereco1))    
                             if((new DAO.EnderecoDAO(Model.Endereco.class)).Save(endereco2))    
@@ -417,7 +417,13 @@ public class Install {
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f18))
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f19))
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f20))
-                                                return false;
+                                            {
+                                                TipoEmbalagem te1 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Basica);
+                                                TipoEmbalagem te2 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Convencional);
+                                                TipoEmbalagem te3 = new TipoEmbalagem(Util.Enums.TipoEmbalagem.Tematica);
+                                                if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te1))
+                                                    return false;
+                                            }
                                         }
                                     }
                                 }
