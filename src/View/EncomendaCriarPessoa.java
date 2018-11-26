@@ -297,6 +297,11 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         jPanel8.add(jButton2);
 
         jButton3.setText("Remover");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         jPanel8.add(jButton3);
 
         JTEndereco.setModel(new javax.swing.table.DefaultTableModel(
@@ -304,14 +309,14 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Logradouro"
+                "Logradouro", "Número", "Bairro", "CEP", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -392,10 +397,20 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton4.setText("Adicionar Endereço");
+        jButton4.setText("Adicionar Email");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         jPanel9.add(jButton4);
 
         jButton5.setText("Remover");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel9.add(jButton5);
 
         JTEmail.setModel(new javax.swing.table.DefaultTableModel(
@@ -448,9 +463,19 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton6.setText("Adicionar Telefone");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         jPanel10.add(jButton6);
 
         jButton7.setText("Remover");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         jPanel10.add(jButton7);
 
         JTTelefone.setModel(new javax.swing.table.DefaultTableModel(
@@ -502,9 +527,19 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(255, 255, 255));
 
         jButton8.setText("Adicionar Midias Sociais");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         jPanel11.add(jButton8);
 
         jButton9.setText("Remover");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
         jPanel11.add(jButton9);
 
         JTMidia.setModel(new javax.swing.table.DefaultTableModel(
@@ -689,7 +724,13 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         try {
             // TODO add your handling code here:            
-            Helper.NewRowOnJTable(JTEmail, new Object[] {  Util.Validacao.InputToString(Lugadouro) });            
+            Helper.NewRowOnJTable(JTEndereco, new Object[] {  
+                Util.Validacao.InputToString(Lugadouro),
+                Util.Validacao.InputToString(NumeroEndereco),
+                Util.Validacao.InputToString(Bairro),
+                Util.Validacao.InputToString(CEP),
+                CTipoEndereco.getSelectedItem(),
+            });            
             Lugadouro.setText("");
             NumeroEndereco.setText("");
             Bairro.setText("");
@@ -705,20 +746,77 @@ public class EncomendaCriarPessoa extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:            
             JSONObject json = new JSONObject();
-            json.put("Nome", Util.Validacao.InputToString(Nome));
-            json.put("CPF", Util.Validacao.InputToString(CPF));
-            json.put("RG", Util.Validacao.InputToString(RG));
-            json.put("DataNascimento", Util.Validacao.InputToString(DataNascimento));
-            json.put("Sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
             
-                        
+            if(Fisica.isSelected()){
+                json.put("nome", Util.Validacao.InputToString(Nome));
+                json.put("cpf", Util.Validacao.InputToString(CPF));
+                json.put("rg", Util.Validacao.InputToString(RG));
+                json.put("datanascimento", Util.Validacao.InputToString(DataNascimento));
+                json.put("sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
+
+                json.put("tipoPessoa", Util.Enums.TipoPessoa.Fisica);
+            } else {
+                json.put("razaoSocial", Util.Validacao.InputToString(Nome));
+                json.put("nomeFantasia", Util.Validacao.InputToString(CPF));
+                json.put("cnpj", Util.Validacao.InputToString(RG));
+                
+                json.put("tipoPessoa", Util.Enums.TipoPessoa.Juridica);
+            }
+            
             json.put("Endereco", Util.Helper.GetArrayToJTable(JTEndereco));
+            json.put("Email", Util.Helper.GetArrayToJTable(JTEmail));
+            json.put("Telefone", Util.Helper.GetArrayToJTable(JTTelefone));
+            json.put("Midia", Util.Helper.GetArrayToJTable(JTMidia));
             
-            
+            if(Fisica.isSelected())
+                if(new Controller.PessoaFisicaController().Save(json))
+                    Helper.CloseDialog(this, windowsBack);
+                else
+                    JOptionPane.showMessageDialog(rootPane, "Falha ao inserir Pessoa Fisica");
+            else
+                if(new Controller.PessoaJuridicaController().Save(json))
+                    Helper.CloseDialog(this, windowsBack);
+                else
+                    JOptionPane.showMessageDialog(rootPane, "Falha ao inserir o Pessoa Juridica");
         } catch (Error ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Verificar os campos", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_CadastrarEmitenteActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(JTEndereco);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(JTEmail);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(JTEmail);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(JTTelefone);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(JTTelefone);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(JTMidia);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(JTMidia);
+    }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
      * @param args the command line arguments
