@@ -7,6 +7,9 @@ package Controller;
 
 import Base.ControllerBase;
 import Model.PessoaFisica;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONObject;
 
 /**
  *
@@ -18,6 +21,14 @@ public class PessoaFisicaController extends ControllerBase{
     protected void START_CONTROLLER() {
         DAO = new DAO.PessoaFisicaDAO(Model.PessoaFisica.class);
         Object = new PessoaFisica();
+    }
+    
+    public List<JSONObject> GetPessoaByName(String nomePessoa) {
+        ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
+        new Business.PessoaFisicaBusiness().GetPessoaByName(nomePessoa).forEach((pessoa) -> {
+            jsonRetorno.add(new JSONObject(pessoa));
+        });
+        return jsonRetorno;
     }
     
 }

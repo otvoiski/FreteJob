@@ -7,9 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
@@ -23,6 +21,7 @@ public class ObjetoEncomenda extends ObjectBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private String Descricao;
     private double Peso;
+    @ManyToOne
     private TipoEmbalagem TipoEmbalagem;
     
     
@@ -57,10 +56,14 @@ public class ObjetoEncomenda extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         ObjetoEncomenda objEncomenda = new ObjetoEncomenda();
-        objEncomenda.setCodigo(jsonRetorno.getInt("Codigo"));
+        if(jsonRetorno.has("codigo"))
+            objEncomenda.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEncomenda.setCodigo(0);
+        
         objEncomenda.setDescricao(jsonRetorno.getString("descricao"));
         objEncomenda.setPeso(jsonRetorno.getDouble("peso"));
-        objEncomenda.setTipoEmbalagem((TipoEmbalagem) new TipoEmbalagem().toObjectBase(jsonRetorno.getJSONObject("tipoembalagem")));
+        objEncomenda.setTipoEmbalagem((TipoEmbalagem) new TipoEmbalagem().toObjectBase(jsonRetorno.getJSONObject("tipoEmbalagem")));
         return objEncomenda;
     }
     

@@ -7,6 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -19,6 +20,7 @@ import org.json.JSONObject;
 @Entity
 public class Cidade extends ObjectBase implements Serializable{
     private static final long serialVersionUID = 1L;
+    @Column(unique = true)
     private String Nome;
     private String CodMunicipio;
     @ManyToOne
@@ -62,7 +64,11 @@ public class Cidade extends ObjectBase implements Serializable{
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Estado objEstado = new Estado();
         Cidade objCidade = new Cidade();
-        objCidade.setCodigo(jsonRetorno.getInt("codigo"));
+        if(jsonRetorno.has("codigo"))
+            objCidade.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objCidade.setCodigo(0);
+        
         objCidade.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("cod_municipio"))
             objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));

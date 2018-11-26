@@ -5,10 +5,12 @@
  */
 package Util;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Enumeration;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
@@ -17,30 +19,61 @@ import javax.swing.JTextField;
  */
 public class Validacao
 {
+    
     public static String InputToString (JTextField field) throws Error
     {
         if(field.getText().isEmpty())
         {
-            String msg = "O Campo " + field.getName() + " não pode está vázio!";
-            JOptionPane.showMessageDialog(null, msg);
-            throw new Error(msg,new Throwable(field.getName() + " está vazio"));
+            throw new Error("O Campo " + field.getName() + " não pode estar vazio!",
+                  new Throwable(field.getName() + " está vazio"));
         } else 
             return field.getText();
     }
-
-    public static String InputToString(JPasswordField field, int tamanho) {
+    public static String InputToString(JPasswordField field, int tamanho) throws Error 
+    {
         String senha = String.valueOf(field.getPassword());
-        try {
-            if(InputToString(field).length() < tamanho)
-            {
-                String msg = "O Campo " + field.getName() + " não pode ser menor que " + tamanho;
-                JOptionPane.showMessageDialog(null, msg);
-                throw new Error(msg);
-            } else
-                return Util.MD5.Get(senha);
-        } catch (Error ex) {
-            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        
+        if(InputToString(field).length() < tamanho)
+        {
+            throw new Error("O Campo " + field.getName() + " não pode ser menor que " + tamanho);
+        } else
+            return Util.MD5.Get(senha);
+    }
+    public static String freteRadioButtonSelected(ButtonGroup group) throws Error{
+        if(group.getSelection() == null){
+            throw new Error("Uma das opçoes de frete deve ser selecionada!" ,
+                  new Throwable(group.getElements().toString()+ " está vazio"));
+        } else {
+            Enumeration button = group.getElements();
+            while(button.hasMoreElements()){
+                JRadioButton b = (JRadioButton) button.nextElement();
+                if(b.isSelected())
+                    return b.getText();
+            }
         }
         return null;
+    }
+    public static void itensjTable(JTable tabela) throws Error{
+        String msg = "";
+        boolean tabelaAceita = true;
+        if(tabela.getRowCount() == 0){
+            msg = "A tabela deve conter elementos!";
+            tabelaAceita = false;
+        }else{
+            for(int i = 0; i< tabela.getRowCount(); i++){
+                for(int j = 0; j< tabela.getColumnCount(); j++){
+                    if(tabela.getModel().getValueAt(i, j) == null){
+                        msg = "Todos os dados na tabela devem estar preenchidos!";
+                        tabelaAceita = false;
+                    }
+                }
+            }
+        }
+
+           
+        if(!tabelaAceita){
+            JOptionPane.showMessageDialog(null, msg);
+            throw new Error(msg,new Throwable(tabela.getName()+ " está vazio"));
+        }
     }
 }

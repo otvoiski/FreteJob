@@ -8,7 +8,7 @@ package Model;
 import Base.ObjectBase;
 import Util.Enums;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import org.json.JSONObject;
 
 /**
@@ -21,7 +21,7 @@ public class Funcionario extends Pessoa {
     private String Cpf;
     private String Rg;
     private String Nome;
-    @OneToOne
+    @ManyToOne
     private Distribuidora LocalTrabalho;
 
     public Funcionario() {

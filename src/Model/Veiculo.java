@@ -26,6 +26,7 @@ public class Veiculo extends ObjectBase implements Serializable {
     private Date DataFabricacao;
     private Double CapacidadeCarga;
     private String Classificacao;
+    @ManyToOne
     private TipoVeiculo Tipo;
     
     public Veiculo(){

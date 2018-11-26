@@ -3,11 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Base;
+package DAO;
+
 
 /**
  *
  * @author Matheus
  */
-public class Facade{
+public class PessoaJuridicaDAO extends Base.Persistencia{
+    
+    public PessoaJuridicaDAO(Class persistedClass) {
+        super(persistedClass);
+    }
+    
 }

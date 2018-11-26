@@ -58,7 +58,11 @@ public class Pais extends ObjectBase implements Serializable{
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Pais objPais = new Pais();
-        objPais.setCodigo(jsonRetorno.getInt("codigo"));
+        if(jsonRetorno.has("codigo"))
+            objPais.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objPais.setCodigo(0);
+        
         objPais.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("sigla"))
             objPais.setSigla(jsonRetorno.getString("sigla"));

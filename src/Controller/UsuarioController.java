@@ -24,18 +24,15 @@ public class UsuarioController extends Base.ControllerBase{
     }
 
     public JSONObject Login(JSONObject json) throws Error {        
-        List<Usuario> usuarios = DAO.GetAll();       
-        
-        for(Usuario usuario : usuarios) {
-            boolean login = usuario.getLogin().equals(json.getString("Login"));
-            boolean senha = usuario.getSenha().equals(json.getString("Senha"));
-            
-            if(login && senha){                
-                return usuario.toJson();
-            } else 
-                throw new Util.Error("Usuário ou Senha Inválidos.");
-        }
-        return null;
+        String[][] parametro = {
+             {"Login ",  "'" + json.getString("Login") + "'"},
+             {"Senha ", "'" + json.getString("Senha")+ "'"}
+         };
+        List<Usuario> usuario = DAO.Get(parametro);       
+        if(!usuario.isEmpty()){                
+            return usuario.get(0).toJson();
+        } else
+            throw new Util.Error("Usuário ou Senha Inválidos."); 
     }
     
 }

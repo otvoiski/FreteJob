@@ -27,7 +27,6 @@ public class Persistencia<T extends ObjectBase> {
             return MetodosJPA.persistir(obj);
         }
     }
-
     public boolean Remove(int i) {
         return MetodosJPA.excluir(i, classePersistente);
     }
@@ -35,6 +34,9 @@ public class Persistencia<T extends ObjectBase> {
     public T Get(int id) {
         Object obj = MetodosJPA.recuperar(id, classePersistente);
         return (T) obj;
+    }
+    public List<T> Get(String[][] parametros){
+        return (List<T>) MetodosJPA.selecionar(classePersistente, parametros);
     }
 
     public List<T> GetAll() {

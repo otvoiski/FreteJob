@@ -5,17 +5,42 @@
  */
 package View;
 
+import Controller.PaisController;
+import Util.Error;
+import Util.Helper;
+import Util.TelaHandler;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import org.json.JSONObject;
+
 /**
  *
  * @author Matheus
  */
 public class Pais extends javax.swing.JFrame {
-
+    private TelaHandler tratarEventos;
+    private final JFrame backWindows;
+    private int PaisID;
+    JSONObject jsonPersistencia;
     /**
      * Creates new form Pais
+     * @param windowsBack
      */
-    public Pais() {
+    public Pais(JFrame windowsBack) {
         initComponents();
+        this.backWindows =  windowsBack;
+        Init();
+    }
+    public void Init(){
+        tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExcluir,jbConsultar);
+        ArrayList<JTextField> camposAtivar = new ArrayList<>();
+        camposAtivar.add(jtfNomePais);
+        camposAtivar.add(jtfSigla);
+        tratarEventos.setCampos(camposAtivar);
     }
 
     /**
@@ -29,79 +54,144 @@ public class Pais extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jbCancelar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jlNome = new javax.swing.JLabel();
-        jlSigla = new javax.swing.JLabel();
-        jtfSigla = new javax.swing.JTextField();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
+        jbExcluir = new javax.swing.JButton();
+        jbConsultar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jtfCodigo = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jlNome = new javax.swing.JLabel();
         jtfNomePais = new javax.swing.JTextField();
+        jlSigla = new javax.swing.JLabel();
+        jtfSigla = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Cadastro de País");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(594, 322));
+        setMinimumSize(new java.awt.Dimension(606, 300));
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+        getContentPane().setLayout(null);
 
         jPanel1.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.selectionForeground"));
         jPanel1.setLayout(null);
 
-        jbCancelar.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbCancelar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/CancelIcon.png"))); // NOI18N
         jbCancelar.setText("Cancelar");
+        jbCancelar.setEnabled(false);
         jbCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCancelarActionPerformed(evt);
             }
         });
         jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(250, 190, 110, 30);
+        jbCancelar.setBounds(240, 220, 120, 30);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/PaisIcon.png"))); // NOI18N
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(390, 40, 220, 200);
-
-        jlNome.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jlNome.setText("Nome:");
-        jPanel1.add(jlNome);
-        jlNome.setBounds(50, 40, 60, 20);
-
-        jlSigla.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
-        jlSigla.setText("Sigla:");
-        jPanel1.add(jlSigla);
-        jlSigla.setBounds(50, 90, 50, 20);
-        jPanel1.add(jtfSigla);
-        jtfSigla.setBounds(50, 110, 60, 20);
-
-        jbIncluir.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbIncluir.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
         jbIncluir.setText("Incluir");
+        jbIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIncluirActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbIncluir);
-        jbIncluir.setBounds(50, 190, 90, 30);
+        jbIncluir.setBounds(20, 220, 100, 30);
 
-        jbGravar.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jbGravar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
         jbGravar.setText("Gravar");
+        jbGravar.setEnabled(false);
+        jbGravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbGravarActionPerformed(evt);
+            }
+        });
         jPanel1.add(jbGravar);
-        jbGravar.setBounds(150, 190, 95, 30);
+        jbGravar.setBounds(130, 220, 100, 30);
 
+        jbExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
+        jbExcluir.setText("Excluir");
+        jbExcluir.setEnabled(false);
+        jPanel1.add(jbExcluir);
+        jbExcluir.setBounds(370, 220, 90, 30);
+
+        jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbConsultar.setText("Consultar");
+        jbConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbConsultarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jbConsultar);
+        jbConsultar.setBounds(470, 220, 110, 30);
+
+        jButton3.setText("<<");
+        jPanel1.add(jButton3);
+        jButton3.setBounds(390, 10, 50, 23);
+
+        jButton4.setText("<");
+        jPanel1.add(jButton4);
+        jButton4.setBounds(440, 10, 50, 23);
+
+        jButton5.setText(">");
+        jPanel1.add(jButton5);
+        jButton5.setBounds(490, 10, 50, 23);
+
+        jButton6.setText(">>");
+        jPanel1.add(jButton6);
+        jButton6.setBounds(540, 10, 49, 23);
+        jPanel1.add(jtfCodigo);
+        jtfCodigo.setBounds(50, 10, 70, 20);
+
+        jLabel1.setText("Codigo:");
+        jPanel1.add(jLabel1);
+        jLabel1.setBounds(10, 10, 40, 14);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
+        jPanel2.setLayout(null);
+
+        jlNome.setText("Nome:");
+        jPanel2.add(jlNome);
+        jlNome.setBounds(70, 30, 60, 20);
+
+        jtfNomePais.setEnabled(false);
+        jtfNomePais.setName("Nome"); // NOI18N
         jtfNomePais.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNomePaisActionPerformed(evt);
             }
         });
-        jPanel1.add(jtfNomePais);
-        jtfNomePais.setBounds(50, 60, 270, 20);
+        jPanel2.add(jtfNomePais);
+        jtfNomePais.setBounds(70, 50, 350, 20);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
+        jlSigla.setText("Sigla:");
+        jPanel2.add(jlSigla);
+        jlSigla.setBounds(70, 80, 50, 20);
+
+        jtfSigla.setEnabled(false);
+        jtfSigla.setName("Sigla"); // NOI18N
+        jPanel2.add(jtfSigla);
+        jtfSigla.setBounds(70, 100, 60, 20);
+
+        jPanel1.add(jPanel2);
+        jPanel2.setBounds(10, 40, 580, 170);
+
+        getContentPane().add(jPanel1);
+        jPanel1.setBounds(0, 0, 610, 270);
 
         pack();
         setLocationRelativeTo(null);
@@ -112,8 +202,70 @@ public class Pais extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfNomePaisActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:
+        jtfCodigo.setEnabled(true);
+        tratarEventos.ativaGravar(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
+
+        jsonPersistencia = new JSONObject();
+        
+        try {
+            Util.Validacao.InputToString(jtfNomePais);
+            Util.Validacao.InputToString(jtfSigla);
+            
+            jsonPersistencia.put("nome", jtfNomePais.getText());
+            jsonPersistencia.put("sigla", jtfSigla.getText().toUpperCase());
+            PaisController paisCntrl = new PaisController();
+            if(paisCntrl.Save(jsonPersistencia)){
+                jtfCodigo.setEnabled(true);
+                tratarEventos.ativaGravar(false);
+                JOptionPane.showConfirmDialog(null, "País gravada com sucesso!");
+            }
+        } catch (Error ex) {
+            Logger.getLogger(Pais.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+    }//GEN-LAST:event_jbGravarActionPerformed
+
+    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+       jtfCodigo.setEnabled(false);
+       jtfNomePais.requestFocus();
+       tratarEventos.ativaGravar(true);
+    }//GEN-LAST:event_jbIncluirActionPerformed
+
+    private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
+        Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Pais"));
+        jtfNomePais.requestFocus();
+    }//GEN-LAST:event_jbConsultarActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+         Helper.CloseDialog(this, backWindows);
+    }//GEN-LAST:event_formWindowClosing
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
+    }
+
+    public void setJtfCodigo(JTextField jtfCodigo) {
+        this.jtfCodigo = jtfCodigo;
+    }
+
+    public JTextField getJtfNomePais() {
+        return jtfNomePais;
+    }
+
+    public void setJtfNomePais(JTextField jtfNomePais) {
+        this.jtfNomePais = jtfNomePais;
+    }
+
+    public JTextField getJtfSigla() {
+        return jtfSigla;
+    }
+
+    public void setJtfSigla(JTextField jtfSigla) {
+        this.jtfSigla = jtfSigla;
+    }
 
     /**
      * @param args the command line arguments
@@ -145,19 +297,27 @@ public class Pais extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Pais().setVisible(true);
+                new Pais(null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbCancelar;
+    private javax.swing.JButton jbConsultar;
+    private javax.swing.JButton jbExcluir;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
     private javax.swing.JLabel jlNome;
     private javax.swing.JLabel jlSigla;
+    private javax.swing.JTextField jtfCodigo;
     private javax.swing.JTextField jtfNomePais;
     private javax.swing.JTextField jtfSigla;
     // End of variables declaration//GEN-END:variables

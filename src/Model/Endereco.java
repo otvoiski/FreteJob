@@ -6,7 +6,8 @@
 package Model;
 
 import Base.ObjectBase;
-import java.sql.ResultSet;
+import Util.Enums;
+import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import org.json.JSONObject;
@@ -16,19 +17,35 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-public class Endereco extends ObjectBase {
+public class Endereco extends ObjectBase implements Serializable {
     
     private String Rua;
     private String Bairro;
     private String cep;
     private String Numero;
     private String Complemento;
-    private String Tipo;//indica o tipo do endereço(cobrança,entrega, etc)
+    private Util.Enums.TipoEndereco Tipo;//indica o tipo do endereço(coleta,entrega, principal)// IMPORTANTE
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public Enums.TipoEndereco getTipo() {
+        return Tipo;
+    }
+
+    public void setTipo(Enums.TipoEndereco Tipo) {
+        this.Tipo = Tipo;
+    }
     @ManyToOne
     private Cidade Cidade;
 
 
-    public Endereco(String Rua, String Bairro, String cep, String Numero, String Tipo, Cidade cidade) {
+    public Endereco(String Rua, String Bairro, String cep, String Numero, Util.Enums.TipoEndereco Tipo, Cidade cidade) {
         this.Rua = Rua;
         this.Bairro = Bairro;
         this.cep = cep;
@@ -55,15 +72,7 @@ public class Endereco extends ObjectBase {
     public void setBairro(String Bairro) {
         this.Bairro = Bairro;
     }
-
-    public String getCEP() {
-        return cep;
-    }
-
-    public void setCEP(String cep) {
-        this.cep = cep;
-    }
-
+    
     public String getNumero() {
         return Numero;
     }
@@ -80,14 +89,6 @@ public class Endereco extends ObjectBase {
         this.Complemento = Complemento;
     }
 
-    public String getTipo() {
-        return Tipo;
-    }
-
-    public void setTipo(String Tipo) {
-        this.Tipo = Tipo;
-    }
-
     public Cidade getCidade() {
         return Cidade;
     }
@@ -102,7 +103,7 @@ public class Endereco extends ObjectBase {
        json.put("codigo", getCodigo());
        json.put("rua",getRua());
        json.put("bairro",getBairro());
-       json.put("cep",getCEP());
+       json.put("cep",getCep());
        json.put("numero",getNumero());
        json.put("complemento",getComplemento());
        json.put("tipo",getTipo());
@@ -113,17 +114,21 @@ public class Endereco extends ObjectBase {
     @Override
     public ObjectBase toObjectBase(org.json.JSONObject jsonRetorno) {
         Cidade objCidade = new Cidade();
-        Endereco objEndereco = new Endereco();    
-        objEndereco.setCodigo(jsonRetorno.getInt("codigo"));
+        Endereco objEndereco = new Endereco();
+        if(jsonRetorno.has("codigo"))
+            objEndereco.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEndereco.setCodigo(0);
         objEndereco.setRua(jsonRetorno.getString("rua"));
         objEndereco.setBairro(jsonRetorno.getString("bairro"));
-        objEndereco.setCEP(jsonRetorno.getString("CEP"));
+        objEndereco.setCep(jsonRetorno.getString("cep"));
         objEndereco.setCidade((Cidade) objCidade.toObjectBase(jsonRetorno.getJSONObject("cidade")));
         if(jsonRetorno.has("complemento"))
             objEndereco.setComplemento(jsonRetorno.getString("complemento"));
         
         objEndereco.setNumero(jsonRetorno.getString("numero"));
-        objEndereco.setTipo(jsonRetorno.getString("tipo"));
+        if(jsonRetorno.has("tipo"))
+            objEndereco.setTipo(jsonRetorno.getEnum(Util.Enums.TipoEndereco.class,"tipo"));
         
         return objEndereco;
     }

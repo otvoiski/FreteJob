@@ -14,5 +14,4 @@ public class DistanciaDAO extends Base.Persistencia{
     public DistanciaDAO(Class persistedClass) {
         super(persistedClass);
     }
-    
 }

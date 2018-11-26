@@ -5,6 +5,7 @@
  */
 package Util;
 
+import Base.FabricaConexaoJDBC;
 import Base.Global;
 import DAO.DistanciaDAO;
 import Model.Categoria;
@@ -18,11 +19,11 @@ import Model.Funcionario;
 import Model.MidiaSocial;
 import Model.Pais;
 import Model.Telefone;
+import Model.TipoEmbalagem;
 import Model.Usuario;
 import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -50,7 +51,6 @@ public class Install {
     public boolean Start(){        
         isInstalled = _Start();
         _Update(isInstalled);
-        if(isInstalled) Populate();
         return isInstalled;
     }
     /**
@@ -235,14 +235,13 @@ public class Install {
                         if((new DAO.TelefoneDAO(Model.Telefone.class)).Save(telefone9))
                         if((new DAO.TelefoneDAO(Model.Telefone.class)).Save(telefone10)){      
 
-                            Endereco endereco1 = new Endereco("Rua Moacyr Machado Castanho", "Residencial Sorriso", "38701-650", "569", "", uba);
-                            Endereco endereco2 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "116", "", belohorizonte);
-                            Endereco endereco3 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "3510", "", juizdefora);
-                            Endereco endereco4 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "1511", "", riodejaneiro);
-                            Endereco endereco5 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "2515", "", belohorizonte);
-                            Endereco endereco6 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "1511", "", riodejaneiro);
-                            Endereco endereco7 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "2515", "", belohorizonte);
-
+                            Endereco endereco1 = new Endereco("Rua Moacyr Machado Castanho", "Residencial Sorriso", "38701-650", "569", Util.Enums.TipoEndereco.Principal, uba);
+                            Endereco endereco2 = new Endereco("Rua São Bento", "Vila Martins", "37010-270", "116", Util.Enums.TipoEndereco.Principal, belohorizonte);
+                            Endereco endereco3 = new Endereco("Rua Cláudio Manoel da Costa", "Centro", "32185-210", "3510", Util.Enums.TipoEndereco.Principal, juizdefora);
+                            Endereco endereco4 = new Endereco("Rua Rua Austral", "Equatorial", "38401-268", "1511", Util.Enums.TipoEndereco.Principal, riodejaneiro);
+                            Endereco endereco5 = new Endereco("Travessa Maria Conceição Barbosa", "Brasil", "38400-730", "589", Util.Enums.TipoEndereco.Principal, belohorizonte);
+                            Endereco endereco6 = new Endereco("Rua Dezoito", "Nova Conquista", "33146-020", "651", Util.Enums.TipoEndereco.Principal, riodejaneiro);
+                            Endereco endereco7 = new Endereco("Rua Bitula Lanza", "Dante Lanza", "35701-480", "867", Util.Enums.TipoEndereco.Principal , belohorizonte);
 
                             if((new DAO.EnderecoDAO(Model.Endereco.class)).Save(endereco1))    
                             if((new DAO.EnderecoDAO(Model.Endereco.class)).Save(endereco2))    
@@ -418,7 +417,14 @@ public class Install {
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f18))
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f19))
                                             if((new DAO.FuncionarioDAO(Model.Funcionario.class)).Save(f20))
-                                                return false;
+                                            {
+                                                TipoEmbalagem te1 = new TipoEmbalagem("Caixa");
+                                                TipoEmbalagem te2 = new TipoEmbalagem("Plastico");
+                                                TipoEmbalagem te3 = new TipoEmbalagem("Envelope");
+                                                TipoEmbalagem te4 = new TipoEmbalagem("Tubo");
+                                                if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te1))
+                                                    return false;
+                                            }
                                         }
                                     }
                                 }
@@ -452,10 +458,10 @@ public class Install {
         }
     }
     private boolean _Start(){
-        if(!isInstalled){               
+        if(!isInstalled){ 
             try {
                 msg.setText("Criando Base de Dados...");
-                Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=123456"); 
+                Connection conn = FabricaConexaoJDBC.GetConnection();
                 String query = "Create database " + Global.DB_NAME;  
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(query);
                 int exe = ps.executeUpdate();
@@ -470,18 +476,29 @@ public class Install {
                     
                     if((new DAO.CategoriaDAO(Model.Categoria.class)).Save(categoria)){
                         usuario.setUserCategoria(categoria);   
-                        return (new DAO.UsuarioDAO(Model.Usuario.class)).Save(usuario);                        
-                    } else 
+                        if(new DAO.UsuarioDAO(Model.Usuario.class).Save(usuario)){
+                            conn.close();
+                            return !Populate();
+                        }else{
+                            conn.close();
+                            return false;
+                        }
+                    } else{
+                        conn.close();
                         return false;
-                } else 
-                    return false;        
+                    }
+                } else {
+                    conn.close();
+                    return false;     
+                }
+                       
             } catch (SQLException e) {
                 if(e.getMessage().contains("database exists")){
                     try {
                         msg.setText("Deletando Base de Dados com defeito...");
                         Connection conn; 
 
-                        conn = DriverManager.getConnection("jdbc:mysql://localhost/?user=root&password=123456");
+                        conn = FabricaConexaoJDBC.GetConnection();
 
                         String query = "drop database " + Global.DB_NAME;  
                         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(query);
@@ -493,7 +510,10 @@ public class Install {
                         Logger.getLogger(Install.class.getName()).log(Level.SEVERE, null, ex);
                         return false;
                     }
-                } else System.out.println(e.getMessage());
+                } else{ 
+                    System.out.println(e.getMessage());
+                    return false;
+                }
             }
         } return true;
     }
