@@ -55,13 +55,11 @@ public class Helper {
     public static void NewRowOnJTable(JTable jTable) {        
         DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
         dtm.addRow(new Object[]{});
-        jTable.setModel(dtm);
     }
     
     public static void NewRowOnJTable(JTable jTable, Object[] obj) {        
         DefaultTableModel dtm = (DefaultTableModel)jTable.getModel();
         dtm.addRow(obj);
-        jTable.setModel(dtm);
     }
     
     public static ArrayList<String[]> GetArrayToJTable(JTable jTable) throws Error {
@@ -71,7 +69,7 @@ public class Helper {
             for (int i = 0; i < dtm.getRowCount(); i++) {
                 String[] value = new String[dtm.getColumnCount()];
                 for (int j = 0; j < dtm.getColumnCount(); j++) {
-                    value[j] = (String) dtm.getValueAt(i, j) + "";
+                    value[j] = (String) dtm.getValueAt(i, j);
                 }
                 list.add(value);
             }
