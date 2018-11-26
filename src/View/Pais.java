@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import org.json.JSONObject;
 
@@ -23,7 +22,7 @@ import org.json.JSONObject;
  */
 public class Pais extends javax.swing.JFrame {
     private TelaHandler tratarEventos;
-    private final JFrame backWindows;
+    private final JFrame windowsBack;
     private int PaisID;
     JSONObject jsonPersistencia;
     /**
@@ -32,7 +31,7 @@ public class Pais extends javax.swing.JFrame {
      */
     public Pais(JFrame windowsBack) {
         initComponents();
-        this.backWindows =  windowsBack;
+        this.windowsBack =  windowsBack;
         Init();
     }
     public void Init(){
@@ -54,8 +53,12 @@ public class Pais extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jbCancelar = new javax.swing.JButton();
+        jlNome = new javax.swing.JLabel();
+        jlSigla = new javax.swing.JLabel();
+        jtfSigla = new javax.swing.JTextField();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
+        jtfNomePais = new javax.swing.JTextField();
         jbExcluir = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -64,22 +67,12 @@ public class Pais extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jtfCodigo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jlNome = new javax.swing.JLabel();
-        jtfNomePais = new javax.swing.JTextField();
-        jlSigla = new javax.swing.JLabel();
-        jtfSigla = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de País");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(606, 300));
+        setMinimumSize(new java.awt.Dimension(521, 230));
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.selectionForeground"));
@@ -95,7 +88,20 @@ public class Pais extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(240, 220, 120, 30);
+        jbCancelar.setBounds(0, 80, 120, 40);
+
+        jlNome.setText("Nome:");
+        jPanel1.add(jlNome);
+        jlNome.setBounds(180, 50, 60, 20);
+
+        jlSigla.setText("Sigla:");
+        jPanel1.add(jlSigla);
+        jlSigla.setBounds(180, 100, 50, 20);
+
+        jtfSigla.setEnabled(false);
+        jtfSigla.setName("Sigla"); // NOI18N
+        jPanel1.add(jtfSigla);
+        jtfSigla.setBounds(180, 120, 60, 20);
 
         jbIncluir.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
@@ -106,7 +112,7 @@ public class Pais extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbIncluir);
-        jbIncluir.setBounds(20, 220, 100, 30);
+        jbIncluir.setBounds(0, 0, 120, 40);
 
         jbGravar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
@@ -118,14 +124,24 @@ public class Pais extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbGravar);
-        jbGravar.setBounds(130, 220, 100, 30);
+        jbGravar.setBounds(0, 40, 120, 40);
+
+        jtfNomePais.setEnabled(false);
+        jtfNomePais.setName("Nome"); // NOI18N
+        jtfNomePais.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfNomePaisActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jtfNomePais);
+        jtfNomePais.setBounds(180, 70, 270, 20);
 
         jbExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
         jbExcluir.setText("Excluir");
         jbExcluir.setEnabled(false);
         jPanel1.add(jbExcluir);
-        jbExcluir.setBounds(370, 220, 90, 30);
+        jbExcluir.setBounds(0, 120, 120, 40);
 
         jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
@@ -136,62 +152,32 @@ public class Pais extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbConsultar);
-        jbConsultar.setBounds(470, 220, 110, 30);
+        jbConsultar.setBounds(0, 160, 120, 40);
 
         jButton3.setText("<<");
         jPanel1.add(jButton3);
-        jButton3.setBounds(390, 10, 50, 23);
+        jButton3.setBounds(310, 0, 50, 23);
 
         jButton4.setText("<");
         jPanel1.add(jButton4);
-        jButton4.setBounds(440, 10, 50, 23);
+        jButton4.setBounds(360, 0, 50, 23);
 
         jButton5.setText(">");
         jPanel1.add(jButton5);
-        jButton5.setBounds(490, 10, 50, 23);
+        jButton5.setBounds(410, 0, 50, 23);
 
         jButton6.setText(">>");
         jPanel1.add(jButton6);
-        jButton6.setBounds(540, 10, 49, 23);
+        jButton6.setBounds(460, 0, 49, 23);
         jPanel1.add(jtfCodigo);
-        jtfCodigo.setBounds(50, 10, 70, 20);
+        jtfCodigo.setBounds(230, 0, 70, 20);
 
         jLabel1.setText("Codigo:");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(10, 10, 40, 14);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
-        jPanel2.setLayout(null);
-
-        jlNome.setText("Nome:");
-        jPanel2.add(jlNome);
-        jlNome.setBounds(70, 30, 60, 20);
-
-        jtfNomePais.setEnabled(false);
-        jtfNomePais.setName("Nome"); // NOI18N
-        jtfNomePais.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNomePaisActionPerformed(evt);
-            }
-        });
-        jPanel2.add(jtfNomePais);
-        jtfNomePais.setBounds(70, 50, 350, 20);
-
-        jlSigla.setText("Sigla:");
-        jPanel2.add(jlSigla);
-        jlSigla.setBounds(70, 80, 50, 20);
-
-        jtfSigla.setEnabled(false);
-        jtfSigla.setName("Sigla"); // NOI18N
-        jPanel2.add(jtfSigla);
-        jtfSigla.setBounds(70, 100, 60, 20);
-
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(10, 40, 580, 170);
+        jLabel1.setBounds(190, 0, 40, 14);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 610, 270);
+        jPanel1.setBounds(0, 0, 520, 210);
 
         pack();
         setLocationRelativeTo(null);
@@ -202,7 +188,7 @@ public class Pais extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfNomePaisActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        jtfCodigo.setEnabled(true);
+        jtfCodigo.setEnabled(false);
         tratarEventos.ativaGravar(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
 
@@ -220,7 +206,6 @@ public class Pais extends javax.swing.JFrame {
             if(paisCntrl.Save(jsonPersistencia)){
                 jtfCodigo.setEnabled(true);
                 tratarEventos.ativaGravar(false);
-                JOptionPane.showConfirmDialog(null, "País gravada com sucesso!");
             }
         } catch (Error ex) {
             Logger.getLogger(Pais.class.getName()).log(Level.SEVERE, null, ex);
@@ -230,7 +215,6 @@ public class Pais extends javax.swing.JFrame {
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
        jtfCodigo.setEnabled(false);
-       jtfNomePais.requestFocus();
        tratarEventos.ativaGravar(true);
     }//GEN-LAST:event_jbIncluirActionPerformed
 
@@ -238,10 +222,6 @@ public class Pais extends javax.swing.JFrame {
         Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Pais"));
         jtfNomePais.requestFocus();
     }//GEN-LAST:event_jbConsultarActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-         Helper.CloseDialog(this, backWindows);
-    }//GEN-LAST:event_formWindowClosing
 
     public JTextField getJtfCodigo() {
         return jtfCodigo;
@@ -309,7 +289,6 @@ public class Pais extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConsultar;
     private javax.swing.JButton jbExcluir;

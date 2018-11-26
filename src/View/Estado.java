@@ -10,6 +10,8 @@ import Util.Error;
 import Util.Helper;
 import Util.TelaHandler;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -21,8 +23,8 @@ import org.json.JSONObject;
  */
 public class Estado extends javax.swing.JFrame {
     private TelaHandler tratarEventos;
-    private final JFrame backWindows;
-    private int EstadoID;
+    private final JFrame windowsBack;
+    private int estadoID;
     JSONObject jsonPersistencia;
     /**
      * Creates new form Pais
@@ -30,7 +32,7 @@ public class Estado extends javax.swing.JFrame {
      */
     public Estado(JFrame windowsBack) {
         initComponents();
-        this.backWindows =  windowsBack;
+        this.windowsBack =  windowsBack;
         Init();
     }
     public void Init(){
@@ -58,8 +60,12 @@ public class Estado extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jbCancelar = new javax.swing.JButton();
+        jlNome = new javax.swing.JLabel();
+        jlSigla = new javax.swing.JLabel();
+        jtfSigla = new javax.swing.JTextField();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
+        jtfNomeEstado = new javax.swing.JTextField();
         jbExcluir = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -68,31 +74,17 @@ public class Estado extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jtfCodigo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jtfCodigoPais = new javax.swing.JTextField();
         jtfPaisNome = new javax.swing.JTextField();
+        jtfCodigoPais = new javax.swing.JTextField();
+        jbBuscaPais = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jtfSiglaPais = new javax.swing.JTextField();
-        jbBuscaPais = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jlNome = new javax.swing.JLabel();
-        jtfNomeEstado = new javax.swing.JTextField();
-        jlSigla = new javax.swing.JLabel();
-        jtfSigla = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Estado");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setMinimumSize(new java.awt.Dimension(610, 350));
+        setMinimumSize(new java.awt.Dimension(521, 230));
         setResizable(false);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
-            }
-        });
         getContentPane().setLayout(null);
 
         jPanel1.setBackground(javax.swing.UIManager.getDefaults().getColor("MenuItem.selectionForeground"));
@@ -108,7 +100,20 @@ public class Estado extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbCancelar);
-        jbCancelar.setBounds(250, 270, 111, 30);
+        jbCancelar.setBounds(0, 80, 120, 40);
+
+        jlNome.setText("Nome:");
+        jPanel1.add(jlNome);
+        jlNome.setBounds(180, 30, 60, 20);
+
+        jlSigla.setText("Sigla:");
+        jPanel1.add(jlSigla);
+        jlSigla.setBounds(180, 80, 50, 20);
+
+        jtfSigla.setEnabled(false);
+        jtfSigla.setName("Sigla"); // NOI18N
+        jPanel1.add(jtfSigla);
+        jtfSigla.setBounds(180, 100, 60, 20);
 
         jbIncluir.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/IncluirIcon.png"))); // NOI18N
@@ -119,7 +124,7 @@ public class Estado extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbIncluir);
-        jbIncluir.setBounds(30, 270, 100, 30);
+        jbIncluir.setBounds(0, 0, 120, 40);
 
         jbGravar.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
@@ -131,7 +136,17 @@ public class Estado extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbGravar);
-        jbGravar.setBounds(140, 270, 100, 30);
+        jbGravar.setBounds(0, 40, 120, 40);
+
+        jtfNomeEstado.setEnabled(false);
+        jtfNomeEstado.setName("Nome"); // NOI18N
+        jtfNomeEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfNomeEstadoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jtfNomeEstado);
+        jtfNomeEstado.setBounds(180, 50, 270, 20);
 
         jbExcluir.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
@@ -143,7 +158,7 @@ public class Estado extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbExcluir);
-        jbExcluir.setBounds(370, 270, 90, 30);
+        jbExcluir.setBounds(0, 120, 120, 40);
 
         jbConsultar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jbConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
@@ -154,37 +169,35 @@ public class Estado extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jbConsultar);
-        jbConsultar.setBounds(470, 270, 110, 30);
+        jbConsultar.setBounds(0, 160, 120, 40);
 
         jButton3.setText("<<");
         jPanel1.add(jButton3);
-        jButton3.setBounds(400, 0, 50, 23);
+        jButton3.setBounds(310, 0, 50, 23);
 
         jButton4.setText("<");
         jPanel1.add(jButton4);
-        jButton4.setBounds(450, 0, 50, 23);
+        jButton4.setBounds(360, 0, 50, 23);
 
         jButton5.setText(">");
         jPanel1.add(jButton5);
-        jButton5.setBounds(500, 0, 50, 23);
+        jButton5.setBounds(410, 0, 50, 23);
 
         jButton6.setText(">>");
         jPanel1.add(jButton6);
-        jButton6.setBounds(550, 0, 49, 23);
+        jButton6.setBounds(460, 0, 49, 23);
         jPanel1.add(jtfCodigo);
-        jtfCodigo.setBounds(50, 0, 70, 20);
+        jtfCodigo.setBounds(230, 0, 70, 20);
 
         jLabel1.setText("Codigo:");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(10, 0, 40, 14);
+        jLabel1.setBounds(190, 0, 40, 14);
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Dados"));
-        jPanel2.setLayout(null);
-
-        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Pais"));
-        jPanel3.setLayout(null);
+        jtfPaisNome.setText("Busque um país");
+        jtfPaisNome.setEnabled(false);
+        jtfPaisNome.setName("nome do país"); // NOI18N
+        jPanel1.add(jtfPaisNome);
+        jtfPaisNome.setBounds(250, 140, 150, 20);
 
         jtfCodigoPais.setEditable(false);
         jtfCodigoPais.setEnabled(false);
@@ -193,23 +206,8 @@ public class Estado extends javax.swing.JFrame {
                 jtfCodigoPaisActionPerformed(evt);
             }
         });
-        jPanel3.add(jtfCodigoPais);
-        jtfCodigoPais.setBounds(30, 40, 60, 20);
-
-        jtfPaisNome.setText("Busque um país");
-        jtfPaisNome.setEnabled(false);
-        jtfPaisNome.setName("nome do país"); // NOI18N
-        jPanel3.add(jtfPaisNome);
-        jtfPaisNome.setBounds(100, 40, 230, 20);
-
-        jLabel2.setText("Codigo");
-        jPanel3.add(jLabel2);
-        jLabel2.setBounds(30, 20, 40, 20);
-
-        jtfSiglaPais.setEditable(false);
-        jtfSiglaPais.setEnabled(false);
-        jPanel3.add(jtfSiglaPais);
-        jtfSiglaPais.setBounds(340, 40, 30, 20);
+        jPanel1.add(jtfCodigoPais);
+        jtfCodigoPais.setBounds(180, 140, 60, 20);
 
         jbBuscaPais.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
         jbBuscaPais.setEnabled(false);
@@ -218,55 +216,20 @@ public class Estado extends javax.swing.JFrame {
                 jbBuscaPaisActionPerformed(evt);
             }
         });
-        jPanel3.add(jbBuscaPais);
-        jbBuscaPais.setBounds(380, 40, 40, 20);
+        jPanel1.add(jbBuscaPais);
+        jbBuscaPais.setBounds(450, 140, 40, 20);
 
-        jLabel3.setText("Nome");
-        jPanel3.add(jLabel3);
-        jLabel3.setBounds(100, 20, 27, 20);
+        jLabel2.setText("País");
+        jPanel1.add(jLabel2);
+        jLabel2.setBounds(180, 120, 19, 20);
 
-        jLabel4.setText("Sigla");
-        jPanel3.add(jLabel4);
-        jLabel4.setBounds(340, 20, 34, 20);
-
-        jPanel2.add(jPanel3);
-        jPanel3.setBounds(10, 120, 570, 90);
-
-        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Estado"));
-        jPanel4.setLayout(null);
-
-        jlNome.setText("Nome:");
-        jPanel4.add(jlNome);
-        jlNome.setBounds(30, 10, 60, 20);
-
-        jtfNomeEstado.setEnabled(false);
-        jtfNomeEstado.setName("Nome"); // NOI18N
-        jtfNomeEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNomeEstadoActionPerformed(evt);
-            }
-        });
-        jPanel4.add(jtfNomeEstado);
-        jtfNomeEstado.setBounds(30, 30, 390, 20);
-
-        jlSigla.setText("Sigla:");
-        jPanel4.add(jlSigla);
-        jlSigla.setBounds(30, 50, 50, 20);
-
-        jtfSigla.setEnabled(false);
-        jtfSigla.setName("Sigla"); // NOI18N
-        jPanel4.add(jtfSigla);
-        jtfSigla.setBounds(30, 70, 60, 20);
-
-        jPanel2.add(jPanel4);
-        jPanel4.setBounds(10, 20, 570, 100);
-
-        jPanel1.add(jPanel2);
-        jPanel2.setBounds(0, 30, 600, 220);
+        jtfSiglaPais.setEditable(false);
+        jtfSiglaPais.setEnabled(false);
+        jPanel1.add(jtfSiglaPais);
+        jtfSiglaPais.setBounds(410, 140, 30, 20);
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(0, 0, 620, 330);
+        jPanel1.setBounds(0, 0, 520, 210);
 
         pack();
         setLocationRelativeTo(null);
@@ -305,7 +268,6 @@ public class Estado extends javax.swing.JFrame {
                 jtfCodigo.setEnabled(true);
                 tratarEventos.ativaGravar(false);
                 InitCamposBusca(false);
-                JOptionPane.showConfirmDialog(null, "Estado gravado com sucesso!");
             }
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);
@@ -334,10 +296,6 @@ public class Estado extends javax.swing.JFrame {
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
        Helper.ShowDialog(this,new BuscarLocalidade(this,this,"Estado"));
     }//GEN-LAST:event_jbConsultarActionPerformed
-
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        Helper.CloseDialog(this, backWindows);
-    }//GEN-LAST:event_formWindowClosing
 
     public JTextField getJtfCodigo() {
         return jtfCodigo;
@@ -414,20 +372,6 @@ public class Estado extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -444,12 +388,7 @@ public class Estado extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JButton jbBuscaPais;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConsultar;
