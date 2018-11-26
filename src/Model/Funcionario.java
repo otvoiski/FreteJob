@@ -7,8 +7,10 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -16,10 +18,13 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "Funcionario")
 public class Funcionario extends Pessoa {
-
+    @Column(nullable = false)
     private String Cpf;
+    @Column(nullable = false)
     private String Rg;
+    @Column(nullable = false)
     private String Nome;
     @ManyToOne
     private Distribuidora LocalTrabalho;

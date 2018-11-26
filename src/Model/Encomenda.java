@@ -13,10 +13,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -25,6 +28,7 @@ import org.json.JSONObject;
  * @author Professor
  */
 @Entity
+@Table(name = "Encomenda")
 public class Encomenda extends ObjectBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,18 +36,21 @@ public class Encomenda extends ObjectBase implements Serializable {
     private Pessoa Emitente;
     @ManyToOne
     private Pessoa Destinatario;
-    @ManyToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private Endereco EnderecoColeta; //existem estes atributos de endereço pois existe a possibilidade da encomenda sair de um endereço que não é endereço do remetente e vice versa
-    @ManyToOne
+    @OneToOne(cascade=CascadeType.ALL)
     private Endereco EnderecoDestino;    
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade=CascadeType.ALL)
     private List<ObjetoEncomenda> Objetos;
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private List<Distribuidora> DistribuidoraColeta;
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     private List<Funcionario> ResponsManipulacao;
+    @Column(name =  "Valor")
     private double valorCobrado;
+    @Column(name = "TipoFreteCod")
     private TipoFreteEncomenda tipoFreteEscolhido;
+    @Column(name = "CodRastreio")
     private String codRastreio;
 
     public Encomenda(){

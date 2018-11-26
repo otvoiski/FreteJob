@@ -12,8 +12,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,8 +25,9 @@ import org.json.JSONObject;
  */
 
 @Entity
+@Table(name = "Pessoa")
 public abstract class Pessoa extends ObjectBase implements Serializable{
-
+    @Column(nullable = false)
     private TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Telefone> Telefones;

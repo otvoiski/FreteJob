@@ -6,7 +6,9 @@
 package Model;
 
 import Base.ObjectBase;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -14,8 +16,11 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "PessoJuridica")
 public class PessoaJuridica extends Pessoa{
+    @Column(nullable = false)
     private String Cnpj;
+    @Column(nullable = false)
     private String razaoSocial;
     private String nomeFantasia;
     

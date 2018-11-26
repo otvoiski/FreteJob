@@ -8,8 +8,10 @@ package Model;
 import Base.ObjectBase;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.json.JSONObject;
 
@@ -18,13 +20,18 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
+@Table(name = "Veiculo")
 public class Veiculo extends ObjectBase implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    @Column(name = "Placa", nullable = false)
     private String PlacaIdentificacao;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "Fabricacao", nullable = false)
     private Date DataFabricacao;
+    @Column(nullable = false)
     private Double CapacidadeCarga;
+    @Column(nullable = false)
     private String Classificacao;
     @ManyToOne
     private TipoVeiculo Tipo;

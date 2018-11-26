@@ -8,9 +8,12 @@ package Model;
 import Base.ObjectBase;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -18,6 +21,7 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
+@Table(name =  "Frete")
 public class Frete extends ObjectBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,10 +31,11 @@ public class Frete extends ObjectBase implements Serializable {
     private Cidade CidOrigem;
     @ManyToOne
     private Cidade CidDestino;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Funcionario> Responsaveis;
     @OneToMany
     private List<Encomenda> EncomendasTransporte;
+    @Column(name = "Valor")
     private double ValorFrete;
     @ManyToOne
     private TipoFrete CategFrete;

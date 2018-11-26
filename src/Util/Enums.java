@@ -26,5 +26,8 @@ public class Enums {
     public static enum TipoEndereco {
         Entrega, Principal, Coleta
     }
+    public static enum Sexo {
+        Masculino, Feminino, Coleta
+    }
     
 }

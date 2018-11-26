@@ -7,7 +7,9 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -15,8 +17,10 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
+@Table(name = "MidiaSocial")
 public class MidiaSocial extends ObjectBase implements Serializable{
     private static final long serialVersionUID = 1L;
+    @Column(nullable = false)
     private String Descricao;
 
     public MidiaSocial() {

@@ -6,6 +6,7 @@
 package Base;
 
 import java.util.List;
+import org.hibernate.Session;
 
 /**
  *
@@ -25,6 +26,13 @@ public class Persistencia<T extends ObjectBase> {
             return MetodosJPA.fundir(obj);
         } else {
             return MetodosJPA.persistir(obj);
+        }
+    }
+    public void Save(T obj, Session transaction) {
+        if (obj.getCodigo() > 0) {
+            MetodosJPA.fundir(obj);
+        } else {
+            MetodosJPA.persistirUsandoTransacaoAberta(obj,transaction);
         }
     }
     public boolean Remove(int i) {

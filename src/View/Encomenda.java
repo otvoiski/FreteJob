@@ -1011,6 +1011,8 @@ public class Encomenda extends javax.swing.JFrame {
             if(encomendaCntrl.Save(jsonPersistencia)){
                  jtfCodigo.setEnabled(true);
                  InitCamposBusca(false);
+                 tratarEventos.ativaGravar(false);
+                 JOptionPane.showMessageDialog(null, "Encomenda gravada com sucesso!");
             }
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);

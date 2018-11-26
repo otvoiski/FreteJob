@@ -9,6 +9,7 @@ import Base.ObjectBase;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +18,7 @@ import org.json.JSONObject;
  * @author Aluno
  */
 @Entity
+@Table(name = "Distribuidora")
 public class Distribuidora extends Pessoa{    
     private String Cnpj;    
     private String RazaoSocial;

@@ -7,7 +7,9 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -15,9 +17,11 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "Telefone")
 public class Telefone extends ObjectBase implements Serializable{
-    
+    @Column(nullable = false)
     private int DDD;
+    @Column(nullable = false)
     private String Numero;
 
     public Telefone(int ddd, String numero) {

@@ -6,6 +6,7 @@
 package Base;
 
 import java.util.ArrayList;
+import org.hibernate.Session;
 import org.json.JSONObject;
 
 public abstract class ControllerBase {
@@ -41,6 +42,10 @@ public abstract class ControllerBase {
     public boolean Save(JSONObject dados){        
         Object = Object.toObjectBase(dados);
         return DAO.Save(Object);
+    };
+    public void Save(JSONObject dados, Session transaction){        
+        Object = Object.toObjectBase(dados);
+        DAO.Save(Object,transaction);
     };
     
     public boolean Delete(int codigo){
