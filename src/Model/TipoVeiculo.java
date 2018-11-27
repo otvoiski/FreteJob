@@ -56,7 +56,11 @@ public class TipoVeiculo extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
        TipoVeiculo objTipoVeiculo = new TipoVeiculo(jsonRetorno.getEnum(TipoTransporte.class,"descricao"), jsonRetorno.getDouble("pesoMaximo"));
-       objTipoVeiculo.setCodigo(jsonRetorno.getInt("Codigo"));
+       if(jsonRetorno.has("codigo"))
+            objTipoVeiculo.setCodigo(jsonRetorno.getInt("codigo"));
+       else
+           objTipoVeiculo.setCodigo(0);
+       
        return objTipoVeiculo;
     }
     

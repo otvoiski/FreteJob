@@ -76,6 +76,7 @@ public class Encomenda extends javax.swing.JFrame {
         jbBuscaDestinatario.setEnabled(habilitaBusca);
         jbBuscaCidadeDestino.setEnabled(habilitaBusca);
         jbBuscaCidadeOrigem.setEnabled(habilitaBusca);
+    
     }
     private void Init(JFrame windowsBack){
         this.windowsBack = windowsBack;
@@ -556,6 +557,9 @@ public class Encomenda extends javax.swing.JFrame {
         jtbItensEncomenda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtbItensEncomendaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtbItensEncomendaKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jtbItensEncomenda);
@@ -1193,9 +1197,8 @@ public class Encomenda extends javax.swing.JFrame {
     public JTextField getJtfRuaDestino() {
         return jtfRuaDestino;
     }
-
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
-        int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
+         int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
         int colunaSelecionada =  jtbItensEncomenda.getSelectedColumn();
         
         if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
@@ -1236,6 +1239,10 @@ public class Encomenda extends javax.swing.JFrame {
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
         InitCamposBusca(false);
     }//GEN-LAST:event_jbExluirActionPerformed
+
+    private void jtbItensEncomendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyReleased
+
+    }//GEN-LAST:event_jtbItensEncomendaKeyReleased
 
     /**
      * @param args the command line arguments

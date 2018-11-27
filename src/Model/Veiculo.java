@@ -7,7 +7,11 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -31,8 +35,6 @@ public class Veiculo extends ObjectBase implements Serializable {
     private Date DataFabricacao;
     @Column(nullable = false)
     private Double CapacidadeCarga;
-    @Column(nullable = false)
-    private String Classificacao;
     @ManyToOne
     private TipoVeiculo Tipo;
     
@@ -62,15 +64,6 @@ public class Veiculo extends ObjectBase implements Serializable {
     public void setCapacidadeCarga(Double capacidadeCarga) {
         this.CapacidadeCarga = capacidadeCarga;
     }
-
-    public String getClassificacao() {
-        return Classificacao;
-    }
-
-    public void setClassificacao(String classificacao) {
-        this.Classificacao = classificacao;
-    }
-
     public TipoVeiculo getTipo() {
         return Tipo;
     }
@@ -82,12 +75,32 @@ public class Veiculo extends ObjectBase implements Serializable {
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Veiculo objVeiculo =  new Veiculo();
+        if(jsonRetorno.has("codigo"))
+            objVeiculo.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objVeiculo.setCodigo(0);
+        if(jsonRetorno.has("placaIdentificacao"))
+            objVeiculo.setPlacaIdentificacao(jsonRetorno.getString("placaIdentificacao"));
+        
+        try {
+            if(jsonRetorno.has("dataFabricacao"))
+                objVeiculo.setDataFabricacao((new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("dataFabricacao"))));
+        } catch (ParseException ex) {
+            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(jsonRetorno.has("capacidadeCarga"))
+            objVeiculo.setCapacidadeCarga(jsonRetorno.getDouble("capacidadeCarga"));
+        if(jsonRetorno.has("tipo"))
+            objVeiculo.setTipo((TipoVeiculo) new TipoVeiculo().toObjectBase(jsonRetorno.getJSONObject("tipo")));
+        
+        
+        return objVeiculo;
     }
     
 }

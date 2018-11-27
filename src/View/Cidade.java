@@ -6,7 +6,6 @@
 package View;
 
 import Controller.CidadeController;
-import Controller.EstadoController;
 import Util.Error;
 import Util.Helper;
 import Util.TelaHandler;
@@ -298,7 +297,7 @@ public class Cidade extends javax.swing.JFrame {
                 jtfCodigo.setEnabled(true);
                 tratarEventos.ativaGravar(false);
                 InitCamposBusca(false);
-                JOptionPane.showConfirmDialog(null, "Cidade gravada com sucesso!");
+                JOptionPane.showMessageDialog(null, "Cidade gravada com sucesso!");
             }
         } catch (Error ex) {
             JOptionPane.showMessageDialog(null,ex.getMessage(),"Erro",JOptionPane.ERROR_MESSAGE);

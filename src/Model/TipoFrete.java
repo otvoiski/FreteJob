@@ -56,7 +56,8 @@ public class TipoFrete extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
        TipoFrete objTipoFrete = new TipoFrete(jsonRetorno.getString("descricao"), jsonRetorno.getDouble("percentualAcrescimo"));
-       objTipoFrete.setCodigo(jsonRetorno.getInt("Codigo"));
+       if(jsonRetorno.has("codigo"))objTipoFrete.setCodigo(jsonRetorno.getInt("codigo"));
+       else objTipoFrete.setCodigo(0);
        return objTipoFrete;
     }
     
