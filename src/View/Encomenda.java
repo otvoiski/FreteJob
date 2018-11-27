@@ -1009,7 +1009,13 @@ public class Encomenda extends javax.swing.JFrame {
                 jsonPersistencia.put("tipoFrete", Util.Enums.TipoFreteEncomenda.SuperRapido);
             
             /*FIM TIPO DE FRETE */
-
+            if(jlStatusEncomenda.getText().equals(""))
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.AguardandoColeta);
+            else if(jlStatusEncomenda.getText().equals("Em Transito")){
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.EmTransito);
+            }else
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.Entregue);
+            
             /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
             EncomendaController encomendaCntrl = new EncomendaController();
             if(encomendaCntrl.Save(jsonPersistencia)){

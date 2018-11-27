@@ -52,6 +52,8 @@ public class Encomenda extends ObjectBase implements Serializable {
     private TipoFreteEncomenda tipoFreteEscolhido;
     @Column(name = "CodRastreio")
     private String codRastreio;
+    private Util.Enums.StatusEncomenda Status;
+
 
     public Encomenda(){
         this.Objetos = new ArrayList<>();
@@ -61,7 +63,13 @@ public class Encomenda extends ObjectBase implements Serializable {
     public double getValorCobrado() {
         return valorCobrado;
     }
+        public Enums.StatusEncomenda getStatus() {
+        return Status;
+    }
 
+    public void setStatus(Enums.StatusEncomenda Status) {
+        this.Status = Status;
+    }
     private void setValorCobrado(double valorCobrado) {
         this.valorCobrado = valorCobrado;
     }
@@ -224,6 +232,9 @@ public class Encomenda extends ObjectBase implements Serializable {
             objEncomenda.setValorCobrado(jsonRetorno.getDouble("valorCobrado"));
         if(jsonRetorno.has("codRastreio"))
             objEncomenda.setCodRastreio(jsonRetorno.getString("codRastreio"));
+        
+        if(jsonRetorno.has("status"))
+            objEncomenda.setStatus(jsonRetorno.getEnum(Util.Enums.StatusEncomenda.class, "status"));
         
         return objEncomenda;
     }

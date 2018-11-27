@@ -14,7 +14,6 @@ public class Enums {
     public static enum TipoTransporte {
         Terrestres, Aquaticos, Aeroviarios
     }
-
     public static enum TipoPessoa {
         Juridica, Fisica
     }
@@ -28,6 +27,9 @@ public class Enums {
     }
     public static enum Sexo {
         Masculino, Feminino, Coleta
+    }
+    public static enum StatusEncomenda{
+        AguardandoColeta, EmTransito, Entregue
     }
     
 }
