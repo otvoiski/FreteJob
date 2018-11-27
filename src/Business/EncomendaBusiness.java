@@ -6,6 +6,7 @@
 package Business;
 
 import Model.Encomenda;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 
@@ -21,6 +22,14 @@ public class EncomendaBusiness extends Base.BusinessBase{
                 + " where p.Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
+        return (List<Encomenda>) query.list();
+    }
+    public List<Encomenda> GetByIntervaloData(String dataInicial, String dataFinal) {
+        String hql = "from Encomenda e"
+                + " where e.dataCadastro between :data1 and :data2";
+        Query query = session.createQuery(hql);
+        query.setString("data1", dataInicial);
+        query.setString("data2", dataFinal);
         return (List<Encomenda>) query.list();
     }
 }

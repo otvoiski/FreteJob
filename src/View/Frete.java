@@ -5,14 +5,18 @@
  */
 package View;
 
+import Controller.EncomendaController;
 import Util.Helper;
+import static java.util.Collections.list;
 import java.util.HashMap;
-import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
+import java.util.List;
 
 /**
  *
@@ -43,6 +47,8 @@ public class Frete extends javax.swing.JFrame {
     }
     private void Init(){
         distribuidoras = new HashMap<>();
+        jftDataInicio = new javax.swing.JFormattedTextField();
+        
         List<JSONObject> dist = new Controller.DistribuidoraController().GetAll();
         dist.forEach((j) -> {
             distribuidoras.put(j.getString("RazaoSocial"),j.getInt("codigo"));
@@ -51,7 +57,7 @@ public class Frete extends javax.swing.JFrame {
 
         
         Object[][] rowData = {null, null, null};
-        Object[] columnNames = { "", "#","Emitente","Destinatario","Valor"};
+        Object[] columnNames = { "", "#","Emitente","Destinatario","Valor","Origem","Destino"};
 
         DefaultTableModel model = new DefaultTableModel(rowData, columnNames){
             @Override
@@ -69,9 +75,11 @@ public class Frete extends javax.swing.JFrame {
         TableColumnModel columnModelEncomendas = jtbEncomendas.getColumnModel();
         columnModelEncomendas.getColumn(0).setPreferredWidth(15);
         columnModelEncomendas.getColumn(1).setPreferredWidth(80);
-        columnModelEncomendas.getColumn(2).setPreferredWidth(380);
-        columnModelEncomendas.getColumn(3).setPreferredWidth(380);
-        columnModelEncomendas.getColumn(4).setPreferredWidth(150);
+        columnModelEncomendas.getColumn(2).setPreferredWidth(250);
+        columnModelEncomendas.getColumn(3).setPreferredWidth(250);
+        columnModelEncomendas.getColumn(4).setPreferredWidth(110);
+        columnModelEncomendas.getColumn(5).setPreferredWidth(160);
+        columnModelEncomendas.getColumn(6).setPreferredWidth(160);
         
         TableColumnModel columnModelFuncionarios =  jtbFuncionariosResp.getColumnModel();
         columnModelFuncionarios.getColumn(0).setPreferredWidth(15);
@@ -99,6 +107,7 @@ public class Frete extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jtfCidadeOrigemCod = new javax.swing.JTextField();
         jtfCidadeDestinoCod = new javax.swing.JTextField();
+        jftDataInicio = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         frete_jtextfield_funcionario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -112,17 +121,19 @@ public class Frete extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         kilometragem = new javax.swing.JLabel();
         valorPorPeso = new javax.swing.JLabel();
-        realizarFrete = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbEncomendas = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jbFiltrar = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jftDataFinal = new javax.swing.JFormattedTextField();
         jPanel7 = new javax.swing.JPanel();
         jcbDistribuidoraSaida = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jcbDistribuidoraDestino = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
+        realizarFrete = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Frete");
@@ -169,6 +180,8 @@ public class Frete extends javax.swing.JFrame {
 
         jtfCidadeDestinoCod.setEnabled(false);
 
+        jftDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -178,12 +191,16 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jtfCidadeOrigemCod, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(frete_jcombobox_origem_cidade)))
-                        .addGap(18, 18, 18))
+                                .addComponent(frete_jcombobox_origem_cidade)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jftDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -203,9 +220,12 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(frete_jcombobox_origem_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jftDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(frete_jcombobox_origem_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -221,6 +241,15 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jtfCidadeDestinoCod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
         );
+
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação"));
@@ -335,17 +364,6 @@ public class Frete extends javax.swing.JFrame {
         valorPorPeso.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         valorPorPeso.setText("R$ 0,00");
 
-        realizarFrete.setText("Realizar Frete");
-        realizarFrete.setEnabled(false);
-        realizarFrete.setMaximumSize(new java.awt.Dimension(99, 40));
-        realizarFrete.setMinimumSize(new java.awt.Dimension(99, 40));
-        realizarFrete.setPreferredSize(new java.awt.Dimension(99, 40));
-        realizarFrete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                realizarFreteActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -363,13 +381,9 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(valorPorPeso)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 622, Short.MAX_VALUE)
                 .addComponent(totalFreteCalculado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(490, 490, 490)
-                .addComponent(realizarFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,9 +394,7 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jLabel12)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(valorPorPeso)
-                .addGap(20, 20, 20)
-                .addComponent(realizarFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(valorPorPeso))
             .addComponent(totalFreteCalculado)
         );
 
@@ -391,18 +403,17 @@ public class Frete extends javax.swing.JFrame {
 
         jtbEncomendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "*", "#", "Emitente", "Destinatario", "Valor"
+                "*", "#", "Emitente", "Destinatario", "Valor", "Origem", "Destino"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Object.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -421,50 +432,67 @@ public class Frete extends javax.swing.JFrame {
             jtbEncomendas.getColumnModel().getColumn(2).setResizable(false);
             jtbEncomendas.getColumnModel().getColumn(3).setResizable(false);
             jtbEncomendas.getColumnModel().getColumn(4).setResizable(false);
+            jtbEncomendas.getColumnModel().getColumn(5).setResizable(false);
+            jtbEncomendas.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jButton2.setText("Remover");
-        jButton2.setPreferredSize(new java.awt.Dimension(100, 40));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jbFiltrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/funnel.png"))); // NOI18N
+        jbFiltrar.setText("Filtrar");
+        jbFiltrar.setMaximumSize(new java.awt.Dimension(150, 40));
+        jbFiltrar.setMinimumSize(new java.awt.Dimension(150, 40));
+        jbFiltrar.setPreferredSize(new java.awt.Dimension(150, 40));
+        jbFiltrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jbFiltrarActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Vincular Encomenda");
-        jButton1.setMaximumSize(new java.awt.Dimension(150, 40));
-        jButton1.setMinimumSize(new java.awt.Dimension(150, 40));
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel6.setText("Intervalo de:");
+
+        jLabel7.setText("à");
+
+        jftDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(79, 79, 79)
+                .addComponent(jLabel6)
+                .addGap(84, 84, 84)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1069, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7)
+                    .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Distribuidoras"));
@@ -488,13 +516,13 @@ public class Frete extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jcbDistribuidoraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jcbDistribuidoraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jcbDistribuidoraDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(0, 213, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jcbDistribuidoraDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -509,6 +537,17 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jcbDistribuidoraDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
+
+        realizarFrete.setText("Novo Frete");
+        realizarFrete.setEnabled(false);
+        realizarFrete.setMaximumSize(new java.awt.Dimension(99, 40));
+        realizarFrete.setMinimumSize(new java.awt.Dimension(99, 40));
+        realizarFrete.setPreferredSize(new java.awt.Dimension(99, 40));
+        realizarFrete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                realizarFreteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -526,6 +565,10 @@ public class Frete extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(502, 502, 502)
+                .addComponent(realizarFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -541,7 +584,9 @@ public class Frete extends javax.swing.JFrame {
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(realizarFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
 
         getContentPane().add(jPanel1, "card2");
@@ -571,10 +616,27 @@ public class Frete extends javax.swing.JFrame {
         Helper.ShowDialog(this,new FreteBuscarCidade(this, frete_jcombobox_destino_cidade, jtfCidadeDestinoCod, cidadeDestinoID));
     }//GEN-LAST:event_jButton8ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        Helper.ShowDialog(this, new FreteEncomenda(this, RealizarFrete, kilometragem, valorPorPeso, totalFreteCalculado, jtbEncomendas));
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jbFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFiltrarActionPerformed
+        List<JSONObject> encomendas;
+        DefaultTableModel modelo = (DefaultTableModel) jtbEncomendas.getModel();
+        modelo.setNumRows(0);
+        System.out.println("O conteudo do campo data inicial é! " + jftDataInicio.getText());
+        System.out.println("O conteudo do campo data inicial é! " + jftDataFinal.getText());
+        if(!jftDataInicio.getText().equals("")){
+            if(!jftDataFinal.getText().equals("")){
+                encomendas = new EncomendaController().GetByIntervaloData(jftDataInicio.getText(), jftDataFinal.getText());
+                encomendas.forEach((json) -> {
+                    modelo.addRow(new Object[]{
+                    String.valueOf(json.getInt("codigo")),
+                    json.getJSONObject("emitente").getString("nome")
+            });      
+        });
+        jtbEncomendas.setModel(modelo);
+        if(modelo.getRowCount() == 0)
+            JOptionPane.showMessageDialog(rootPane, "Nenhuma Encomenda encontrada!");
+            }
+        }       
+    }//GEN-LAST:event_jbFiltrarActionPerformed
 
     private void jcbDistribuidoraSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDistribuidoraSaidaActionPerformed
         // TODO add your handling code here:
@@ -582,11 +644,6 @@ public class Frete extends javax.swing.JFrame {
         RealizarFrete = false;
         realizarFrete.setEnabled(RealizarFrete);
     }//GEN-LAST:event_jcbDistribuidoraSaidaActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Util.Helper.RemoveRowJTable(jtbEncomendas);
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void realizarFreteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_realizarFreteActionPerformed
         // TODO add your handling code here:
@@ -629,8 +686,6 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JTextField frete_jcombobox_destino_cidade;
     private javax.swing.JTextField frete_jcombobox_origem_cidade;
     private javax.swing.JTextField frete_jtextfield_funcionario;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
@@ -641,6 +696,8 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -650,8 +707,11 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbFiltrar;
     private javax.swing.JComboBox<String> jcbDistribuidoraDestino;
     private javax.swing.JComboBox<String> jcbDistribuidoraSaida;
+    private javax.swing.JFormattedTextField jftDataFinal;
+    private javax.swing.JFormattedTextField jftDataInicio;
     private javax.swing.JTable jtbEncomendas;
     private javax.swing.JTable jtbFuncionariosResp;
     private javax.swing.JTextField jtfCidadeDestinoCod;

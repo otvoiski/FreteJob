@@ -10,8 +10,14 @@ import Controller.DistanciaController;
 import Util.Enums;
 import Util.Enums.TipoFreteEncomenda;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +26,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -53,6 +60,16 @@ public class Encomenda extends ObjectBase implements Serializable {
     @Column(name = "CodRastreio")
     private String codRastreio;
     private Util.Enums.StatusEncomenda Status;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dataCadastro;
+
+    public Date getDataCadastro() {
+        return dataCadastro;
+    }
+
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
+    }
 
 
     public Encomenda(){
@@ -236,6 +253,11 @@ public class Encomenda extends ObjectBase implements Serializable {
         if(jsonRetorno.has("status"))
             objEncomenda.setStatus(jsonRetorno.getEnum(Util.Enums.StatusEncomenda.class, "status"));
         
+
+        if(jsonRetorno.has("dataCadastro"))
+            objEncomenda.setDataCadastro(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataCadastro")));
+        
+
         return objEncomenda;
     }
 }

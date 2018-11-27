@@ -95,12 +95,11 @@ public class PessoaFisica extends Model.Pessoa{
             objPessoa.setRg(jsonRetorno.getString("rg"));
         if(jsonRetorno.has("sexo"))
             objPessoa.setSexo(jsonRetorno.getEnum(Util.Enums.Sexo.class, "sexo"));
-        try {
-            if(jsonRetorno.has("datanascimento"))
-                objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
-        } catch (ParseException ex) {
-            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+        if(jsonRetorno.has("datanascimento"))
+            objPessoa.setDataNascimento(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("datanascimento")));
+            
+
         return objPessoa;
         
     }

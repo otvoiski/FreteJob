@@ -88,12 +88,9 @@ public class Veiculo extends ObjectBase implements Serializable {
         if(jsonRetorno.has("placaIdentificacao"))
             objVeiculo.setPlacaIdentificacao(jsonRetorno.getString("placaIdentificacao"));
         
-        try {
-            if(jsonRetorno.has("dataFabricacao"))
-                objVeiculo.setDataFabricacao((new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("dataFabricacao"))));
-        } catch (ParseException ex) {
-            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if(jsonRetorno.has("dataFabricacao"))
+            objVeiculo.setDataFabricacao(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataFabricacao")));
+        
         if(jsonRetorno.has("capacidadeCarga"))
             objVeiculo.setCapacidadeCarga(jsonRetorno.getDouble("capacidadeCarga"));
         if(jsonRetorno.has("tipo"))

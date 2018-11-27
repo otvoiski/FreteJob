@@ -5,7 +5,12 @@
  */
 package Util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
@@ -75,5 +80,76 @@ public class Validacao
             JOptionPane.showMessageDialog(null, msg);
             throw new Error(msg,new Throwable(tabela.getName()+ " está vazio"));
         }
+    }
+    public static String converteDatePadraoBRToString(Date dataPadraoBrasileiro){
+        SimpleDateFormat formato =  new SimpleDateFormat("dd/MM/yyyy");
+        return formato.format(dataPadraoBrasileiro);
+    }
+    public static String converteDatePadraoAmericanoToString(Date dataPadraoAmericano){
+        SimpleDateFormat formato =  new SimpleDateFormat("yyyy-MM-dd");
+        return formato.format(dataPadraoAmericano);
+    }
+    public static Date converteStringToDate(String dataConverter) throws ParseException{
+        SimpleDateFormat formato =  new SimpleDateFormat("dd/MM/yyyy");
+        return formato.parse(dataConverter);
+    }
+    public static Date converteDatePadraoBrParaAmericano(Date dataConverter){
+        String dataString = converteDatePadraoBRToString(dataConverter);
+        String dd = dataString.substring(0, 2);
+        String mm = dataString.substring(3, 5);
+        String yyyy = dataString.substring(6, 10); 
+        String dataPadraoAmericano = yyyy + "-" + mm + "-" + dd ;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date data = null;
+        try {
+            data = formato.parse(dataPadraoAmericano);
+        } catch (ParseException ex) {
+            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return data;
+    }
+    public static Date converteDatePadraoBrParaAmericano(String dataConverter){
+        String dd = dataConverter.substring(0, 2);
+        String mm = dataConverter.substring(3, 5);
+        String yyyy = dataConverter.substring(6, 10); 
+        String dataPadraoAmericano = yyyy + "-" + mm + "-" + dd ;
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        Date data = null;
+        try {
+            data = formato.parse(dataPadraoAmericano);
+        } catch (ParseException ex) {
+            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return data;
+    }
+    public static Date converteDatePadraoAmericanoParaBr(Date dataConverter){
+        String dataString = converteDatePadraoAmericanoToString(dataConverter);
+        String dd = dataString.substring(8, 10);
+        String mm = dataString.substring(5, 7);
+        String yyyy = dataString.substring(0, 4); 
+        String dataPadraoBR = dd + "/" + mm + "/" + yyyy ;
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+            data = formato.parse(dataPadraoBR);
+        } catch (ParseException ex) {
+            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return data;
+    }
+     public static Date converteDatePadraoAmericanoParaBr(String dataConverter){
+        String dd = dataConverter.substring(8, 10);
+        String mm = dataConverter.substring(5, 7);
+        String yyyy = dataConverter.substring(0, 4); 
+        String dataPadraoBR = dd + "/" + mm + "/" + yyyy ;
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        Date data = null;
+        try {
+            data = formato.parse(dataPadraoBR);
+        } catch (ParseException ex) {
+            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return data;
     }
 }

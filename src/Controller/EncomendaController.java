@@ -7,12 +7,9 @@ package Controller;
 
 import Base.ControllerBase;
 import Base.Persistencia;
-import DAO.EncomendaDAO;
-import Model.Cidade;
 import Model.Encomenda;
-import Model.PessoaFisica;
-import Model.PessoaJuridica;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONObject;
 
@@ -39,6 +36,20 @@ public class EncomendaController extends ControllerBase {
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((funcionario) -> {
             listRetorno.add(new JSONObject(funcionario));
+        });
+        return listRetorno;
+    }
+    public List<JSONObject> GetByIntervaloData(String dataInicial, String dataFinal)
+    {
+        String data1 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataInicial));
+        String data2 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataFinal));
+        
+        System.out.println("Data Inicio " +data1);
+        System.out.println("Data Fim " +data2);
+        List<Encomenda> list = new Business.EncomendaBusiness().GetByIntervaloData(dataInicial,dataFinal);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((encomenda) -> {
+            listRetorno.add(new JSONObject(encomenda));
         });
         return listRetorno;
     }

@@ -12,7 +12,11 @@ import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
@@ -29,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -109,6 +114,7 @@ public class Encomenda extends javax.swing.JFrame {
         camposAtivar.add(jtfNumeroDestino);
         camposAtivar.add(jtfComplementoDestino);
         camposAtivar.add(jtfCidadeDestinoCodigo);
+        camposAtivar.add((JTextField)jftDataCadastro);
         tratarEventos.setCampos(camposAtivar);
         tratarEventos.setTabela(jtbItensEncomenda);
         
@@ -206,6 +212,8 @@ public class Encomenda extends javax.swing.JFrame {
         jbExluir = new javax.swing.JButton();
         jtfCodigo = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
+        jftDataCadastro = new javax.swing.JFormattedTextField();
+        jLabel20 = new javax.swing.JLabel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -845,7 +853,24 @@ public class Encomenda extends javax.swing.JFrame {
 
         jLabel14.setText("Codigo:");
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(20, 0, 37, 14);
+        jLabel14.setBounds(20, 0, 37, 20);
+
+        jftDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jftDataCadastro.setEnabled(false);
+        jPanel1.add(jftDataCadastro);
+        jftDataCadastro.setBounds(390, 10, 80, 20);
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel20.setText("Data de cadastro:");
+        jPanel1.add(jLabel20);
+        jLabel20.setBounds(300, 10, 90, 20);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 940, 600);
@@ -888,6 +913,9 @@ public class Encomenda extends javax.swing.JFrame {
         tratarEventos.ativaGravar(true);
         InitCamposBusca(true);
         ModalidadeFrete.clearSelection();
+        Calendar cal = new GregorianCalendar();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        jftDataCadastro.setText(formatador.format(cal.getTime()));
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -1016,6 +1044,7 @@ public class Encomenda extends javax.swing.JFrame {
             }else
                 jsonPersistencia.put("status", Util.Enums.StatusEncomenda.Entregue);
             
+            jsonPersistencia.put("dataCadastro", jftDataCadastro.getText());
             /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
             EncomendaController encomendaCntrl = new EncomendaController();
             if(encomendaCntrl.Save(jsonPersistencia)){
@@ -1307,6 +1336,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1342,6 +1372,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JButton jbExluir;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
+    private javax.swing.JFormattedTextField jftDataCadastro;
     private javax.swing.JLabel jlStatusEncomenda;
     private javax.swing.JLabel jlValorTotal;
     private javax.swing.JRadioButton jrFreteNormal;
