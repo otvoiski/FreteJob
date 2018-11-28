@@ -24,7 +24,8 @@ import java.util.List;
  */
 public class Frete extends javax.swing.JFrame {
     private JFrame backWindows;
-    private HashMap<String, Integer> distribuidoras;
+    private HashMap<String, Integer> distsAtendCidadeSaida;
+    private HashMap<String, Integer> distsAtendCidadeDestino;
     private int funcionarioID;
     private int cidadeOrigemID;
     private int cidadeDestinoID;
@@ -45,16 +46,24 @@ public class Frete extends javax.swing.JFrame {
             combo.addItem(j.get(name));
         });
     }
-    private void Init(){
-        distribuidoras = new HashMap<>();
-        
-        List<JSONObject> dist = new Controller.DistribuidoraController().GetAll();
-        dist.forEach((j) -> {
-            distribuidoras.put(j.getString("RazaoSocial"),j.getInt("codigo"));
+    private void initCombosDistribuidoras(){
+        List<JSONObject> distSaida = new Controller.DistribuidoraController().GetByCidadeAtende(jtfCidadeOrigemCod.getText());
+        List<JSONObject> distDestino = new Controller.DistribuidoraController().GetByCidadeAtende(jtfCidadeDestinoCod.getText());
+        distSaida.forEach((j) -> {
+            distsAtendCidadeSaida.put(j.getString("razaoSocial"),j.getInt("codigo"));
         });
-        PreencheComboBox(dist, jcbDistribuidoraSaida,"RazaoSocial");
-
         
+        distDestino.forEach((j) -> {
+            distsAtendCidadeDestino.put(j.getString("razaoSocial"),j.getInt("codigo"));
+        });
+        PreencheComboBox(distSaida, jcbDistribuidoraSaida,"razaoSocial");
+        PreencheComboBox(distDestino, jcbDistribuidoraDestino,"razaoSocial");
+    }
+
+    private void Init(){
+        distsAtendCidadeSaida = new HashMap<>();
+        distsAtendCidadeDestino = new HashMap<>();
+
         Object[][] rowData = {};
         Object[] columnNames = { "", "#","Emitente","Destinatario","Valor","Origem","Destino"};
 
@@ -110,7 +119,7 @@ public class Frete extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         frete_jtextfield_funcionario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
+        jbBuscarFuncionario = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtbFuncionariosResp = new javax.swing.JTable();
@@ -146,6 +155,8 @@ public class Frete extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Frete");
+        setMinimumSize(new java.awt.Dimension(1130, 710));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -217,7 +228,7 @@ public class Frete extends javax.swing.JFrame {
                                 .addComponent(frete_jcombobox_origem_cidade)
                                 .addGap(10, 10, 10)))
                         .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,10 +263,10 @@ public class Frete extends javax.swing.JFrame {
 
         jLabel4.setText("Funcionario Responsavel");
 
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscarFuncionario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscarFuncionario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                jbBuscarFuncionarioActionPerformed(evt);
             }
         });
 
@@ -264,10 +275,7 @@ public class Frete extends javax.swing.JFrame {
 
         jtbFuncionariosResp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "#", "Nome", "Distribuidora"
@@ -323,7 +331,7 @@ public class Frete extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(frete_jtextfield_funcionario, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jbBuscarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -333,7 +341,7 @@ public class Frete extends javax.swing.JFrame {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5)
+                    .addComponent(jbBuscarFuncionario)
                     .addComponent(frete_jtextfield_funcionario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -550,21 +558,20 @@ public class Frete extends javax.swing.JFrame {
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jLabel8))
-                    .addComponent(jtfVeiculoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfVeiculoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
-                    .addComponent(jtfVeiculoDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfVeiculoDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jrbTerrestre)
                     .addComponent(jrbAeroViario)
                     .addComponent(jrbAquatico))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -606,9 +613,7 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jcbDistribuidoraSaida, 0, 415, Short.MAX_VALUE)
                     .addComponent(jcbDistribuidoraDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -645,9 +650,9 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 457, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -666,11 +671,11 @@ public class Frete extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(1, 1, 1)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(realizarFrete, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
         );
@@ -686,11 +691,12 @@ public class Frete extends javax.swing.JFrame {
         Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:        
-        String selecionado = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraSaida.getSelectedIndex());      
-        Helper.ShowDialog(this,new FreteBuscarFuncionario(this,frete_jtextfield_funcionario, funcionarioID, distribuidoras.get(selecionado)));
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void jbBuscarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarFuncionarioActionPerformed
+        //initCombosDistribuidoras();
+        String distSaidaNome = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraSaida.getSelectedIndex());      
+        String distDestinoNome = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraDestino.getSelectedIndex());
+        Helper.ShowDialog(this,new FreteBuscarFuncionario(this,jtbFuncionariosResp,distSaidaNome,distDestinoNome, distsAtendCidadeDestino,distsAtendCidadeSaida));
+    }//GEN-LAST:event_jbBuscarFuncionarioActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:        
@@ -731,6 +737,9 @@ public class Frete extends javax.swing.JFrame {
                     objetoAux[4] = Util.Helper.GetValorToReal(encomenda.getDouble("valorCobrado"));
                     objetoAux[5] = encomenda.getJSONObject("endColeta").getJSONObject("cidade").getString("nome");
                     objetoAux[6] = encomenda.getJSONObject("endDestino").getJSONObject("cidade").getString("nome");
+
+
+                   
                     
                     modelo.addRow(objetoAux);
                 }
@@ -794,7 +803,6 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JTextField frete_jcombobox_destino_cidade;
     private javax.swing.JTextField frete_jcombobox_origem_cidade;
     private javax.swing.JTextField frete_jtextfield_funcionario;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
@@ -820,6 +828,7 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbBuscarFuncionario;
     private javax.swing.JButton jbFiltrar;
     private javax.swing.JComboBox<String> jcbDistribuidoraDestino;
     private javax.swing.JComboBox<String> jcbDistribuidoraSaida;

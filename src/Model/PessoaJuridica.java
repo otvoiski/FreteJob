@@ -16,7 +16,7 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
-@Table(name = "PessoJuridica")
+@Table(name = "PessoaJuridica")
 public class PessoaJuridica extends Pessoa{
     @Column(nullable = false)
     private String Cnpj;
