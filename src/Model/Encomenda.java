@@ -186,7 +186,8 @@ public class Encomenda extends ObjectBase implements Serializable {
              multipModalFrete = 1.2;
         else multipModalFrete = 1.5;
         
-        this.valorCobrado = multipModalFrete*distanciaPercorrer*multipPeso*0.02;
+        this.valorCobrado = multipModalFrete*distanciaPercorrer*multipPeso;
+        this.valorCobrado+= (valorCobrado*2)/100;
                 
     }
     public void gerarCodRastreamento(){

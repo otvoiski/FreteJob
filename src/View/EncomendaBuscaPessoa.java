@@ -261,7 +261,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
 
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Coleta) == 0) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Coleta) == 0 ||jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0 ) {
                                 viewEncomenda.getJtfRua().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairro().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCep().setText(jsonAux.getJSONObject(i).getString("cep"));
@@ -282,7 +282,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
                     if (clienteSelecionado.has("enderecos")) {
                         jsonAux = clienteSelecionado.getJSONArray("enderecos");
                         for (int i = 0; i < jsonAux.length(); i++) {
-                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Entrega) == 0) {
+                            if (jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Entrega) == 0||jsonAux.getJSONObject(i).getEnum(Util.Enums.TipoEndereco.class, "tipo").compareTo(Enums.TipoEndereco.Principal) == 0 ) {
                                 viewEncomenda.getJtfRuaDestino().setText(jsonAux.getJSONObject(i).getString("rua"));
                                 viewEncomenda.getJtfBairroDestino().setText(jsonAux.getJSONObject(i).getString("bairro"));
                                 viewEncomenda.getJtfCepDestino().setText(jsonAux.getJSONObject(i).getString("cep"));
