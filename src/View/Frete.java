@@ -47,7 +47,6 @@ public class Frete extends javax.swing.JFrame {
     }
     private void Init(){
         distribuidoras = new HashMap<>();
-        jftDataInicio = new javax.swing.JFormattedTextField();
         
         List<JSONObject> dist = new Controller.DistribuidoraController().GetAll();
         dist.forEach((j) -> {
@@ -107,7 +106,6 @@ public class Frete extends javax.swing.JFrame {
         jButton8 = new javax.swing.JButton();
         jtfCidadeOrigemCod = new javax.swing.JTextField();
         jtfCidadeDestinoCod = new javax.swing.JTextField();
-        jftDataInicio = new javax.swing.JFormattedTextField();
         jPanel3 = new javax.swing.JPanel();
         frete_jtextfield_funcionario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -128,6 +126,7 @@ public class Frete extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jftDataFinal = new javax.swing.JFormattedTextField();
+        jftDataInicial = new javax.swing.JFormattedTextField();
         jPanel7 = new javax.swing.JPanel();
         jcbDistribuidoraSaida = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
@@ -180,8 +179,6 @@ public class Frete extends javax.swing.JFrame {
 
         jtfCidadeDestinoCod.setEnabled(false);
 
-        jftDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -191,16 +188,12 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jtfCidadeOrigemCod, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(frete_jcombobox_origem_cidade)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jftDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(63, 63, 63))))
+                                .addComponent(frete_jcombobox_origem_cidade)))
+                        .addGap(18, 18, 18))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -220,12 +213,9 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jftDataInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(frete_jcombobox_origem_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(frete_jcombobox_origem_cidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -241,15 +231,6 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jtfCidadeDestinoCod, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
         );
-
-        try {
-            MaskFormatter mascara = new MaskFormatter("##/##/####");
-            mascara.setPlaceholderCharacter('_');
-            jftDataInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
-
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação"));
@@ -381,7 +362,7 @@ public class Frete extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(valorPorPeso)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 622, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 617, Short.MAX_VALUE)
                 .addComponent(totalFreteCalculado, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(21, 21, 21))
         );
@@ -453,6 +434,8 @@ public class Frete extends javax.swing.JFrame {
 
         jftDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
+        jftDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -460,7 +443,9 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(79, 79, 79)
                 .addComponent(jLabel6)
-                .addGap(84, 84, 84)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jftDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -469,7 +454,7 @@ public class Frete extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1069, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1064, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -480,7 +465,8 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jftDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -489,6 +475,14 @@ public class Frete extends javax.swing.JFrame {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
             mascara.setPlaceholderCharacter('_');
             jftDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
 
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
@@ -516,14 +510,13 @@ public class Frete extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3)
-                    .addComponent(jcbDistribuidoraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jcbDistribuidoraSaida, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addComponent(jLabel5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jcbDistribuidoraDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addContainerGap(177, Short.MAX_VALUE))
+                    .addComponent(jcbDistribuidoraDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -618,24 +611,42 @@ public class Frete extends javax.swing.JFrame {
 
     private void jbFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFiltrarActionPerformed
         List<JSONObject> encomendas;
+        JSONObject jsonAux, encomenda;
         DefaultTableModel modelo = (DefaultTableModel) jtbEncomendas.getModel();
+        Object[] objetoAux;
         modelo.setNumRows(0);
-        System.out.println("O conteudo do campo data inicial é! " + jftDataInicio.getText());
-        System.out.println("O conteudo do campo data inicial é! " + jftDataFinal.getText());
-        if(!jftDataInicio.getText().equals("")){
+       if(!jftDataInicial.getText().equals("")){
             if(!jftDataFinal.getText().equals("")){
-                encomendas = new EncomendaController().GetByIntervaloData(jftDataInicio.getText(), jftDataFinal.getText());
-                encomendas.forEach((json) -> {
-                    modelo.addRow(new Object[]{
-                    String.valueOf(json.getInt("codigo")),
-                    json.getJSONObject("emitente").getString("nome")
-            });      
-        });
-        jtbEncomendas.setModel(modelo);
-        if(modelo.getRowCount() == 0)
-            JOptionPane.showMessageDialog(rootPane, "Nenhuma Encomenda encontrada!");
+                encomendas = new EncomendaController().GetByIntervaloData(jftDataInicial.getText(), jftDataFinal.getText());
+                
+                for(int i = 0; i<encomendas.size(); i++){
+                    objetoAux =  new Object[modelo.getColumnCount()];
+                    encomenda = encomendas.get(i);
+                    objetoAux[1] = encomenda.getInt("codigo");
+                    jsonAux = encomenda.getJSONObject("emitente");
+                    if(jsonAux.has("nomeFantasia")){
+                       objetoAux[2] = jsonAux.getString("nomeFantasia");
+                    }else
+                        objetoAux[2] = jsonAux.getString("nome");
+                    
+                    jsonAux = encomenda.getJSONObject("destinatario");
+                    if(jsonAux.has("nomeFantasia")){
+                       objetoAux[3] = jsonAux.getString("nomeFantasia");
+                    }else
+                        objetoAux[3] = jsonAux.getString("nome");
+                    
+                    objetoAux[4] = encomenda.getDouble("valorCobrado");
+                    objetoAux[5] = encomenda.getJSONObject("endColeta").getJSONObject("cidade").getString("nome");
+                    objetoAux[6] = encomenda.getJSONObject("endDestino").getJSONObject("cidade").getString("nome");
+                    
+                    modelo.addRow(objetoAux);
+                }
+
+                jtbEncomendas.setModel(modelo);
+                if(modelo.getRowCount() == 0)
+                    JOptionPane.showMessageDialog(rootPane, "Nenhuma Encomenda encontrada!");
             }
-        }       
+       }     
     }//GEN-LAST:event_jbFiltrarActionPerformed
 
     private void jcbDistribuidoraSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDistribuidoraSaidaActionPerformed
@@ -711,7 +722,7 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jcbDistribuidoraDestino;
     private javax.swing.JComboBox<String> jcbDistribuidoraSaida;
     private javax.swing.JFormattedTextField jftDataFinal;
-    private javax.swing.JFormattedTextField jftDataInicio;
+    private javax.swing.JFormattedTextField jftDataInicial;
     private javax.swing.JTable jtbEncomendas;
     private javax.swing.JTable jtbFuncionariosResp;
     private javax.swing.JTextField jtfCidadeDestinoCod;

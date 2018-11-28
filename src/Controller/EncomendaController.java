@@ -43,10 +43,7 @@ public class EncomendaController extends ControllerBase {
     {
         String data1 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataInicial));
         String data2 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataFinal));
-        
-        System.out.println("Data Inicio " +data1);
-        System.out.println("Data Fim " +data2);
-        List<Encomenda> list = new Business.EncomendaBusiness().GetByIntervaloData(dataInicial,dataFinal);
+        List<Encomenda> list = new Business.EncomendaBusiness().GetByIntervaloData(data1,data2);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((encomenda) -> {
             listRetorno.add(new JSONObject(encomenda));
