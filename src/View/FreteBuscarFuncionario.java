@@ -49,7 +49,9 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         
         jcbDistrBuscar.addItem("");
         jcbDistrBuscar.addItem(distSaidaNome);
-        jcbDistrBuscar.addItem(distDestinoNome);
+        if(!distDestinoNome.equals(distSaidaNome))
+            jcbDistrBuscar.addItem(distDestinoNome);
+        
         jcbDistrBuscar.setSelectedIndex(0);
         refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAllByDistribuidoras(CodigodistSaida,CodigodistDestino));
     }
@@ -153,7 +155,7 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -210,15 +212,25 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         
         jTable.setModel(table);
     }
-    
+    //retorna se um determinado codigo já se encontra inserido na tabela(o teste será feito na primeira coluna)
+    private boolean consultarCodigoTabela(String Codigo, JTable tabela){
+        
+        for(int i = 0; i < tabela.getRowCount(); i++){
+            if(String.valueOf(tabela.getModel().getValueAt(i, 0)).equals(Codigo))
+                return true;
+        }
+        return false;
+    }
     private void jbSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSelecionarActionPerformed
         DefaultTableModel modelFuncsBusca = (DefaultTableModel) jtbFuncionariosFiltrados.getModel();
         DefaultTableModel modelFuncsResultado = (DefaultTableModel) jtbFuncionarios.getModel();
         if(jtbFuncionarios != null){
             int[] linhasSelecionadas = jtbFuncionariosFiltrados.getSelectedRows();
-            for(int i = 0; i< linhasSelecionadas.length; i++){
-                Object[] obj = {modelFuncsBusca.getValueAt(linhasSelecionadas[i], 0),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 1),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 2)};
-                modelFuncsResultado.addRow(obj);
+            for(int i = 0; i< linhasSelecionadas.length; i++){ 
+                if(!consultarCodigoTabela(String.valueOf(modelFuncsBusca.getValueAt(linhasSelecionadas[i], 0)), jtbFuncionarios)){
+                    Object[] obj = {modelFuncsBusca.getValueAt(linhasSelecionadas[i], 0),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 1),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 2)};
+                    modelFuncsResultado.addRow(obj);
+                }
             }
         }
         jtbFuncionarios.setModel(modelFuncsResultado);
@@ -242,6 +254,7 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         //refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
         if (jtfFuncionarioNome.getText().isEmpty() && jcbDistrBuscar.getSelectedIndex() == 0) {
             //se nao filtro por nome nem por distribuidora, todos das duas distribuidoras são buscados
+            System.out.println("Entrou no IF");
             refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAllByDistribuidoras(CodigodistSaida,CodigodistDestino));//caso contrário, das duas distribuidoras que forem passadas no segundo construtor
         }else if(jtfFuncionarioNome.getText().isEmpty() && jcbDistrBuscar.getSelectedIndex() != 0){
             if(jcbDistrBuscar.getSelectedIndex() == 1)
