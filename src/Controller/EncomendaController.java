@@ -50,4 +50,7 @@ public class EncomendaController extends ControllerBase {
         });
         return listRetorno;
     }
+    public List<Encomenda> GetByCodigoList(ArrayList<Integer> codigos){
+        return new Business.EncomendaBusiness().GertByCodigoList(codigos);
+    }
 }

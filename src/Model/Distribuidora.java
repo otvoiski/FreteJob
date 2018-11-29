@@ -85,9 +85,12 @@ public class Distribuidora extends Pessoa{
        Distribuidora objDistribuidora = new Distribuidora();
        JSONArray arrayAux;
        objDistribuidora.preencheAtributosRetorno(jsonRetorno);
-       objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
-       objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
-       objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
+       if(jsonRetorno.has("Cnpj"))
+            objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
+       if(jsonRetorno.has("RazaoSocial"))
+            objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
+       if(jsonRetorno.has("NomeFantasia"))
+            objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
        if(jsonRetorno.has("CidadesAtuacao")){
             arrayAux = jsonRetorno.getJSONArray("CidadesAtuacao");
             for(int i = 0; i< arrayAux.length(); i++)

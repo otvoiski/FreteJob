@@ -122,7 +122,6 @@ public class Validacao
         String dataPadraoAmericano = yyyy + "-" + mm + "-" + dd ;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date data = null;
-        System.out.println("DATA CHEGANDO PARA CONVERSAO " + dataConverter);
         try {
             data = formato.parse(dataPadraoAmericano);
         } catch (ParseException ex) {

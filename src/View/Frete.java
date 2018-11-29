@@ -6,8 +6,11 @@
 package View;
 
 import Controller.EncomendaController;
+import Controller.FreteController;
+import Util.Error;
 import Util.Helper;
 import Util.TelaHandler;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,6 +20,9 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONArray;
 
 /**
  *
@@ -43,12 +49,28 @@ public class Frete extends javax.swing.JFrame {
         this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
         Init();
     }
+    private void inicializaCadastro(boolean iniciar){
+        jbBuscaCidadeDestino.setEnabled(iniciar);
+        jbBuscaCidadeOrigem.setEnabled(iniciar);
+        jbBuscarFuncionario.setEnabled(iniciar);
+        jbFiltrarEncomendas.setEnabled(iniciar);
+        jbCarregarDistribuidoras.setEnabled(iniciar);
+        jbLimparFuncionarios.setEnabled(iniciar);
+        limparFuncionarios();
+    }
     private void PreencheComboBox(List<JSONObject> list, JComboBox combo, String name){
         list.forEach((j) -> {
             combo.addItem(j.get(name));
         });
     }
-    private void initCombosDistribuidoras(JComboBox combo){
+    private void zeraConteudoCombos(){
+        jcbDistribuidoraDestino.removeAllItems();
+        jcbDistribuidoraSaida.removeAllItems();
+    }
+    private void limparFuncionarios(){
+        jtbFuncionariosResp.removeAll();
+    }
+    private void initCombosDistribuidoras(){
         List<JSONObject> distSaida = new Controller.DistribuidoraController().GetByCidadeAtende(jtfCidadeOrigemCod.getText());
         List<JSONObject> distDestino = new Controller.DistribuidoraController().GetByCidadeAtende(jtfCidadeDestinoCod.getText());
         distSaida.forEach((j) -> {
@@ -79,8 +101,7 @@ public class Frete extends javax.swing.JFrame {
                 if (column > 0) return false;   
                 return super.isCellEditable(row, column); 
             }
-            
-        };   
+        };  
         jtbEncomendas.setModel(model);
         TableColumnModel columnModelEncomendas = jtbEncomendas.getColumnModel();
         columnModelEncomendas.getColumn(0).setPreferredWidth(15);
@@ -114,9 +135,9 @@ public class Frete extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jtfCidadeOrigemNome = new javax.swing.JTextField();
-        jButton7 = new javax.swing.JButton();
+        jbBuscaCidadeOrigem = new javax.swing.JButton();
         jtfCidadeDestinoNome = new javax.swing.JTextField();
-        jButton8 = new javax.swing.JButton();
+        jbBuscaCidadeDestino = new javax.swing.JButton();
         jtfCidadeOrigemCod = new javax.swing.JTextField();
         jtfCidadeDestinoCod = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -124,10 +145,12 @@ public class Frete extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jtbFuncionariosResp = new javax.swing.JTable();
         jbBuscarFuncionario = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jbLimparFuncionarios = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtbEncomendas = new javax.swing.JTable();
-        jbFiltrar = new javax.swing.JButton();
+        jbFiltrarEncomendas = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jftDataFinal = new javax.swing.JFormattedTextField();
@@ -145,12 +168,13 @@ public class Frete extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jtfVeiculoCodigo = new javax.swing.JTextField();
-        jtfCapacidadeVeiculo = new javax.swing.JTextField();
+        jtfVeiculoCapacidade = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jbBuscaVeiculo = new javax.swing.JButton();
         jtfVeiculoPlaca = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
         jbCarregarDistribuidoras = new javax.swing.JButton();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
@@ -176,7 +200,7 @@ public class Frete extends javax.swing.JFrame {
         jPanel1.setRequestFocusEnabled(false);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Cidades"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Cidades"));
 
         jLabel1.setText("Origem");
 
@@ -186,10 +210,11 @@ public class Frete extends javax.swing.JFrame {
         jtfCidadeOrigemNome.setEnabled(false);
         jtfCidadeOrigemNome.setName("Origem"); // NOI18N
 
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscaCidadeOrigem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaCidadeOrigem.setEnabled(false);
+        jbBuscaCidadeOrigem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                jbBuscaCidadeOrigemActionPerformed(evt);
             }
         });
 
@@ -197,10 +222,11 @@ public class Frete extends javax.swing.JFrame {
         jtfCidadeDestinoNome.setEnabled(false);
         jtfCidadeDestinoNome.setName("Destino"); // NOI18N
 
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscaCidadeDestino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscaCidadeDestino.setEnabled(false);
+        jbBuscaCidadeDestino.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                jbBuscaCidadeDestinoActionPerformed(evt);
             }
         });
 
@@ -222,7 +248,7 @@ public class Frete extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jtfCidadeDestinoNome, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbBuscaCidadeDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -233,14 +259,14 @@ public class Frete extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jtfCidadeOrigemNome)
                                 .addGap(10, 10, 10)))
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(jbBuscaCidadeOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscaCidadeOrigem, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -251,7 +277,7 @@ public class Frete extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(jbBuscaCidadeDestino, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                         .addComponent(jtfCidadeDestinoNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -261,7 +287,7 @@ public class Frete extends javax.swing.JFrame {
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Informação"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Informação"));
 
         jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Funcionarios Responsáveis"));
@@ -290,6 +316,16 @@ public class Frete extends javax.swing.JFrame {
             }
         });
         jtbFuncionariosResp.getTableHeader().setReorderingAllowed(false);
+        jtbFuncionariosResp.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jtbFuncionariosRespPropertyChange(evt);
+            }
+        });
+        jtbFuncionariosResp.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jtbFuncionariosRespKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jtbFuncionariosResp);
         if (jtbFuncionariosResp.getColumnModel().getColumnCount() > 0) {
             jtbFuncionariosResp.getColumnModel().getColumn(0).setResizable(false);
@@ -306,13 +342,27 @@ public class Frete extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Obs: Pressione delete em uma linha selecionada para excluir um funcionário");
+
+        jbLimparFuncionarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/wiping-swipe-for-floors.png"))); // NOI18N
+        jbLimparFuncionarios.setText("Limpar");
+        jbLimparFuncionarios.setEnabled(false);
+        jbLimparFuncionarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimparFuncionariosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE)
+            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jbLimparFuncionarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbBuscarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -320,7 +370,11 @@ public class Frete extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jbBuscarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jbBuscarFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addComponent(jbLimparFuncionarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -336,7 +390,7 @@ public class Frete extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Encomendas"));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Encomendas"));
 
         jtbEncomendas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -373,14 +427,15 @@ public class Frete extends javax.swing.JFrame {
             jtbEncomendas.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        jbFiltrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/funnel.png"))); // NOI18N
-        jbFiltrar.setText("Filtrar");
-        jbFiltrar.setMaximumSize(new java.awt.Dimension(150, 40));
-        jbFiltrar.setMinimumSize(new java.awt.Dimension(150, 40));
-        jbFiltrar.setPreferredSize(new java.awt.Dimension(150, 40));
-        jbFiltrar.addActionListener(new java.awt.event.ActionListener() {
+        jbFiltrarEncomendas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/funnel.png"))); // NOI18N
+        jbFiltrarEncomendas.setText("Filtrar");
+        jbFiltrarEncomendas.setEnabled(false);
+        jbFiltrarEncomendas.setMaximumSize(new java.awt.Dimension(150, 40));
+        jbFiltrarEncomendas.setMinimumSize(new java.awt.Dimension(150, 40));
+        jbFiltrarEncomendas.setPreferredSize(new java.awt.Dimension(150, 40));
+        jbFiltrarEncomendas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbFiltrarActionPerformed(evt);
+                jbFiltrarEncomendasActionPerformed(evt);
             }
         });
 
@@ -464,7 +519,7 @@ public class Frete extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jbFiltrarEncomendas, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -475,7 +530,7 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7)
                     .addComponent(jftDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbFiltrarEncomendas, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jftDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,7 +557,7 @@ public class Frete extends javax.swing.JFrame {
         }
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Distribuidoras/Veiculo de transporte"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Distribuidoras/Veiculo de transporte"));
 
         jcbDistribuidoraSaida.setName("Distribuidora"); // NOI18N
         jcbDistribuidoraSaida.addActionListener(new java.awt.event.ActionListener() {
@@ -520,7 +575,7 @@ public class Frete extends javax.swing.JFrame {
 
         jtfVeiculoCodigo.setEnabled(false);
 
-        jtfCapacidadeVeiculo.setEnabled(false);
+        jtfVeiculoCapacidade.setEnabled(false);
 
         jLabel8.setText("Codigo");
 
@@ -528,6 +583,7 @@ public class Frete extends javax.swing.JFrame {
 
         jbBuscaVeiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/delivery-truck.png"))); // NOI18N
         jbBuscaVeiculo.setText("Filtrar Veiculo");
+        jbBuscaVeiculo.setEnabled(false);
         jbBuscaVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbBuscaVeiculoActionPerformed(evt);
@@ -537,6 +593,8 @@ public class Frete extends javax.swing.JFrame {
         jtfVeiculoPlaca.setEnabled(false);
 
         jLabel10.setText("Capacidade de carga");
+
+        jLabel13.setText("KG");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -548,16 +606,17 @@ public class Frete extends javax.swing.JFrame {
                     .addComponent(jtfVeiculoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jtfVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel10)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel10))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jtfVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtfCapacidadeVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jtfVeiculoCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel13)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbBuscaVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -571,8 +630,9 @@ public class Frete extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jtfVeiculoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfCapacidadeVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jtfVeiculoCapacidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfVeiculoPlaca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
@@ -582,6 +642,7 @@ public class Frete extends javax.swing.JFrame {
 
         jbCarregarDistribuidoras.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/funnel.png"))); // NOI18N
         jbCarregarDistribuidoras.setText("Carregar");
+        jbCarregarDistribuidoras.setEnabled(false);
         jbCarregarDistribuidoras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCarregarDistribuidorasActionPerformed(evt);
@@ -737,29 +798,37 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
     private void jbBuscarFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarFuncionarioActionPerformed
-        String distSaidaNome = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraSaida.getSelectedIndex());      
-        String distDestinoNome = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraDestino.getSelectedIndex());
-        Helper.ShowDialog(this,new FreteBuscarFuncionario(this,jtbFuncionariosResp,distSaidaNome,distDestinoNome, distsAtendCidadeSaida, distsAtendCidadeDestino));
+        if(jcbDistribuidoraDestino.getItemCount() == 0 && jcbDistribuidoraSaida.getItemCount() == 0){
+            JOptionPane.showMessageDialog(null, "Primeiro filtre as distribuidoras!");
+        }else{
+            String distSaidaNome = jcbDistribuidoraSaida.getItemAt(jcbDistribuidoraSaida.getSelectedIndex());      
+            String distDestinoNome = jcbDistribuidoraDestino.getItemAt(jcbDistribuidoraDestino.getSelectedIndex());
+            Helper.ShowDialog(this,new FreteBuscarFuncionario(this,jtbFuncionariosResp,distSaidaNome,distDestinoNome, distsAtendCidadeSaida, distsAtendCidadeDestino));
+        }
+            
+       
     }//GEN-LAST:event_jbBuscarFuncionarioActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:        
+    private void jbBuscaCidadeOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeOrigemActionPerformed
+        limparFuncionarios();
+        zeraConteudoCombos();
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeOrigemNome, jtfCidadeOrigemCod, cidadeOrigemID));
-    }//GEN-LAST:event_jButton7ActionPerformed
+    }//GEN-LAST:event_jbBuscaCidadeOrigemActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+    private void jbBuscaCidadeDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeDestinoActionPerformed
+        limparFuncionarios();
+        zeraConteudoCombos();
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeDestinoNome, jtfCidadeDestinoCod, cidadeDestinoID));
-    }//GEN-LAST:event_jButton8ActionPerformed
+    }//GEN-LAST:event_jbBuscaCidadeDestinoActionPerformed
 
-    private void jbFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFiltrarActionPerformed
+    private void jbFiltrarEncomendasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFiltrarEncomendasActionPerformed
         List<JSONObject> encomendas;
         JSONObject jsonAux, encomenda;
         DefaultTableModel modelo = (DefaultTableModel) jtbEncomendas.getModel();
         Object[] objetoAux;
         modelo.setNumRows(0);
-       if(!jftDataInicial.getText().equals("")){
-            if(!jftDataFinal.getText().equals("")){
+       if(!jftDataInicial.getText().equals("__/__/____")){
+            if(!jftDataFinal.getText().equals("__/__/____")){
                 encomendas = new EncomendaController().GetByIntervaloData(jftDataInicial.getText(), jftDataFinal.getText());
                 for(int i = 0; i<encomendas.size(); i++){
                     objetoAux =  new Object[modelo.getColumnCount()];
@@ -781,9 +850,6 @@ public class Frete extends javax.swing.JFrame {
                     objetoAux[5] = encomenda.getJSONObject("endColeta").getJSONObject("cidade").getString("nome");
                     objetoAux[6] = encomenda.getJSONObject("endDestino").getJSONObject("cidade").getString("nome");
 
-
-                   
-                    
                     modelo.addRow(objetoAux);
                 }
 
@@ -792,38 +858,126 @@ public class Frete extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(rootPane, "Nenhuma Encomenda encontrada!");
             }
        }     
-    }//GEN-LAST:event_jbFiltrarActionPerformed
+    }//GEN-LAST:event_jbFiltrarEncomendasActionPerformed
 
     private void jcbDistribuidoraSaidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbDistribuidoraSaidaActionPerformed
         RealizarFrete = false;
     }//GEN-LAST:event_jcbDistribuidoraSaidaActionPerformed
 
     private void jbBuscaVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaVeiculoActionPerformed
-        Helper.ShowDialog(this,new FreteBuscarVeiculo(this,jtfVeiculoCodigo,jtfVeiculoPlaca,jtfCapacidadeVeiculo,veiculoID));
+        Helper.ShowDialog(this,new FreteBuscarVeiculo(this,jtfVeiculoCodigo,jtfVeiculoPlaca,jtfVeiculoCapacidade,veiculoID));
     }//GEN-LAST:event_jbBuscaVeiculoActionPerformed
 
     private void jbCarregarDistribuidorasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCarregarDistribuidorasActionPerformed
-       if(!jtfCidadeOrigemCod.getText().isEmpty()){
-           if(!jtfCidadeDestinoCod.getText().isEmpty()){
-               initCombosDistribuidoras(jcbDistribuidoraSaida);
-               jbBuscarFuncionario.setEnabled(true);
-           }else
-                JOptionPane.showMessageDialog(null, "O campo Cidade Destino deve estar preenchido");
-       }else
-           JOptionPane.showMessageDialog(null, "O campo Cidade Origem deve estar preenchido");
+        if(jtbFuncionariosResp.getRowCount() == 0){
+            if(jcbDistribuidoraDestino.getItemCount() == 0 && jcbDistribuidoraSaida.getItemCount() == 0){
+                if(!jtfCidadeOrigemCod.getText().isEmpty()){
+                   if(!jtfCidadeDestinoCod.getText().isEmpty()){
+                       initCombosDistribuidoras();
+                       jbBuscarFuncionario.setEnabled(true);
+                       jbBuscaVeiculo.setEnabled(true);
+                   }else
+                        JOptionPane.showMessageDialog(null, "O campo Cidade Destino deve estar preenchido");
+               }else
+                   JOptionPane.showMessageDialog(null, "O campo Cidade Origem deve estar preenchido");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Já existem funcionários destas distribuidoras filtrados, limpe a tabela de funcionários antes de carregar!");
+        }
     
     }//GEN-LAST:event_jbCarregarDistribuidorasActionPerformed
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
         tratarEventos.ativaGravar(true);
+        inicializaCadastro(true);
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
-        tratarEventos.ativaGravar(false);
+
+        JSONObject jsonPersistencia =  new JSONObject();
+        JSONObject jsonAux ;
+        JSONArray jsonArrayAux = new JSONArray();
+        try {
+            Util.Validacao.InputToString(jtfCidadeOrigemCod);
+            Util.Validacao.InputToString(jtfCidadeDestinoCod);
+            Util.Validacao.InputToString(jtfCidadeDestinoNome);
+            Util.Validacao.InputToString(jtfCidadeOrigemNome);
+            Util.Validacao.InputToString(jtfVeiculoCodigo);
+            Util.Validacao.InputToString(jtfVeiculoPlaca);
+            Util.Validacao.InputToString(jtfVeiculoCapacidade);
+            Util.Validacao.itensjTable(jtbFuncionariosResp);
+            if(jtbEncomendas.getRowCount() > 0){
+                /*CIDADE ORIGEM*/
+                jsonAux =  new JSONObject();
+                jsonAux.put("codigo", jtfCidadeOrigemCod.getText());
+                jsonPersistencia.put("cidadeOrigem", jsonAux);
+               /*FIM CIDADE ORIGEM*/
+               
+                /*CIDADE DESTINO*/
+                jsonAux =  new JSONObject();
+                jsonAux.put("codigo", jtfCidadeDestinoCod.getText());
+                jsonPersistencia.put("cidadeDestino", jsonAux);
+                /*FIM CIDADE DESTINO*/
+                
+                /*DISTRIBUIDORA ORIGEM*/
+                jsonAux =  new JSONObject();
+                jsonAux.put("codigo",distsAtendCidadeSaida.get(jcbDistribuidoraSaida.getSelectedItem()));
+                jsonPersistencia.put("distribuidoraSaida", jsonAux);
+                /*FIM DISTRIBUIDORA ORIGEM*/
+                
+                /*DISTRIBUIDORA ORIGEM*/
+                jsonAux =  new JSONObject();
+                jsonAux.put("codigo",distsAtendCidadeDestino.get(jcbDistribuidoraDestino.getSelectedItem()));
+                jsonPersistencia.put("distribuidoraDestino",jsonAux);
+                /*FIM DISTRIBUIDORA DESTINO*/
+                
+                /*VEICULO*/
+                jsonAux =  new JSONObject();
+                jsonAux.put("codigo", jtfVeiculoCodigo.getText());
+                jsonPersistencia.put("veiculoTransp",jsonAux);
+                /*FIM VEICULO*/
+                
+                /*FUNCIONÁRIOS*/
+                for(int i = 0; i< jtbFuncionariosResp.getRowCount(); i ++){
+                    jsonAux = new JSONObject();
+                    jsonAux.put("codigo", jtbFuncionariosResp.getModel().getValueAt(i, 0));
+                    jsonArrayAux.put(jsonAux);
+                }
+                jsonPersistencia.put("responsaveis", jsonArrayAux);
+                /*FIM FUNCIONÁRIOS*/
+                
+                /*ENCOMENDAS*/
+                jsonArrayAux =  new JSONArray();
+                for(int i = 0; i< jtbEncomendas.getRowCount(); i ++){
+                    jsonAux = new JSONObject();
+                    if(((Boolean)jtbEncomendas.getModel().getValueAt(i, 0)) != null && ((Boolean)jtbEncomendas.getModel().getValueAt(i, 0)).compareTo(Boolean.TRUE) == 0){
+                        jsonAux.put("codigo", jtbEncomendas.getModel().getValueAt(i, 1));
+                        jsonArrayAux.put(jsonAux);
+                    } 
+                }
+                jsonPersistencia.put("encomendasTransporte", jsonArrayAux);
+                /*FIM ENCOMENDAS*/
+                
+                FreteController FreteCntrl = new FreteController();
+                if(FreteCntrl.Save(jsonPersistencia)){
+                    tratarEventos.ativaGravar(false);
+                    inicializaCadastro(false);
+                    JOptionPane.showMessageDialog(null, "Frete gravado com sucesso!");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Não foram encontradas encomendas para vincular ao frete!");
+            }
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro ao Gravar", JOptionPane.ERROR_MESSAGE);
+        }
+
+        
+        
     }//GEN-LAST:event_jbGravarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         tratarEventos.ativaGravar(false);
+        inicializaCadastro(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
@@ -833,6 +987,20 @@ public class Frete extends javax.swing.JFrame {
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbConsultarActionPerformed
+
+    private void jtbFuncionariosRespPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jtbFuncionariosRespPropertyChange
+
+    }//GEN-LAST:event_jtbFuncionariosRespPropertyChange
+
+    private void jtbFuncionariosRespKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbFuncionariosRespKeyPressed
+       if(evt.getKeyCode() ==  KeyEvent.VK_DELETE)
+           if(jtbFuncionariosResp.getSelectedRow() != -1)
+               ((DefaultTableModel)jtbFuncionariosResp.getModel()).removeRow(jtbFuncionariosResp.getSelectedRow());
+    }//GEN-LAST:event_jtbFuncionariosRespKeyPressed
+
+    private void jbLimparFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparFuncionariosActionPerformed
+       limparFuncionarios();
+    }//GEN-LAST:event_jbLimparFuncionariosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -869,15 +1037,15 @@ public class Frete extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -893,26 +1061,29 @@ public class Frete extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton jbBuscaCidadeDestino;
+    private javax.swing.JButton jbBuscaCidadeOrigem;
     private javax.swing.JButton jbBuscaVeiculo;
     private javax.swing.JButton jbBuscarFuncionario;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbCarregarDistribuidoras;
     private javax.swing.JButton jbConsultar;
     private javax.swing.JButton jbExluir;
-    private javax.swing.JButton jbFiltrar;
+    private javax.swing.JButton jbFiltrarEncomendas;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
+    private javax.swing.JButton jbLimparFuncionarios;
     private javax.swing.JComboBox<String> jcbDistribuidoraDestino;
     private javax.swing.JComboBox<String> jcbDistribuidoraSaida;
     private javax.swing.JFormattedTextField jftDataFinal;
     private javax.swing.JFormattedTextField jftDataInicial;
     private javax.swing.JTable jtbEncomendas;
     private javax.swing.JTable jtbFuncionariosResp;
-    private javax.swing.JTextField jtfCapacidadeVeiculo;
     private javax.swing.JTextField jtfCidadeDestinoCod;
     private javax.swing.JTextField jtfCidadeDestinoNome;
     private javax.swing.JTextField jtfCidadeOrigemCod;
     private javax.swing.JTextField jtfCidadeOrigemNome;
+    private javax.swing.JTextField jtfVeiculoCapacidade;
     private javax.swing.JTextField jtfVeiculoCodigo;
     private javax.swing.JTextField jtfVeiculoPlaca;
     private javax.swing.JLabel kilometragem;

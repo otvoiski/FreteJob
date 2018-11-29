@@ -9,7 +9,6 @@ import Base.ObjectBase;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -33,7 +32,7 @@ public class Frete extends ObjectBase implements Serializable {
     private Cidade CidOrigem;
     @ManyToOne
     private Cidade CidDestino;
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     private List<Funcionario> Responsaveis;
     @OneToMany
     private List<Encomenda> EncomendasTransporte;
@@ -165,10 +164,15 @@ public class Frete extends ObjectBase implements Serializable {
             encomendasAux.add((Encomenda) new Encomenda().toObjectBase(jsonAux.getJSONObject(i)));
         }
         objFrete.setEncomendasTransporte(encomendasAux);
-        objFrete.setValorFrete(jsonRetorno.getDouble("valorFrete"));
-        objFrete.setCategFrete((TipoFrete) new TipoFrete().toObjectBase(jsonRetorno.getJSONObject("categFrete")));
-        objFrete.setDistribuidoraSaida((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraSaida")));
-        objFrete.setDistribuidoraDestino((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraDestino")));
+        if(jsonRetorno.has("valorFrete"))
+            objFrete.setValorFrete(jsonRetorno.getDouble("valorFrete"));
+        if(jsonRetorno.has("categFrete"))
+            objFrete.setCategFrete((TipoFrete) new TipoFrete().toObjectBase(jsonRetorno.getJSONObject("categFrete")));
+        
+        if(jsonRetorno.has("distribuidoraSaida"))
+            objFrete.setDistribuidoraSaida((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraSaida")));
+        if(jsonRetorno.has("distribuidoraDestino"))
+            objFrete.setDistribuidoraDestino((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraDestino")));
         
         return objFrete;
             

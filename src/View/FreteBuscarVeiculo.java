@@ -70,7 +70,7 @@ public class FreteBuscarVeiculo extends javax.swing.JFrame {
         jbBuscar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Buscar Cidade");
+        setTitle("Buscar Veiculo");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -203,7 +203,7 @@ public class FreteBuscarVeiculo extends javax.swing.JFrame {
         list.forEach((json) -> {
             table.addRow(new String[]{
                 json.getInt("codigo") + "",
-                String.valueOf(json.getDouble("capacidadeCarga")) +" KG",
+                String.valueOf(json.getDouble("capacidadeCarga")),
                 json.getString("placaIdentificacao")
                     
             });      

@@ -6,6 +6,7 @@
 package Business;
 
 import Model.Encomenda;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Query;
 
@@ -30,6 +31,22 @@ public class EncomendaBusiness extends Base.BusinessBase{
         Query query = session.createQuery(hql);
         query.setString("data1", dataInicial);
         query.setString("data2", dataFinal);
+        return (List<Encomenda>) query.list();
+    }
+    public List<Encomenda> GertByCodigoList(ArrayList<Integer> codigosBuscar){
+         String hql = "from Encomenda e"
+                + " where e.Codigo in( ";
+         
+        for(int i = 0; i< codigosBuscar.size(); i++){
+            hql += ":codigo"+i;
+            if(i < codigosBuscar.size()-1)
+                hql+=",";
+        }
+        hql +=")";
+        Query query = session.createQuery(hql);
+        for(int i = 0; i< codigosBuscar.size(); i++)
+            query.setInteger("codigo"+i, codigosBuscar.get(i));
+        
         return (List<Encomenda>) query.list();
     }
 }

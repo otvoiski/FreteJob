@@ -123,7 +123,14 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Cidades"/>
+                <TitledBorder title="Cidades">
+                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                    <BevelBorder>
+                      <Color PropertyName="highlightInner" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
+                      <Color PropertyName="shadowOuter" blue="40" green="40" id="darkGray" palette="1" red="40" type="palette"/>
+                    </BevelBorder>
+                  </Border>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>
@@ -142,7 +149,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jtfCidadeDestinoNome" min="-2" pref="312" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="jButton8" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jbBuscaCidadeDestino" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -157,10 +164,10 @@
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <Component id="jButton7" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="jbBuscaCidadeOrigem" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="21" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -168,7 +175,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jButton7" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
+                          <Component id="jbBuscaCidadeOrigem" alignment="1" min="-2" pref="28" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -182,7 +189,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="1" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jButton8" pref="28" max="32767" attributes="0"/>
+                              <Component id="jbBuscaCidadeDestino" pref="28" max="32767" attributes="0"/>
                               <Component id="jtfCidadeDestinoNome" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -214,14 +221,15 @@
                 <Property name="name" type="java.lang.String" value="Origem" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton7">
+            <Component class="javax.swing.JButton" name="jbBuscaCidadeOrigem">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Resource/search.png"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton7ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaCidadeOrigemActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jtfCidadeDestinoNome">
@@ -231,14 +239,15 @@
                 <Property name="name" type="java.lang.String" value="Destino" noResource="true"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton8">
+            <Component class="javax.swing.JButton" name="jbBuscaCidadeDestino">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Resource/search.png"/>
                 </Property>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton8ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaCidadeDestinoActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="jtfCidadeOrigemCod">
@@ -260,7 +269,14 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Informa&#xe7;&#xe3;o"/>
+                <TitledBorder title="Informa&#xe7;&#xe3;o">
+                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                    <BevelBorder>
+                      <Color PropertyName="highlightInner" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
+                      <Color PropertyName="shadowOuter" blue="40" green="40" id="darkGray" palette="1" red="40" type="palette"/>
+                    </BevelBorder>
+                  </Border>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>
@@ -300,9 +316,12 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="631" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="640" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="jbLimparFuncionarios" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jbBuscarFuncionario" min="-2" pref="159" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -312,7 +331,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jScrollPane2" min="-2" pref="243" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jbBuscarFuncionario" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="jbBuscarFuncionario" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="jbLimparFuncionarios" max="32767" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -358,6 +383,10 @@
                           <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
                       </Properties>
+                      <Events>
+                        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jtbFuncionariosRespPropertyChange"/>
+                        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtbFuncionariosRespKeyPressed"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -373,6 +402,23 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscarFuncionarioActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Obs: Pressione delete em uma linha selecionada para excluir um funcion&#xe1;rio"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jbLimparFuncionarios">
+                  <Properties>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/Resource/wiping-swipe-for-floors.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Limpar"/>
+                    <Property name="enabled" type="boolean" value="false"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbLimparFuncionariosActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -384,7 +430,14 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Encomendas"/>
+                <TitledBorder title="Encomendas">
+                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+                    <BevelBorder>
+                      <Color PropertyName="highlightInner" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
+                      <Color PropertyName="shadowOuter" blue="40" green="40" id="darkGray" palette="1" red="40" type="palette"/>
+                    </BevelBorder>
+                  </Border>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>
@@ -406,7 +459,7 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="jftDataFinal" min="-2" pref="70" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jbFiltrar" min="-2" pref="80" max="-2" attributes="0"/>
+                              <Component id="jbFiltrarEncomendas" min="-2" pref="80" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -421,7 +474,7 @@
                           <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jftDataFinal" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jbFiltrar" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                          <Component id="jbFiltrarEncomendas" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
                           <Component id="jftDataInicial" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -500,12 +553,13 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jbFiltrar">
+            <Component class="javax.swing.JButton" name="jbFiltrarEncomendas">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/Resource/funnel.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Filtrar"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[150, 40]"/>
                 </Property>
@@ -517,7 +571,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFiltrarActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbFiltrarEncomendasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel6">
@@ -654,7 +708,14 @@
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Distribuidoras/Veiculo de transporte"/>
+                <TitledBorder title="Distribuidoras/Veiculo de transporte">
+                  <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                    <BevelBorder>
+                      <Color PropertyName="highlightInner" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
+                      <Color PropertyName="shadowOuter" blue="40" green="40" id="darkGray" palette="1" red="40" type="palette"/>
+                    </BevelBorder>
+                  </Border>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>
@@ -768,19 +829,20 @@
                               <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jtfVeiculoPlaca" alignment="0" min="-2" pref="82" max="-2" attributes="0"/>
+                              <Component id="jLabel9" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <Component id="jtfVeiculoPlaca" min="-2" pref="82" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jtfCapacidadeVeiculo" min="-2" pref="102" max="-2" attributes="0"/>
+                                  <Component id="jtfVeiculoCapacidade" min="-2" pref="91" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="jbBuscaVeiculo" min="-2" pref="126" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -797,8 +859,9 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jtfVeiculoCodigo" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jtfCapacidadeVeiculo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jtfVeiculoCapacidade" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jtfVeiculoPlaca" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                       </Group>
@@ -816,7 +879,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="jtfCapacidadeVeiculo">
+                <Component class="javax.swing.JTextField" name="jtfVeiculoCapacidade">
                   <Properties>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
@@ -837,6 +900,7 @@
                       <Image iconType="3" name="/Resource/delivery-truck.png"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Filtrar Veiculo"/>
+                    <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbBuscaVeiculoActionPerformed"/>
@@ -852,6 +916,11 @@
                     <Property name="text" type="java.lang.String" value="Capacidade de carga"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="jLabel13">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="KG"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Component class="javax.swing.JButton" name="jbCarregarDistribuidoras">
@@ -860,6 +929,7 @@
                   <Image iconType="3" name="/Resource/funnel.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Carregar"/>
+                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbCarregarDistribuidorasActionPerformed"/>

@@ -86,10 +86,15 @@ public class Funcionario extends Pessoa {
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Funcionario objFuncionario = new Funcionario();
         objFuncionario.preencheAtributosRetorno(jsonRetorno);
-        objFuncionario.setNome(jsonRetorno.getString("nome"));
-        objFuncionario.setCpf(jsonRetorno.getString("cpf"));
-        objFuncionario.setRg(jsonRetorno.getString("rg"));
-        objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
+        if(jsonRetorno.has("nome"))
+            objFuncionario.setNome(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("cpf"))
+            objFuncionario.setCpf(jsonRetorno.getString("cpf"));
+        if(jsonRetorno.has("rg"))
+            objFuncionario.setRg(jsonRetorno.getString("rg"));
+        if(jsonRetorno.has("localtrabalho"))
+            objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
+        
         return objFuncionario;
     }
 }

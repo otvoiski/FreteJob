@@ -1203,7 +1203,7 @@ public class Encomenda extends javax.swing.JFrame {
         return jtfRuaDestino;
     }
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
-         int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
+        int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
         int colunaSelecionada =  jtbItensEncomenda.getSelectedColumn();
         
         if(evt.getKeyCode() == KeyEvent.VK_DOWN || evt.getKeyCode() == KeyEvent.VK_ENTER){
