@@ -7,11 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -88,8 +84,10 @@ public class Veiculo extends ObjectBase implements Serializable {
         if(jsonRetorno.has("placaIdentificacao"))
             objVeiculo.setPlacaIdentificacao(jsonRetorno.getString("placaIdentificacao"));
         
-        if(jsonRetorno.has("dataFabricacao"))
+        if(jsonRetorno.has("dataFabricacao")){
             objVeiculo.setDataFabricacao(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataFabricacao")));
+        }
+        
         
         if(jsonRetorno.has("capacidadeCarga"))
             objVeiculo.setCapacidadeCarga(jsonRetorno.getDouble("capacidadeCarga"));

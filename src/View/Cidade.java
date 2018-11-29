@@ -62,10 +62,6 @@ public class Cidade extends javax.swing.JFrame {
         jbGravar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
         jtfCodigo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -153,22 +149,6 @@ public class Cidade extends javax.swing.JFrame {
         });
         jPanel1.add(jbConsultar);
         jbConsultar.setBounds(470, 270, 110, 30);
-
-        jButton3.setText("<<");
-        jPanel1.add(jButton3);
-        jButton3.setBounds(400, 0, 50, 23);
-
-        jButton4.setText("<");
-        jPanel1.add(jButton4);
-        jButton4.setBounds(450, 0, 50, 23);
-
-        jButton5.setText(">");
-        jPanel1.add(jButton5);
-        jButton5.setBounds(500, 0, 50, 23);
-
-        jButton6.setText(">>");
-        jPanel1.add(jButton6);
-        jButton6.setBounds(550, 0, 49, 23);
         jPanel1.add(jtfCodigo);
         jtfCodigo.setBounds(50, 0, 70, 20);
 
@@ -419,10 +399,6 @@ public class Cidade extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

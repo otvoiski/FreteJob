@@ -89,9 +89,15 @@ public class Validacao
         SimpleDateFormat formato =  new SimpleDateFormat("yyyy-MM-dd");
         return formato.format(dataPadraoAmericano);
     }
-    public static Date converteStringToDate(String dataConverter) throws ParseException{
+    public static Date converteStringToDate(String dataConverter){
         SimpleDateFormat formato =  new SimpleDateFormat("dd/MM/yyyy");
-        return formato.parse(dataConverter);
+        Date data = null;
+        try {
+            data = formato.parse(dataConverter);
+        } catch (ParseException ex) {
+            Logger.getLogger(Validacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return data;
     }
     public static Date converteDatePadraoBrParaAmericano(Date dataConverter){
         String dataString = converteDatePadraoBRToString(dataConverter);
@@ -116,6 +122,7 @@ public class Validacao
         String dataPadraoAmericano = yyyy + "-" + mm + "-" + dd ;
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         Date data = null;
+        System.out.println("DATA CHEGANDO PARA CONVERSAO " + dataConverter);
         try {
             data = formato.parse(dataPadraoAmericano);
         } catch (ParseException ex) {

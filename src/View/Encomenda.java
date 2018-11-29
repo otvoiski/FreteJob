@@ -15,7 +15,6 @@ import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.ButtonGroup;
@@ -203,10 +202,6 @@ public class Encomenda extends javax.swing.JFrame {
         jbGravar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jlStatusEncomenda = new javax.swing.JLabel();
         jbExluir = new javax.swing.JButton();
@@ -586,8 +581,8 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 30, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 36, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel2);
@@ -806,36 +801,15 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel1.add(jbConsultar);
         jbConsultar.setBounds(630, 550, 120, 30);
 
-        jButton2.setText("<");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(790, 0, 41, 23);
-
-        jButton3.setText(">");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3);
-        jButton3.setBounds(830, 0, 40, 23);
-
-        jButton4.setText("<<");
-        jPanel1.add(jButton4);
-        jButton4.setBounds(740, 0, 50, 23);
-
-        jButton5.setText(">>");
-        jPanel1.add(jButton5);
-        jButton5.setBounds(870, 0, 50, 23);
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Status:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(480, 0, 50, 30);
+        jLabel7.setBounds(650, 0, 50, 30);
 
         jlStatusEncomenda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlStatusEncomenda.setForeground(new java.awt.Color(102, 204, 0));
         jPanel1.add(jlStatusEncomenda);
-        jlStatusEncomenda.setBounds(530, 0, 200, 30);
+        jlStatusEncomenda.setBounds(700, 0, 200, 30);
 
         jbExluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbExluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
@@ -858,7 +832,7 @@ public class Encomenda extends javax.swing.JFrame {
         jftDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         jftDataCadastro.setEnabled(false);
         jPanel1.add(jftDataCadastro);
-        jftDataCadastro.setBounds(390, 10, 80, 20);
+        jftDataCadastro.setBounds(550, 10, 80, 20);
         try {
             MaskFormatter mascara = new MaskFormatter("##/##/####");
             mascara.setPlaceholderCharacter('_');
@@ -870,7 +844,7 @@ public class Encomenda extends javax.swing.JFrame {
 
         jLabel20.setText("Data de cadastro:");
         jPanel1.add(jLabel20);
-        jLabel20.setBounds(300, 10, 90, 20);
+        jLabel20.setBounds(460, 10, 90, 20);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 940, 600);
@@ -891,10 +865,6 @@ public class Encomenda extends javax.swing.JFrame {
         this.busca = "Destinatario";
         Helper.ShowDialog(this,new EncomendaBuscaPessoa(this));
     }//GEN-LAST:event_jbBuscaDestinatarioActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
         // TODO add your handling code here:
@@ -1320,10 +1290,6 @@ public class Encomenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup ModalidadeFrete;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
