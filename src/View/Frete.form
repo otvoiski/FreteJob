@@ -379,6 +379,7 @@
                             </Column>
                           </TableColumnModel>
                         </Property>
+                        <Property name="name" type="java.lang.String" value="Funcionarios Respons&#xe1;veis" noResource="true"/>
                         <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                           <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                         </Property>
@@ -546,6 +547,7 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
+                    <Property name="name" type="java.lang.String" value="Encomendas" noResource="true"/>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="false" resizingAllowed="true"/>
                     </Property>

@@ -24,15 +24,21 @@ public class EncomendaBusiness extends Base.BusinessBase{
         query.setString("nome", nome + "%");
         return (List<Encomenda>) query.list();
     }
-    public List<Encomenda> GetByIntervaloData(String dataInicial, String dataFinal) {
+    
+    //seleciona todas as encomendas entre as datas passadas pelo parâmetro que não estejam em frete
+    public List<Encomenda> recupEncomsSemFretePorIntervalo(String dataInicial, String dataFinal) {
         String hql = "from Encomenda e"
-                + " where e.dataCadastro between :data1 and :data2";
+                + " where e.dataCadastro between :data1 and :data2"
+                + " and e.Codigo not in "
+                + " (select Enc.Codigo from Frete fr"
+                + " inner join fr.EncomendasTransporte as Enc)";
         
         Query query = session.createQuery(hql);
         query.setString("data1", dataInicial);
         query.setString("data2", dataFinal);
         return (List<Encomenda>) query.list();
     }
+    //seleciona todas as encomendas cujo código esteja na lista passada pelo parametro
     public List<Encomenda> GertByCodigoList(ArrayList<Integer> codigosBuscar){
          String hql = "from Encomenda e"
                 + " where e.Codigo in( ";

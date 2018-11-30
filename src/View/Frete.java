@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import org.json.JSONArray;
 
 /**
@@ -49,6 +50,13 @@ public class Frete extends javax.swing.JFrame {
         this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
         Init();
     }
+    public void ativaGravar(boolean ativa){
+        tratarEventos.ativaGravar(ativa);
+        inicializaCadastro(ativa);
+        limparTabela(jtbEncomendas);
+        limparTabela(jtbFuncionariosResp);
+        zeraConteudoCombos();
+    }
     private void inicializaCadastro(boolean iniciar){
         jbBuscaCidadeDestino.setEnabled(iniciar);
         jbBuscaCidadeOrigem.setEnabled(iniciar);
@@ -56,7 +64,13 @@ public class Frete extends javax.swing.JFrame {
         jbFiltrarEncomendas.setEnabled(iniciar);
         jbCarregarDistribuidoras.setEnabled(iniciar);
         jbLimparFuncionarios.setEnabled(iniciar);
-        limparFuncionarios();
+        jtfCidadeDestinoCod.setText("");
+        jtfCidadeDestinoNome.setText("Busque uma cidade");
+        jtfCidadeOrigemCod.setText("");
+        jtfCidadeOrigemNome.setText("Busque uma cidade");
+        jtfVeiculoCapacidade.setText("");
+        jtfVeiculoCodigo.setText("");
+        jtfVeiculoPlaca.setText("");
     }
     private void PreencheComboBox(List<JSONObject> list, JComboBox combo, String name){
         list.forEach((j) -> {
@@ -67,8 +81,8 @@ public class Frete extends javax.swing.JFrame {
         jcbDistribuidoraDestino.removeAllItems();
         jcbDistribuidoraSaida.removeAllItems();
     }
-    private void limparFuncionarios(){
-        jtbFuncionariosResp.removeAll();
+    private void limparTabela(JTable tabela){
+        ((DefaultTableModel)tabela.getModel()).setRowCount(0);
     }
     private void initCombosDistribuidoras(){
         List<JSONObject> distSaida = new Controller.DistribuidoraController().GetByCidadeAtende(jtfCidadeOrigemCod.getText());
@@ -315,6 +329,7 @@ public class Frete extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtbFuncionariosResp.setName("Funcionarios Responsáveis"); // NOI18N
         jtbFuncionariosResp.getTableHeader().setReorderingAllowed(false);
         jtbFuncionariosResp.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
@@ -415,6 +430,7 @@ public class Frete extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtbEncomendas.setName("Encomendas"); // NOI18N
         jtbEncomendas.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jtbEncomendas);
         if (jtbEncomendas.getColumnModel().getColumnCount() > 0) {
@@ -810,14 +826,14 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscarFuncionarioActionPerformed
 
     private void jbBuscaCidadeOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeOrigemActionPerformed
-        limparFuncionarios();
+        limparTabela(jtbEncomendas);
+        limparTabela(jtbFuncionariosResp);
         zeraConteudoCombos();
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeOrigemNome, jtfCidadeOrigemCod, cidadeOrigemID));
     }//GEN-LAST:event_jbBuscaCidadeOrigemActionPerformed
 
     private void jbBuscaCidadeDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeDestinoActionPerformed
-        limparFuncionarios();
-        zeraConteudoCombos();
+        
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeDestinoNome, jtfCidadeDestinoCod, cidadeDestinoID));
     }//GEN-LAST:event_jbBuscaCidadeDestinoActionPerformed
 
@@ -829,7 +845,7 @@ public class Frete extends javax.swing.JFrame {
         modelo.setNumRows(0);
        if(!jftDataInicial.getText().equals("__/__/____")){
             if(!jftDataFinal.getText().equals("__/__/____")){
-                encomendas = new EncomendaController().GetByIntervaloData(jftDataInicial.getText(), jftDataFinal.getText());
+                encomendas = new EncomendaController().recupEncomsSemFretePorIntervalo(jftDataInicial.getText(), jftDataFinal.getText());
                 for(int i = 0; i<encomendas.size(); i++){
                     objetoAux =  new Object[modelo.getColumnCount()];
                     encomenda = encomendas.get(i);
@@ -888,8 +904,7 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCarregarDistribuidorasActionPerformed
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
-        tratarEventos.ativaGravar(true);
-        inicializaCadastro(true);
+        ativaGravar(true);
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
@@ -960,8 +975,7 @@ public class Frete extends javax.swing.JFrame {
                 
                 FreteController FreteCntrl = new FreteController();
                 if(FreteCntrl.Save(jsonPersistencia)){
-                    tratarEventos.ativaGravar(false);
-                    inicializaCadastro(false);
+                    ativaGravar(false);
                     JOptionPane.showMessageDialog(null, "Frete gravado com sucesso!");
                 }
             }else{
@@ -976,8 +990,7 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_jbGravarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        tratarEventos.ativaGravar(false);
-        inicializaCadastro(false);
+        ativaGravar(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
@@ -999,7 +1012,7 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_jtbFuncionariosRespKeyPressed
 
     private void jbLimparFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparFuncionariosActionPerformed
-       limparFuncionarios();
+        limparTabela(jtbFuncionariosResp);
     }//GEN-LAST:event_jbLimparFuncionariosActionPerformed
 
     /**

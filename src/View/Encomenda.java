@@ -556,6 +556,7 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jtbItensEncomenda.setEnabled(false);
+        jtbItensEncomenda.setName("Itens"); // NOI18N
         jtbItensEncomenda.getTableHeader().setReorderingAllowed(false);
         jtbItensEncomenda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {

@@ -62,7 +62,7 @@ public class Validacao
         String msg = "";
         boolean tabelaAceita = true;
         if(tabela.getRowCount() == 0){
-            msg = "A tabela deve conter elementos!";
+            msg = "A tabela"+tabela.getName()+"deve conter elementos!";
             tabelaAceita = false;
         }else{
             for(int i = 0; i< tabela.getRowCount(); i++){

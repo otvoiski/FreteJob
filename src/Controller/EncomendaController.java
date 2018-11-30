@@ -39,11 +39,11 @@ public class EncomendaController extends ControllerBase {
         });
         return listRetorno;
     }
-    public List<JSONObject> GetByIntervaloData(String dataInicial, String dataFinal)
+    public List<JSONObject> recupEncomsSemFretePorIntervalo(String dataInicial, String dataFinal)
     {
         String data1 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataInicial));
         String data2 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataFinal));
-        List<Encomenda> list = new Business.EncomendaBusiness().GetByIntervaloData(data1,data2);
+        List<Encomenda> list = new Business.EncomendaBusiness().recupEncomsSemFretePorIntervalo(data1,data2);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((encomenda) -> {
             listRetorno.add(new JSONObject(encomenda));
