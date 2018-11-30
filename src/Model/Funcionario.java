@@ -34,7 +34,7 @@ public class Funcionario extends Pessoa {
     }
     
     public Funcionario(String Cpf, String Rg, String Nome, Distribuidora LocalTrabalho) {
-        super(Enums.TipoPessoa.Fisica, null, null, null, null);
+        super(Enums.NaturezaPessoa.Fisica, null, null, null, null);
         this.Cpf = Cpf;
         this.Rg = Rg;
         this.Nome = Nome;

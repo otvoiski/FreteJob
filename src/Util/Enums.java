@@ -14,10 +14,12 @@ public class Enums {
     public static enum TipoTransporte {
         Terrestres, Aquaticos, Aeroviarios
     }
-    public static enum TipoPessoa {
+    public static enum NaturezaPessoa {
         Juridica, Fisica
     }
-
+    public static enum TipoPessoa {
+        Distribuidora, Funcionario, Cliente
+    }
     public static enum TipoFreteEncomenda {
         Normal, Rapido, SuperRapido
     }

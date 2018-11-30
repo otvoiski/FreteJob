@@ -7,7 +7,7 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
-import Util.Enums.TipoPessoa;
+import Util.Enums.NaturezaPessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.json.JSONObject;
 @Table(name = "Pessoa")
 public abstract class Pessoa extends ObjectBase implements Serializable{
     @Column(nullable = false)
-    private TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
+    private NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Telefone> Telefones;
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -52,8 +52,8 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.Emails = Emails;
     }
     
-    public Pessoa(Enums.TipoPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
-        this.TipoPessoa = tipoPessoa;
+    public Pessoa(Enums.NaturezaPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
+        this.NaturezaPessoa = tipoPessoa;
         this.Telefones = telefones;
         this.Enderecos = endereco;
         this.MidiaSociais = midiaSociais;
@@ -68,11 +68,11 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.Enderecos = Enderecos;
     }
 
-    public Enums.TipoPessoa getTipoPessoa() {
-        return TipoPessoa;
+    public Enums.NaturezaPessoa getNaturezaPessoa() {
+        return NaturezaPessoa;
     }
-    public void setTipoPessoa(Util.Enums.TipoPessoa tipoPessoa) {
-        this.TipoPessoa = tipoPessoa;
+    public void setNaturezaPessoa(Util.Enums.NaturezaPessoa tipoPessoa) {
+        this.NaturezaPessoa = tipoPessoa;
     }
     public List<Telefone> getTelefones() {
         return (List<Telefone>)Telefones;
@@ -97,8 +97,8 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
         setCodigo(jsonRetorno.getInt("codigo"));
-        if(jsonRetorno.has("tipoPessoa"))
-            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa"));
+        if(jsonRetorno.has("naturezaPessoa"))
+            setNaturezaPessoa(jsonRetorno.getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa"));
         if(jsonRetorno.has("midiasSocias")){
             jsonArrayAux = jsonRetorno.getJSONArray("midiasSociais");
             for(int i = 0; i<jsonArrayAux.length(); i++)

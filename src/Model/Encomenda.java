@@ -205,7 +205,7 @@ public class Encomenda extends ObjectBase implements Serializable {
         else
             objEncomenda.setCodigo(0);
         if(jsonRetorno.has("emitente")){
-            if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0){
+            if(jsonRetorno.getJSONObject("emitente").getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0){
                 objEncomenda.setEmitente((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("emitente"))); 
             }else{
                 objEncomenda.setEmitente((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("emitente")));
@@ -213,7 +213,7 @@ public class Encomenda extends ObjectBase implements Serializable {
         }
         
         if(jsonRetorno.has("destinatario")){
-            if(jsonRetorno.getJSONObject("destinatario").getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa").compareTo(Enums.TipoPessoa.Fisica)==0){
+            if(jsonRetorno.getJSONObject("destinatario").getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica)==0){
                 objEncomenda.setDestinatario((Pessoa) new PessoaFisica().toObjectBase(jsonRetorno.getJSONObject("destinatario"))); 
             }else{
                 objEncomenda.setDestinatario((Pessoa) new PessoaJuridica().toObjectBase(jsonRetorno.getJSONObject("destinatario")));

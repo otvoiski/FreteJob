@@ -45,8 +45,8 @@ public class Encomenda extends javax.swing.JFrame {
     private int destinatarioID;
     private TelaHandler tratarEventos;
     private ArrayList<JTextField> camposAtivar;
-    private Util.Enums.TipoPessoa tipoRemetente;
-    private Util.Enums.TipoPessoa tipoDestinatario;
+    private Util.Enums.NaturezaPessoa tipoRemetente;
+    private Util.Enums.NaturezaPessoa tipoDestinatario;
     private JSONObject jsonPersistencia;
     private String busca;
 
@@ -930,12 +930,12 @@ public class Encomenda extends javax.swing.JFrame {
             /*REMETENTE*/
             jsonAux = new JSONObject();
             jsonAux.put("codigo", jtfRemetenteCodigo.getText());
-            if(tipoRemetente.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+            if(tipoRemetente.compareTo(Util.Enums.NaturezaPessoa.Fisica) == 0)
                 jsonAux.put("nome", jtfRemetenteNome.getText());
             else
                 jsonAux.put("nomeFantasia", jtfRemetenteNome.getText());
             
-            jsonAux.put("tipoPessoa", tipoRemetente);
+            jsonAux.put("naturezaPessoa", tipoRemetente);
             jsonPersistencia.put("emitente", jsonAux);
             
              /*FIM REMETENTE*/
@@ -943,12 +943,12 @@ public class Encomenda extends javax.swing.JFrame {
               /*DESTINATARIO*/
             jsonAux = new JSONObject();
             jsonAux.put("codigo", jtfDestinatarioCodigo.getText());
-             if(tipoDestinatario.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+             if(tipoDestinatario.compareTo(Util.Enums.NaturezaPessoa.Fisica) == 0)
                 jsonAux.put("nome", jtfDestinatarioNome.getText());
             else
                  jsonAux.put("nomeFantasia", jtfDestinatarioNome.getText());
              
-            jsonAux.put("tipoPessoa", tipoDestinatario);
+            jsonAux.put("naturezaPessoa", tipoDestinatario);
             jsonPersistencia.put("destinatario", jsonAux);
             
              /*FIM DESTINATARIO*/
@@ -1046,17 +1046,17 @@ public class Encomenda extends javax.swing.JFrame {
         return camposAtivar;
     }
 
-    public Enums.TipoPessoa getTipoRemetente() {
+    public Enums.NaturezaPessoa getTipoRemetente() {
         return tipoRemetente;
     }
-    public void setTipoRemetente(Enums.TipoPessoa tipo){
+    public void setTipoRemetente(Enums.NaturezaPessoa tipo){
         this.tipoRemetente = tipo;
     }
-    public void setTipoDestinatario(Enums.TipoPessoa tipo){
+    public void setTipoDestinatario(Enums.NaturezaPessoa tipo){
         this.tipoDestinatario = tipo;
     }
 
-    public Enums.TipoPessoa getTipoDestinatario() {
+    public Enums.NaturezaPessoa getTipoDestinatario() {
         return tipoDestinatario;
     }
 

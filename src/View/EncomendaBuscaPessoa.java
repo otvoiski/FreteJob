@@ -27,7 +27,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
 
     private final JFrame backWindows;
     private int pessoaID;
-    private Util.Enums.TipoPessoa tipoPessoa;
+    private Util.Enums.NaturezaPessoa tipoPessoa;
     private View.Encomenda viewEncomenda;
     private List<JSONObject> Clientes;
 
@@ -206,17 +206,17 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
         table.setNumRows(0);
 
         list.forEach((json) -> {
-            if (json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").compareTo(Enums.TipoPessoa.Fisica) == 0) {
+            if (json.getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0) {
                 table.addRow(new String[]{
                     json.getInt("codigo") + "",
                     json.getString("nome"),
-                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()
+                    json.getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").toString()
                 });
             } else {
                 table.addRow(new String[]{
                     json.getInt("codigo") + "",
                     json.getString("nomeFantasia"),
-                    json.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa").toString()
+                    json.getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").toString()
                 });
             }
         });
@@ -299,16 +299,16 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
                     }
                 }
                 
-                if(jTable1.getValueAt(jTable1.getSelectedRow(), 2) == Util.Enums.TipoPessoa.Fisica.toString())
+                if(jTable1.getValueAt(jTable1.getSelectedRow(), 2) == Util.Enums.NaturezaPessoa.Fisica.toString())
                     if(viewEncomenda.getBusca().equals("Destinatario"))
-                        viewEncomenda.setTipoDestinatario(Util.Enums.TipoPessoa.Fisica);
+                        viewEncomenda.setTipoDestinatario(Util.Enums.NaturezaPessoa.Fisica);
                     else
-                        viewEncomenda.setTipoRemetente(Util.Enums.TipoPessoa.Fisica);
+                        viewEncomenda.setTipoRemetente(Util.Enums.NaturezaPessoa.Fisica);
                 else
                     if(viewEncomenda.getBusca().equals("Destinatario"))
-                        viewEncomenda.setTipoDestinatario(Util.Enums.TipoPessoa.Juridica);
+                        viewEncomenda.setTipoDestinatario(Util.Enums.NaturezaPessoa.Juridica);
                     else
-                        viewEncomenda.setTipoRemetente(Util.Enums.TipoPessoa.Juridica);
+                        viewEncomenda.setTipoRemetente(Util.Enums.NaturezaPessoa.Juridica);
                 
                 Helper.CloseDialog(this, backWindows);
             }
