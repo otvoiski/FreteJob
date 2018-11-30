@@ -221,7 +221,7 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
             }
         });
         if (table.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(rootPane, "Pessoa não encontrada!");
+            JOptionPane.showMessageDialog(rootPane, "Cliente não encontrado!");
         }
 
         jTable.setModel(table);
@@ -232,11 +232,11 @@ public class EncomendaBuscaPessoa extends javax.swing.JFrame {
         List<JSONObject> pessoaJuridicas;
         try {
             if (jCheckQualqParte.isSelected()) {
-                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName("%" + Util.Validacao.InputToString(jtfCampoPesquisa));
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetClienteByName("%" + Util.Validacao.InputToString(jtfCampoPesquisa));
                 pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName("%" + jtfCampoPesquisa.getText());
             } else {
-                pessoasFisicas = (new Controller.PessoaFisicaController()).GetPessoaByName(Util.Validacao.InputToString(jtfCampoPesquisa));
-                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetPessoaByName(jtfCampoPesquisa.getText());
+                pessoasFisicas = (new Controller.PessoaFisicaController()).GetClienteByName(Util.Validacao.InputToString(jtfCampoPesquisa));
+                pessoaJuridicas = (new Controller.PessoaJuridicaController()).GetClienteByName(jtfCampoPesquisa.getText());
             }
             Clientes = new ArrayList<>(pessoasFisicas);
             Clientes.addAll(pessoaJuridicas);

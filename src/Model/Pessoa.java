@@ -29,6 +29,7 @@ import org.json.JSONObject;
 public abstract class Pessoa extends ObjectBase implements Serializable{
     @Column(nullable = false)
     private NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
+    private Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente, funcionario, ou distribuidora
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Telefone> Telefones;
     @OneToMany(cascade = CascadeType.REMOVE)
@@ -91,6 +92,14 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.MidiaSociais = MidiaSociais;
     }
     
+    public Enums.TipoPessoa getTipoPessoa() {
+        return TipoPessoa;
+    }
+
+    public void setTipoPessoa(Enums.TipoPessoa TipoPessoa) {
+        this.TipoPessoa = TipoPessoa;
+    }
+    
     protected JSONObject preencheJson(){
         return new JSONObject(this);
     }
@@ -99,6 +108,9 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         setCodigo(jsonRetorno.getInt("codigo"));
         if(jsonRetorno.has("naturezaPessoa"))
             setNaturezaPessoa(jsonRetorno.getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa"));
+        if(jsonRetorno.has("tipoPessoa")){
+            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa"));
+        }
         if(jsonRetorno.has("midiasSocias")){
             jsonArrayAux = jsonRetorno.getJSONArray("midiasSociais");
             for(int i = 0; i<jsonArrayAux.length(); i++)

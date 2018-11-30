@@ -16,7 +16,7 @@ import org.hibernate.Query;
  */
 public class EncomendaBusiness extends Base.BusinessBase{
     
-    public List<Encomenda> GetByName(String nome) {
+    public List<Encomenda> GetByEmitenteName(String nome) {
         String hql = "from Encomenda e"
                 + " inner join fetch Emitente p"
                 + " where p.Nome like :nome";

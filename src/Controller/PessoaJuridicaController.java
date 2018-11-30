@@ -29,5 +29,13 @@ public class PessoaJuridicaController extends ControllerBase{
         });
         return jsonRetorno;
     }
+     public List<JSONObject> GetClienteByName(String nomePessoa) {
+        ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
+        new Business.PessoaJuridicaBusiness().GetClienteByName(nomePessoa).forEach((pessoa) -> {
+            jsonRetorno.add(new JSONObject(pessoa));
+        });
+        return jsonRetorno;
+    }
+    
     
 }

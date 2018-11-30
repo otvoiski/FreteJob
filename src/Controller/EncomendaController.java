@@ -32,7 +32,7 @@ public class EncomendaController extends ControllerBase {
     
     public List<JSONObject> GetByName(String nome)
     {
-        List<Encomenda> list = new Business.EncomendaBusiness().GetByName(nome);
+        List<Encomenda> list = new Business.EncomendaBusiness().GetByEmitenteName(nome);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((funcionario) -> {
             listRetorno.add(new JSONObject(funcionario));
