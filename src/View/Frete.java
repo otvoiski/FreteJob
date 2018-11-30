@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTable;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.json.JSONArray;
 
 /**
@@ -50,7 +52,7 @@ public class Frete extends javax.swing.JFrame {
         this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
         Init();
     }
-    public void ativaGravar(boolean ativa){
+    private void ativaGravar(boolean ativa){
         tratarEventos.ativaGravar(ativa);
         inicializaCadastro(ativa);
         limparTabela(jtbEncomendas);
@@ -71,6 +73,8 @@ public class Frete extends javax.swing.JFrame {
         jtfVeiculoCapacidade.setText("");
         jtfVeiculoCodigo.setText("");
         jtfVeiculoPlaca.setText("");
+        jftDataFinal.setText("");
+        jftDataInicial.setText("");
     }
     private void PreencheComboBox(List<JSONObject> list, JComboBox combo, String name){
         list.forEach((j) -> {
@@ -245,6 +249,11 @@ public class Frete extends javax.swing.JFrame {
         });
 
         jtfCidadeOrigemCod.setEnabled(false);
+        jtfCidadeOrigemCod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtfCidadeOrigemCodActionPerformed(evt);
+            }
+        });
 
         jtfCidadeDestinoCod.setEnabled(false);
 
@@ -826,14 +835,15 @@ public class Frete extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscarFuncionarioActionPerformed
 
     private void jbBuscaCidadeOrigemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeOrigemActionPerformed
-        limparTabela(jtbEncomendas);
+
         limparTabela(jtbFuncionariosResp);
         zeraConteudoCombos();
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeOrigemNome, jtfCidadeOrigemCod, cidadeOrigemID));
     }//GEN-LAST:event_jbBuscaCidadeOrigemActionPerformed
 
     private void jbBuscaCidadeDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeDestinoActionPerformed
-        
+        limparTabela(jtbFuncionariosResp);
+        zeraConteudoCombos();
         Helper.ShowDialog(this,new FreteBuscarCidade(this, jtfCidadeDestinoNome, jtfCidadeDestinoCod, cidadeDestinoID));
     }//GEN-LAST:event_jbBuscaCidadeDestinoActionPerformed
 
@@ -1014,6 +1024,10 @@ public class Frete extends javax.swing.JFrame {
     private void jbLimparFuncionariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimparFuncionariosActionPerformed
         limparTabela(jtbFuncionariosResp);
     }//GEN-LAST:event_jbLimparFuncionariosActionPerformed
+
+    private void jtfCidadeOrigemCodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCidadeOrigemCodActionPerformed
+
+    }//GEN-LAST:event_jtfCidadeOrigemCodActionPerformed
 
     /**
      * @param args the command line arguments
