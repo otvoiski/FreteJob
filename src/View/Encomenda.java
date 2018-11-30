@@ -1239,7 +1239,7 @@ public class Encomenda extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
+        Helper.ShowDialog(this, new Pessoa(this));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
