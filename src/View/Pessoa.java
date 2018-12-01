@@ -1548,6 +1548,99 @@ public class Pessoa extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jbGravarActionPerformed
 
+    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+        ativaGravar(true);
+    }//GEN-LAST:event_jbIncluirActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jtbEndereco.getModel();
+        try {
+            Util.Validacao.InputToString(jtfLogradouro);
+            Util.Validacao.InputToString(jtfBairro);
+            Util.Validacao.InputToString(jtfCep);
+            Util.Validacao.InputToString(jtfNumero);
+            Util.Validacao.InputToString(jtfCidadeCodigo);
+
+            modelo.addRow(
+                    new Object[]{
+                        jtfLogradouro.getText(),
+                        jtfBairro.getText(),
+                        jtfCep.getText(),
+                        jtfNumero.getText(),
+                        jtfComplemento.getText(),
+                        jcbTiposEndereco.getSelectedItem().toString(),
+                        jtfCidadeNome.getText(),});
+
+            jtbEndereco.setModel(modelo);
+
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jbAddEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddEmailActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(jtbEmails);
+    }//GEN-LAST:event_jbAddEmailActionPerformed
+
+    private void jtfCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCepActionPerformed
+
+    private void jckFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckFuncionarioActionPerformed
+        ativaCliente(!jckFuncionario.isSelected());
+        jckCliente.setSelected(!jckFuncionario.isSelected());
+        ativaDistribuidora(!jckFuncionario.isSelected() && jrbJuridica.isSelected());
+        ativaFuncionario(jckFuncionario.isSelected());
+    }//GEN-LAST:event_jckFuncionarioActionPerformed
+
+    private void jckDistribuidoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckDistribuidoraActionPerformed
+        ativaCliente(!jckDistribuidora.isSelected());
+        ativaFuncionario(false);
+        ativaDistribuidora(jckDistribuidora.isSelected());
+        jckCliente.setSelected(!jckDistribuidora.isSelected());
+    }//GEN-LAST:event_jckDistribuidoraActionPerformed
+
+    private void jckClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckClienteActionPerformed
+        ativaFuncionario(!jckCliente.isSelected() && jrbFisica.isSelected());
+        ativaDistribuidora(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckDistribuidora.setSelected(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckFuncionario.setSelected(!jckCliente.isSelected() && jrbFisica.isSelected());
+    }//GEN-LAST:event_jckClienteActionPerformed
+
+    private void jbBuscarCidadeEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCidadeEnderecoActionPerformed
+        Helper.ShowDialog(this, new FreteBuscarCidade(this, jtfCidadeNome, jtfCidadeCodigo, enderCidadeID));
+    }//GEN-LAST:event_jbBuscarCidadeEnderecoActionPerformed
+
+    private void jbAddTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTelefoneActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(jtbTelefones);
+    }//GEN-LAST:event_jbAddTelefoneActionPerformed
+
+    private void jbRemoverTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverTelefoneActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(jtbTelefones);
+    }//GEN-LAST:event_jbRemoverTelefoneActionPerformed
+
+    private void jbAddMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddMidiaActionPerformed
+        // TODO add your handling code here:
+        Helper.NewRowOnJTable(jtbMidias);        
+    }//GEN-LAST:event_jbAddMidiaActionPerformed
+
+    private void jbRemoverEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverEmailActionPerformed
+        // TODO add your handling code here:        
+        Helper.RemoveRowJTable(jtbEmails);
+    }//GEN-LAST:event_jbRemoverEmailActionPerformed
+
+    private void jbRemoveMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveMidiaActionPerformed
+        // TODO add your handling code here:
+        Helper.RemoveRowJTable(jtbMidias);
+    }//GEN-LAST:event_jbRemoveMidiaActionPerformed
+
     /**
      * @param args the command line arguments
      */
