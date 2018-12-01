@@ -62,7 +62,6 @@ public class PessoaJuridica extends Pessoa{
     }
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-                System.out.println(jsonRetorno);
         PessoaJuridica objPessoa = new PessoaJuridica();
         objPessoa.preencheAtributosRetorno(jsonRetorno);
         if(jsonRetorno.has("cnpj"))
