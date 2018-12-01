@@ -43,6 +43,7 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
         MidiaSociais = new ArrayList<>();
+        Emails =  new ArrayList<>();
     }
     
     public List<Email> getEmails() {
@@ -105,7 +106,10 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     }
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
-        setCodigo(jsonRetorno.getInt("codigo"));
+        if(jsonRetorno.has("codigo"))
+            setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            setCodigo(0);
         if(jsonRetorno.has("naturezaPessoa"))
             setNaturezaPessoa(jsonRetorno.getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa"));
         if(jsonRetorno.has("tipoPessoa")){

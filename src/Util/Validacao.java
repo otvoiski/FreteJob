@@ -68,7 +68,7 @@ public class Validacao
             for(int i = 0; i< tabela.getRowCount(); i++){
                 for(int j = 0; j< tabela.getColumnCount(); j++){
                     if(tabela.getModel().getValueAt(i, j) == null || tabela.getModel().getValueAt(i, j).equals("")){
-                        msg = "Todos os dados na tabela devem estar preenchidos!";
+                        msg = "Todos os dados na tabela "+tabela.getName()+" devem estar preenchidos!";
                         tabelaAceita = false;
                     }
                 }

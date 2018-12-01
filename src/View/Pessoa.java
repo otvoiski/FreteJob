@@ -122,8 +122,16 @@ public class Pessoa extends javax.swing.JFrame {
         campos.add(jtfLogradouro);
         campos.add(jtfDataNasc);
         campos.add(jtfComplemento);
+        campos.add(jtfDDD);
+        campos.add(jtfNumeroTel);
+        campos.add(jtfEmail);
+        campos.add(jtfMidiaSocial);
         tratarEventos.setCampos(campos);
-
+        jtbDistCidadesAtua.setCellSelectionEnabled(true);
+        jtbEmails.setCellSelectionEnabled(true);
+        jtbEndereco.setCellSelectionEnabled(true);
+        jtbMidias.setCellSelectionEnabled(true);
+        jtbTelefones.setCellSelectionEnabled(true);
     }
 
     private void inicializaCamposBuscar() {
@@ -240,18 +248,25 @@ public class Pessoa extends javax.swing.JFrame {
         jbRemoverTelefone = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtbTelefones = new javax.swing.JTable();
+        jtfDDD = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jtfNumeroTel = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jbAddEmail = new javax.swing.JButton();
         jbRemoverEmail = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtbEmails = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
+        jtfEmail = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         jbAddMidia = new javax.swing.JButton();
         jbRemoveMidia = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jtbMidias = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
+        jtfMidiaSocial = new javax.swing.JTextField();
         jtfCodigoPessoa = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -752,7 +767,7 @@ public class Pessoa extends javax.swing.JFrame {
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
                             .addGroup(jPanel16Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -888,27 +903,51 @@ public class Pessoa extends javax.swing.JFrame {
         jtbTelefones.setName("Telefones"); // NOI18N
         jScrollPane3.setViewportView(jtbTelefones);
 
+        jtfDDD.setEnabled(false);
+        jtfDDD.setName("DDD"); // NOI18N
+
+        jLabel5.setText("DDD:");
+
+        jtfNumeroTel.setEnabled(false);
+        jtfNumeroTel.setName("Telefone"); // NOI18N
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfDDD, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtfNumeroTel, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(244, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 18, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap(14, Short.MAX_VALUE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfDDD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5)
+                            .addComponent(jtfNumeroTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(25, 25, 25))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jpAddTelefone, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
 
         jtpMidias.addTab("Telefones", jPanel6);
@@ -955,27 +994,41 @@ public class Pessoa extends javax.swing.JFrame {
         jtbEmails.setName("Email"); // NOI18N
         jScrollPane2.setViewportView(jtbEmails);
 
+        jLabel6.setText("Email:");
+
+        jtfEmail.setEnabled(false);
+        jtfEmail.setName("Email"); // NOI18N
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(368, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 552, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(18, 18, 18)
+                        .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(444, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(98, 98, 98)
-                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(27, 27, 27)
+                        .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -1022,25 +1075,40 @@ public class Pessoa extends javax.swing.JFrame {
         jtbMidias.setName("Midias Sociais"); // NOI18N
         jScrollPane4.setViewportView(jtbMidias);
 
+        jLabel7.setText("Midia:");
+
+        jtfMidiaSocial.setEnabled(false);
+        jtfMidiaSocial.setName("Midia"); // NOI18N
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(365, Short.MAX_VALUE))
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jtfMidiaSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(485, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel7)
+                        .addComponent(jtfMidiaSocial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
 
         jtpMidias.addTab("Midias Sociais", jPanel7);
@@ -1215,7 +1283,7 @@ public class Pessoa extends javax.swing.JFrame {
             jtfNome_RazaoSoc.setText("");
             jtfCpf_NomeFantasia.setText("");
             jtfRg_CNPJ.setText("");
-            jtfCep.setText("");
+            //jtfCep.setText("");
         }
 
     }//GEN-LAST:event_jrbJuridicaActionPerformed
@@ -1244,6 +1312,7 @@ public class Pessoa extends javax.swing.JFrame {
             Util.Validacao.InputToString(jtfCep);
             Util.Validacao.InputToString(jtfNumero);
             Util.Validacao.InputToString(jtfCidadeCodigo);
+            Util.Validacao.InputToString(jtfComplemento);
 
             modelo.addRow(
                     new Object[]{
@@ -1267,7 +1336,16 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jbAddEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddEmailActionPerformed
-        insereLinhaTabela(jtbEmails);
+        DefaultTableModel modelo = (DefaultTableModel) jtbEmails.getModel();
+        try {
+            Util.Validacao.InputToString(jtfEmail);
+            modelo.addRow(new Object[]{
+                        jtfEmail.getText()
+            });
+            jtbEmails.setModel(modelo);
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbAddEmailActionPerformed
 
     private void jtfCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCepActionPerformed
@@ -1300,7 +1378,18 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscarCidadeEnderecoActionPerformed
 
     private void jbAddTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTelefoneActionPerformed
-        insereLinhaTabela(jtbTelefones);
+        DefaultTableModel modelo = (DefaultTableModel) jtbTelefones.getModel();
+        try {
+            Util.Validacao.InputToString(jtfDDD);
+            Util.Validacao.InputToString(jtfNumeroTel);
+            modelo.addRow(new Object[]{
+                        jtfDDD.getText(),
+                        jtfNumeroTel.getText()
+            });
+            jtbTelefones.setModel(modelo);
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbAddTelefoneActionPerformed
 
     private void jbRemoverTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverTelefoneActionPerformed
@@ -1312,7 +1401,16 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbRemoverEmailActionPerformed
 
     private void jbAddMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddMidiaActionPerformed
-        insereLinhaTabela(jtbMidias);
+        DefaultTableModel modelo = (DefaultTableModel) jtbMidias.getModel();
+        try {
+            Util.Validacao.InputToString(jtfMidiaSocial);
+            modelo.addRow(new Object[]{
+                        jtfMidiaSocial.getText()
+            });
+            jtbMidias.setModel(modelo);
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jbAddMidiaActionPerformed
 
     private void jbRemoveMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveMidiaActionPerformed
@@ -1324,7 +1422,9 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscarDistrFuncActionPerformed
 
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
-              try {
+           
+        boolean exito =  false;
+        try {
             // TODO add your handling code here:            
             JSONObject jsonPersistencia = new JSONObject();
             JSONArray jsonArrayAux;
@@ -1381,14 +1481,13 @@ public class Pessoa extends javax.swing.JFrame {
                     jsonAux.put("tipo", Util.Enums.TipoEndereco.Principal);
                 }
 
-                jsonAux.put("cidade", jtbEndereco.getModel().getValueAt(i, 6));
+                jsonAux.put("cidade", new JSONObject().put("nome", jtbEndereco.getModel().getValueAt(i, 6)));
                 jsonArrayAux.put(jsonAux);
             }
             jsonPersistencia.put("enderecos", jsonArrayAux);
             
             
             Util.Validacao.itensjTable(jtbEmails);
-            jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbEmails.getRowCount(); i++) {
                 jsonArrayAux.put(new JSONObject().put("email", jtbEmails.getModel().getValueAt(i, 0)));
             }
@@ -1412,22 +1511,41 @@ public class Pessoa extends javax.swing.JFrame {
             }
 
             jsonPersistencia.put("midiasSociais", jsonArrayAux);
+/*
+            if(jrbFisica.isSelected()){
+                if(jckCliente.isSelected()){
+                    if(new Controller.PessoaFisicaController().Save(jsonPersistencia))
+                        exito = true;
+                    else
+                        JOptionPane.showMessageDialog(rootPane, "Falha ao inserir o Cliente");
+                }else{
+                    if(new Controller.FuncionarioController().Save(jsonPersistencia))
+                        exito = true;
+                    else
+                       JOptionPane.showMessageDialog(rootPane, "Falha ao inserir o Funcionário");
+                }
+            }else
+                if(jckCliente.isSelected()){
+                    if(new Controller.PessoaJuridicaController().Save(jsonPersistencia))
+                         exito = true;
+                    else
+                        JOptionPane.showMessageDialog(rootPane, "Falha ao inserir o Cliente");
 
-            /* if(jrbFisica.isSelected())
-                if(new Controller.PessoaFisicaController().Save(json))
-                    Helper.CloseDialog(this, windowsBack);
-                else
-                    JOptionPane.showMessageDialog(rootPane, "Falha ao inserir Pessoa Fisica");
-            else
-                if(new Controller.PessoaJuridicaController().Save(json))
-                    Helper.CloseDialog(this, windowsBack);
-                else
-                    JOptionPane.showMessageDialog(rootPane, "Falha ao inserir o Pessoa Juridica");*/
+                }else{
+                    if(new Controller.DistribuidoraController().Save(jsonPersistencia))
+                         exito = true;
+                    else
+                        JOptionPane.showMessageDialog(rootPane, "Falha ao inserir a Distribuidora");
+                }
+            if(exito){
+                JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso!");
+                ativaGravar(false);
+            }
+        */
         } catch (Util.Error ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Verificar os campos", JOptionPane.WARNING_MESSAGE);
         }
 
-        ativaGravar(false);
     }//GEN-LAST:event_jbGravarActionPerformed
 
     /**
@@ -1490,6 +1608,9 @@ public class Pessoa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1548,12 +1669,16 @@ public class Pessoa extends javax.swing.JFrame {
     private javax.swing.JTextField jtfCodigoPessoa;
     private javax.swing.JTextField jtfComplemento;
     private javax.swing.JTextField jtfCpf_NomeFantasia;
+    private javax.swing.JTextField jtfDDD;
     private javax.swing.JTextField jtfDataNasc;
     private javax.swing.JTextField jtfDistFuncTrabNome;
     private javax.swing.JTextField jtfDistFuncionarioTrabCod;
+    private javax.swing.JTextField jtfEmail;
     private javax.swing.JTextField jtfLogradouro;
+    private javax.swing.JTextField jtfMidiaSocial;
     private javax.swing.JTextField jtfNome_RazaoSoc;
     private javax.swing.JTextField jtfNumero;
+    private javax.swing.JTextField jtfNumeroTel;
     private javax.swing.JTextField jtfRg_CNPJ;
     private javax.swing.JTabbedPane jtpMidias;
     // End of variables declaration//GEN-END:variables
