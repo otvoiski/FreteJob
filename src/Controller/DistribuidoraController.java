@@ -30,4 +30,11 @@ public class DistribuidoraController extends ControllerBase{
         });
         return jsonRetorno;
     }
+    public List<JSONObject> GetByName(String descricao) {
+        ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
+        new Business.DistribuidoraBusiness().GetByName(descricao).forEach((distribuidora) -> {
+            jsonRetorno.add(new JSONObject(distribuidora));
+        });
+        return jsonRetorno;
+    }
 }

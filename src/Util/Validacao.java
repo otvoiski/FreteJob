@@ -67,7 +67,7 @@ public class Validacao
         }else{
             for(int i = 0; i< tabela.getRowCount(); i++){
                 for(int j = 0; j< tabela.getColumnCount(); j++){
-                    if(tabela.getModel().getValueAt(i, j) == null){
+                    if(tabela.getModel().getValueAt(i, j) == null || tabela.getModel().getValueAt(i, j).equals("")){
                         msg = "Todos os dados na tabela devem estar preenchidos!";
                         tabelaAceita = false;
                     }
@@ -77,7 +77,6 @@ public class Validacao
 
            
         if(!tabelaAceita){
-            JOptionPane.showMessageDialog(null, msg);
             throw new Error(msg,new Throwable(tabela.getName()+ " está vazio"));
         }
     }

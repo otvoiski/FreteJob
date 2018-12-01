@@ -14,7 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.json.JSONArray;
@@ -27,15 +29,37 @@ import org.json.JSONObject;
 public class Pessoa extends javax.swing.JFrame {
 
     private JFrame windowsBack;
-    private final Thread TCheckCadastrarEmitente;
+   // private final Thread TCheckCadastrarEmitente;
     private final TelaHandler tratarEventos;
     private int enderCidadeID;
+    private int distibuidoraID;
 
     /**
      * Creates new form EncomendaCriarPessoa
      *
      * @param windowsBack
      */
+    private void insereLinhaTabela(JTable tabela){
+        
+        DefaultTableModel modelo = (DefaultTableModel) tabela.getModel();
+        if(tabela.getRowCount() == 0){
+            modelo.addRow(new Object[]{});
+            tabela.setModel(modelo);
+        }else{
+            modelo.addRow(new Object[]{});
+            tabela.setModel(modelo);
+        }
+         
+    }
+    private void removeLinhaSelecionada(JTable tabela){
+        DefaultTableModel modelo =  (DefaultTableModel) tabela.getModel();
+        if(tabela.getSelectedRow() != -1){
+            modelo.removeRow(tabela.getSelectedRow());
+        }else{
+            JOptionPane.showMessageDialog(null, "Selecione uma linha da tabela para remover");
+        }
+        tabela.setModel(modelo);
+    }
     public Pessoa(JFrame windowsBack) {
         initComponents();
         this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir, jbConsultar);
@@ -45,7 +69,7 @@ public class Pessoa extends javax.swing.JFrame {
         for (TipoEndereco tipo : Util.Enums.TipoEndereco.values()) {
             jcbTiposEndereco.addItem(tipo.name());
         }
-        TCheckCadastrarEmitente = new Thread(new Runnable() {
+        /*TCheckCadastrarEmitente = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -71,7 +95,7 @@ public class Pessoa extends javax.swing.JFrame {
                 }
             }
         });
-        TCheckCadastrarEmitente.start();
+        TCheckCadastrarEmitente.start();*/
 
         TableColumnModel columnModel = jtbTelefones.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(15);
@@ -350,6 +374,11 @@ public class Pessoa extends javax.swing.JFrame {
 
         jbBuscarDistrFunc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
         jbBuscarDistrFunc.setEnabled(false);
+        jbBuscarDistrFunc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarDistrFuncActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpFuncLocalTrabLayout = new javax.swing.GroupLayout(jpFuncLocalTrab);
         jpFuncLocalTrab.setLayout(jpFuncLocalTrabLayout);
@@ -824,10 +853,20 @@ public class Pessoa extends javax.swing.JFrame {
 
         jbAddTelefone.setText("Adicionar Telefone");
         jbAddTelefone.setEnabled(false);
+        jbAddTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddTelefoneActionPerformed(evt);
+            }
+        });
         jpAddTelefone.add(jbAddTelefone);
 
         jbRemoverTelefone.setText("Remover");
         jbRemoverTelefone.setEnabled(false);
+        jbRemoverTelefone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverTelefoneActionPerformed(evt);
+            }
+        });
         jpAddTelefone.add(jbRemoverTelefone);
 
         jtbTelefones.setModel(new javax.swing.table.DefaultTableModel(
@@ -889,6 +928,11 @@ public class Pessoa extends javax.swing.JFrame {
 
         jbRemoverEmail.setText("Remover");
         jbRemoverEmail.setEnabled(false);
+        jbRemoverEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoverEmailActionPerformed(evt);
+            }
+        });
         jPanel9.add(jbRemoverEmail);
 
         jtbEmails.setModel(new javax.swing.table.DefaultTableModel(
@@ -943,10 +987,20 @@ public class Pessoa extends javax.swing.JFrame {
 
         jbAddMidia.setText("Adicionar Midia");
         jbAddMidia.setEnabled(false);
+        jbAddMidia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAddMidiaActionPerformed(evt);
+            }
+        });
         jPanel11.add(jbAddMidia);
 
         jbRemoveMidia.setText("Remover");
         jbRemoveMidia.setEnabled(false);
+        jbRemoveMidia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRemoveMidiaActionPerformed(evt);
+            }
+        });
         jPanel11.add(jbRemoveMidia);
 
         jtbMidias.setModel(new javax.swing.table.DefaultTableModel(
@@ -1018,11 +1072,10 @@ public class Pessoa extends javax.swing.JFrame {
         });
         jPanel3.add(jbIncluir);
 
+        jbGravar.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         jbGravar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/SaveIcon.png"))); // NOI18N
         jbGravar.setText("Gravar");
         jbGravar.setEnabled(false);
-        jbGravar.setMinimumSize(new java.awt.Dimension(101, 27));
-        jbGravar.setPreferredSize(new java.awt.Dimension(101, 27));
         jbGravar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbGravarActionPerformed(evt);
@@ -1072,8 +1125,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addGap(8, 8, 8)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtfCodigoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(169, 169, 169))
+                        .addComponent(jtfCodigoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -1106,7 +1158,7 @@ public class Pessoa extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         try {
-            TCheckCadastrarEmitente.stop();
+            //TCheckCadastrarEmitente.stop();
             Helper.CloseDialog(this, windowsBack);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -1180,8 +1232,99 @@ public class Pessoa extends javax.swing.JFrame {
         ativaGravar(false);
     }//GEN-LAST:event_jbCancelarActionPerformed
 
-    private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
+    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+        ativaGravar(true);
+    }//GEN-LAST:event_jbIncluirActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel modelo = (DefaultTableModel) jtbEndereco.getModel();
         try {
+            Util.Validacao.InputToString(jtfLogradouro);
+            Util.Validacao.InputToString(jtfBairro);
+            Util.Validacao.InputToString(jtfCep);
+            Util.Validacao.InputToString(jtfNumero);
+            Util.Validacao.InputToString(jtfCidadeCodigo);
+
+            modelo.addRow(
+                    new Object[]{
+                        jtfLogradouro.getText(),
+                        jtfBairro.getText(),
+                        jtfCep.getText(),
+                        jtfNumero.getText(),
+                        jtfComplemento.getText(),
+                        jcbTiposEndereco.getSelectedItem().toString(),
+                        jtfCidadeNome.getText(),});
+
+            jtbEndereco.setModel(modelo);
+
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jbAddEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddEmailActionPerformed
+        insereLinhaTabela(jtbEmails);
+    }//GEN-LAST:event_jbAddEmailActionPerformed
+
+    private void jtfCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCepActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfCepActionPerformed
+
+    private void jckFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckFuncionarioActionPerformed
+        ativaCliente(!jckFuncionario.isSelected());
+        jckCliente.setSelected(!jckFuncionario.isSelected());
+        ativaDistribuidora(!jckFuncionario.isSelected() && jrbJuridica.isSelected());
+        ativaFuncionario(jckFuncionario.isSelected());
+    }//GEN-LAST:event_jckFuncionarioActionPerformed
+
+    private void jckDistribuidoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckDistribuidoraActionPerformed
+        ativaCliente(!jckDistribuidora.isSelected());
+        ativaFuncionario(false);
+        ativaDistribuidora(jckDistribuidora.isSelected());
+        jckCliente.setSelected(!jckDistribuidora.isSelected());
+    }//GEN-LAST:event_jckDistribuidoraActionPerformed
+
+    private void jckClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckClienteActionPerformed
+        ativaFuncionario(!jckCliente.isSelected() && jrbFisica.isSelected());
+        ativaDistribuidora(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckDistribuidora.setSelected(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckFuncionario.setSelected(!jckCliente.isSelected() && jrbFisica.isSelected());
+    }//GEN-LAST:event_jckClienteActionPerformed
+
+    private void jbBuscarCidadeEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCidadeEnderecoActionPerformed
+        Helper.ShowDialog(this, new FreteBuscarCidade(this, jtfCidadeNome, jtfCidadeCodigo, enderCidadeID));
+    }//GEN-LAST:event_jbBuscarCidadeEnderecoActionPerformed
+
+    private void jbAddTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddTelefoneActionPerformed
+        insereLinhaTabela(jtbTelefones);
+    }//GEN-LAST:event_jbAddTelefoneActionPerformed
+
+    private void jbRemoverTelefoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverTelefoneActionPerformed
+        removeLinhaSelecionada(jtbTelefones);
+    }//GEN-LAST:event_jbRemoverTelefoneActionPerformed
+
+    private void jbRemoverEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoverEmailActionPerformed
+        removeLinhaSelecionada(jtbEmails);
+    }//GEN-LAST:event_jbRemoverEmailActionPerformed
+
+    private void jbAddMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddMidiaActionPerformed
+        insereLinhaTabela(jtbMidias);
+    }//GEN-LAST:event_jbAddMidiaActionPerformed
+
+    private void jbRemoveMidiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRemoveMidiaActionPerformed
+        removeLinhaSelecionada(jtbMidias);
+    }//GEN-LAST:event_jbRemoveMidiaActionPerformed
+
+    private void jbBuscarDistrFuncActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarDistrFuncActionPerformed
+        Helper.ShowDialog(this, new BuscaDistribuidora(this, jtfDistFuncTrabNome, jtfDistFuncionarioTrabCod, distibuidoraID));
+    }//GEN-LAST:event_jbBuscarDistrFuncActionPerformed
+
+    private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
+              try {
             // TODO add your handling code here:            
             JSONObject jsonPersistencia = new JSONObject();
             JSONArray jsonArrayAux;
@@ -1218,6 +1361,8 @@ public class Pessoa extends javax.swing.JFrame {
                     jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Cliente);
                 }
             }
+            Util.Validacao.itensjTable(jtbEndereco);
+            
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbEndereco.getRowCount(); i++) {
                 jsonAux = new JSONObject();
@@ -1240,13 +1385,16 @@ public class Pessoa extends javax.swing.JFrame {
                 jsonArrayAux.put(jsonAux);
             }
             jsonPersistencia.put("enderecos", jsonArrayAux);
-
+            
+            
+            Util.Validacao.itensjTable(jtbEmails);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbEmails.getRowCount(); i++) {
                 jsonArrayAux.put(new JSONObject().put("email", jtbEmails.getModel().getValueAt(i, 0)));
             }
             jsonPersistencia.put("emails", jsonArrayAux);
 
+            Util.Validacao.itensjTable(jtbTelefones);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbTelefones.getRowCount(); i++) {
                 jsonAux = new JSONObject();
@@ -1255,7 +1403,9 @@ public class Pessoa extends javax.swing.JFrame {
                 jsonArrayAux.put(jsonAux);
             }
             jsonPersistencia.put("telefones", jsonArrayAux);
-
+            
+            
+            Util.Validacao.itensjTable(jtbMidias);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbMidias.getRowCount(); i++) {
                 jsonArrayAux.put(new JSONObject().put("descricao", jtbMidias.getModel().getValueAt(i, 0)));
@@ -1279,73 +1429,6 @@ public class Pessoa extends javax.swing.JFrame {
 
         ativaGravar(false);
     }//GEN-LAST:event_jbGravarActionPerformed
-
-    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
-        ativaGravar(true);
-    }//GEN-LAST:event_jbIncluirActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        DefaultTableModel modelo = (DefaultTableModel) jtbEndereco.getModel();
-        try {
-            Util.Validacao.InputToString(jtfLogradouro);
-            Util.Validacao.InputToString(jtfBairro);
-            Util.Validacao.InputToString(jtfCep);
-            Util.Validacao.InputToString(jtfNumero);
-            Util.Validacao.InputToString(jtfCidadeCodigo);
-
-            modelo.addRow(
-                    new Object[]{
-                        jtfLogradouro.getText(),
-                        jtfBairro.getText(),
-                        jtfCep.getText(),
-                        jtfNumero.getText(),
-                        jtfComplemento.getText(),
-                        jcbTiposEndereco.getSelectedItem().toString(),
-                        jtfCidadeNome.getText(),});
-
-            jtbEndereco.setModel(modelo);
-
-        } catch (Error ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jbAddEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAddEmailActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbAddEmailActionPerformed
-
-    private void jtfCepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfCepActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jtfCepActionPerformed
-
-    private void jckFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckFuncionarioActionPerformed
-        ativaCliente(!jckFuncionario.isSelected());
-        jckCliente.setSelected(!jckFuncionario.isSelected());
-        ativaDistribuidora(!jckFuncionario.isSelected() && jrbJuridica.isSelected());
-        ativaFuncionario(jckFuncionario.isSelected());
-    }//GEN-LAST:event_jckFuncionarioActionPerformed
-
-    private void jckDistribuidoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckDistribuidoraActionPerformed
-        ativaCliente(!jckDistribuidora.isSelected());
-        ativaFuncionario(false);
-        ativaDistribuidora(jckDistribuidora.isSelected());
-        jckCliente.setSelected(!jckDistribuidora.isSelected());
-    }//GEN-LAST:event_jckDistribuidoraActionPerformed
-
-    private void jckClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckClienteActionPerformed
-        ativaFuncionario(!jckCliente.isSelected() && jrbFisica.isSelected());
-        ativaDistribuidora(!jckCliente.isSelected() && jrbJuridica.isSelected());
-        jckDistribuidora.setSelected(!jckCliente.isSelected() && jrbJuridica.isSelected());
-        jckFuncionario.setSelected(!jckCliente.isSelected() && jrbFisica.isSelected());
-    }//GEN-LAST:event_jckClienteActionPerformed
-
-    private void jbBuscarCidadeEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCidadeEnderecoActionPerformed
-        Helper.ShowDialog(this, new FreteBuscarCidade(this, jtfCidadeNome, jtfCidadeCodigo, enderCidadeID));
-    }//GEN-LAST:event_jbBuscarCidadeEnderecoActionPerformed
 
     /**
      * @param args the command line arguments

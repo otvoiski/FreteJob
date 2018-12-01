@@ -24,4 +24,14 @@ public class DistribuidoraBusiness extends BusinessBase {
         query.setInteger("codigoCidade", cidadeCodigo);
         return (List<Distribuidora>) query.list();
     }
+    
+    public List<Distribuidora> GetByName(String descricao) {
+         String hql = "from Distribuidora d"
+                + " where d.RazaoSocial like :descricao or d.NomeFantasia like :descricao2";
+         Query query = session.createQuery(hql);
+        query.setString("descricao", descricao+ "%");
+        query.setString("descricao2", descricao+ "%");
+        return (List<Distribuidora>) query.list();
+    
+    }
 }
