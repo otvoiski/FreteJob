@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -82,8 +83,6 @@ public class Pessoa extends javax.swing.JFrame {
         campos.add(jtfCpf_NomeFantasia);
         campos.add(jtfRg_CNPJ);
         campos.add(jtfCodigoPessoa);
-        campos.add(jtfDistFuncTrabNome);
-        campos.add(jtfDistFuncionarioTrabCod);
         campos.add(jtfCep);
         campos.add(jtfBairro);
         campos.add(jtfNumero);
@@ -92,6 +91,10 @@ public class Pessoa extends javax.swing.JFrame {
         campos.add(jtfDataNasc);
         tratarEventos.setCampos(campos);
 
+    }
+    private void inicializaBuscaLocalTrab(){
+        jtfDistFuncTrabNome.setText("Busque uma Distribuidora");
+        jtfDistFuncionarioTrabCod.setText("");
     }
     private void ativaGravar(boolean ativar){
          tratarEventos.ativaGravar(ativar);
@@ -112,12 +115,17 @@ public class Pessoa extends javax.swing.JFrame {
         jbFiltrarCidadeAtuacao.setEnabled(ativar);
         jbRemoverTelefone.setEnabled(ativar);
         jrbFisica.setEnabled(ativar);
+        jrbFisica.setSelected(true);
         jrbJuridica.setEnabled(ativar);
         jckCliente.setEnabled(ativar);
-        jckDistribuidora.setEnabled(ativar);
         jckFuncionario.setEnabled(ativar);
         jrbMasculino.setEnabled(ativar);
         jrbFeminino.setEnabled(ativar);
+        if(ativar)
+            jckDistribuidora.setEnabled(!ativar);
+         else jckDistribuidora.setEnabled(ativar);
+        jckCliente.setSelected(ativar);
+        inicializaBuscaLocalTrab();
     }
 
     /**
@@ -418,6 +426,11 @@ public class Pessoa extends javax.swing.JFrame {
         jckCliente.setBackground(new java.awt.Color(255, 255, 255));
         jckCliente.setText("Cliente");
         jckCliente.setEnabled(false);
+        jckCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jckClienteActionPerformed(evt);
+            }
+        });
 
         jckDistribuidora.setBackground(new java.awt.Color(255, 255, 255));
         jckDistribuidora.setText("Distribuidora");
@@ -1051,22 +1064,26 @@ public class Pessoa extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
+    
     private void ativaDistribuidora(boolean ativar){
         jpDistribuidora.setVisible(ativar);
+        jckDistribuidora.setEnabled(ativar);
     }
     private void ativaFuncionario(boolean ativar){
         jpFuncLocalTrab.setVisible(ativar);
+        jckFuncionario.setEnabled(ativar);
+    }
+    private void ativaCliente(boolean ativar){
+        jckCliente.setEnabled(ativar);
     }
     private void jrbFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbFisicaActionPerformed
         // TODO add your handling code here:
         if(jrbFisica.isSelected()){
-            jckCliente.setEnabled(true);
-            jckCliente.setSelected(false);
+            ativaCliente(true);
+            jckCliente.setSelected(true);
             jckFuncionario.setEnabled(true);
-            jckFuncionario.setSelected(false);
-            jckDistribuidora.setEnabled(false);
-            jckDistribuidora.setSelected(false);
             ativaDistribuidora(false);
+            jckDistribuidora.setSelected(false);
             LNome.setText("Nome");
             LCPF.setText("CPF");
             LRG.setText("RG");
@@ -1083,11 +1100,11 @@ public class Pessoa extends javax.swing.JFrame {
     private void jrbJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbJuridicaActionPerformed
         // TODO add your handling code here:
         if(jrbJuridica.isSelected()){
-            jckFuncionario.setSelected(false);
-            jckFuncionario.setEnabled(false);
-            jckDistribuidora.setEnabled(true);
-            jckDistribuidora.setSelected(false);
+            ativaCliente(true);
             ativaFuncionario(false);
+            jckDistribuidora.setEnabled(true);
+            jckFuncionario.setSelected(false);
+            jckCliente.setSelected(true);
             LNome.setText("Razão Social");
             LCPF.setText("Nome Fantasia");
             LRG.setText("CNPJ");
@@ -1116,28 +1133,38 @@ public class Pessoa extends javax.swing.JFrame {
     private void jbGravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbGravarActionPerformed
         try {
             // TODO add your handling code here:            
-            JSONObject json = new JSONObject();
+            JSONObject jsonPersistencia = new JSONObject();
+            JSONArray jsonArrayAux;
+            JSONObject jsonAux;
             
             if(jrbFisica.isSelected()){
-                json.put("nome", Util.Validacao.InputToString(jtfNome_RazaoSoc));
-                json.put("cpf", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
-                json.put("rg", Util.Validacao.InputToString(jtfRg_CNPJ));
-                json.put("datanascimento", Util.Validacao.InputToString(jtfDataNasc));
-                json.put("sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
-
-                json.put("tipoPessoa", Util.Enums.NaturezaPessoa.Fisica);
+                jsonPersistencia.put("nome", Util.Validacao.InputToString(jtfNome_RazaoSoc));
+                jsonPersistencia.put("cpf", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
+                jsonPersistencia.put("rg", Util.Validacao.InputToString(jtfRg_CNPJ));
+                jsonPersistencia.put("dataNascimento", Util.Validacao.InputToString(jtfDataNasc));
+                jsonPersistencia.put("sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
+                jsonPersistencia.put("naturezaPessoa", Util.Enums.NaturezaPessoa.Fisica);
+                if(jckFuncionario.isSelected()){
+                    jsonPersistencia.put("localTrabalho", jtfDistFuncionarioTrabCod.getText());
+                    if(jckCliente.isSelected()){
+                        jsonAux =  new JSONObject();
+                        jsonAux.put("Entidade1", Util.Enums.TipoPessoa.Cliente);
+                        jsonAux.put("Entidade2", Util.Enums.TipoPessoa.Funcionario);
+                        jsonPersistencia.put("entidadesPersistir",jsonAux);
+                    }
+                }
             } else {
-                json.put("razaoSocial", Util.Validacao.InputToString(jtfNome_RazaoSoc));
-                json.put("nomeFantasia", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
-                json.put("cnpj", Util.Validacao.InputToString(jtfRg_CNPJ));
-                
-                json.put("tipoPessoa", Util.Enums.NaturezaPessoa.Juridica);
+                jsonPersistencia.put("razaoSocial", Util.Validacao.InputToString(jtfNome_RazaoSoc));
+                jsonPersistencia.put("nomeFantasia", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
+                jsonPersistencia.put("cnpj", Util.Validacao.InputToString(jtfRg_CNPJ));
+                jsonPersistencia.put("naturezaPessoa", Util.Enums.NaturezaPessoa.Juridica);
             }
             
-            json.put("Endereco", Util.Helper.GetArrayToJTable(jtbEndereco));
-            json.put("Email", Util.Helper.GetArrayToJTable(jtbEmails));
-            json.put("Telefone", Util.Helper.GetArrayToJTable(jtbTelefones));
-            json.put("Midia", Util.Helper.GetArrayToJTable(jtbMidias));
+            
+            jsonPersistencia.put("Endereco", Util.Helper.GetArrayToJTable(jtbEndereco));
+            jsonPersistencia.put("Email", Util.Helper.GetArrayToJTable(jtbEmails));
+            jsonPersistencia.put("Telefone", Util.Helper.GetArrayToJTable(jtbTelefones));
+            jsonPersistencia.put("Midia", Util.Helper.GetArrayToJTable(jtbMidias));
             
             
            /* if(jrbFisica.isSelected())
@@ -1178,18 +1205,25 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfCepActionPerformed
 
     private void jckFuncionarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckFuncionarioActionPerformed
-       if(jckFuncionario.isSelected())
-           ativaFuncionario(true);
-       else
-           ativaFuncionario(false);
+        ativaCliente(!jckFuncionario.isSelected());
+        jckCliente.setSelected(!jckFuncionario.isSelected());
+        ativaDistribuidora(!jckFuncionario.isSelected() && jrbJuridica.isSelected());
+        ativaFuncionario(jckFuncionario.isSelected());
     }//GEN-LAST:event_jckFuncionarioActionPerformed
 
     private void jckDistribuidoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckDistribuidoraActionPerformed
-        if(jckDistribuidora.isSelected())
-            ativaDistribuidora(true);
-        else
-            ativaDistribuidora(false);
+        ativaCliente(!jckDistribuidora.isSelected());
+        ativaFuncionario(false);
+        ativaDistribuidora(jckDistribuidora.isSelected());
+        jckCliente.setSelected(!jckDistribuidora.isSelected());
     }//GEN-LAST:event_jckDistribuidoraActionPerformed
+
+    private void jckClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jckClienteActionPerformed
+        ativaFuncionario(!jckCliente.isSelected() && jrbFisica.isSelected());
+        ativaDistribuidora(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckDistribuidora.setSelected(!jckCliente.isSelected() && jrbJuridica.isSelected());
+        jckFuncionario.setSelected(!jckCliente.isSelected() && jrbFisica.isSelected());
+    }//GEN-LAST:event_jckClienteActionPerformed
 
     /**
      * @param args the command line arguments

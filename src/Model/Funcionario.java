@@ -92,8 +92,8 @@ public class Funcionario extends Pessoa {
             objFuncionario.setCpf(jsonRetorno.getString("cpf"));
         if(jsonRetorno.has("rg"))
             objFuncionario.setRg(jsonRetorno.getString("rg"));
-        if(jsonRetorno.has("localtrabalho"))
-            objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
+        if(jsonRetorno.has("localTrabalho"))
+            objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localTrabalho")));
         
         return objFuncionario;
     }
