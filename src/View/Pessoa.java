@@ -6,9 +6,12 @@
 package View;
 
 import Util.Enums.TipoEndereco;
+import Util.Error;
 import Util.Helper;
 import Util.TelaHandler;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -22,19 +25,23 @@ import org.json.JSONObject;
  * @author Otavio
  */
 public class Pessoa extends javax.swing.JFrame {
+
     private JFrame windowsBack;
     private final Thread TCheckCadastrarEmitente;
     private final TelaHandler tratarEventos;
+    private int enderCidadeID;
+
     /**
      * Creates new form EncomendaCriarPessoa
+     *
      * @param windowsBack
      */
     public Pessoa(JFrame windowsBack) {
         initComponents();
-        this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir,jbConsultar);
-        
+        this.tratarEventos = new TelaHandler(jbIncluir, jbGravar, jbCancelar, jbExluir, jbConsultar);
+
         this.windowsBack = windowsBack;
-        
+
         for (TipoEndereco tipo : Util.Enums.TipoEndereco.values()) {
             jcbTiposEndereco.addItem(tipo.name());
         }
@@ -43,33 +50,34 @@ public class Pessoa extends javax.swing.JFrame {
             public void run() {
                 try {
                     while (true) {
-                        if(jrbFisica.isSelected()){
+                        if (jrbFisica.isSelected()) {
                             jbGravar.setEnabled(
-                                    !jtfNome_RazaoSoc.getText().isEmpty() &&
-                                            !jtfCpf_NomeFantasia.getText().isEmpty() &&
-                                            !jtfRg_CNPJ.getText().isEmpty() &&
-                                            !jtfDataNasc.getText().isEmpty()
+                                    !jtfNome_RazaoSoc.getText().isEmpty()
+                                    && !jtfCpf_NomeFantasia.getText().isEmpty()
+                                    && !jtfRg_CNPJ.getText().isEmpty()
+                                    && !jtfDataNasc.getText().isEmpty()
                             );
-                        } else
+                        } else {
                             jbGravar.setEnabled(
-                                    !jtfNome_RazaoSoc.getText().isEmpty() &&
-                                            !jtfCpf_NomeFantasia.getText().isEmpty() &&
-                                            !jtfRg_CNPJ.getText().isEmpty()
+                                    !jtfNome_RazaoSoc.getText().isEmpty()
+                                    && !jtfCpf_NomeFantasia.getText().isEmpty()
+                                    && !jtfRg_CNPJ.getText().isEmpty()
                             );
+                        }
                         Thread.sleep(2000);
                     }
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-            } 
+            }
         });
         TCheckCadastrarEmitente.start();
-        
+
         TableColumnModel columnModel = jtbTelefones.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(15);
         columnModel.getColumn(1).setPreferredWidth(300);
-        
-        columnModel =  jtbDistCidadesAtua.getColumnModel();
+
+        columnModel = jtbDistCidadesAtua.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(15);
         columnModel.getColumn(1).setPreferredWidth(500);
         columnModel.getColumn(2).setPreferredWidth(100);
@@ -78,8 +86,8 @@ public class Pessoa extends javax.swing.JFrame {
         jckDistribuidora.setEnabled(false);
         ativaFuncionario(false);
         ativaDistribuidora(false);
-        
-        ArrayList<JTextField> campos =  new ArrayList<>();
+
+        ArrayList<JTextField> campos = new ArrayList<>();
         campos.add(jtfCpf_NomeFantasia);
         campos.add(jtfRg_CNPJ);
         campos.add(jtfCodigoPessoa);
@@ -89,25 +97,30 @@ public class Pessoa extends javax.swing.JFrame {
         campos.add(jtfNome_RazaoSoc);
         campos.add(jtfLogradouro);
         campos.add(jtfDataNasc);
+        campos.add(jtfComplemento);
         tratarEventos.setCampos(campos);
 
     }
-    private void inicializaBuscaLocalTrab(){
+
+    private void inicializaCamposBuscar() {
         jtfDistFuncTrabNome.setText("Busque uma Distribuidora");
         jtfDistFuncionarioTrabCod.setText("");
+        jtfCidadeCodigo.setText("");
+        jtfCidadeNome.setText("Busque uma Cidade");
     }
-    private void ativaGravar(boolean ativar){
-         tratarEventos.ativaGravar(ativar);
-        ((DefaultTableModel)jtbMidias.getModel()).setRowCount(0);
-        ((DefaultTableModel)jtbEmails.getModel()).setRowCount(0);
-        ((DefaultTableModel)jtbEndereco.getModel()).setRowCount(0);
-        ((DefaultTableModel)jtbTelefones.getModel()).setRowCount(0);
-        ((DefaultTableModel)jtbDistCidadesAtua.getModel()).setRowCount(0);
+
+    private void ativaGravar(boolean ativar) {
+        tratarEventos.ativaGravar(ativar);
+        ((DefaultTableModel) jtbMidias.getModel()).setRowCount(0);
+        ((DefaultTableModel) jtbEmails.getModel()).setRowCount(0);
+        ((DefaultTableModel) jtbEndereco.getModel()).setRowCount(0);
+        ((DefaultTableModel) jtbTelefones.getModel()).setRowCount(0);
+        ((DefaultTableModel) jtbDistCidadesAtua.getModel()).setRowCount(0);
         jbAddEmail.setEnabled(ativar);
         jbAddEndereco.setEnabled(ativar);
         jbAddMidia.setEnabled(ativar);
         jbAddTelefone.setEnabled(ativar);
-        jbBuscarCidade.setEnabled(ativar);
+        jbBuscarCidadeEndereco.setEnabled(ativar);
         jbBuscarDistrFunc.setEnabled(ativar);
         jbRemoveMidia.setEnabled(ativar);
         jbRemoverEmail.setEnabled(ativar);
@@ -121,11 +134,14 @@ public class Pessoa extends javax.swing.JFrame {
         jckFuncionario.setEnabled(ativar);
         jrbMasculino.setEnabled(ativar);
         jrbFeminino.setEnabled(ativar);
-        if(ativar)
+        jcbTiposEndereco.setEnabled(ativar);
+        if (ativar) {
             jckDistribuidora.setEnabled(!ativar);
-         else jckDistribuidora.setEnabled(ativar);
+        } else {
+            jckDistribuidora.setEnabled(ativar);
+        }
         jckCliente.setSelected(ativar);
-        inicializaBuscaLocalTrab();
+        inicializaCamposBuscar();
     }
 
     /**
@@ -190,8 +206,10 @@ public class Pessoa extends javax.swing.JFrame {
         jtfCidadeCodigo = new javax.swing.JTextField();
         jtfCidadeNome = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jbBuscarCidade = new javax.swing.JButton();
+        jbBuscarCidadeEndereco = new javax.swing.JButton();
         jcbTiposEndereco = new javax.swing.JComboBox<>();
+        jtfComplemento = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jpAddTelefone = new javax.swing.JPanel();
         jbAddTelefone = new javax.swing.JButton();
@@ -210,14 +228,14 @@ public class Pessoa extends javax.swing.JFrame {
         jbRemoveMidia = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jtbMidias = new javax.swing.JTable();
+        jtfCodigoPessoa = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jbIncluir = new javax.swing.JButton();
         jbGravar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbExluir = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
-        jtfCodigoPessoa = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de pessoa");
@@ -233,7 +251,7 @@ public class Pessoa extends javax.swing.JFrame {
         Main.setEnabled(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Informações"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.white, null), "Informações"));
 
         LNome.setText("Nome");
 
@@ -251,7 +269,7 @@ public class Pessoa extends javax.swing.JFrame {
         jtfRg_CNPJ.setName("jtfRg_CNPJ"); // NOI18N
 
         JFisica.setBackground(new java.awt.Color(255, 255, 255));
-        JFisica.setBorder(javax.swing.BorderFactory.createTitledBorder("Nascimento/Sexo"));
+        JFisica.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Nascimento/Sexo"));
         JFisica.setPreferredSize(new java.awt.Dimension(387, 75));
 
         jtfDataNasc.setEnabled(false);
@@ -300,11 +318,11 @@ public class Pessoa extends javax.swing.JFrame {
         JFisicaLayout.setHorizontalGroup(
             JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JFisicaLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(LData, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LData)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         JFisicaLayout.setVerticalGroup(
@@ -313,14 +331,15 @@ public class Pessoa extends javax.swing.JFrame {
                 .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(JFisicaLayout.createSequentialGroup()
-                        .addComponent(LData)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap()
+                        .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LData))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jpFuncLocalTrab.setBackground(new java.awt.Color(255, 255, 255));
-        jpFuncLocalTrab.setBorder(javax.swing.BorderFactory.createTitledBorder("Local De Trabalho"));
+        jpFuncLocalTrab.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Local De Trabalho"));
 
         jtfDistFuncionarioTrabCod.setEnabled(false);
 
@@ -346,7 +365,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addComponent(jtfDistFuncTrabNome, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jbBuscarDistrFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         jpFuncLocalTrabLayout.setVerticalGroup(
             jpFuncLocalTrabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +382,7 @@ public class Pessoa extends javax.swing.JFrame {
         );
 
         jpDistribuidora.setBackground(new java.awt.Color(255, 255, 255));
-        jpDistribuidora.setBorder(javax.swing.BorderFactory.createTitledBorder("Cidades Atuação"));
+        jpDistribuidora.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Cidades Atuação"));
 
         jtbDistCidadesAtua.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -418,7 +437,7 @@ public class Pessoa extends javax.swing.JFrame {
         );
 
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Natureza/Tipo"));
+        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Natureza/Tipo"));
 
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
@@ -507,7 +526,7 @@ public class Pessoa extends javax.swing.JFrame {
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jrbFisica)
                     .addComponent(jrbJuridica))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -538,30 +557,26 @@ public class Pessoa extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LCPF)
-                                    .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LRG)
-                                    .addComponent(jtfRg_CNPJ)))
-                            .addComponent(LNome)
-                            .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(JFisica, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LCPF)
+                            .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LRG)
+                            .addComponent(jtfRg_CNPJ)))
+                    .addComponent(LNome)
+                    .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JFisica, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -580,18 +595,18 @@ public class Pessoa extends javax.swing.JFrame {
                             .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jtfRg_CNPJ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(JFisica, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, 0)
                         .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
         );
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Contato"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.darkGray, null), "Contato"));
 
         jPanel16.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -647,14 +662,14 @@ public class Pessoa extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Logradouro", "Número", "Bairro", "CEP", "Tipo"
+                "Logradouro", "Bairro", "CEP", "Número", "Comp", "Tipo", "Cidade"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -667,17 +682,37 @@ public class Pessoa extends javax.swing.JFrame {
         });
         jtbEndereco.setName("Listagem de Endereços"); // NOI18N
         jScrollPane5.setViewportView(jtbEndereco);
+        if (jtbEndereco.getColumnModel().getColumnCount() > 0) {
+            jtbEndereco.getColumnModel().getColumn(0).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(1).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(2).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(3).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(4).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(5).setResizable(false);
+            jtbEndereco.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         jtfCidadeCodigo.setEnabled(false);
+        jtfCidadeCodigo.setName("Cidade"); // NOI18N
 
         jtfCidadeNome.setText("Busque uma Cidade");
         jtfCidadeNome.setEnabled(false);
 
         jLabel1.setText("Cidade:");
 
-        jbBuscarCidade.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscarCidadeEndereco.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/search.png"))); // NOI18N
+        jbBuscarCidadeEndereco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbBuscarCidadeEnderecoActionPerformed(evt);
+            }
+        });
 
         jcbTiposEndereco.setEnabled(false);
+
+        jtfComplemento.setEnabled(false);
+        jtfComplemento.setName(""); // NOI18N
+
+        jLabel2.setText("Complemento");
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
         jPanel16.setLayout(jPanel16Layout);
@@ -688,22 +723,22 @@ public class Pessoa extends javax.swing.JFrame {
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 934, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 984, Short.MAX_VALUE)
                             .addGroup(jPanel16Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12)
+                                    .addComponent(jtfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel16Layout.createSequentialGroup()
                                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jtfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel16Layout.createSequentialGroup()
                                                 .addComponent(jLabel13)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jLabel15)
-                                                .addGap(8, 8, 8)
-                                                .addComponent(jcbTiposEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(jcbTiposEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel16Layout.createSequentialGroup()
                                                 .addComponent(jLabel1)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -711,18 +746,24 @@ public class Pessoa extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jtfCidadeNome, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jbBuscarCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(18, 18, 18)
+                                                .addComponent(jbBuscarCidadeEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel14)
                                             .addGroup(jPanel16Layout.createSequentialGroup()
-                                                .addComponent(jLabel16)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jtfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(4, 4, 4)
+                                                .addComponent(jLabel16)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jtfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(jPanel16Layout.createSequentialGroup()
-                                                .addComponent(jLabel14)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jtfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jtfCep, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(30, 30, 30)
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jtfComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(26, 26, 26))))))
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -732,39 +773,47 @@ public class Pessoa extends javax.swing.JFrame {
             jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel16Layout.createSequentialGroup()
-                        .addComponent(jtfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel13)
-                            .addComponent(jtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15)
-                            .addComponent(jcbTiposEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbBuscarCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel16Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jtfCidadeCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jtfCidadeNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1))))
-                        .addGap(7, 7, 7))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtfBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel14))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
                             .addComponent(jtfCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(29, 29, 29)))
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
+                        .addGap(29, 29, 29))
+                    .addGroup(jPanel16Layout.createSequentialGroup()
+                        .addComponent(jtfLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel16Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jtfNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jcbTiposEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbBuscarCidadeEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel16Layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(jtfCidadeCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jtfCidadeNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel1))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jtfComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(43, 43, 43)))))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(21, 21, 21))
+                .addGap(49, 49, 49))
         );
 
         jtpMidias.addTab("Endereços", jPanel16);
@@ -774,9 +823,11 @@ public class Pessoa extends javax.swing.JFrame {
         jpAddTelefone.setBackground(new java.awt.Color(255, 255, 255));
 
         jbAddTelefone.setText("Adicionar Telefone");
+        jbAddTelefone.setEnabled(false);
         jpAddTelefone.add(jbAddTelefone);
 
         jbRemoverTelefone.setText("Remover");
+        jbRemoverTelefone.setEnabled(false);
         jpAddTelefone.add(jbRemoverTelefone);
 
         jtbTelefones.setModel(new javax.swing.table.DefaultTableModel(
@@ -807,14 +858,14 @@ public class Pessoa extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 752, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 23, Short.MAX_VALUE))
+                .addGap(0, 18, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -869,7 +920,7 @@ public class Pessoa extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(318, Short.MAX_VALUE))
+                .addContainerGap(368, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -881,7 +932,7 @@ public class Pessoa extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(98, 98, 98)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jtpMidias.addTab("Email's", jPanel5);
@@ -926,7 +977,7 @@ public class Pessoa extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(315, Short.MAX_VALUE))
+                .addContainerGap(365, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -939,6 +990,21 @@ public class Pessoa extends javax.swing.JFrame {
         );
 
         jtpMidias.addTab("Midias Sociais", jPanel7);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jtpMidias))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jtpMidias, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jLabel3.setText("Codigo:");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -996,33 +1062,11 @@ public class Pessoa extends javax.swing.JFrame {
         });
         jPanel3.add(jbConsultar);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtpMidias)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jtpMidias, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jLabel3.setText("Codigo:");
-
         javax.swing.GroupLayout MainLayout = new javax.swing.GroupLayout(Main);
         Main.setLayout(MainLayout);
         MainLayout.setHorizontalGroup(
             MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addGroup(MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(MainLayout.createSequentialGroup()
                         .addGap(8, 8, 8)
@@ -1030,11 +1074,13 @@ public class Pessoa extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jtfCodigoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(169, 169, 169))
-                    .addGroup(MainLayout.createSequentialGroup()
-                        .addGroup(MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(0, 0, 0))))
+                    .addGroup(MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MainLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(21, 21, 21))
         );
         MainLayout.setVerticalGroup(
             MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1046,7 +1092,9 @@ public class Pessoa extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         getContentPane().add(Main, "card2");
@@ -1060,25 +1108,27 @@ public class Pessoa extends javax.swing.JFrame {
         try {
             TCheckCadastrarEmitente.stop();
             Helper.CloseDialog(this, windowsBack);
-        } catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }//GEN-LAST:event_formWindowClosing
-    
-    private void ativaDistribuidora(boolean ativar){
+
+    private void ativaDistribuidora(boolean ativar) {
         jpDistribuidora.setVisible(ativar);
         jckDistribuidora.setEnabled(ativar);
     }
-    private void ativaFuncionario(boolean ativar){
+
+    private void ativaFuncionario(boolean ativar) {
         jpFuncLocalTrab.setVisible(ativar);
         jckFuncionario.setEnabled(ativar);
     }
-    private void ativaCliente(boolean ativar){
+
+    private void ativaCliente(boolean ativar) {
         jckCliente.setEnabled(ativar);
     }
     private void jrbFisicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbFisicaActionPerformed
         // TODO add your handling code here:
-        if(jrbFisica.isSelected()){
+        if (jrbFisica.isSelected()) {
             ativaCliente(true);
             jckCliente.setSelected(true);
             jckFuncionario.setEnabled(true);
@@ -1088,18 +1138,18 @@ public class Pessoa extends javax.swing.JFrame {
             LCPF.setText("CPF");
             LRG.setText("RG");
             JFisica.setVisible(true);
-            
+
             jtfNome_RazaoSoc.setText("");
             jtfCpf_NomeFantasia.setText("");
             jtfRg_CNPJ.setText("");
-            jtfCep.setText("");    
+            jtfCep.setText("");
             jtfDataNasc.setText("");
         }
     }//GEN-LAST:event_jrbFisicaActionPerformed
 
     private void jrbJuridicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrbJuridicaActionPerformed
         // TODO add your handling code here:
-        if(jrbJuridica.isSelected()){
+        if (jrbJuridica.isSelected()) {
             ativaCliente(true);
             ativaFuncionario(false);
             jckDistribuidora.setEnabled(true);
@@ -1109,11 +1159,11 @@ public class Pessoa extends javax.swing.JFrame {
             LCPF.setText("Nome Fantasia");
             LRG.setText("CNPJ");
             JFisica.setVisible(false);
-            
+
             jtfNome_RazaoSoc.setText("");
             jtfCpf_NomeFantasia.setText("");
             jtfRg_CNPJ.setText("");
-            jtfCep.setText("");    
+            jtfCep.setText("");
         }
 
     }//GEN-LAST:event_jrbJuridicaActionPerformed
@@ -1136,38 +1186,84 @@ public class Pessoa extends javax.swing.JFrame {
             JSONObject jsonPersistencia = new JSONObject();
             JSONArray jsonArrayAux;
             JSONObject jsonAux;
-            
-            if(jrbFisica.isSelected()){
+
+            if (jrbFisica.isSelected()) {
                 jsonPersistencia.put("nome", Util.Validacao.InputToString(jtfNome_RazaoSoc));
                 jsonPersistencia.put("cpf", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
                 jsonPersistencia.put("rg", Util.Validacao.InputToString(jtfRg_CNPJ));
                 jsonPersistencia.put("dataNascimento", Util.Validacao.InputToString(jtfDataNasc));
                 jsonPersistencia.put("sexo", Util.Validacao.freteRadioButtonSelected(Sexo));
                 jsonPersistencia.put("naturezaPessoa", Util.Enums.NaturezaPessoa.Fisica);
-                if(jckFuncionario.isSelected()){
+                if (jckFuncionario.isSelected()) {
                     jsonPersistencia.put("localTrabalho", jtfDistFuncionarioTrabCod.getText());
-                    if(jckCliente.isSelected()){
-                        jsonAux =  new JSONObject();
-                        jsonAux.put("Entidade1", Util.Enums.TipoPessoa.Cliente);
-                        jsonAux.put("Entidade2", Util.Enums.TipoPessoa.Funcionario);
-                        jsonPersistencia.put("entidadesPersistir",jsonAux);
-                    }
+                    jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Funcionario);
+                } else {
+                    jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Cliente);
                 }
             } else {
                 jsonPersistencia.put("razaoSocial", Util.Validacao.InputToString(jtfNome_RazaoSoc));
                 jsonPersistencia.put("nomeFantasia", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
                 jsonPersistencia.put("cnpj", Util.Validacao.InputToString(jtfRg_CNPJ));
                 jsonPersistencia.put("naturezaPessoa", Util.Enums.NaturezaPessoa.Juridica);
+                if (jckDistribuidora.isSelected()) {
+                    jsonArrayAux = new JSONArray();
+                    for (int i = 0; i < jtbDistCidadesAtua.getRowCount(); i++) {
+                        jsonAux = new JSONObject();
+                        jsonAux.put("codigo", jtbDistCidadesAtua.getModel().getValueAt(i, 0));
+                        jsonArrayAux.put(jsonAux);
+                    }
+                    jsonPersistencia.put("cidadesAtuacao", jsonArrayAux);
+                    jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Distribuidora);
+                } else {
+                    jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Cliente);
+                }
             }
-            
-            
-            jsonPersistencia.put("Endereco", Util.Helper.GetArrayToJTable(jtbEndereco));
-            jsonPersistencia.put("Email", Util.Helper.GetArrayToJTable(jtbEmails));
-            jsonPersistencia.put("Telefone", Util.Helper.GetArrayToJTable(jtbTelefones));
-            jsonPersistencia.put("Midia", Util.Helper.GetArrayToJTable(jtbMidias));
-            
-            
-           /* if(jrbFisica.isSelected())
+            jsonArrayAux = new JSONArray();
+            for (int i = 0; i < jtbEndereco.getRowCount(); i++) {
+                jsonAux = new JSONObject();
+                jsonAux.put("rua", jtbEndereco.getModel().getValueAt(i, 0));
+                jsonAux.put("bairro", jtbEndereco.getModel().getValueAt(i, 1));
+                jsonAux.put("cep", jtbEndereco.getModel().getValueAt(i, 2));
+                jsonAux.put("numero", jtbEndereco.getModel().getValueAt(i, 3));
+                if (jtbEndereco.getModel().getValueAt(i, 4) != null) {
+                    jsonAux.put("complemento", jtbEndereco.getModel().getValueAt(i, 4));
+                }
+                if (jtbEndereco.getModel().getValueAt(i, 5).equals(Util.Enums.TipoEndereco.Coleta.toString())) {
+                    jsonAux.put("tipo", Util.Enums.TipoEndereco.Coleta);
+                } else if (jtbEndereco.getModel().getValueAt(i, 5).equals(Util.Enums.TipoEndereco.Entrega.toString())) {
+                    jsonAux.put("tipo", Util.Enums.TipoEndereco.Entrega);
+                } else {
+                    jsonAux.put("tipo", Util.Enums.TipoEndereco.Principal);
+                }
+
+                jsonAux.put("cidade", jtbEndereco.getModel().getValueAt(i, 6));
+                jsonArrayAux.put(jsonAux);
+            }
+            jsonPersistencia.put("enderecos", jsonArrayAux);
+
+            jsonArrayAux = new JSONArray();
+            for (int i = 0; i < jtbEmails.getRowCount(); i++) {
+                jsonArrayAux.put(new JSONObject().put("email", jtbEmails.getModel().getValueAt(i, 0)));
+            }
+            jsonPersistencia.put("emails", jsonArrayAux);
+
+            jsonArrayAux = new JSONArray();
+            for (int i = 0; i < jtbTelefones.getRowCount(); i++) {
+                jsonAux = new JSONObject();
+                jsonAux.put("ddd", jtbTelefones.getModel().getValueAt(i, 0));
+                jsonAux.put("numero", jtbTelefones.getModel().getValueAt(i, 1));
+                jsonArrayAux.put(jsonAux);
+            }
+            jsonPersistencia.put("telefones", jsonArrayAux);
+
+            jsonArrayAux = new JSONArray();
+            for (int i = 0; i < jtbMidias.getRowCount(); i++) {
+                jsonArrayAux.put(new JSONObject().put("descricao", jtbMidias.getModel().getValueAt(i, 0)));
+            }
+
+            jsonPersistencia.put("midiasSociais", jsonArrayAux);
+
+            /* if(jrbFisica.isSelected())
                 if(new Controller.PessoaFisicaController().Save(json))
                     Helper.CloseDialog(this, windowsBack);
                 else
@@ -1180,7 +1276,7 @@ public class Pessoa extends javax.swing.JFrame {
         } catch (Util.Error ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Verificar os campos", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         ativaGravar(false);
     }//GEN-LAST:event_jbGravarActionPerformed
 
@@ -1189,7 +1285,29 @@ public class Pessoa extends javax.swing.JFrame {
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        DefaultTableModel modelo = (DefaultTableModel) jtbEndereco.getModel();
+        try {
+            Util.Validacao.InputToString(jtfLogradouro);
+            Util.Validacao.InputToString(jtfBairro);
+            Util.Validacao.InputToString(jtfCep);
+            Util.Validacao.InputToString(jtfNumero);
+            Util.Validacao.InputToString(jtfCidadeCodigo);
+
+            modelo.addRow(
+                    new Object[]{
+                        jtfLogradouro.getText(),
+                        jtfBairro.getText(),
+                        jtfCep.getText(),
+                        jtfNumero.getText(),
+                        jtfComplemento.getText(),
+                        jcbTiposEndereco.getSelectedItem().toString(),
+                        jtfCidadeNome.getText(),});
+
+            jtbEndereco.setModel(modelo);
+
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -1224,6 +1342,10 @@ public class Pessoa extends javax.swing.JFrame {
         jckDistribuidora.setSelected(!jckCliente.isSelected() && jrbJuridica.isSelected());
         jckFuncionario.setSelected(!jckCliente.isSelected() && jrbFisica.isSelected());
     }//GEN-LAST:event_jckClienteActionPerformed
+
+    private void jbBuscarCidadeEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCidadeEnderecoActionPerformed
+        Helper.ShowDialog(this, new FreteBuscarCidade(this, jtfCidadeNome, jtfCidadeCodigo, enderCidadeID));
+    }//GEN-LAST:event_jbBuscarCidadeEnderecoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1268,35 +1390,23 @@ public class Pessoa extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Bairro;
-    private javax.swing.JTextField CEP;
-    private javax.swing.JComboBox<String> CTipoEndereco;
     private javax.swing.JPanel JFisica;
-    private javax.swing.JTable JTEndereco;
     private javax.swing.JLabel LCPF;
     private javax.swing.JLabel LData;
     private javax.swing.JLabel LNome;
     private javax.swing.JLabel LRG;
-    private javax.swing.JTextField Logradouro;
     private javax.swing.JPanel Main;
-    private javax.swing.JTextField NumeroEndereco;
     private javax.swing.ButtonGroup Pessoa;
     private javax.swing.ButtonGroup Sexo;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -1307,24 +1417,20 @@ public class Pessoa extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jbAddEmail;
     private javax.swing.JButton jbAddEndereco;
     private javax.swing.JButton jbAddMidia;
     private javax.swing.JButton jbAddTelefone;
-    private javax.swing.JButton jbBuscarCidade;
+    private javax.swing.JButton jbBuscarCidadeEndereco;
     private javax.swing.JButton jbBuscarDistrFunc;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConsultar;
@@ -1357,6 +1463,7 @@ public class Pessoa extends javax.swing.JFrame {
     private javax.swing.JTextField jtfCidadeCodigo;
     private javax.swing.JTextField jtfCidadeNome;
     private javax.swing.JTextField jtfCodigoPessoa;
+    private javax.swing.JTextField jtfComplemento;
     private javax.swing.JTextField jtfCpf_NomeFantasia;
     private javax.swing.JTextField jtfDataNasc;
     private javax.swing.JTextField jtfDistFuncTrabNome;

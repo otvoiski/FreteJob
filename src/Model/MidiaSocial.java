@@ -45,7 +45,16 @@ public class MidiaSocial extends ObjectBase implements Serializable{
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        return new MidiaSocial(jsonRetorno.getString("Descricao"));
+        MidiaSocial objMidia =  new MidiaSocial();
+        if(jsonRetorno.has("codigo"))
+            objMidia.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objMidia.setCodigo(0);
+        
+        if(jsonRetorno.has("descricao"))
+            objMidia.setDescricao(jsonRetorno.getString("descricao"));
+            
+        return objMidia;
     }
     
 }

@@ -73,10 +73,10 @@ public class Distribuidora extends Pessoa{
     @Override
     public JSONObject toJson() {
        JSONObject json = super.preencheJson();
-       json.put("NomeFantasia", getNomeFantasia());
-       json.put("RazaoSocial", getRazaoSocial());
-       json.put("Cnpj", getCnpj());
-       json.put("CidadesAtuacao", getCidadesAtuacao());
+       json.put("nomeFantasia", getNomeFantasia());
+       json.put("razaoSocial", getRazaoSocial());
+       json.put("cnpj", getCnpj());
+       json.put("cidadsAtuacao", getCidadesAtuacao());
        return json;
     }
 
@@ -85,14 +85,14 @@ public class Distribuidora extends Pessoa{
        Distribuidora objDistribuidora = new Distribuidora();
        JSONArray arrayAux;
        objDistribuidora.preencheAtributosRetorno(jsonRetorno);
-       if(jsonRetorno.has("Cnpj"))
-            objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
-       if(jsonRetorno.has("RazaoSocial"))
-            objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
-       if(jsonRetorno.has("NomeFantasia"))
-            objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
-       if(jsonRetorno.has("CidadesAtuacao")){
-            arrayAux = jsonRetorno.getJSONArray("CidadesAtuacao");
+       if(jsonRetorno.has("cnpj"))
+            objDistribuidora.setCnpj(jsonRetorno.getString("cnpj"));
+       if(jsonRetorno.has("razaoSocial"))
+            objDistribuidora.setRazaoSocial(jsonRetorno.getString("razaoSocial"));
+       if(jsonRetorno.has("nomeFantasia"))
+            objDistribuidora.setNomeFantasia(jsonRetorno.getString("nomeFantasia"));
+       if(jsonRetorno.has("cidadsAtuacao")){
+            arrayAux = jsonRetorno.getJSONArray("cidadsAtuacao");
             for(int i = 0; i< arrayAux.length(); i++)
                 objDistribuidora.getCidadesAtuacao().add((Cidade)new Cidade().toObjectBase(arrayAux.getJSONObject(i)));
        }

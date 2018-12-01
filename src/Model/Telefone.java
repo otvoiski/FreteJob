@@ -56,9 +56,15 @@ public class Telefone extends ObjectBase implements Serializable{
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Telefone objTelefone = new Telefone();
-        objTelefone.setCodigo(jsonRetorno.getInt("codigo"));
-        objTelefone.setDdd(jsonRetorno.getInt("ddd"));
-        objTelefone.setNumero(jsonRetorno.getString("numero"));
+        if(jsonRetorno.has("codigo"))
+            objTelefone.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objTelefone.setCodigo(0);
+        if(jsonRetorno.has("ddd"))
+            objTelefone.setDdd(jsonRetorno.getInt("ddd"));
+        
+        if(jsonRetorno.has("numero"))
+            objTelefone.setNumero(jsonRetorno.getString("numero"));
         return objTelefone;    
     }
 }
