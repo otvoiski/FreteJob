@@ -6,6 +6,7 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -27,7 +28,7 @@ public class Distribuidora extends Pessoa{
     private List<Cidade> CidadesAtuacao;
 
     public Distribuidora(String cnpj, String razaoSocial, String nomeFantasia, List<Cidade> cidadesAtuacao, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais,List<Email> emails ) {
-        super(Util.Enums.NaturezaPessoa.Juridica, telefones, endereco, midiaSociais, emails);        
+        super(Util.Enums.NaturezaPessoa.Juridica, telefones, endereco, midiaSociais, emails, Enums.TipoPessoa.Distribuidora);        
         this.Cnpj = cnpj;
         this.RazaoSocial = razaoSocial;
         this.NomeFantasia = nomeFantasia;

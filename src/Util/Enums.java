@@ -23,7 +23,6 @@ public class Enums {
     public static enum TipoFreteEncomenda {
         Normal, Rapido, SuperRapido
     }
-
     public static enum TipoEndereco {
         Entrega, Principal, Coleta
     }

@@ -7,7 +7,6 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
-import Util.Enums.NaturezaPessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ import org.json.JSONObject;
 @Table(name = "Pessoa")
 public abstract class Pessoa extends ObjectBase implements Serializable{
     @Column(nullable = false)
-    private NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
+    private Enums.NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
     private Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente, funcionario, ou distribuidora
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Telefone> Telefones;
@@ -54,12 +53,13 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
         this.Emails = Emails;
     }
     
-    public Pessoa(Enums.NaturezaPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
-        this.NaturezaPessoa = tipoPessoa;
+public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails, Enums.TipoPessoa tipoPessoa) {
+        this.NaturezaPessoa = naturezaPessoa;
         this.Telefones = telefones;
         this.Enderecos = endereco;
         this.MidiaSociais = midiaSociais;
         this.Emails = emails;
+        this.TipoPessoa = tipoPessoa;
     }
 
     public List<Endereco> getEnderecos() {
