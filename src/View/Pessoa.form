@@ -1470,6 +1470,9 @@
           </SubComponents>
         </Container>
         <Component class="javax.swing.JTextField" name="jtfCodigoPessoa">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="Codigo da Pessoa" noResource="true"/>
+          </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>

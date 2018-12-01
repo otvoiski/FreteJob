@@ -1126,6 +1126,8 @@ public class Pessoa extends javax.swing.JFrame {
             .addComponent(jtpMidias, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
+        jtfCodigoPessoa.setName("Codigo da Pessoa"); // NOI18N
+
         jLabel3.setText("Codigo:");
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -1290,6 +1292,18 @@ public class Pessoa extends javax.swing.JFrame {
 
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
         // TODO add your handling code here:
+        try {
+            JSONObject json;
+            if(jrbFisica.isSelected())
+                json = new Controller.PessoaFisicaController().Get(Integer.parseInt(Util.Validacao.InputToString(jtfCodigoPessoa)));
+            else
+                json = new Controller.PessoaJuridicaController().Get(Integer.parseInt(Util.Validacao.InputToString(jtfCodigoPessoa)));
+            
+            if(json == null)
+                JOptionPane.showMessageDialog(rootPane, "Pessoa não encontrada!");
+        } catch (Error ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
     }//GEN-LAST:event_jbConsultarActionPerformed
 
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
