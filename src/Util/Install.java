@@ -423,6 +423,9 @@ public class Install {
                                                 TipoEmbalagem te3 = new TipoEmbalagem("Envelope");
                                                 TipoEmbalagem te4 = new TipoEmbalagem("Tubo");
                                                 if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te1))
+                                                if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te2))
+                                                if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te3))
+                                                if(new DAO.TipoEmbalagemDAO(Model.TipoEmbalagem.class).Save(te4))
                                                     return false;
                                             }
                                         }
