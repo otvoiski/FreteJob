@@ -353,13 +353,12 @@ public class Pessoa extends javax.swing.JFrame {
         JFisicaLayout.setHorizontalGroup(
             JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JFisicaLayout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(LData)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtfDataNasc, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(116, 116, 116))
+                .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         JFisicaLayout.setVerticalGroup(
             JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -457,6 +456,7 @@ public class Pessoa extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtbDistCidadesAtua.getTableHeader().setReorderingAllowed(false);
         jScrollPane6.setViewportView(jtbDistCidadesAtua);
         if (jtbDistCidadesAtua.getColumnModel().getColumnCount() > 0) {
             jtbDistCidadesAtua.getColumnModel().getColumn(0).setResizable(false);
@@ -472,17 +472,16 @@ public class Pessoa extends javax.swing.JFrame {
         jpDistribuidora.setLayout(jpDistribuidoraLayout);
         jpDistribuidoraLayout.setHorizontalGroup(
             jpDistribuidoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpDistribuidoraLayout.createSequentialGroup()
-                .addGap(381, 381, 381)
-                .addComponent(jbFiltrarCidadeAtuacao)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane6)
+            .addGroup(jpDistribuidoraLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbFiltrarCidadeAtuacao))
         );
         jpDistribuidoraLayout.setVerticalGroup(
             jpDistribuidoraLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpDistribuidoraLayout.createSequentialGroup()
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbFiltrarCidadeAtuacao))
         );
 
@@ -607,27 +606,26 @@ public class Pessoa extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LCPF)
-                                    .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(LRG)
-                                    .addComponent(jtfRg_CNPJ)))
-                            .addComponent(LNome)
-                            .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(JFisica, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
-                        .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LCPF)
+                            .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(LRG)
+                            .addComponent(jtfRg_CNPJ)))
+                    .addComponent(LNome)
+                    .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(JFisica, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -732,6 +730,7 @@ public class Pessoa extends javax.swing.JFrame {
             }
         });
         jtbEndereco.setName("Listagem de Endereços"); // NOI18N
+        jtbEndereco.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(jtbEndereco);
         if (jtbEndereco.getColumnModel().getColumnCount() > 0) {
             jtbEndereco.getColumnModel().getColumn(0).setResizable(false);
@@ -908,6 +907,7 @@ public class Pessoa extends javax.swing.JFrame {
             }
         });
         jtbTelefones.setName("Telefones"); // NOI18N
+        jtbTelefones.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(jtbTelefones);
 
         jtfDDD.setEnabled(false);
@@ -999,6 +999,7 @@ public class Pessoa extends javax.swing.JFrame {
         });
         jtbEmails.setToolTipText("");
         jtbEmails.setName("Email"); // NOI18N
+        jtbEmails.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jtbEmails);
 
         jLabel6.setText("Email:");
@@ -1080,6 +1081,7 @@ public class Pessoa extends javax.swing.JFrame {
             }
         });
         jtbMidias.setName("Midias Sociais"); // NOI18N
+        jtbMidias.getTableHeader().setReorderingAllowed(false);
         jScrollPane4.setViewportView(jtbMidias);
 
         jLabel7.setText("Midia:");
