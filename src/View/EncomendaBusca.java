@@ -254,7 +254,7 @@ public class EncomendaBusca extends javax.swing.JFrame {
         JSONObject jsonAux;
         JSONArray arrayAux;
         DefaultTableModel modelo;
-
+/*
          if(jTable1.getSelectedRow() != -1){
              encomendaSelecionada =  encomendas.get(jTable1.getSelectedRow());
              System.out.println(encomendaSelecionada);
@@ -271,10 +271,10 @@ public class EncomendaBusca extends javax.swing.JFrame {
                 telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("nome")));
              else
                 telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("razaoSocial")));
-             
+  */           
              
              /*ENDERECO COLETA*/
-             telaEncomenda.getJtfRuaRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("rua"));
+    /*         telaEncomenda.getJtfRuaRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("rua"));
              telaEncomenda.getJtfBairroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("bairro"));
              telaEncomenda.getJtfCepRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("cep"));
              telaEncomenda.getJtfNumeroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("numero"));
@@ -283,9 +283,9 @@ public class EncomendaBusca extends javax.swing.JFrame {
              }
              telaEncomenda.getJtfCidadeOrigemCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getInt("codigo")));
              telaEncomenda.getJtfCidadeOrigemNome().setText(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getString("nome"));
-             
+      */       
              /*ENDERECO DESTINO*/
-             telaEncomenda.getJtfRuaDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("rua"));
+        /*     telaEncomenda.getJtfRuaDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("rua"));
              telaEncomenda.getJtfBairroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("bairro"));
              telaEncomenda.getJtfCepDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("cep"));
              telaEncomenda.getJtfNumeroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("numero"));
@@ -310,7 +310,7 @@ public class EncomendaBusca extends javax.swing.JFrame {
              }
             Helper.CloseDialog(this, backWindows);
         }
-
+*/
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jftDataInicialCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftDataInicialCadastroActionPerformed
