@@ -186,7 +186,7 @@
             <Component class="javax.swing.JTextField" name="jtfNome_RazaoSoc">
               <Properties>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="jtfNome_RazaoSoc" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="Nome" noResource="true"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="LCPF">

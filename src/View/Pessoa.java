@@ -293,7 +293,7 @@ public class Pessoa extends javax.swing.JFrame {
         LNome.setText("Nome");
 
         jtfNome_RazaoSoc.setEnabled(false);
-        jtfNome_RazaoSoc.setName("jtfNome_RazaoSoc"); // NOI18N
+        jtfNome_RazaoSoc.setName("Nome"); // NOI18N
 
         LCPF.setText("CPF");
 
@@ -1303,9 +1303,9 @@ public class Pessoa extends javax.swing.JFrame {
         // TODO add your handling code here:
         try {
             JSONObject json;
-            if(jrbFisica.isSelected())
+            if(jrbFisica.isSelected()){
                 json = new Controller.PessoaFisicaController().Get(Integer.parseInt(Util.Validacao.InputToString(jtfCodigoPessoa)));
-            else
+            } else
                 json = new Controller.PessoaJuridicaController().Get(Integer.parseInt(Util.Validacao.InputToString(jtfCodigoPessoa)));
             
             if(json == null)
