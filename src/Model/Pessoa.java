@@ -86,7 +86,7 @@ public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, Lis
     
      
     public  List<MidiaSocial>getMidiaSociais() {
-        returnMidiaSociais;
+        return MidiaSociais;
     }
 
     public void setMidiaSociais(List<MidiaSocial> MidiaSociais) {
