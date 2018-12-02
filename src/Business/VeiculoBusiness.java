@@ -17,6 +17,6 @@ public class VeiculoBusiness  extends Base.BusinessBase{
         String hql = "from Veiculo v where Placa  like :placa";
         Query query = session.createQuery(hql);
         query.setString("placa", placa + "%");
-        return (List<Veiculo>) query.list();
+        return query.list();
     }
 }

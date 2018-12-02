@@ -71,7 +71,7 @@ public class Helper {
             for (int i = 0; i < dtm.getRowCount(); i++) {
                 String[] value = new String[dtm.getColumnCount()];
                 for (int j = 0; j < dtm.getColumnCount(); j++) {
-                    value[j] = (String) dtm.getValueAt(i, j) + "";
+                    value[j] = dtm.getValueAt(i, j) + "";
                 }
                 list.add(value);
             }

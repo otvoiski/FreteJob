@@ -66,7 +66,7 @@ public class MetodosPersistenciaJDBC {
     private static String getValue(Field field, Object obj) {
        try { 
             field.setAccessible(true);
-            return (String) field.get(obj).toString();
+            return field.get(obj).toString();
         } catch (IllegalArgumentException | IllegalAccessException ex) {
             Logger.getLogger(MetodosPersistenciaJDBC.class.getName()).log(Level.SEVERE, null, ex);    
             return null;

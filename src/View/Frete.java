@@ -971,7 +971,7 @@ public class Frete extends javax.swing.JFrame {
                 jsonArrayAux =  new JSONArray();
                 for(int i = 0; i< jtbEncomendas.getRowCount(); i ++){
                     jsonAux = new JSONObject();
-                    if(((Boolean)jtbEncomendas.getModel().getValueAt(i, 0)) != null && ((Boolean)jtbEncomendas.getModel().getValueAt(i, 0)).compareTo(Boolean.TRUE) == 0){
+                    if(((Boolean)jtbEncomendas.getModel().getValueAt(i, 0)) != null && ((Comparable<Boolean>)jtbEncomendas.getModel().getValueAt(i, 0)).compareTo(Boolean.TRUE) == 0){
                         jsonAux.put("codigo", jtbEncomendas.getModel().getValueAt(i, 1));
                         jsonArrayAux.put(jsonAux);
                     } 

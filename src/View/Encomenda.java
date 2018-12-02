@@ -114,7 +114,7 @@ public class Encomenda extends javax.swing.JFrame {
         camposAtivar.add(jtfNumeroDestino);
         camposAtivar.add(jtfComplementoDestino);
         camposAtivar.add(jtfCidadeDestinoCodigo);
-        camposAtivar.add((JTextField)jftDataCadastro);
+        camposAtivar.add(jftDataCadastro);
         tratarEventos.setCampos(camposAtivar);
         tratarEventos.setTabela(jtbItensEncomenda);
         

@@ -46,7 +46,7 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     }
     
     public List<Email> getEmails() {
-        return (List<Email>)Emails;
+        return Emails;
     }
 
     public void setEmails(List<Email> Emails) {
@@ -63,7 +63,7 @@ public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, Lis
     }
 
     public List<Endereco> getEnderecos() {
-        return (List<Endereco>)Enderecos;
+        return Enderecos;
     }
 
     public void setEnderecos(List<Endereco> Enderecos) {
@@ -77,7 +77,7 @@ public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, Lis
         this.NaturezaPessoa = tipoPessoa;
     }
     public List<Telefone> getTelefones() {
-        return (List<Telefone>)Telefones;
+        return Telefones;
     }
 
     public void setTelefones(List<Telefone> Telefones) {
@@ -86,7 +86,7 @@ public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, Lis
     
      
     public  List<MidiaSocial>getMidiaSociais() {
-        return(List<MidiaSocial>)MidiaSociais;
+        returnMidiaSociais;
     }
 
     public void setMidiaSociais(List<MidiaSocial> MidiaSociais) {

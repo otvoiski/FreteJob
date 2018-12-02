@@ -18,6 +18,6 @@ public class TipoEmbalagemBusiness extends Base.BusinessBase {
         String hql = "from TipoEmbalagem t where Descricao like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
-        return (List<TipoEmbalagem>) query.list();
+        return query.list();
     }
 }

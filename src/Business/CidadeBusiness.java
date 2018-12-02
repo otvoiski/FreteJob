@@ -31,7 +31,7 @@ public class CidadeBusiness extends Base.BusinessBase{
         String hql = "from Cidade c where Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
-        return (List<Cidade>) query.list();
+        return query.list();
     }
     
 }

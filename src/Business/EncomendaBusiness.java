@@ -22,7 +22,7 @@ public class EncomendaBusiness extends Base.BusinessBase{
                 + " where p.Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
-        return (List<Encomenda>) query.list();
+        return query.list();
     }
     
     //seleciona todas as encomendas entre as datas passadas pelo parâmetro que não estejam em frete
@@ -36,7 +36,7 @@ public class EncomendaBusiness extends Base.BusinessBase{
         Query query = session.createQuery(hql);
         query.setString("data1", dataInicial);
         query.setString("data2", dataFinal);
-        return (List<Encomenda>) query.list();
+        return query.list();
     }
     public List<Encomenda> recupEncomsPorIntervalo(String dataInicial, String dataFinal) {
         String hql = "from Encomenda e inner join fetch Objetos o"
@@ -44,7 +44,7 @@ public class EncomendaBusiness extends Base.BusinessBase{
         Query query = session.createQuery(hql);
         query.setString("data1", dataInicial);
         query.setString("data2", dataFinal);
-        return (List<Encomenda>) query.list();
+        return query.list();
     }
     //seleciona todas as encomendas cujo código esteja na lista passada pelo parametro
     public List<Encomenda> GertByCodigoList(ArrayList<Integer> codigosBuscar){
@@ -61,6 +61,6 @@ public class EncomendaBusiness extends Base.BusinessBase{
         for(int i = 0; i< codigosBuscar.size(); i++)
             query.setInteger("codigo"+i, codigosBuscar.get(i));
         
-        return (List<Encomenda>) query.list();
+        return query.list();
     }
 }

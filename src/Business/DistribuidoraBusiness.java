@@ -22,7 +22,7 @@ public class DistribuidoraBusiness extends BusinessBase {
                 + " where dc.Codigo = :codigoCidade";
         Query query = session.createQuery(hql);
         query.setInteger("codigoCidade", cidadeCodigo);
-        return (List<Distribuidora>) query.list();
+        return query.list();
     }
     
     public List<Distribuidora> GetByName(String descricao) {
@@ -31,7 +31,7 @@ public class DistribuidoraBusiness extends BusinessBase {
          Query query = session.createQuery(hql);
         query.setString("descricao", descricao+ "%");
         query.setString("descricao2", descricao+ "%");
-        return (List<Distribuidora>) query.list();
+        return query.list();
     
     }
 }

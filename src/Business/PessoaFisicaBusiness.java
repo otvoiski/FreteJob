@@ -19,7 +19,7 @@ public class PessoaFisicaBusiness extends Base.BusinessBase {
         String hql = "from PessoaFisica pf where pf.Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome",nome + "%");
-        return (List<Pessoa>) query.list();
+        return query.list();
     }
     
     public List<Pessoa> GetClienteByName(String nome) {
@@ -28,6 +28,6 @@ public class PessoaFisicaBusiness extends Base.BusinessBase {
         Query query = session.createQuery(hql);
         query.setString("nome",nome + "%");
         query.setInteger("tipo",Util.Enums.TipoPessoa.Cliente.ordinal());
-        return (List<Pessoa>) query.list();
+        return query.list();
     }
 }

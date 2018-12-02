@@ -19,6 +19,6 @@ public class EstadoBusiness extends Base.BusinessBase {
         String hql = "from Estado e where Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
-        return (List<Estado>) query.list();
+        return query.list();
     }
 }

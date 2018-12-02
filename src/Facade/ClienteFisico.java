@@ -64,7 +64,7 @@ public class ClienteFisico {
         for (int i = 0; i < temp.length(); i++) {
             Endereco e = (Endereco) new Endereco().toObjectBase(temp.getJSONObject(i));
             String nome = temp.getJSONObject(i).getJSONObject("cidade").getString("nome");
-            e.setCidade((Cidade) new CidadeBusiness().GetCidadeName(nome).get(0));
+            e.setCidade(new CidadeBusiness().GetCidadeName(nome).get(0));
             endereco.add(e);
         }
         
