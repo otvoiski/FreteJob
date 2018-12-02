@@ -39,7 +39,7 @@ public class PessoaFisicaController extends ControllerBase{
     }
     @Override
     public boolean Save(JSONObject dados){
-       Facade.ClienteFisico facade = new Facade.ClienteFisico(this.DAO);
+       Facade.ClienteFisico facade = new Facade.ClienteFisico();
        return facade.persistirCliente(dados);
     };
     
