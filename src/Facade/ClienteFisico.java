@@ -7,15 +7,20 @@ package Facade;
 
 import Base.MetodosJPA;
 import Base.Persistencia;
+import Business.CidadeBusiness;
 import Controller.CidadeController;
-import Controller.EmailController;
-import Controller.EnderecoController;
-import Controller.MidiaSocialController;
-import Controller.PessoaFisicaController;
-import Controller.TelefoneController;
+import DAO.EmailDAO;
 import DAO.PessoaFisicaDAO;
 import Model.Cidade;
+import Model.Email;
+import Model.Endereco;
+import Model.MidiaSocial;
 import Model.PessoaFisica;
+import Model.Telefone;
+import Util.Enums;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,18 +31,78 @@ import org.json.JSONObject;
  */
 public class ClienteFisico {
     
-    private Persistencia DAO;
-    private Model.PessoaFisica Cliente;
-    private final Session transaction;
-    
-    public ClienteFisico(Persistencia dao){
-        this.DAO =  dao;
-        transaction =  MetodosJPA.abrirTransacao();
-    }
-    public void setDAO(PessoaFisicaDAO DAO) {
-        this.DAO = DAO;
-    }
     public boolean persistirCliente(JSONObject json){
+        /* Start Connection */
+        Session transaction = MetodosJPA.abrirTransacao();
+        
+        /* Ordem da Pesistencia */
+        ArrayList<MidiaSocial> midiaSocial = new ArrayList<>();
+        ArrayList<Email> email = new ArrayList<>();
+        ArrayList<Telefone> telefone = new ArrayList<>();
+        ArrayList<Endereco> endereco = new ArrayList<>();
+        
+        Cidade cidade;
+        
+        PessoaFisica pessoaFisica;
+        
+        /* Preenchendo dados para Persistencia */
+        JSONArray temp;
+        
+        temp = json.getJSONArray("midiasSociais");
+        for (int i = 0; i < temp.length(); i++) 
+            midiaSocial.add((MidiaSocial) new MidiaSocial().toObjectBase(temp.getJSONObject(i)));
+        
+        temp = json.getJSONArray("emails");
+        for (int i = 0; i < temp.length(); i++) 
+            email.add((Email) new Email().toObjectBase(temp.getJSONObject(i)));
+        
+        temp = json.getJSONArray("telefones");
+        for (int i = 0; i < temp.length(); i++) 
+            telefone.add((Telefone) new Telefone().toObjectBase(temp.getJSONObject(i)));
+        
+        temp = json.getJSONArray("enderecos");
+        for (int i = 0; i < temp.length(); i++) {
+            Endereco e = (Endereco) new Endereco().toObjectBase(temp.getJSONObject(i));
+            String nome = temp.getJSONObject(i).getJSONObject("cidade").getString("nome");
+            e.setCidade((Cidade) new CidadeBusiness().GetCidadeName(nome).get(0));
+            endereco.add(e);
+        }
+        
+        pessoaFisica = new PessoaFisica();
+        pessoaFisica.setCodigo(0);
+        pessoaFisica.setNome(json.getString("nome"));
+        pessoaFisica.setCpf(json.getString("cpf"));
+        pessoaFisica.setRg(json.getString("rg"));
+        pessoaFisica.setDataNascimento(Util.Validacao.converteStringToDate(json.getString("dataNascimento")));
+        pessoaFisica.setSexo(json.getEnum(Enums.Sexo.class,"sexo"));
+        pessoaFisica.setNaturezaPessoa(json.getEnum(Enums.NaturezaPessoa.class,"naturezaPessoa"));
+        pessoaFisica.setTipoPessoa(json.getEnum(Enums.TipoPessoa.class,"tipoPessoa"));
+        
+        
+        /* Start Persistencia */
+        endereco.forEach((T) -> {
+            new DAO.EnderecoDAO(Model.Endereco.class).Save(T, transaction);
+        });
+        email.forEach((T) -> {
+            new DAO.EmailDAO(Model.Email.class).Save(T, transaction);
+        });
+        telefone.forEach((T) -> {
+            new DAO.TelefoneDAO(Model.Telefone.class).Save(T, transaction);
+        });
+        midiaSocial.forEach((T) -> {
+            new DAO.MidiaSocialDAO(Model.MidiaSocial.class).Save(T, transaction);
+        });
+        
+        pessoaFisica.setEnderecos(endereco);
+        pessoaFisica.setEmails(email);
+        pessoaFisica.setTelefones(telefone);
+        pessoaFisica.setMidiaSociais(midiaSocial);
+                
+        new PessoaFisicaDAO(PessoaFisica.class).Save(pessoaFisica, transaction);
+        
+        MetodosJPA.FecharTransacao(transaction, true);
+        return true;
+        /*
         Cidade objCidade;
         CidadeController cidadeCntrl =  new CidadeController();
         PessoaFisica objPersistir =  (PessoaFisica) new PessoaFisica().toObjectBase(json);
@@ -48,7 +113,8 @@ public class ClienteFisico {
         }
         System.out.println(objPersistir.toJson());
         DAO.Save(objPersistir, transaction);
-        return MetodosJPA.FecharTransacao(transaction, true);
+        return MetodosJPA.FecharTransacao(transaction, true);*/
+        
     }
     
 }
