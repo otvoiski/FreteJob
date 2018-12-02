@@ -7,11 +7,8 @@ package Model;
 
 
 import Base.ObjectBase;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import org.json.JSONObject;
@@ -77,9 +74,9 @@ public class PessoaFisica extends Model.Pessoa{
         json.put("nome", getNome());
         json.put("cpf", getCpf());
         json.put("rg", getRg());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String data = sdf.format(DataNascimento);         
-        json.put("datanascimento", data);
+        json.put("dataNascimento", data);
         json.put("sexo", getSexo());
         return json;
     }
@@ -96,8 +93,8 @@ public class PessoaFisica extends Model.Pessoa{
         if(jsonRetorno.has("sexo"))
             objPessoa.setSexo(jsonRetorno.getEnum(Util.Enums.Sexo.class, "sexo"));
 
-        if(jsonRetorno.has("datanascimento"))
-            objPessoa.setDataNascimento(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("datanascimento")));
+        if(jsonRetorno.has("dataNascimento"))
+            objPessoa.setDataNascimento(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataNascimento")));
             
 
         return objPessoa;

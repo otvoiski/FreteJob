@@ -10,17 +10,15 @@ import Util.Error;
 import Util.Helper;
 import Util.TelaHandler;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -196,11 +194,11 @@ public class Pessoa extends javax.swing.JFrame {
         jtfCpf_NomeFantasia = new javax.swing.JTextField();
         jtfRg_CNPJ = new javax.swing.JTextField();
         JFisica = new javax.swing.JPanel();
-        jtfDataNasc = new javax.swing.JTextField();
         LData = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jrbMasculino = new javax.swing.JRadioButton();
         jrbFeminino = new javax.swing.JRadioButton();
+        jtfDataNasc = new javax.swing.JFormattedTextField();
         jpFuncLocalTrab = new javax.swing.JPanel();
         jtfDistFuncionarioTrabCod = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -311,9 +309,6 @@ public class Pessoa extends javax.swing.JFrame {
         JFisica.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Nascimento/Sexo"));
         JFisica.setPreferredSize(new java.awt.Dimension(387, 75));
 
-        jtfDataNasc.setEnabled(false);
-        jtfDataNasc.setName("Data Nascimento"); // NOI18N
-
         LData.setText("Data Nascimento");
 
         jPanel10.setBackground(new java.awt.Color(255, 255, 255));
@@ -336,46 +331,57 @@ public class Pessoa extends javax.swing.JFrame {
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
                 .addComponent(jrbMasculino)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 4, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jrbFeminino)
-                .addContainerGap())
+                .addGap(117, 117, 117))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel10Layout.createSequentialGroup()
-                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jrbMasculino)
-                    .addComponent(jrbFeminino))
-                .addGap(0, 1, Short.MAX_VALUE))
+            .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(jrbMasculino)
+                .addComponent(jrbFeminino))
         );
+
+        jtfDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jtfDataNasc.setEnabled(false);
 
         javax.swing.GroupLayout JFisicaLayout = new javax.swing.GroupLayout(JFisica);
         JFisica.setLayout(JFisicaLayout);
         JFisicaLayout.setHorizontalGroup(
             JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JFisicaLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(23, 23, 23)
                 .addComponent(LData)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfDataNasc, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(116, 116, 116))
         );
         JFisicaLayout.setVerticalGroup(
             JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(JFisicaLayout.createSequentialGroup()
-                .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(JFisicaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LData))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(JFisicaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(LData)
+                    .addComponent(jtfDataNasc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+            .addGroup(JFisicaLayout.createSequentialGroup()
+                .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jtfDataNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
         jpFuncLocalTrab.setBackground(new java.awt.Color(255, 255, 255));
         jpFuncLocalTrab.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, java.awt.Color.lightGray, java.awt.Color.lightGray, null), "Local De Trabalho"));
@@ -409,7 +415,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addComponent(jtfDistFuncTrabNome, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(jbBuscarDistrFunc, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jpFuncLocalTrabLayout.setVerticalGroup(
             jpFuncLocalTrabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -601,26 +607,27 @@ public class Pessoa extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LCPF)
-                            .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LRG)
-                            .addComponent(jtfRg_CNPJ)))
-                    .addComponent(LNome)
-                    .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LCPF)
+                                    .addComponent(jtfCpf_NomeFantasia, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LRG)
+                                    .addComponent(jtfRg_CNPJ)))
+                            .addComponent(LNome)
+                            .addComponent(jtfNome_RazaoSoc, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(JFisica, javax.swing.GroupLayout.DEFAULT_SIZE, 498, Short.MAX_VALUE)
+                        .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jpFuncLocalTrab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(JFisica, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
-                .addGap(0, 0, 0)
-                .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jpDistribuidora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -767,7 +774,7 @@ public class Pessoa extends javax.swing.JFrame {
                     .addGroup(jPanel16Layout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 986, Short.MAX_VALUE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 995, Short.MAX_VALUE)
                             .addGroup(jPanel16Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -929,7 +936,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addComponent(jtfNumeroTel, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jpAddTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addContainerGap(253, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1013,7 +1020,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addComponent(jtfEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(444, Short.MAX_VALUE))
+                .addContainerGap(453, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1095,7 +1102,7 @@ public class Pessoa extends javax.swing.JFrame {
                         .addComponent(jtfMidiaSocial, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(485, Short.MAX_VALUE))
+                .addContainerGap(494, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1443,7 +1450,7 @@ public class Pessoa extends javax.swing.JFrame {
             JSONObject jsonPersistencia = new JSONObject();
             JSONArray jsonArrayAux;
             JSONObject jsonAux;
-
+            /*DADOS PRINCIPAIS*/
             if (jrbFisica.isSelected()) {
                 jsonPersistencia.put("nome", Util.Validacao.InputToString(jtfNome_RazaoSoc));
                 jsonPersistencia.put("cpf", Util.Validacao.InputToString(jtfCpf_NomeFantasia));
@@ -1475,8 +1482,10 @@ public class Pessoa extends javax.swing.JFrame {
                     jsonPersistencia.put("tipoPessoa", Util.Enums.TipoPessoa.Cliente);
                 }
             }
-            Util.Validacao.itensjTable(jtbEndereco);
-            
+             /*FIM DADOS PRINCIPAIS*/
+           
+            /*ENDERECOS*/
+             Util.Validacao.itensjTable(jtbEndereco);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbEndereco.getRowCount(); i++) {
                 jsonAux = new JSONObject();
@@ -1500,13 +1509,20 @@ public class Pessoa extends javax.swing.JFrame {
             }
             jsonPersistencia.put("enderecos", jsonArrayAux);
             
-            
+             /*FIM ENDERECOS*/
+             
+             /*EMAILS*/
+            jsonArrayAux =  new JSONArray();
             Util.Validacao.itensjTable(jtbEmails);
             for (int i = 0; i < jtbEmails.getRowCount(); i++) {
                 jsonArrayAux.put(new JSONObject().put("email", jtbEmails.getModel().getValueAt(i, 0)));
             }
             jsonPersistencia.put("emails", jsonArrayAux);
-
+            
+            
+            /*FIM EMAILS*/
+            
+            /*TELEFONES*/
             Util.Validacao.itensjTable(jtbTelefones);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbTelefones.getRowCount(); i++) {
@@ -1516,16 +1532,18 @@ public class Pessoa extends javax.swing.JFrame {
                 jsonArrayAux.put(jsonAux);
             }
             jsonPersistencia.put("telefones", jsonArrayAux);
+            /*FIM TELEFONES*/
             
             
+            /*MIDIAS*/
             Util.Validacao.itensjTable(jtbMidias);
             jsonArrayAux = new JSONArray();
             for (int i = 0; i < jtbMidias.getRowCount(); i++) {
                 jsonArrayAux.put(new JSONObject().put("descricao", jtbMidias.getModel().getValueAt(i, 0)));
             }
-
             jsonPersistencia.put("midiasSociais", jsonArrayAux);
-/*
+            /*FIM MIDIAS*/
+            
             if(jrbFisica.isSelected()){
                 if(jckCliente.isSelected()){
                     if(new Controller.PessoaFisicaController().Save(jsonPersistencia))
@@ -1555,7 +1573,7 @@ public class Pessoa extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Registro Gravado com Sucesso!");
                 ativaGravar(false);
             }
-        */
+        
         } catch (Util.Error ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Verificar os campos", JOptionPane.WARNING_MESSAGE);
         }
@@ -1685,7 +1703,7 @@ public class Pessoa extends javax.swing.JFrame {
     private javax.swing.JTextField jtfComplemento;
     private javax.swing.JTextField jtfCpf_NomeFantasia;
     private javax.swing.JTextField jtfDDD;
-    private javax.swing.JTextField jtfDataNasc;
+    private javax.swing.JFormattedTextField jtfDataNasc;
     private javax.swing.JTextField jtfDistFuncTrabNome;
     private javax.swing.JTextField jtfDistFuncionarioTrabCod;
     private javax.swing.JTextField jtfEmail;

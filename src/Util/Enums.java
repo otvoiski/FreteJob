@@ -27,7 +27,7 @@ public class Enums {
         Entrega, Principal, Coleta
     }
     public static enum Sexo {
-        Masculino, Feminino, Coleta
+        Masculino, Feminino
     }
     public static enum StatusEncomenda{
         AguardandoColeta, EmTransito, Entregue

@@ -29,13 +29,13 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     @Column(nullable = false)
     private Enums.NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
     private Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente, funcionario, ou distribuidora
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Telefone> Telefones;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> Enderecos;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MidiaSocial> MidiaSociais;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Email> Emails;
     
     public Pessoa() {
@@ -115,7 +115,7 @@ public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, Lis
         if(jsonRetorno.has("tipoPessoa")){
             setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa"));
         }
-        if(jsonRetorno.has("midiasSocias")){
+        if(jsonRetorno.has("midiasSociais")){
             jsonArrayAux = jsonRetorno.getJSONArray("midiasSociais");
             for(int i = 0; i<jsonArrayAux.length(); i++)
                 MidiaSociais.add((MidiaSocial) new MidiaSocial().toObjectBase(jsonArrayAux.getJSONObject(i)));

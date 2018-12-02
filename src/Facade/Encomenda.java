@@ -38,7 +38,7 @@ public class Encomenda {
     }
 
     public boolean persistirEncomenda(JSONObject jsonEncomenda){
-        boolean persistido = false;
+        //boolean persistido = false;
         Model.Encomenda objEncomenda;
         CidadeController cidadeCntrl =  new CidadeController();
         EnderecoController enderecoCntrl = new EnderecoController();
