@@ -38,6 +38,14 @@ public class EncomendaBusiness extends Base.BusinessBase{
         query.setString("data2", dataFinal);
         return (List<Encomenda>) query.list();
     }
+    public List<Encomenda> recupEncomsPorIntervalo(String dataInicial, String dataFinal) {
+        String hql = "from Encomenda e inner join fetch Objetos o"
+                + " where e.dataCadastro between :data1 and :data2";
+        Query query = session.createQuery(hql);
+        query.setString("data1", dataInicial);
+        query.setString("data2", dataFinal);
+        return (List<Encomenda>) query.list();
+    }
     //seleciona todas as encomendas cujo código esteja na lista passada pelo parametro
     public List<Encomenda> GertByCodigoList(ArrayList<Integer> codigosBuscar){
          String hql = "from Encomenda e"

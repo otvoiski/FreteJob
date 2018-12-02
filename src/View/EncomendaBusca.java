@@ -5,27 +5,33 @@
  */
 package View;
 
+import Util.Enums;
+import Util.Error;
 import Util.Helper;
 import java.util.List;
-import javax.swing.JLabel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 import org.json.JSONObject;
-
+import Util.Validacao;
+import Util.Enums;
+import java.util.ArrayList;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.table.TableColumn;
+import org.json.JSONArray;
 /**
  *
  * @author Otavio
  */
 public class EncomendaBusca extends javax.swing.JFrame {
 
-    private Frete backWindows;
-    private boolean RealizarFrete;
-    private JLabel kilometragem;
-    private JLabel valorPorPeso;
-    private JLabel totalFreteCalculado;
-    private JTable jTableEncomendasSelecionadas;
+    private JFrame backWindows;
+    private View.Encomenda telaEncomenda;
+    List<JSONObject> encomendas;
 
     /**
      * Creates new form FreteEncomenda
@@ -35,14 +41,11 @@ public class EncomendaBusca extends javax.swing.JFrame {
         init();
     }
 
-    public EncomendaBusca(Frete backWindows, boolean RealizarFrete, JLabel kilometragem, JLabel valorPorPeso, JLabel totalFreteCalculado, JTable jTableEncomendasSelecionadas) {
+    public EncomendaBusca(JFrame backWindows, View.Encomenda frameEncomenda) {
         initComponents();
         this.backWindows = backWindows;
-        this.RealizarFrete = RealizarFrete;
-        this.kilometragem = kilometragem;
-        this.valorPorPeso = valorPorPeso;
-        this.totalFreteCalculado = totalFreteCalculado;
-        this.jTableEncomendasSelecionadas = jTableEncomendasSelecionadas;
+        this.telaEncomenda = frameEncomenda;
+        this.encomendas =  new ArrayList<>();
         init();
     }
 
@@ -56,12 +59,14 @@ public class EncomendaBusca extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        emitenteNome = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jButton2 = new javax.swing.JButton();
+        jftDataInicialCadastro = new javax.swing.JFormattedTextField();
+        jftDataFinalCadastro = new javax.swing.JFormattedTextField();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastrar Encomendas ao Frete");
@@ -71,23 +76,21 @@ public class EncomendaBusca extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Nome de Emitente");
+        jLabel1.setText("Emissão");
 
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbBuscarActionPerformed(evt);
             }
         });
-
-        emitenteNome.setName("Nome do Emitente"); // NOI18N
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "#", "Emitente", "Destinatario", "Valor", "Rastreio", "Tipo"
+                "#", "Emitente", "Destinatario", "Valor", "Rastreio", "Status"
             }
         ) {
             Class[] types = new Class [] {
@@ -107,13 +110,37 @@ public class EncomendaBusca extends javax.swing.JFrame {
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jButton2.setText("Selecionar encomenda");
         jButton2.setToolTipText("");
         jButton2.setMaximumSize(new java.awt.Dimension(150, 40));
         jButton2.setMinimumSize(new java.awt.Dimension(150, 40));
         jButton2.setPreferredSize(new java.awt.Dimension(150, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2);
+
+        jftDataInicialCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jftDataInicialCadastro.setName("Data Inicial"); // NOI18N
+        jftDataInicialCadastro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jftDataInicialCadastroActionPerformed(evt);
+            }
+        });
+
+        jftDataFinalCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jftDataFinalCadastro.setName("Data Final"); // NOI18N
+
+        jLabel2.setText("à");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,15 +149,20 @@ public class EncomendaBusca extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(emitenteNome)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jftDataInicialCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jftDataFinalCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbBuscar)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -140,8 +172,10 @@ public class EncomendaBusca extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(emitenteNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jbBuscar)
+                    .addComponent(jftDataInicialCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jftDataFinalCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 365, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,26 +183,139 @@ public class EncomendaBusca extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataInicialCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataFinalCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    private void PreencheJTable(JTable jTable, List<JSONObject> list) {
+        DefaultTableModel table = (DefaultTableModel) jTable.getModel();
+        table.setNumRows(0);
+       
+        list.forEach((json) -> {
+            String rastreio = "";
+            String nomeRem;
+            String nomeDest;
+            if(json.getJSONObject("emitente").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+                nomeRem = "nome";
+            else nomeRem = "razaoSocial";
+            if(json.getJSONObject("destinatario").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+                nomeDest = "nome";
+            else nomeDest = "razaoSocial";
+            if(json.has("codRastreio"))
+                rastreio = json.getString("codRastreio");
+            table.addRow(new String[]{
+                json.getInt("codigo") + "",
+                json.getJSONObject("emitente").getString(nomeRem),
+                json.getJSONObject("destinatario").getString(nomeDest),
+                String.valueOf(json.getDouble("valorCobrado")),
+                rastreio,
+                json.getEnum(Enums.StatusEncomenda.class, "status").toString()
+            });      
+        });
+        if(table.getRowCount() == 0)
+            JOptionPane.showMessageDialog(rootPane, "Encomenda não encontrada!");
+        
+        jTable.setModel(table);
+    }
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        try {
-            if(emitenteNome.getText().isEmpty())                
-                refreshJTable(jTable1, new Controller.EncomendaController().GetAll());
-            else
-                refreshJTable(jTable1, new Controller.EncomendaController().GetByName(Util.Validacao.InputToString(emitenteNome)));
-        } catch (Util.Error ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if(!jftDataInicialCadastro.getText().equals("__/__/____")){
+            if(!jftDataInicialCadastro.getText().equals("__/__/____")){
+                encomendas = (new Controller.EncomendaController()).recupEncomsPorIntervalo(jftDataInicialCadastro.getText(), jftDataFinalCadastro.getText());
+                PreencheJTable(jTable1,encomendas);
+            }else JOptionPane.showMessageDialog(null, "Campo data inicial deve estar preenchido!");
+        }else JOptionPane.showMessageDialog(null,"Campo data final deve estar preenchido!");
+
+    }//GEN-LAST:event_jbBuscarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         Helper.CloseDialog(this, backWindows);
     }//GEN-LAST:event_formWindowClosing
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JSONObject encomendaSelecionada;
+        JSONObject jsonAux;
+        JSONArray arrayAux;
+        DefaultTableModel modelo;
+
+         if(jTable1.getSelectedRow() != -1){
+             encomendaSelecionada =  encomendas.get(jTable1.getSelectedRow());
+             System.out.println(encomendaSelecionada);
+             telaEncomenda.getJtfCodigo().setText(String.valueOf(encomendaSelecionada.getInt("codigo")));
+             telaEncomenda.getJftDataCadastro().setText(String.valueOf(encomendaSelecionada.getString("dataCadastro")));
+             telaEncomenda.getJtfRemetenteCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getInt("codigo")));
+             if(encomendaSelecionada.getJSONObject("emitente").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+                telaEncomenda.getJtfRemetenteNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getString("nome")));
+             else
+                telaEncomenda.getJtfRemetenteNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getString("razaoSocial")));
+             telaEncomenda.getJtfDestinatarioCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getInt("codigo")));
+             
+              if(encomendaSelecionada.getJSONObject("destinatario").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+                telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("nome")));
+             else
+                telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("razaoSocial")));
+             
+             
+             /*ENDERECO COLETA*/
+             telaEncomenda.getJtfRuaRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("rua"));
+             telaEncomenda.getJtfBairroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("bairro"));
+             telaEncomenda.getJtfCepRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("cep"));
+             telaEncomenda.getJtfNumeroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("numero"));
+             if(encomendaSelecionada.getJSONObject("endColeta").has("complemento")){
+                telaEncomenda.getJtfComplementoRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("complemento")); 
+             }
+             telaEncomenda.getJtfCidadeOrigemCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getInt("codigo")));
+             telaEncomenda.getJtfCidadeOrigemNome().setText(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getString("nome"));
+             
+             /*ENDERECO DESTINO*/
+             telaEncomenda.getJtfRuaDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("rua"));
+             telaEncomenda.getJtfBairroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("bairro"));
+             telaEncomenda.getJtfCepDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("cep"));
+             telaEncomenda.getJtfNumeroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("numero"));
+             if(encomendaSelecionada.getJSONObject("endDestino").has("complemento")){
+                telaEncomenda.getJtfComplementoDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("complemento")); 
+             }
+             telaEncomenda.getJtfCidadeDestinoCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("endDestino").getJSONObject("cidade").getInt("codigo")));
+             telaEncomenda.getJtfCidadeDestinoNome().setText(encomendaSelecionada.getJSONObject("endDestino").getJSONObject("cidade").getString("nome"));
+             
+             arrayAux = encomendaSelecionada.getJSONArray("objetos");
+             modelo = (DefaultTableModel) telaEncomenda.getJtbItensEncomenda().getModel();
+             for(int i = 0; i<arrayAux.length();i++){
+                 TableColumn colunaTipoEmb = telaEncomenda.getJtbItensEncomenda().getColumnModel().getColumn(0);
+                 modelo.addRow(
+                     new Object[]{
+                         arrayAux.getJSONObject(i).getString("descricao"),
+                         String.valueOf(arrayAux.getJSONObject(i).getDouble("peso")),
+                     });
+                colunaTipoEmb.setCellEditor(new DefaultCellEditor((new JComboBox().addItem(arrayAux.getJSONObject(i).getString("descricao")))));
+                telaEncomenda.getJtbItensEncomenda().setModel(modelo);
+                 
+             }
+            Helper.CloseDialog(this, backWindows);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jftDataInicialCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftDataInicialCadastroActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jftDataInicialCadastroActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,13 +354,15 @@ public class EncomendaBusca extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField emitenteNome;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbBuscar;
+    private javax.swing.JFormattedTextField jftDataFinalCadastro;
+    private javax.swing.JFormattedTextField jftDataInicialCadastro;
     // End of variables declaration//GEN-END:variables
 
     private void init() {
@@ -224,22 +373,29 @@ public class EncomendaBusca extends javax.swing.JFrame {
         columnModel.getColumn(3).setPreferredWidth(100);
         columnModel.getColumn(4).setPreferredWidth(100);
         
-        refreshJTable(jTable1, new Controller.EncomendaController().GetAll());
     }
     
-    private void refreshJTable(JTable jTable, List<JSONObject> list) {
+   /* private void refreshJTable(JTable jTable, List<JSONObject> list) {
        DefaultTableModel table = (DefaultTableModel) jTable.getModel();
         table.setNumRows(0);
         
         list.forEach((json) -> {
-            table.addRow(new Object[]{
-                json.getInt("codigo"),
-                //json.getString("nome")
+             String rastreio = "";
+            if(json.has("codRastreio"))
+                rastreio = json.getString("codRastreio");
+            table.addRow(new String[]{
+                json.getInt("codigo") + "",
+                json.getJSONObject("emitente").getString("nome"),
+                json.getJSONObject("destinatario").getString("nome"),
+                String.valueOf(json.getDouble("valor")),
+                rastreio,
+                json.getEnum(Enums.StatusEncomenda.class, rastreio).toString()
             });      
         });
+        
         if(table.getRowCount() == 0)
             JOptionPane.showMessageDialog(rootPane, "Nenhuma Encomenda encontrada!");
         
         jTable.setModel(table);
-    }
+    }*/
 }

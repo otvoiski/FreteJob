@@ -21,6 +21,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -868,7 +869,7 @@ public class Encomenda extends javax.swing.JFrame {
     }//GEN-LAST:event_jbBuscaDestinatarioActionPerformed
 
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
-        // TODO add your handling code here:
+        Helper.ShowDialog(this,new EncomendaBusca(this,this));
     }//GEN-LAST:event_jbConsultarActionPerformed
 
     private void jbBuscaCidadeDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeDestinoActionPerformed
@@ -1203,6 +1204,61 @@ public class Encomenda extends javax.swing.JFrame {
     public JTextField getJtfRuaDestino() {
         return jtfRuaDestino;
     }
+    
+    public JFormattedTextField getJftDataCadastro() {
+        return jftDataCadastro;
+    }
+    public void setJftDataCadastro(JFormattedTextField jftDataCadastro) {
+        this.jftDataCadastro = jftDataCadastro;
+    }
+
+    public JTextField getJtfBairroRemetente() {
+        return jtfBairroRemetente;
+    }
+
+    public void setJtfBairroRemetente(JTextField jtfBairroRemetente) {
+        this.jtfBairroRemetente = jtfBairroRemetente;
+    }
+
+    public JTextField getJtfCepRemetente() {
+        return jtfCepRemetente;
+    }
+
+    public void setJtfCepRemetente(JTextField jtfCepRemetente) {
+        this.jtfCepRemetente = jtfCepRemetente;
+    }
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
+    }
+
+    public void setJtfCodigo(JTextField jtfCodigo) {
+        this.jtfCodigo = jtfCodigo;
+    }
+
+    public JTextField getJtfComplementoRemetente() {
+        return jtfComplementoRemetente;
+    }
+
+    public void setJtfComplementoRemetente(JTextField jtfComplementoRemetente) {
+        this.jtfComplementoRemetente = jtfComplementoRemetente;
+    }
+
+    public JTextField getJtfNumeroRemetente() {
+        return jtfNumeroRemetente;
+    }
+
+    public void setJtfNumeroRemetente(JTextField jtfNumeroRemetente) {
+        this.jtfNumeroRemetente = jtfNumeroRemetente;
+    }
+
+    public JTextField getJtfRuaRemetente() {
+        return jtfRuaRemetente;
+    }
+
+    public void setJtfRuaRemetente(JTextField jtfRuaRemetente) {
+        this.jtfRuaRemetente = jtfRuaRemetente;
+    }
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
         int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
         int colunaSelecionada =  jtbItensEncomenda.getSelectedColumn();
@@ -1366,4 +1422,5 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JTextField jtfRuaDestino;
     private javax.swing.JTextField jtfRuaRemetente;
     // End of variables declaration//GEN-END:variables
+
 }
