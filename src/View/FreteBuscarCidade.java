@@ -219,7 +219,7 @@ public class FreteBuscarCidade extends javax.swing.JFrame {
                 cidadeID = Integer.parseInt(Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 0))));
                 String cid = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 1)));
                 String est = Util.Validacao.InputToString(new JTextField((String) Helper.GetValueJTable(jTable1, 2)));
-                cidade.setText(cid + ", " + est);
+                cidade.setText(cid);
                 cidCodigo.setText(String.valueOf(cidadeID));
 
                 Helper.CloseDialog(this, backWindows);

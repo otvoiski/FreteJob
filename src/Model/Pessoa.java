@@ -7,13 +7,14 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
-import Util.Enums.TipoPessoa;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -23,56 +24,60 @@ import org.json.JSONObject;
  */
 
 @Entity
+@Table(name = "Pessoa")
 public abstract class Pessoa extends ObjectBase implements Serializable{
-
-    private TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @Column(nullable = false)
+    private Enums.NaturezaPessoa NaturezaPessoa;// variável para guardar se a pessoa se trata de cliente fisico,juridico
+    private Enums.TipoPessoa TipoPessoa;// variável para guardar se a pessoa se trata de cliente, funcionario, ou distribuidora
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Telefone> Telefones;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> Enderecos;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MidiaSocial> MidiaSociais;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Email> Emails;
     
     public Pessoa() {
         Telefones = new ArrayList<>();
         Enderecos = new ArrayList<>();
         MidiaSociais = new ArrayList<>();
+        Emails =  new ArrayList<>();
     }
     
     public List<Email> getEmails() {
-        return (List<Email>)Emails;
+        return Emails;
     }
 
     public void setEmails(List<Email> Emails) {
         this.Emails = Emails;
     }
     
-    public Pessoa(Enums.TipoPessoa tipoPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails) {
-        this.TipoPessoa = tipoPessoa;
+public Pessoa(Enums.NaturezaPessoa naturezaPessoa, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais, List<Email> emails, Enums.TipoPessoa tipoPessoa) {
+        this.NaturezaPessoa = naturezaPessoa;
         this.Telefones = telefones;
         this.Enderecos = endereco;
         this.MidiaSociais = midiaSociais;
         this.Emails = emails;
+        this.TipoPessoa = tipoPessoa;
     }
 
     public List<Endereco> getEnderecos() {
-        return (List<Endereco>)Enderecos;
+        return Enderecos;
     }
 
     public void setEnderecos(List<Endereco> Enderecos) {
         this.Enderecos = Enderecos;
     }
 
-    public Enums.TipoPessoa getTipoPessoa() {
-        return TipoPessoa;
+    public Enums.NaturezaPessoa getNaturezaPessoa() {
+        return NaturezaPessoa;
     }
-    public void setTipoPessoa(Util.Enums.TipoPessoa tipoPessoa) {
-        this.TipoPessoa = tipoPessoa;
+    public void setNaturezaPessoa(Util.Enums.NaturezaPessoa tipoPessoa) {
+        this.NaturezaPessoa = tipoPessoa;
     }
     public List<Telefone> getTelefones() {
-        return (List<Telefone>)Telefones;
+        return Telefones;
     }
 
     public void setTelefones(List<Telefone> Telefones) {
@@ -81,11 +86,19 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     
      
     public  List<MidiaSocial>getMidiaSociais() {
-        return(List<MidiaSocial>)MidiaSociais;
+        return MidiaSociais;
     }
 
     public void setMidiaSociais(List<MidiaSocial> MidiaSociais) {
         this.MidiaSociais = MidiaSociais;
+    }
+    
+    public Enums.TipoPessoa getTipoPessoa() {
+        return TipoPessoa;
+    }
+
+    public void setTipoPessoa(Enums.TipoPessoa TipoPessoa) {
+        this.TipoPessoa = TipoPessoa;
     }
     
     protected JSONObject preencheJson(){
@@ -93,10 +106,16 @@ public abstract class Pessoa extends ObjectBase implements Serializable{
     }
     protected void preencheAtributosRetorno(JSONObject jsonRetorno){
         JSONArray jsonArrayAux;
-        setCodigo(jsonRetorno.getInt("codigo"));
-        if(jsonRetorno.has("tipoPessoa"))
-            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class,"tipoPessoa"));
-        if(jsonRetorno.has("midiasSocias")){
+        if(jsonRetorno.has("codigo"))
+            setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            setCodigo(0);
+        if(jsonRetorno.has("naturezaPessoa"))
+            setNaturezaPessoa(jsonRetorno.getEnum(Util.Enums.NaturezaPessoa.class,"naturezaPessoa"));
+        if(jsonRetorno.has("tipoPessoa")){
+            setTipoPessoa(jsonRetorno.getEnum(Util.Enums.TipoPessoa.class, "tipoPessoa"));
+        }
+        if(jsonRetorno.has("midiasSociais")){
             jsonArrayAux = jsonRetorno.getJSONArray("midiasSociais");
             for(int i = 0; i<jsonArrayAux.length(); i++)
                 MidiaSociais.add((MidiaSocial) new MidiaSocial().toObjectBase(jsonArrayAux.getJSONObject(i)));

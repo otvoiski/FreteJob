@@ -75,12 +75,12 @@ public class Loading extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
          // TODO add your handling code here:            
          String msg = "<html>";
-            if(!(new Util.Install(jLabel2)).Start())
+            if(!(new Base.Install(jLabel2)).Start())
                 msg += "O Sistema não foi <b>instalado</b> corretamente.";
         
         //Deve ser feita a verificação para criação do banco de dados
         //Caso contrario deve ser criado junto com o usuario padrão
-        if(Util.Install.isIsInstalled()){
+        if(Base.Install.isIsInstalled()){
             try {
                 
                 Thread.sleep(500);            

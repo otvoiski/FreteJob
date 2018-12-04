@@ -7,12 +7,9 @@ package Controller;
 
 import Base.ControllerBase;
 import Base.Persistencia;
-import DAO.EncomendaDAO;
-import Model.Cidade;
 import Model.Encomenda;
-import Model.PessoaFisica;
-import Model.PessoaJuridica;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.json.JSONObject;
 
@@ -35,11 +32,38 @@ public class EncomendaController extends ControllerBase {
     
     public List<JSONObject> GetByName(String nome)
     {
-        List<Encomenda> list = new Business.EncomendaBusiness().GetByName(nome);
+        List<Encomenda> list = new Business.EncomendaBusiness().GetByEmitenteName(nome);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((funcionario) -> {
             listRetorno.add(new JSONObject(funcionario));
         });
         return listRetorno;
+    }
+    public List<JSONObject> recupEncomsSemFretePorIntervalo(String dataInicial, String dataFinal)
+    {
+        String data1 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataInicial));
+        String data2 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataFinal));
+        List<Encomenda> list = new Business.EncomendaBusiness().recupEncomsSemFretePorIntervalo(data1,data2);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((encomenda) -> {
+            listRetorno.add(new JSONObject(encomenda));
+        });
+        return listRetorno;
+    }
+    
+    public List<JSONObject> recupEncomsPorIntervalo(String dataInicial, String dataFinal)
+    {
+        String data1 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataInicial));
+        String data2 = Util.Validacao.converteDatePadraoAmericanoToString(Util.Validacao.converteDatePadraoBrParaAmericano(dataFinal));
+        List<Encomenda> list = new Business.EncomendaBusiness().recupEncomsPorIntervalo(data1,data2);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((encomenda) -> {
+            System.out.println(encomenda.getObjetos().size());
+            listRetorno.add(encomenda.toJson());
+        });
+        return listRetorno;
+    }
+    public List<Encomenda> GetByCodigoList(ArrayList<Integer> codigos){
+        return new Business.EncomendaBusiness().GertByCodigoList(codigos);
     }
 }

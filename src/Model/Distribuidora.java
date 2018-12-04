@@ -6,9 +6,11 @@
 package Model;
 
 import Base.ObjectBase;
+import Util.Enums;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ import org.json.JSONObject;
  * @author Aluno
  */
 @Entity
+@Table(name = "Distribuidora")
 public class Distribuidora extends Pessoa{    
     private String Cnpj;    
     private String RazaoSocial;
@@ -25,7 +28,7 @@ public class Distribuidora extends Pessoa{
     private List<Cidade> CidadesAtuacao;
 
     public Distribuidora(String cnpj, String razaoSocial, String nomeFantasia, List<Cidade> cidadesAtuacao, List<Telefone> telefones, List<Endereco> endereco, List<MidiaSocial> midiaSociais,List<Email> emails ) {
-        super(Util.Enums.TipoPessoa.Juridica, telefones, endereco, midiaSociais, emails);        
+        super(Util.Enums.NaturezaPessoa.Juridica, telefones, endereco, midiaSociais, emails, Enums.TipoPessoa.Distribuidora);        
         this.Cnpj = cnpj;
         this.RazaoSocial = razaoSocial;
         this.NomeFantasia = nomeFantasia;
@@ -71,10 +74,10 @@ public class Distribuidora extends Pessoa{
     @Override
     public JSONObject toJson() {
        JSONObject json = super.preencheJson();
-       json.put("NomeFantasia", getNomeFantasia());
-       json.put("RazaoSocial", getRazaoSocial());
-       json.put("Cnpj", getCnpj());
-       json.put("CidadesAtuacao", getCidadesAtuacao());
+       json.put("nomeFantasia", getNomeFantasia());
+       json.put("razaoSocial", getRazaoSocial());
+       json.put("cnpj", getCnpj());
+       json.put("cidadsAtuacao", getCidadesAtuacao());
        return json;
     }
 
@@ -83,11 +86,14 @@ public class Distribuidora extends Pessoa{
        Distribuidora objDistribuidora = new Distribuidora();
        JSONArray arrayAux;
        objDistribuidora.preencheAtributosRetorno(jsonRetorno);
-       objDistribuidora.setCnpj(jsonRetorno.getString("Cnpj"));
-       objDistribuidora.setRazaoSocial(jsonRetorno.getString("RazaoSocial"));
-       objDistribuidora.setNomeFantasia(jsonRetorno.getString("NomeFantasia"));
-       if(jsonRetorno.has("CidadesAtuacao")){
-            arrayAux = jsonRetorno.getJSONArray("CidadesAtuacao");
+       if(jsonRetorno.has("cnpj"))
+            objDistribuidora.setCnpj(jsonRetorno.getString("cnpj"));
+       if(jsonRetorno.has("razaoSocial"))
+            objDistribuidora.setRazaoSocial(jsonRetorno.getString("razaoSocial"));
+       if(jsonRetorno.has("nomeFantasia"))
+            objDistribuidora.setNomeFantasia(jsonRetorno.getString("nomeFantasia"));
+       if(jsonRetorno.has("cidadsAtuacao")){
+            arrayAux = jsonRetorno.getJSONArray("cidadsAtuacao");
             for(int i = 0; i< arrayAux.length(); i++)
                 objDistribuidora.getCidadesAtuacao().add((Cidade)new Cidade().toObjectBase(arrayAux.getJSONObject(i)));
        }

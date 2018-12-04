@@ -8,6 +8,9 @@ package Controller;
 import Base.ControllerBase;
 import DAO.DistribuidoraDAO;
 import Model.Distribuidora;
+import java.util.ArrayList;
+import java.util.List;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,5 +23,18 @@ public class DistribuidoraController extends ControllerBase{
         DAO = new DistribuidoraDAO(Model.Distribuidora.class);
         Object = new Distribuidora();
     }
-    
+    public List<JSONObject> GetByCidadeAtende(String cidadeCodigo) {
+        ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
+        new Business.DistribuidoraBusiness().GetByCidadeAtende(Integer.parseInt(cidadeCodigo)).forEach((cidade) -> {
+            jsonRetorno.add(new JSONObject(cidade));
+        });
+        return jsonRetorno;
+    }
+    public List<JSONObject> GetByName(String descricao) {
+        ArrayList<JSONObject> jsonRetorno = new ArrayList<>();
+        new Business.DistribuidoraBusiness().GetByName(descricao).forEach((distribuidora) -> {
+            jsonRetorno.add(new JSONObject(distribuidora));
+        });
+        return jsonRetorno;
+    }
 }

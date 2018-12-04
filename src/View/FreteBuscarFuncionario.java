@@ -5,13 +5,12 @@
  */
 package View;
 
-import Util.Error;
 import Util.Helper;
+import java.util.HashMap;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import org.json.JSONObject;
@@ -22,29 +21,39 @@ import org.json.JSONObject;
  */
 public class FreteBuscarFuncionario extends javax.swing.JFrame {
     
-    private JFrame windowsBack;
-    private JTextField funcionario;
-    private int funcionarioID;    
-    private int distribuidora;
+    private final JFrame windowsBack;
+    private final int distribuidora;
+    private final int CodigodistSaida;
+    private final int CodigodistDestino;
+    private final JTable jtbFuncionarios;
     /**
      * Creates new form Frete_BuscarFuncionario
      * @param backWindows
-     * @param funcionario
-     * @param funcionarioID
-     * @param distribuidora
+     * @param jtbFuncionario
+     * @param distSaidaNome
+     * @param distDestinoNome
+     * @param distribuidorasSaida
+     * @param distribuidorasDestino
      */
-    public FreteBuscarFuncionario(JFrame backWindows,JTextField funcionario, int funcionarioID, int distribuidora) {
+    public FreteBuscarFuncionario(JFrame backWindows,JTable jtbFuncionario, String distSaidaNome, String distDestinoNome, HashMap<String, Integer> distribuidorasSaida, HashMap<String, Integer> distribuidorasDestino) {
         initComponents();
         this.windowsBack = backWindows; //usado para Dialog
-        this.funcionario = funcionario; //Atualiza o funcionario no Frete.
-        this.funcionarioID = funcionarioID;
-        this.distribuidora = distribuidora;
+        this.jtbFuncionarios = jtbFuncionario; //Atualiza o funcionario no Frete.
+        this.distribuidora = 0;
+        this.CodigodistSaida = distribuidorasSaida.get(distSaidaNome);
+        this.CodigodistDestino = distribuidorasDestino.get(distDestinoNome);
         
-        TableColumnModel columnModel = jTable1.getColumnModel();
+        TableColumnModel columnModel = jtbFuncionariosFiltrados.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(15);
         columnModel.getColumn(1).setPreferredWidth(300);
         
-        refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
+        jcbDistrBuscar.addItem("");
+        jcbDistrBuscar.addItem(distSaidaNome);
+        if(!distDestinoNome.equals(distSaidaNome))
+            jcbDistrBuscar.addItem(distDestinoNome);
+        
+        jcbDistrBuscar.setSelectedIndex(0);
+        refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAllByDistribuidoras(CodigodistSaida,CodigodistDestino));
     }
 
     /**
@@ -58,13 +67,16 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtbFuncionariosFiltrados = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        funcionarioName = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        jtfFuncionarioNome = new javax.swing.JTextField();
+        jbBuscar = new javax.swing.JButton();
+        jcbDistrBuscar = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jbSelecionar = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Buscar Funcinario");
@@ -78,19 +90,19 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtbFuncionariosFiltrados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "#", "Nome"
+                "#", "Nome", "Distribuidora"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -101,17 +113,40 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
+        jtbFuncionariosFiltrados.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jtbFuncionariosFiltrados);
+        if (jtbFuncionariosFiltrados.getColumnModel().getColumnCount() > 0) {
+            jtbFuncionariosFiltrados.getColumnModel().getColumn(0).setResizable(false);
+            jtbFuncionariosFiltrados.getColumnModel().getColumn(1).setResizable(false);
+            jtbFuncionariosFiltrados.getColumnModel().getColumn(2).setResizable(false);
+        }
 
-        jButton1.setText("Selecionar Funcionario");
-        jButton1.setPreferredSize(new java.awt.Dimension(150, 40));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel1.setText("Nome do funcionario");
+
+        jtfFuncionarioNome.setName("Nome do Funcionario"); // NOI18N
+
+        jbBuscar.setText("Buscar");
+        jbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbBuscarActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton1);
+
+        jcbDistrBuscar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jcbDistrBuscarItemStateChanged(evt);
+            }
+        });
+
+        jLabel2.setText("Distribuidora Filtro");
+
+        jbSelecionar.setText("Selecionar Funcionario");
+        jbSelecionar.setPreferredSize(new java.awt.Dimension(150, 40));
+        jbSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSelecionarActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
         jButton2.setPreferredSize(new java.awt.Dimension(90, 40));
@@ -120,51 +155,71 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel2.add(jButton2);
 
-        jLabel1.setText("Nome do funcionario");
-
-        funcionarioName.setName("Nome do Funcionario"); // NOI18N
-
-        jButton3.setText("Buscar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
+        jLabel3.setText("Obs: Segure CTRL+clique para selecionar vários funcionários");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jbSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(5, 5, 5)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(funcionarioName)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)))
+                        .addContainerGap()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtfFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jcbDistrBuscar, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jbBuscar)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(funcionarioName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(jtfFuncionarioNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbBuscar)
+                    .addComponent(jcbDistrBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jbSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
 
         getContentPane().add(jPanel1, "card2");
@@ -175,11 +230,11 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
     private void refreshJTable(JTable jTable, List<JSONObject> list) {
        DefaultTableModel table = (DefaultTableModel) jTable.getModel();
         table.setNumRows(0);
-        
         list.forEach((json) -> {
             table.addRow(new Object[]{
                 json.getInt("codigo"),
-                json.getString("nome")
+                json.getString("nome"),
+                json.getJSONObject("localTrabalho").getString("razaoSocial")
             });      
         });
         if(table.getRowCount() == 0)
@@ -187,13 +242,32 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         
         jTable.setModel(table);
     }
-    
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.funcionario.setText((String) Util.Helper.GetValueJTable(jTable1,1));
-        this.funcionarioID = ((Integer) Util.Helper.GetValueJTable(jTable1,0));
+    //retorna se um determinado codigo já se encontra inserido na tabela(o teste será feito na primeira coluna)
+    private boolean consultarCodigoTabela(String Codigo, JTable tabela){
+        
+        for(int i = 0; i < tabela.getRowCount(); i++){
+            if(String.valueOf(tabela.getModel().getValueAt(i, 0)).equals(Codigo))
+                return true;
+        }
+        return false;
+    }
+    private void jbSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSelecionarActionPerformed
+        DefaultTableModel modelFuncsBusca = (DefaultTableModel) jtbFuncionariosFiltrados.getModel();
+        DefaultTableModel modelFuncsResultado = (DefaultTableModel) jtbFuncionarios.getModel();
+        if(jtbFuncionarios != null){
+            int[] linhasSelecionadas = jtbFuncionariosFiltrados.getSelectedRows();
+            for(int i = 0; i< linhasSelecionadas.length; i++){ 
+                if(!consultarCodigoTabela(String.valueOf(modelFuncsBusca.getValueAt(linhasSelecionadas[i], 0)), jtbFuncionarios)){
+                    Object[] obj = {modelFuncsBusca.getValueAt(linhasSelecionadas[i], 0),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 1),jtbFuncionariosFiltrados.getValueAt(linhasSelecionadas[i], 2)};
+                    modelFuncsResultado.addRow(obj);
+                }
+            }
+        }
+        jtbFuncionarios.setModel(modelFuncsResultado);
+            
         Helper.CloseDialog(this, windowsBack);
-    }//GEN-LAST:event_jButton1ActionPerformed
+       
+    }//GEN-LAST:event_jbSelecionarActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
@@ -205,16 +279,31 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         Util.Helper.CloseDialog(this, windowsBack);
     }//GEN-LAST:event_formWindowClosing
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
-            if(funcionarioName.getText().isEmpty())                
-                refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
+    private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
+                       
+        //refreshJTable(jTable1, new Controller.FuncionarioController().GetAll(distribuidora));
+        if (jtfFuncionarioNome.getText().isEmpty() && jcbDistrBuscar.getSelectedIndex() == 0) {
+            //se nao filtro por nome nem por distribuidora, todos das duas distribuidoras são buscados
+            System.out.println("Entrou no IF");
+            refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAllByDistribuidoras(CodigodistSaida,CodigodistDestino));//caso contrário, das duas distribuidoras que forem passadas no segundo construtor
+        }else if(jtfFuncionarioNome.getText().isEmpty() && jcbDistrBuscar.getSelectedIndex() != 0){
+            if(jcbDistrBuscar.getSelectedIndex() == 1)
+                refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAll(CodigodistSaida));
             else
-                refreshJTable(jTable1, new Controller.FuncionarioController().GetByName(Util.Validacao.InputToString(funcionario), distribuidora));
-        } catch (Error ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetAll(CodigodistDestino));
+        }else if(!jtfFuncionarioNome.getText().isEmpty() && jcbDistrBuscar.getSelectedIndex() != 0 ){//se filtrar por funcionario, deve ser escolhido de qual distribuidora
+            if(jcbDistrBuscar.getSelectedIndex() == 1)
+                refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetByName(jtfFuncionarioNome.getText(), CodigodistSaida));
+            else
+                refreshJTable(jtbFuncionariosFiltrados, new Controller.FuncionarioController().GetByName(jtfFuncionarioNome.getText(), CodigodistDestino));
+        }else{
+            JOptionPane.showMessageDialog(null, "Para filtrar pelo nome é obrigatório selecionar a distribuidora");
         }
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jbBuscarActionPerformed
+
+    private void jcbDistrBuscarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jcbDistrBuscarItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jcbDistrBuscarItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -247,20 +336,23 @@ public class FreteBuscarFuncionario extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FreteBuscarFuncionario(null,null,0,0).setVisible(true);
+                new FreteBuscarFuncionario(null,null,"","",null,null).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField funcionarioName;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JButton jbBuscar;
+    private javax.swing.JButton jbSelecionar;
+    private javax.swing.JComboBox<String> jcbDistrBuscar;
+    private javax.swing.JTable jtbFuncionariosFiltrados;
+    private javax.swing.JTextField jtfFuncionarioNome;
     // End of variables declaration//GEN-END:variables
 }

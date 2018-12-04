@@ -31,7 +31,14 @@ public class FuncionarioController extends Base.ControllerBase{
         });
         return listRetorno;
     }
-    
+    public List<JSONObject> GetAllByDistribuidoras(int distribuidora1, int distribuidora2) {
+        List<Funcionario> list =  new Business.FuncionarioBusiness().GetAllByDistribuidoras(distribuidora1,distribuidora2);
+        ArrayList<JSONObject> listRetorno = new ArrayList<>();
+        list.forEach((funcionario) -> {
+            listRetorno.add(new JSONObject(funcionario));
+        });
+        return listRetorno;
+    }
     public List<JSONObject> GetByName(String name, int distribuidora) {
         List<Funcionario> list =  new Business.FuncionarioBusiness().GetByName(name, distribuidora);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();

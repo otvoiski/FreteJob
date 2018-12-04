@@ -7,11 +7,8 @@ package Model;
 
 
 import Base.ObjectBase;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.Temporal;
 import org.json.JSONObject;
@@ -28,7 +25,7 @@ public class PessoaFisica extends Model.Pessoa{
     private String Rg;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date DataNascimento;
-    private String Sexo;
+    private Util.Enums.Sexo Sexo;
 
     public PessoaFisica(){
         super();
@@ -57,11 +54,11 @@ public class PessoaFisica extends Model.Pessoa{
         this.DataNascimento = data_Nascimento;
     }
 
-    public String getSexo() {
+    public Util.Enums.Sexo getSexo() {
         return Sexo;
     }
 
-    public void setSexo(String Sexo) {
+    public void setSexo(Util.Enums.Sexo Sexo) {
         this.Sexo = Sexo;
     }
     public String getNome() {
@@ -77,9 +74,9 @@ public class PessoaFisica extends Model.Pessoa{
         json.put("nome", getNome());
         json.put("cpf", getCpf());
         json.put("rg", getRg());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String data = sdf.format(DataNascimento);         
-        json.put("datanascimento", data);
+        json.put("dataNascimento", data);
         json.put("sexo", getSexo());
         return json;
     }
@@ -94,13 +91,12 @@ public class PessoaFisica extends Model.Pessoa{
         if(jsonRetorno.has("rg"))
             objPessoa.setRg(jsonRetorno.getString("rg"));
         if(jsonRetorno.has("sexo"))
-            objPessoa.setSexo(jsonRetorno.getString("sexo"));
-        try {
-            if(jsonRetorno.has("datanascimento"))
-                objPessoa.DataNascimento = (new SimpleDateFormat("yyyy/MM/dd").parse(jsonRetorno.getString("datanascimento")));
-        } catch (ParseException ex) {
-            Logger.getLogger(PessoaFisica.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            objPessoa.setSexo(jsonRetorno.getEnum(Util.Enums.Sexo.class, "sexo"));
+
+        if(jsonRetorno.has("dataNascimento"))
+            objPessoa.setDataNascimento(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataNascimento")));
+            
+
         return objPessoa;
         
     }

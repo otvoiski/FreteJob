@@ -5,10 +5,15 @@
  */
 package Facade;
 
+import Base.MetodosJPA;
 import Base.Persistencia;
 import Controller.CidadeController;
 import Controller.EnderecoController;
+import Controller.TipoEmbalagemController;
 import DAO.EncomendaDAO;
+import Model.ObjetoEncomenda;
+import Model.TipoEmbalagem;
+import org.hibernate.Session;
 import org.json.JSONObject;
 
 /**
@@ -19,9 +24,11 @@ public class Encomenda {
     
     private Persistencia DAO;
     private Model.Encomenda Encomenda;
+    private final Session transaction;
 
     public Encomenda(Persistencia encDao){
         this.DAO = encDao;
+        transaction = MetodosJPA.abrirTransacao();
     }
     public void setDAO(EncomendaDAO DAO) {
         this.DAO = DAO;
@@ -31,7 +38,7 @@ public class Encomenda {
     }
 
     public boolean persistirEncomenda(JSONObject jsonEncomenda){
-        boolean persistido = false;
+        //boolean persistido = false;
         Model.Encomenda objEncomenda;
         CidadeController cidadeCntrl =  new CidadeController();
         EnderecoController enderecoCntrl = new EnderecoController();
@@ -48,15 +55,14 @@ public class Encomenda {
         
         objEncomenda = (Model.Encomenda) new Model.Encomenda().toObjectBase(jsonEncomenda);
         objEncomenda.calculaValorTransporte();
-
-        if(enderecoCntrl.Save(objEncomenda.getEndColeta().toJson())){
-            if(enderecoCntrl.Save(objEncomenda.getEndDestino().toJson())){
-                if(DAO.Save(objEncomenda))
-                    persistido = true;
-            }
-        }
         
-        return persistido;
+        TipoEmbalagemController tipoEmbCntrl =  new TipoEmbalagemController();
+        for(ObjetoEncomenda objeto : objEncomenda.getObjetos())
+            objeto.setTipoEmbalagem((TipoEmbalagem) (new TipoEmbalagem().toObjectBase(tipoEmbCntrl.GetByName(objeto.getTipoEmbalagem().getDescricao()).get(0))));
+
+        
+        DAO.Save(objEncomenda,transaction);
+        return MetodosJPA.FecharTransacao(transaction, true);//SE ESTA FUNÇÃO RETORNAR VERDADEIRO SIGNIFICA QUE A PERSISTENCIA FOI CORRETA, CASO CONTRARIO SERÁ FEITO O ROLLBACK
     }
     
 }

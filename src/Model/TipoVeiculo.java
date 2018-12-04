@@ -9,6 +9,7 @@ import Base.ObjectBase;
 import Util.Enums.TipoTransporte;
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -16,6 +17,7 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "TipoVeiculo")
 public class TipoVeiculo extends ObjectBase implements Serializable {
     
     private static final long serialVersionUID = 1L;
@@ -54,7 +56,11 @@ public class TipoVeiculo extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
        TipoVeiculo objTipoVeiculo = new TipoVeiculo(jsonRetorno.getEnum(TipoTransporte.class,"descricao"), jsonRetorno.getDouble("pesoMaximo"));
-       objTipoVeiculo.setCodigo(jsonRetorno.getInt("Codigo"));
+       if(jsonRetorno.has("codigo"))
+            objTipoVeiculo.setCodigo(jsonRetorno.getInt("codigo"));
+       else
+           objTipoVeiculo.setCodigo(0);
+       
        return objTipoVeiculo;
     }
     

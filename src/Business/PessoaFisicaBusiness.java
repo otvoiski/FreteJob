@@ -15,10 +15,19 @@ import org.hibernate.Query;
  */
 public class PessoaFisicaBusiness extends Base.BusinessBase {
     
-    public List<Pessoa> GetPessoaByName(String nome) {
+    public List<Pessoa> GetByName(String nome) {
         String hql = "from PessoaFisica pf where pf.Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome",nome + "%");
-        return (List<Pessoa>) query.list();
+        return query.list();
+    }
+    
+    public List<Pessoa> GetClienteByName(String nome) {
+        String hql = "from PessoaFisica pf where pf.Nome like :nome"
+                    + " and pf.TipoPessoa = :tipo";
+        Query query = session.createQuery(hql);
+        query.setString("nome",nome + "%");
+        query.setInteger("tipo",Util.Enums.TipoPessoa.Cliente.ordinal());
+        return query.list();
     }
 }

@@ -252,7 +252,7 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
-        Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
+        Helper.ShowDialog(this, new Pessoa(this));
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jmiPaisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiPaisActionPerformed

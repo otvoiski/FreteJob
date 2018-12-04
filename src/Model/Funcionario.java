@@ -7,8 +7,10 @@ package Model;
 
 import Base.ObjectBase;
 import Util.Enums;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -16,10 +18,13 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "Funcionario")
 public class Funcionario extends Pessoa {
-
+    @Column(nullable = false)
     private String Cpf;
+    @Column(nullable = false)
     private String Rg;
+    @Column(nullable = false)
     private String Nome;
     @ManyToOne
     private Distribuidora LocalTrabalho;
@@ -29,7 +34,7 @@ public class Funcionario extends Pessoa {
     }
     
     public Funcionario(String Cpf, String Rg, String Nome, Distribuidora LocalTrabalho) {
-        super(Enums.TipoPessoa.Fisica, null, null, null, null);
+        super(Enums.NaturezaPessoa.Fisica, null, null, null, null, Enums.TipoPessoa.Funcionario);
         this.Cpf = Cpf;
         this.Rg = Rg;
         this.Nome = Nome;
@@ -81,10 +86,15 @@ public class Funcionario extends Pessoa {
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Funcionario objFuncionario = new Funcionario();
         objFuncionario.preencheAtributosRetorno(jsonRetorno);
-        objFuncionario.setNome(jsonRetorno.getString("nome"));
-        objFuncionario.setCpf(jsonRetorno.getString("cpf"));
-        objFuncionario.setRg(jsonRetorno.getString("rg"));
-        objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localtrabalho")));
+        if(jsonRetorno.has("nome"))
+            objFuncionario.setNome(jsonRetorno.getString("nome"));
+        if(jsonRetorno.has("cpf"))
+            objFuncionario.setCpf(jsonRetorno.getString("cpf"));
+        if(jsonRetorno.has("rg"))
+            objFuncionario.setRg(jsonRetorno.getString("rg"));
+        if(jsonRetorno.has("localTrabalho"))
+            objFuncionario.setLocalTrabalho((Distribuidora)new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("localTrabalho")));
+        
         return objFuncionario;
     }
 }

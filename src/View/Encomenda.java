@@ -12,12 +12,16 @@ import Util.Error;
 import Util.TelaHandler;
 import Util.Helper;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -41,8 +46,8 @@ public class Encomenda extends javax.swing.JFrame {
     private int destinatarioID;
     private TelaHandler tratarEventos;
     private ArrayList<JTextField> camposAtivar;
-    private Util.Enums.TipoPessoa tipoRemetente;
-    private Util.Enums.TipoPessoa tipoDestinatario;
+    private Util.Enums.NaturezaPessoa tipoRemetente;
+    private Util.Enums.NaturezaPessoa tipoDestinatario;
     private JSONObject jsonPersistencia;
     private String busca;
 
@@ -76,6 +81,7 @@ public class Encomenda extends javax.swing.JFrame {
         jbBuscaDestinatario.setEnabled(habilitaBusca);
         jbBuscaCidadeDestino.setEnabled(habilitaBusca);
         jbBuscaCidadeOrigem.setEnabled(habilitaBusca);
+    
     }
     private void Init(JFrame windowsBack){
         this.windowsBack = windowsBack;
@@ -108,6 +114,7 @@ public class Encomenda extends javax.swing.JFrame {
         camposAtivar.add(jtfNumeroDestino);
         camposAtivar.add(jtfComplementoDestino);
         camposAtivar.add(jtfCidadeDestinoCodigo);
+        camposAtivar.add(jftDataCadastro);
         tratarEventos.setCampos(camposAtivar);
         tratarEventos.setTabela(jtbItensEncomenda);
         
@@ -196,15 +203,13 @@ public class Encomenda extends javax.swing.JFrame {
         jbGravar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbConsultar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jlStatusEncomenda = new javax.swing.JLabel();
         jbExluir = new javax.swing.JButton();
         jtfCodigo = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
+        jftDataCadastro = new javax.swing.JFormattedTextField();
+        jLabel20 = new javax.swing.JLabel();
 
         jRadioButtonMenuItem1.setSelected(true);
         jRadioButtonMenuItem1.setText("jRadioButtonMenuItem1");
@@ -552,10 +557,14 @@ public class Encomenda extends javax.swing.JFrame {
             }
         });
         jtbItensEncomenda.setEnabled(false);
+        jtbItensEncomenda.setName("Itens"); // NOI18N
         jtbItensEncomenda.getTableHeader().setReorderingAllowed(false);
         jtbItensEncomenda.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 jtbItensEncomendaKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jtbItensEncomendaKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(jtbItensEncomenda);
@@ -574,8 +583,8 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 30, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 36, Short.MAX_VALUE))
         );
 
         jPanel3.add(jPanel2);
@@ -794,36 +803,15 @@ public class Encomenda extends javax.swing.JFrame {
         jPanel1.add(jbConsultar);
         jbConsultar.setBounds(630, 550, 120, 30);
 
-        jButton2.setText("<");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(790, 0, 41, 23);
-
-        jButton3.setText(">");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3);
-        jButton3.setBounds(830, 0, 40, 23);
-
-        jButton4.setText("<<");
-        jPanel1.add(jButton4);
-        jButton4.setBounds(740, 0, 50, 23);
-
-        jButton5.setText(">>");
-        jPanel1.add(jButton5);
-        jButton5.setBounds(870, 0, 50, 23);
-
         jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel7.setText("Status:");
         jPanel1.add(jLabel7);
-        jLabel7.setBounds(480, 0, 50, 30);
+        jLabel7.setBounds(650, 0, 50, 30);
 
         jlStatusEncomenda.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jlStatusEncomenda.setForeground(new java.awt.Color(102, 204, 0));
         jPanel1.add(jlStatusEncomenda);
-        jlStatusEncomenda.setBounds(530, 0, 200, 30);
+        jlStatusEncomenda.setBounds(700, 0, 200, 30);
 
         jbExluir.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jbExluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resource/trash.png"))); // NOI18N
@@ -841,7 +829,24 @@ public class Encomenda extends javax.swing.JFrame {
 
         jLabel14.setText("Codigo:");
         jPanel1.add(jLabel14);
-        jLabel14.setBounds(20, 0, 37, 14);
+        jLabel14.setBounds(20, 0, 37, 20);
+
+        jftDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
+        jftDataCadastro.setEnabled(false);
+        jPanel1.add(jftDataCadastro);
+        jftDataCadastro.setBounds(550, 10, 80, 20);
+        try {
+            MaskFormatter mascara = new MaskFormatter("##/##/####");
+            mascara.setPlaceholderCharacter('_');
+            jftDataCadastro.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(mascara));
+
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        jLabel20.setText("Data de cadastro:");
+        jPanel1.add(jLabel20);
+        jLabel20.setBounds(460, 10, 90, 20);
 
         getContentPane().add(jPanel1);
         jPanel1.setBounds(0, 0, 940, 600);
@@ -863,12 +868,8 @@ public class Encomenda extends javax.swing.JFrame {
         Helper.ShowDialog(this,new EncomendaBuscaPessoa(this));
     }//GEN-LAST:event_jbBuscaDestinatarioActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jbConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConsultarActionPerformed
-        // TODO add your handling code here:
+        Helper.ShowDialog(this,new EncomendaBusca(this,this));
     }//GEN-LAST:event_jbConsultarActionPerformed
 
     private void jbBuscaCidadeDestinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscaCidadeDestinoActionPerformed
@@ -884,6 +885,9 @@ public class Encomenda extends javax.swing.JFrame {
         tratarEventos.ativaGravar(true);
         InitCamposBusca(true);
         ModalidadeFrete.clearSelection();
+        Calendar cal = new GregorianCalendar();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        jftDataCadastro.setText(formatador.format(cal.getTime()));
     }//GEN-LAST:event_jbIncluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -927,12 +931,12 @@ public class Encomenda extends javax.swing.JFrame {
             /*REMETENTE*/
             jsonAux = new JSONObject();
             jsonAux.put("codigo", jtfRemetenteCodigo.getText());
-            if(tipoRemetente.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+            if(tipoRemetente.compareTo(Util.Enums.NaturezaPessoa.Fisica) == 0)
                 jsonAux.put("nome", jtfRemetenteNome.getText());
             else
                 jsonAux.put("nomeFantasia", jtfRemetenteNome.getText());
             
-            jsonAux.put("tipoPessoa", tipoRemetente);
+            jsonAux.put("naturezaPessoa", tipoRemetente);
             jsonPersistencia.put("emitente", jsonAux);
             
              /*FIM REMETENTE*/
@@ -940,12 +944,12 @@ public class Encomenda extends javax.swing.JFrame {
               /*DESTINATARIO*/
             jsonAux = new JSONObject();
             jsonAux.put("codigo", jtfDestinatarioCodigo.getText());
-             if(tipoDestinatario.compareTo(Util.Enums.TipoPessoa.Fisica) == 0)
+             if(tipoDestinatario.compareTo(Util.Enums.NaturezaPessoa.Fisica) == 0)
                 jsonAux.put("nome", jtfDestinatarioNome.getText());
             else
                  jsonAux.put("nomeFantasia", jtfDestinatarioNome.getText());
              
-            jsonAux.put("tipoPessoa", tipoDestinatario);
+            jsonAux.put("naturezaPessoa", tipoDestinatario);
             jsonPersistencia.put("destinatario", jsonAux);
             
              /*FIM DESTINATARIO*/
@@ -1005,12 +1009,20 @@ public class Encomenda extends javax.swing.JFrame {
                 jsonPersistencia.put("tipoFrete", Util.Enums.TipoFreteEncomenda.SuperRapido);
             
             /*FIM TIPO DE FRETE */
-
+            if(jlStatusEncomenda.getText().equals(""))
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.AguardandoColeta);
+            else if(jlStatusEncomenda.getText().equals("Em Transito")){
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.EmTransito);
+            }else
+                jsonPersistencia.put("status", Util.Enums.StatusEncomenda.Entregue);
+            
+            jsonPersistencia.put("dataCadastro", jftDataCadastro.getText());
             /*FINAL GERAÇÃO JSON DE PERSISTÊNCIA*/
             EncomendaController encomendaCntrl = new EncomendaController();
             if(encomendaCntrl.Save(jsonPersistencia)){
                  jtfCodigo.setEnabled(true);
                  InitCamposBusca(false);
+                 tratarEventos.ativaGravar(false);
                  JOptionPane.showMessageDialog(null, "Encomenda gravada com sucesso!");
             }
         } catch (Error ex) {
@@ -1035,17 +1047,17 @@ public class Encomenda extends javax.swing.JFrame {
         return camposAtivar;
     }
 
-    public Enums.TipoPessoa getTipoRemetente() {
+    public Enums.NaturezaPessoa getTipoRemetente() {
         return tipoRemetente;
     }
-    public void setTipoRemetente(Enums.TipoPessoa tipo){
+    public void setTipoRemetente(Enums.NaturezaPessoa tipo){
         this.tipoRemetente = tipo;
     }
-    public void setTipoDestinatario(Enums.TipoPessoa tipo){
+    public void setTipoDestinatario(Enums.NaturezaPessoa tipo){
         this.tipoDestinatario = tipo;
     }
 
-    public Enums.TipoPessoa getTipoDestinatario() {
+    public Enums.NaturezaPessoa getTipoDestinatario() {
         return tipoDestinatario;
     }
 
@@ -1192,7 +1204,61 @@ public class Encomenda extends javax.swing.JFrame {
     public JTextField getJtfRuaDestino() {
         return jtfRuaDestino;
     }
+    
+    public JFormattedTextField getJftDataCadastro() {
+        return jftDataCadastro;
+    }
+    public void setJftDataCadastro(JFormattedTextField jftDataCadastro) {
+        this.jftDataCadastro = jftDataCadastro;
+    }
 
+    public JTextField getJtfBairroRemetente() {
+        return jtfBairroRemetente;
+    }
+
+    public void setJtfBairroRemetente(JTextField jtfBairroRemetente) {
+        this.jtfBairroRemetente = jtfBairroRemetente;
+    }
+
+    public JTextField getJtfCepRemetente() {
+        return jtfCepRemetente;
+    }
+
+    public void setJtfCepRemetente(JTextField jtfCepRemetente) {
+        this.jtfCepRemetente = jtfCepRemetente;
+    }
+
+    public JTextField getJtfCodigo() {
+        return jtfCodigo;
+    }
+
+    public void setJtfCodigo(JTextField jtfCodigo) {
+        this.jtfCodigo = jtfCodigo;
+    }
+
+    public JTextField getJtfComplementoRemetente() {
+        return jtfComplementoRemetente;
+    }
+
+    public void setJtfComplementoRemetente(JTextField jtfComplementoRemetente) {
+        this.jtfComplementoRemetente = jtfComplementoRemetente;
+    }
+
+    public JTextField getJtfNumeroRemetente() {
+        return jtfNumeroRemetente;
+    }
+
+    public void setJtfNumeroRemetente(JTextField jtfNumeroRemetente) {
+        this.jtfNumeroRemetente = jtfNumeroRemetente;
+    }
+
+    public JTextField getJtfRuaRemetente() {
+        return jtfRuaRemetente;
+    }
+
+    public void setJtfRuaRemetente(JTextField jtfRuaRemetente) {
+        this.jtfRuaRemetente = jtfRuaRemetente;
+    }
     private void jtbItensEncomendaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyPressed
         int linhaSelecionada =  jtbItensEncomenda.getSelectedRow();
         int colunaSelecionada =  jtbItensEncomenda.getSelectedColumn();
@@ -1229,12 +1295,16 @@ public class Encomenda extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        Helper.ShowDialog(this, new EncomendaCriarPessoa(this));
+        Helper.ShowDialog(this, new Pessoa(this));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jbExluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExluirActionPerformed
         InitCamposBusca(false);
     }//GEN-LAST:event_jbExluirActionPerformed
+
+    private void jtbItensEncomendaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtbItensEncomendaKeyReleased
+
+    }//GEN-LAST:event_jtbItensEncomendaKeyReleased
 
     /**
      * @param args the command line arguments
@@ -1277,10 +1347,6 @@ public class Encomenda extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup ModalidadeFrete;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1293,6 +1359,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1328,6 +1395,7 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JButton jbExluir;
     private javax.swing.JButton jbGravar;
     private javax.swing.JButton jbIncluir;
+    private javax.swing.JFormattedTextField jftDataCadastro;
     private javax.swing.JLabel jlStatusEncomenda;
     private javax.swing.JLabel jlValorTotal;
     private javax.swing.JRadioButton jrFreteNormal;
@@ -1354,4 +1422,5 @@ public class Encomenda extends javax.swing.JFrame {
     private javax.swing.JTextField jtfRuaDestino;
     private javax.swing.JTextField jtfRuaRemetente;
     // End of variables declaration//GEN-END:variables
+
 }

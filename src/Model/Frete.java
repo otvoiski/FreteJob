@@ -7,10 +7,15 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
@@ -18,6 +23,7 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
+@Table(name =  "Frete")
 public class Frete extends ObjectBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,13 +33,42 @@ public class Frete extends ObjectBase implements Serializable {
     private Cidade CidOrigem;
     @ManyToOne
     private Cidade CidDestino;
-    @OneToMany
+    @ManyToMany
     private List<Funcionario> Responsaveis;
     @OneToMany
     private List<Encomenda> EncomendasTransporte;
+    @Column(name = "Valor")
     private double ValorFrete;
     @ManyToOne
     private TipoFrete CategFrete;
+    @ManyToOne
+    private Distribuidora DistribuidoraSaida;
+    @ManyToOne
+    private Distribuidora DistribuidoraDestino;
+
+    public Distribuidora getDistribuidoraSaida() {
+        return DistribuidoraSaida;
+    }
+
+    public void setDistribuidoraSaida(Distribuidora DistribuidoraSaida) {
+        this.DistribuidoraSaida = DistribuidoraSaida;
+    }
+
+    public Distribuidora getDistribuidoraDestino() {
+        return DistribuidoraDestino;
+    }
+
+    public void setDistribuidoraDestino(Distribuidora DistribuidoraDestino) {
+        this.DistribuidoraDestino = DistribuidoraDestino;
+    }
+    
+    public Veiculo getVeiculoTransp() {
+        return VeiculoTransp;
+    }
+
+    public void setVeiculoTransp(Veiculo VeiculoTransp) {
+        this.VeiculoTransp = VeiculoTransp;
+    }
 
     public Frete(Veiculo VeiculoTransp, Cidade CidOrigem, Cidade CidDestino, List<Funcionario> Responsaveis, List<Encomenda> EncomendasTransporte, double ValorFrete, TipoFrete CategFrete) {
         this.VeiculoTransp = VeiculoTransp;
@@ -46,14 +81,6 @@ public class Frete extends ObjectBase implements Serializable {
     }
 
     public Frete() {
-    }
-
-    public Veiculo getVeiculoTransp() {
-        return VeiculoTransp;
-    }
-
-    public void setVeiculoTransp(Veiculo VeiculoTransp) {
-        this.VeiculoTransp = VeiculoTransp;
     }
 
     public Cidade getCidOrigem() {
@@ -113,7 +140,43 @@ public class Frete extends ObjectBase implements Serializable {
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        JSONArray jsonAux;
+        List<Funcionario> funcAux =  new ArrayList<>();
+        List<Encomenda> encomendasAux =  new ArrayList<>();
+        Frete objFrete =  new Frete();
+        if(jsonRetorno.has("codigo"))
+            objFrete.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objFrete.setCodigo(0);
+        
+        objFrete.setVeiculoTransp((Veiculo) new Veiculo().toObjectBase(jsonRetorno.getJSONObject("veiculoTransp")));
+        objFrete.setCidOrigem((Cidade) new Cidade().toObjectBase(jsonRetorno.getJSONObject("cidadeOrigem")));
+        objFrete.setCidDestino((Cidade) new Cidade().toObjectBase(jsonRetorno.getJSONObject("cidadeDestino")));
+        
+        jsonAux = jsonRetorno.getJSONArray("responsaveis");
+        for(int i = 0; i< jsonAux.length(); i++){
+            funcAux.add((Funcionario) new Funcionario().toObjectBase(jsonAux.getJSONObject(i)));
+        }
+        objFrete.setResponsaveis(funcAux);
+        
+        
+        jsonAux = jsonRetorno.getJSONArray("encomendasTransporte");
+        for(int i = 0; i< jsonAux.length(); i++){
+            encomendasAux.add((Encomenda) new Encomenda().toObjectBase(jsonAux.getJSONObject(i)));
+        }
+        objFrete.setEncomendasTransporte(encomendasAux);
+        if(jsonRetorno.has("valorFrete"))
+            objFrete.setValorFrete(jsonRetorno.getDouble("valorFrete"));
+        if(jsonRetorno.has("categFrete"))
+            objFrete.setCategFrete((TipoFrete) new TipoFrete().toObjectBase(jsonRetorno.getJSONObject("categFrete")));
+        
+        if(jsonRetorno.has("distribuidoraSaida"))
+            objFrete.setDistribuidoraSaida((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraSaida")));
+        if(jsonRetorno.has("distribuidoraDestino"))
+            objFrete.setDistribuidoraDestino((Distribuidora) new Distribuidora().toObjectBase(jsonRetorno.getJSONObject("distribuidoraDestino")));
+        
+        return objFrete;
+            
     }
    
 }

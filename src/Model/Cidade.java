@@ -68,12 +68,14 @@ public class Cidade extends ObjectBase implements Serializable{
             objCidade.setCodigo(jsonRetorno.getInt("codigo"));
         else
             objCidade.setCodigo(0);
+        if(jsonRetorno.has("nome"))
+            objCidade.setNome(jsonRetorno.getString("nome"));
         
-        objCidade.setNome(jsonRetorno.getString("nome"));
         if(jsonRetorno.has("cod_municipio"))
             objCidade.setCod_municipio(jsonRetorno.getString("cod_municipio"));
+        if(jsonRetorno.has("estado"))
+            objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         
-        objCidade.setEstado((Estado) objEstado.toObjectBase(jsonRetorno.getJSONObject("estado")));
         return objCidade;
     }    
 }

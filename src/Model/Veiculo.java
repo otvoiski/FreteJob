@@ -8,8 +8,10 @@ package Model;
 import Base.ObjectBase;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import org.json.JSONObject;
 
@@ -18,14 +20,17 @@ import org.json.JSONObject;
  * @author Otavio
  */
 @Entity
+@Table(name = "Veiculo")
 public class Veiculo extends ObjectBase implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    @Column(name = "Placa", nullable = false)
     private String PlacaIdentificacao;
     @Temporal(javax.persistence.TemporalType.DATE)
+    @Column(name = "Fabricacao", nullable = false)
     private Date DataFabricacao;
+    @Column(nullable = false)
     private Double CapacidadeCarga;
-    private String Classificacao;
     @ManyToOne
     private TipoVeiculo Tipo;
     
@@ -55,15 +60,6 @@ public class Veiculo extends ObjectBase implements Serializable {
     public void setCapacidadeCarga(Double capacidadeCarga) {
         this.CapacidadeCarga = capacidadeCarga;
     }
-
-    public String getClassificacao() {
-        return Classificacao;
-    }
-
-    public void setClassificacao(String classificacao) {
-        this.Classificacao = classificacao;
-    }
-
     public TipoVeiculo getTipo() {
         return Tipo;
     }
@@ -75,12 +71,31 @@ public class Veiculo extends ObjectBase implements Serializable {
 
     @Override
     public JSONObject toJson() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new JSONObject(this);
     }
 
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Veiculo objVeiculo =  new Veiculo();
+        if(jsonRetorno.has("codigo"))
+            objVeiculo.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objVeiculo.setCodigo(0);
+        if(jsonRetorno.has("placaIdentificacao"))
+            objVeiculo.setPlacaIdentificacao(jsonRetorno.getString("placaIdentificacao"));
+        
+        if(jsonRetorno.has("dataFabricacao")){
+            objVeiculo.setDataFabricacao(Util.Validacao.converteDatePadraoBrParaAmericano(jsonRetorno.getString("dataFabricacao")));
+        }
+        
+        
+        if(jsonRetorno.has("capacidadeCarga"))
+            objVeiculo.setCapacidadeCarga(jsonRetorno.getDouble("capacidadeCarga"));
+        if(jsonRetorno.has("tipo"))
+            objVeiculo.setTipo((TipoVeiculo) new TipoVeiculo().toObjectBase(jsonRetorno.getJSONObject("tipo")));
+        
+        
+        return objVeiculo;
     }
     
 }

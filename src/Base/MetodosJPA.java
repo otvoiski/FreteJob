@@ -39,15 +39,17 @@ public class MetodosJPA {
      ** exemplo, endereço, sendo assim deve ser utilizada uma mesma transação, este método não encerra a transação ao final de sua execução. É necessário comitar
      ** manualmente quando a persitência de todas as entidades foi concluída!
     */
-     /*public static void persistirTransacaoAberta(Object obj){
-        if(transaction == null)
-            transaction = abrirTransacao();
+     public static void persistirUsandoTransacaoAberta(Object obj, Session transaction){
         transaction.persist(obj);        
-    }*/
+    }
     public static boolean fundir(Object obj) {
         Session transacao = abrirTransacao();
         transacao.merge(obj);
         return FecharTransacao(transacao, true);    
+    }
+    public static void fundirUsandoTransacaoAberta(Object obj, Session transaction) {
+        transaction.merge(obj);
+          
     }
     public static boolean excluir(int chave, Class classe){
         Session transacao = abrirTransacao();

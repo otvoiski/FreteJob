@@ -42,8 +42,12 @@ public class Email extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
         Email objEmail = new Email();
-        objEmail.setCodigo(jsonRetorno.getInt("codigo"));
-        objEmail.setEmail(jsonRetorno.getString("email"));
+        if(jsonRetorno.has("codigo"))
+            objEmail.setCodigo(jsonRetorno.getInt("codigo"));
+        else
+            objEmail.setCodigo(0);
+        if(jsonRetorno.has("email"))
+            objEmail.setEmail(jsonRetorno.getString("email"));
         return objEmail;
     }
     

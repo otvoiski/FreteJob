@@ -87,14 +87,14 @@ public class FreteEncomenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "#", "Emitente", "Valor", "Rastreio", "Tipo"
+                "#", "Emitente", "Destinatario", "Valor", "Rastreio", "Tipo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -105,6 +105,7 @@ public class FreteEncomenda extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTable1);
 
         jButton2.setText("Selecionar encomenda");
@@ -125,7 +126,7 @@ public class FreteEncomenda extends javax.swing.JFrame {
                         .addComponent(emitenteNome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 933, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -232,7 +233,7 @@ public class FreteEncomenda extends javax.swing.JFrame {
         list.forEach((json) -> {
             table.addRow(new Object[]{
                 json.getInt("codigo"),
-                json.getString("nome")
+                //json.getString("nome")
             });      
         });
         if(table.getRowCount() == 0)

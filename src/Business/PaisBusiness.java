@@ -18,6 +18,6 @@ public class PaisBusiness  extends Base.BusinessBase{
         String hql = "from Pais p where Nome like :nome";
         Query query = session.createQuery(hql);
         query.setString("nome", nome + "%");
-        return (List<Pais>) query.list();
+        return query.list();
     }
 }

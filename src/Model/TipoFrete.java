@@ -7,7 +7,9 @@ package Model;
 
 import Base.ObjectBase;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import org.json.JSONObject;
 
 /**
@@ -15,10 +17,13 @@ import org.json.JSONObject;
  * @author Matheus
  */
 @Entity
+@Table(name = "TipoFrete")
 public class TipoFrete extends ObjectBase implements Serializable {
     
     private static final long serialVersionUID = 1L;
+    @Column(nullable = false)
     private String Descricao;
+    @Column(nullable = false)
     private double PercentualAcrescimo;
 
     public TipoFrete() {
@@ -51,7 +56,8 @@ public class TipoFrete extends ObjectBase implements Serializable {
     @Override
     public ObjectBase toObjectBase(JSONObject jsonRetorno) {
        TipoFrete objTipoFrete = new TipoFrete(jsonRetorno.getString("descricao"), jsonRetorno.getDouble("percentualAcrescimo"));
-       objTipoFrete.setCodigo(jsonRetorno.getInt("Codigo"));
+       if(jsonRetorno.has("codigo"))objTipoFrete.setCodigo(jsonRetorno.getInt("codigo"));
+       else objTipoFrete.setCodigo(0);
        return objTipoFrete;
     }
     
