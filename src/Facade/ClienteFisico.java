@@ -6,10 +6,8 @@
 package Facade;
 
 import Base.MetodosJPA;
-import Base.Persistencia;
 import Business.CidadeBusiness;
 import Controller.CidadeController;
-import DAO.EmailDAO;
 import DAO.PessoaFisicaDAO;
 import Model.Cidade;
 import Model.Email;
@@ -19,8 +17,6 @@ import Model.PessoaFisica;
 import Model.Telefone;
 import Util.Enums;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,9 +27,14 @@ import org.json.JSONObject;
  */
 public class ClienteFisico {
     
+    private Session transaction;
+    
+    public ClienteFisico(){
+        this.transaction = MetodosJPA.abrirTransacao();
+    }
     public boolean persistirCliente(JSONObject json){
         /* Start Connection */
-        Session transaction = MetodosJPA.abrirTransacao();
+        
         
         /* Ordem da Pesistencia */
         ArrayList<MidiaSocial> midiaSocial = new ArrayList<>();
@@ -41,7 +42,14 @@ public class ClienteFisico {
         ArrayList<Telefone> telefone = new ArrayList<>();
         ArrayList<Endereco> endereco = new ArrayList<>();
         
-        Cidade cidade;
+         Cidade objCidade;
+        CidadeController cidadeCntrl =  new CidadeController();
+        PessoaFisica objPersistir =  (PessoaFisica) new PessoaFisica().toObjectBase(json);
+          //recupera do banco de dados buscando pelo nome a cidade que for passsada no endereco e sobrescreve a cidade no objeto que vai ser persistido
+        for(int i = 0; i< objPersistir.getEnderecos().size(); i++){
+            objCidade = (Cidade) new Cidade().toObjectBase(cidadeCntrl.GetByName(objPersistir.getEnderecos().get(i).getCidade().getNome()).get(0));
+            objPersistir.getEnderecos().get(i).setCidade(objCidade);
+        }
         
         PessoaFisica pessoaFisica;
         
@@ -99,22 +107,7 @@ public class ClienteFisico {
         pessoaFisica.setMidiaSociais(midiaSocial);
                 
         new PessoaFisicaDAO(PessoaFisica.class).Save(pessoaFisica, transaction);
-        
-        MetodosJPA.FecharTransacao(transaction, true);
-        return true;
-        /*
-        Cidade objCidade;
-        CidadeController cidadeCntrl =  new CidadeController();
-        PessoaFisica objPersistir =  (PessoaFisica) new PessoaFisica().toObjectBase(json);
-          //recupera do banco de dados buscando pelo nome a cidade que for passsada no endereco e sobrescreve a cidade no objeto que vai ser persistido
-        for(int i = 0; i< objPersistir.getEnderecos().size(); i++){
-            objCidade = (Cidade) new Cidade().toObjectBase(cidadeCntrl.GetByName(objPersistir.getEnderecos().get(i).getCidade().getNome()).get(0));
-            objPersistir.getEnderecos().get(i).setCidade(objCidade);
-        }
-        System.out.println(objPersistir.toJson());
-        DAO.Save(objPersistir, transaction);
-        return MetodosJPA.FecharTransacao(transaction, true);*/
-        
+        return MetodosJPA.FecharTransacao(transaction, true);
     }
     
 }

@@ -148,8 +148,8 @@ public class Encomenda extends ObjectBase implements Serializable {
         this.EnderecoDestino = EndDestino;
     }
 
-    public ArrayList<ObjetoEncomenda> getObjetos() {
-        return (ArrayList<ObjetoEncomenda>)Objetos;
+    public List<ObjetoEncomenda> getObjetos() {
+        return Objetos;
     }
 
     public void setObjetos(ArrayList<ObjetoEncomenda> Objetos) {

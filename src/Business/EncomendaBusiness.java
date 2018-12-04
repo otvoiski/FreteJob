@@ -39,7 +39,7 @@ public class EncomendaBusiness extends Base.BusinessBase{
         return query.list();
     }
     public List<Encomenda> recupEncomsPorIntervalo(String dataInicial, String dataFinal) {
-        String hql = "from Encomenda e inner join fetch Objetos o"
+        String hql = "from Encomenda e inner join fetch e.Objetos as o"
                 + " where e.dataCadastro between :data1 and :data2";
         Query query = session.createQuery(hql);
         query.setString("data1", dataInicial);

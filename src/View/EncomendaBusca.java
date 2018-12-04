@@ -254,27 +254,37 @@ public class EncomendaBusca extends javax.swing.JFrame {
         JSONObject jsonAux;
         JSONArray arrayAux;
         DefaultTableModel modelo;
-/*
+        TableColumn colunaTipoEmb;
+        JComboBox comboAux;
+
          if(jTable1.getSelectedRow() != -1){
              encomendaSelecionada =  encomendas.get(jTable1.getSelectedRow());
-             System.out.println(encomendaSelecionada);
              telaEncomenda.getJtfCodigo().setText(String.valueOf(encomendaSelecionada.getInt("codigo")));
              telaEncomenda.getJftDataCadastro().setText(String.valueOf(encomendaSelecionada.getString("dataCadastro")));
              telaEncomenda.getJtfRemetenteCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getInt("codigo")));
-             if(encomendaSelecionada.getJSONObject("emitente").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+             if(encomendaSelecionada.getEnum(Util.Enums.TipoFreteEncomenda.class, "tipoFrete").compareTo(Enums.TipoFreteEncomenda.Normal) == 0){
+                 telaEncomenda.getJrFreteNormal().setSelected(true);
+             }else if(encomendaSelecionada.getEnum(Util.Enums.TipoFreteEncomenda.class, "tipoFrete").compareTo(Enums.TipoFreteEncomenda.Rapido) == 0){
+                 telaEncomenda.getJrFreteRapido().setSelected(true);
+             }else{
+                 telaEncomenda.getJrFreteSuperRapido().setSelected(true);
+             }
+             if(encomendaSelecionada.getJSONObject("emitente").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0){
                 telaEncomenda.getJtfRemetenteNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getString("nome")));
-             else
+             }else{
                 telaEncomenda.getJtfRemetenteNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("emitente").getString("razaoSocial")));
-             telaEncomenda.getJtfDestinatarioCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getInt("codigo")));
+             }
              
-              if(encomendaSelecionada.getJSONObject("destinatario").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0)
+             telaEncomenda.getJtfDestinatarioCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getInt("codigo")));
+              if(encomendaSelecionada.getJSONObject("destinatario").getEnum(Util.Enums.NaturezaPessoa.class, "naturezaPessoa").compareTo(Enums.NaturezaPessoa.Fisica) == 0){
                 telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("nome")));
-             else
+              }else{
                 telaEncomenda.getJtfDestinatarioNome().setText(String.valueOf(encomendaSelecionada.getJSONObject("destinatario").getString("razaoSocial")));
-  */           
+              }
+           
              
              /*ENDERECO COLETA*/
-    /*         telaEncomenda.getJtfRuaRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("rua"));
+             telaEncomenda.getJtfRuaRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("rua"));
              telaEncomenda.getJtfBairroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("bairro"));
              telaEncomenda.getJtfCepRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("cep"));
              telaEncomenda.getJtfNumeroRemetente().setText(encomendaSelecionada.getJSONObject("endColeta").getString("numero"));
@@ -283,9 +293,9 @@ public class EncomendaBusca extends javax.swing.JFrame {
              }
              telaEncomenda.getJtfCidadeOrigemCodigo().setText(String.valueOf(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getInt("codigo")));
              telaEncomenda.getJtfCidadeOrigemNome().setText(encomendaSelecionada.getJSONObject("endColeta").getJSONObject("cidade").getString("nome"));
-      */       
+         
              /*ENDERECO DESTINO*/
-        /*     telaEncomenda.getJtfRuaDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("rua"));
+             telaEncomenda.getJtfRuaDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("rua"));
              telaEncomenda.getJtfBairroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("bairro"));
              telaEncomenda.getJtfCepDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("cep"));
              telaEncomenda.getJtfNumeroDestino().setText(encomendaSelecionada.getJSONObject("endDestino").getString("numero"));
@@ -298,19 +308,20 @@ public class EncomendaBusca extends javax.swing.JFrame {
              arrayAux = encomendaSelecionada.getJSONArray("objetos");
              modelo = (DefaultTableModel) telaEncomenda.getJtbItensEncomenda().getModel();
              for(int i = 0; i<arrayAux.length();i++){
-                 TableColumn colunaTipoEmb = telaEncomenda.getJtbItensEncomenda().getColumnModel().getColumn(0);
+                 colunaTipoEmb = telaEncomenda.getJtbItensEncomenda().getColumnModel().getColumn(0);
                  modelo.addRow(
                      new Object[]{
                          arrayAux.getJSONObject(i).getString("descricao"),
                          String.valueOf(arrayAux.getJSONObject(i).getDouble("peso")),
                      });
-                colunaTipoEmb.setCellEditor(new DefaultCellEditor((new JComboBox().addItem(arrayAux.getJSONObject(i).getString("descricao")))));
+               comboAux = new JComboBox();
+               comboAux.addItem(arrayAux.getJSONObject(i).getString("descricao"));
+               colunaTipoEmb.setCellEditor(new DefaultCellEditor(comboAux));
                 telaEncomenda.getJtbItensEncomenda().setModel(modelo);
                  
              }
             Helper.CloseDialog(this, backWindows);
         }
-*/
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jftDataInicialCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jftDataInicialCadastroActionPerformed
