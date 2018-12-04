@@ -58,7 +58,6 @@ public class EncomendaController extends ControllerBase {
         List<Encomenda> list = new Business.EncomendaBusiness().recupEncomsPorIntervalo(data1,data2);
         ArrayList<JSONObject> listRetorno = new ArrayList<>();
         list.forEach((encomenda) -> {
-            System.out.println(encomenda.getObjetos().size());
             listRetorno.add(encomenda.toJson());
         });
         return listRetorno;
